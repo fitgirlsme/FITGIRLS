@@ -1,0 +1,37 @@
+/* src/styles/theme.css */
+:root {
+    /* Color Palette */
+    --color-bg: #FFFFFF;
+    /* Clean white background */
+    --color-text: #191F28;
+    /* Toss style dark gray/black */
+    --color-text-secondary: #8B95A1;
+    /* Gray for subtitles */
+    --color-primary: #FF0000;
+    /* Core RED point color */
+    --color-primary-hover: #D00000;
+    --color-surface: #F9FAFB;
+    /* Light gray surface for cards */
+    --color-border: #F2F4F6;
+
+    /* Typography */
+    /* Using Pretendard if available, fallback to Inter/sans-serif */
+    --font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+
+    --nav-height: 60px;
+
+    /* Easing */
+    --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Dark Mode Support (Optional but requested vibe might need it later) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg: #0A0A0A;
+        --color-text: #F9FAFB;
+        --color-text-secondary: #8B95A1;
+        --color-surface: #1C1C1E;
+        --color-border: #2C2C2E;
+    }
+}

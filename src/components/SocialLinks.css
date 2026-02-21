@@ -1,0 +1,44 @@
+.social-links-container {
+    position: fixed;
+    bottom: 40px;
+    left: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 998;
+    /* SupportCS 보다는 낮게, 하지만 섹션보다는 높게 */
+    pointer-events: auto;
+}
+
+.social-link {
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    padding: 12px 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.social-link:hover {
+    color: #ffffff;
+    transform: rotate(180deg) scale(1.1);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+/* 흑백 배경이 아닌 곳에서도 보일 수 있도록 믹스 블렌드 모드 등을 고민할 수 있으나 우선 간단하게 구현 */
+@media (max-width: 768px) {
+    .social-links-container {
+        left: 16px;
+        bottom: 30px;
+    }
+
+    .social-link {
+        font-size: 0.6rem;
+    }
+}

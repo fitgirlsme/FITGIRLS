@@ -1,0 +1,176 @@
+{
+    "nav": {
+        "home": "Home",
+        "gallery": "Gallery & Archive",
+        "service": "Service & Pricing",
+        "faq": "FAQ",
+        "location": "Location"
+    },
+    "gallery": {
+        "women": "Women",
+        "men": "Men",
+        "couple": "Friendship & Couple",
+        "outdoor": "Outdoor",
+        "fashion": "Fashion & Beauty",
+        "dancer": "Dancer & DJ",
+        "self": "Self",
+        "portrait": "Portrait",
+        "hashtags": {
+            "ALL": "ALL",
+            "RED": "RED",
+            "BLACK": "BLACK",
+            "WHITE": "WHITE",
+            "COLOR": "COLOR",
+            "MONO": "MONO",
+            "CLEAN": "CLEAN",
+            "CONCEPT": "CONCEPT"
+        }
+    },
+    "hero": {
+        "title": "FITORIALIST",
+        "subtitle": "FIT + EDITORIAL + IST",
+        "cta": "Book via Naver"
+    },
+    "cs": {
+        "label": "Contact Us",
+        "link_text": "Chat with us"
+    },
+    "reservation": {
+        "title": "RESERVATION",
+        "subtitle": "Booking Process",
+        "button": "Apply on Naver",
+        "link": "https://naver.me/GWeuhE37",
+        "steps": {
+            "step1_title": "Submit Naver Booking",
+            "step2_title": "Deposit Payment",
+            "step2_desc": "After booking on Naver, you will receive a 'Toss Order' notification via KakaoTalk. Please pay the 90,000 KRW deposit to confirm your reservation."
+        },
+        "final_notice": "✅ Once confirmed, we will send you detailed guidelines for your photoshoot prep. 💖✨"
+    },
+    "location": {
+        "title": "LOCATION",
+        "subtitle": "How to find us",
+        "address_label": "Address.",
+        "address": "B1, Artium Bldg, 18 Gangnam-daero 160-gil, Gangnam-gu, Seoul\n(Parcel: B1, 508-4 Sinsa-dong, Gangnam-gu, Seoul)",
+        "parking_label": "Parking.",
+        "parking": "Please use a paid parking lot.\nNearby: Doowon Bldg, 636 Gangnam-daero, Gangnam-gu (3,000 KRW/hour)",
+        "contact_label": "Contact.",
+        "tel": "010-4696-1434",
+        "email": "inafit@daum.net",
+        "hours": "All days 10:00 ~ 18:00",
+        "links": {
+            "studio_map": "https://map.naver.com/v5/directions/-/14139841.851238009,4511765.692314798,핏걸즈스튜디오,1976065694,PLACE_POI/-/car?c=15,0,0,0,dh",
+            "parking_map": "https://map.naver.com/v5/search/두원빌딩%20주차장/place/667509448?placePath=%3Fentry=pll%26from=nx%26fromNxList=true"
+        },
+        "btn_studio": "Studio Directions",
+        "btn_parking": "Parking Location"
+    },
+    "faq": {
+        "title": "FAQ",
+        "subtitle": "Frequently Asked Questions",
+        "list": [
+            {
+                "question": "How do I make a reservation?",
+                "answer": "Book via Naver Reservation. It is confirmed once the deposit (90,000 KRW) is paid within 4 hours after consultation."
+            },
+            {
+                "question": "How can I change or cancel my booking?",
+                "answer": "You can change once up to 50 days before the shoot. 100% deposit refund only for cancellations 50 days prior. Penalty applies from 49 days or on the day."
+            },
+            {
+                "question": "When should I arrive?",
+                "answer": "Please arrive 30 minutes before your scheduled time for changing clothes and pumping up. Arriving too early may result in a lack of waiting space."
+            },
+            {
+                "question": "Can I bring friends or a pet?",
+                "answer": "Up to 2 companions (trainers/friends) are allowed. You can also shoot with your pet at no extra cost."
+            },
+            {
+                "question": "Is there a hair & makeup partnership?",
+                "answer": "You can get a discounted price at our partner 'Mabelle GGuttique'.\n• Women: 88,000 KRW (VAT included)\n• Men: 66,000 KRW (VAT included)\n\n[Reservation Info]\n• Direct booking required (No business trip)\n• Tel: 0507-1359-1859\n• Address: 1F, 5 Hakdong-ro 47-gil, Gangnam-gu, Seoul (5 mins walk from Gangnam-gu Office)\n• KakaoTalk Channel: https://pf.kakao.com/_QPjsxb?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPMTI0MDI0NTc0Mjg3NDE0AAGnaE51q1t4FDA0DOnxsJHIiqwqlznx0KIhhXs0oL6ylMyqysBIC8HMy7cxt98_aem_0kdbP2JNBJTvwrsJ-3de9A\n• Instagram: https://www.instagram.com/mabelle_korea_?igsh=MTV4eTJybGFoYzlodQ=="
+            },
+            {
+                "question": "When will I receive the retouched photos?",
+                "answer": "Original web-size files (approx. 150 cuts) will be emailed on the day. The 1st retouched draft takes about a month after your photo selection."
+            },
+            {
+                "question": "Is parking available?",
+                "answer": "No parking in the building. Please use the paid parking lot at 'Doowon Building' nearby."
+            }
+        ]
+    },
+    "services": {
+        "header_title": "FITGIRLS & INAFIT",
+        "header_subtitle": "PORTRAIT SERVICE 2026",
+        "header_desc": "OPEN YEAR ROUND · Reservation Only · All prices include VAT / Card & Cash receipt available",
+        "menu1": {
+            "title": "PORTRAIT MENU",
+            "subtitle": "FITGIRLS & INAFIT SIGNATURE SESSIONS & PACKAGES",
+            "category": "PERSONAL"
+        },
+        "list1": [
+            {
+                "title": "1 CONCEPT",
+                "price": "275,000 KRW",
+                "details": [
+                    "1 outfit per concept, 2 backgrounds",
+                    "2 retouched cuts · 1 5x7 print · Web original files provided · 30 mins shooting"
+                ]
+            },
+            {
+                "title": "2 CONCEPTS",
+                "price": "440,000 KRW",
+                "details": [
+                    "1 outfit per concept, unlimited backgrounds & poses",
+                    "4 retouched cuts · 2 5x7 prints · Web original files provided · 90 mins shooting"
+                ]
+            },
+            {
+                "title": "3 CONCEPTS",
+                "price": "550,000 KRW",
+                "details": [
+                    "Unlimited outfits · backgrounds · poses",
+                    "6 retouched cuts · 3 5x7 prints · Web original files provided · 120 mins shooting"
+                ]
+            }
+        ],
+        "menu2": {
+            "title": "FRIENDS & COUPLE",
+            "category": "Friends & Couple Package"
+        },
+        "list2": [
+            {
+                "title": "Friends/Couple 1 Concept",
+                "price": "330,000 KRW",
+                "details": [
+                    "2~3 persons (add 50,000 KRW per person from 4th)",
+                    "1 outfit each · 1 background · 2~3 poses",
+                    "2 retouched cuts · 1 5x7 print per person · 30 mins shooting"
+                ]
+            },
+            {
+                "title": "PACKAGE 1",
+                "price": "770,000 KRW",
+                "details": [
+                    "1 personal concept x 2 persons + 1 friends concept",
+                    "Total 6 retouched cuts"
+                ]
+            },
+            {
+                "title": "PACKAGE 2",
+                "price": "1,100,000 KRW",
+                "details": [
+                    "2 personal concepts x 2 persons + 1 friends concept",
+                    "Total 10 retouched cuts"
+                ]
+            }
+        ],
+        "notices": [
+            "Retouching period: 1 cut same-day retouching, the rest within 4 weeks for the 1st draft (additional edits possible).",
+            "Original files are provided in web size (around 2000px).",
+            "Additional retouching costs 33,000 KRW per cut.",
+            "For parking, please use the Doowon Building paid parking lot.",
+            "Provide 1 free retouched cut for Naver review, 1 free retouched cut for SNS upload consent."
+        ]
+    }
+}

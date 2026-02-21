@@ -1,0 +1,176 @@
+{
+    "nav": {
+        "home": "首页",
+        "gallery": "画廊 & 档案",
+        "service": "服务及价格",
+        "faq": "常见问题",
+        "location": "位置及指南"
+    },
+    "gallery": {
+        "women": "女性",
+        "men": "男性",
+        "couple": "友情&情侣",
+        "outdoor": "户外",
+        "fashion": "时尚 & 美妆",
+        "dancer": "舞者 & DJ",
+        "self": "自拍",
+        "portrait": "肖像",
+        "hashtags": {
+            "ALL": "全部",
+            "RED": "红色",
+            "BLACK": "黑色",
+            "WHITE": "白色",
+            "COLOR": "彩色",
+            "MONO": "黑白",
+            "CLEAN": "简约",
+            "CONCEPT": "概念"
+        }
+    },
+    "hero": {
+        "title": "FITORIALIST",
+        "subtitle": "FIT + EDITORIAL + IST",
+        "cta": "Naver预约"
+    },
+    "cs": {
+        "label": "咨询",
+        "link_text": "在线咨询"
+    },
+    "reservation": {
+        "title": "RESERVATION",
+        "subtitle": "预约流程说明",
+        "button": "Naver预约申请",
+        "link": "https://naver.me/GWeuhE37",
+        "steps": {
+            "step1_title": "Naver预约申请",
+            "step2_title": "预约金支付",
+            "step2_desc": "Naver预约后，KakaoTalk聊天中收到'Toss Order'通知后，需支付90,000韩元预约金，预约才会最终确认。"
+        },
+        "final_notice": "✅ 预约确认后，我们将发送拍摄准备的详细说明。💖✨"
+    },
+    "location": {
+        "title": "LOCATION",
+        "subtitle": "交通指南",
+        "address_label": "Address.",
+        "address": "首尔市江南区江南大路160街18号（Artium大厦），B1\n（地址：首尔市江南区新沙洞508-4番地 地下）",
+        "parking_label": "Parking.",
+        "parking": "大厦内无法停车，请使用附近收费停车场。\n附近收费停车场：首尔市江南区江南大路636 斗元大厦（每小时3,000韩元）",
+        "contact_label": "Contact.",
+        "tel": "010-4696-1434",
+        "email": "inafit@daum.net",
+        "hours": "每天 (All days) 10:00 ~ 18:00",
+        "links": {
+            "studio_map": "https://map.naver.com/v5/directions/-/14139841.851238009,4511765.692314798,핏걸즈스튜디오,1976065694,PLACE_POI/-/car?c=15,0,0,0,dh",
+            "parking_map": "https://map.naver.com/v5/search/두원빌딩%20주차장/place/667509448?placePath=%3Fentry=pll%26from=nx%26fromNxList=true"
+        },
+        "btn_studio": "工作室导航",
+        "btn_parking": "停车场位置"
+    },
+    "faq": {
+        "title": "FAQ",
+        "subtitle": "常见问题",
+        "list": [
+            {
+                "question": "如何预约？",
+                "answer": "可通过Naver预约系统预约，咨询后需在4小时内支付预约金（90,000韩元）方可确认。"
+            },
+            {
+                "question": "如何变更/取消预约？",
+                "answer": "拍摄前50天以上可变更1次，50天前取消可全额退还预约金。（49天前~当天取消将收取违约金）"
+            },
+            {
+                "question": "需要提前多久到达？",
+                "answer": "为准备换装及热身等，请在预约时间前30分钟到达。（过早到达可能没有足够的等候空间。）"
+            },
+            {
+                "question": "可以带朋友或宠物一起拍摄吗？",
+                "answer": "教练或朋友等最多可陪同2人，也可免费携带宠物一同拍摄。"
+            },
+            {
+                "question": "有化妆/发型合作吗？",
+                "answer": "如需化妆/发型服务，可通过'Mabelle Boutique'以合作价进行。\n• 女性价格：88,000韩元（含增值税）\n• 男性价格：66,000韩元（含增值税）\n\n[预约及使用指南]\n• 需自行预约（不提供上门服务）\n• 电话：0507-1359-1859\n• 地址：首尔江南区鹤洞路47街5号1楼（江南区厅步行5分钟）"
+            },
+            {
+                "question": "精修照片何时可以收到？",
+                "answer": "拍摄当天将通过邮件发送全部网络原图（约150张），选片后约一个月内可收到第一批精修照片。"
+            },
+            {
+                "question": "可以停车吗？",
+                "answer": "大厦内无法停车，请使用附近'斗元大厦'收费停车场。"
+            }
+        ]
+    },
+    "services": {
+        "header_title": "FITGIRLS & INAFIT",
+        "header_subtitle": "PORTRAIT SERVICE 2026",
+        "header_desc": "全年开放 · 预约制工作室 · 所有价格含增值税 / 可刷卡&开具现金收据",
+        "menu1": {
+            "title": "PORTRAIT MENU",
+            "subtitle": "FITGIRLS & INAFIT SIGNATURE SESSIONS & PACKAGES",
+            "category": "PERSONAL\n个人拍摄"
+        },
+        "list1": [
+            {
+                "title": "1概念",
+                "price": "275,000韩元",
+                "details": [
+                    "每概念1套服装，2种背景",
+                    "精修2张 · 5x7打印1张 · 网络原图 · 30分钟拍摄"
+                ]
+            },
+            {
+                "title": "2概念",
+                "price": "440,000韩元",
+                "details": [
+                    "每概念1套服装，背景无限 · 姿势无限",
+                    "精修4张 · 5x7打印2张 · 网络原图 · 90分钟拍摄"
+                ]
+            },
+            {
+                "title": "3概念",
+                "price": "550,000韩元",
+                "details": [
+                    "服装 · 背景 · 姿势 全部无限",
+                    "精修6张 · 5x7打印3张 · 网络原图 · 120分钟拍摄"
+                ]
+            }
+        ],
+        "menu2": {
+            "title": "FRIENDS & COUPLE",
+            "category": "友情 & 情侣套餐"
+        },
+        "list2": [
+            {
+                "title": "友情/情侣 1概念",
+                "price": "330,000韩元",
+                "details": [
+                    "2~3人为准（4人起每加1人50,000韩元）",
+                    "每人1套服装 · 1种背景 · 2~3种姿势",
+                    "精修2张 · 每人5x7打印1张 · 30分钟拍摄"
+                ]
+            },
+            {
+                "title": "PACKAGE 1",
+                "price": "770,000韩元",
+                "details": [
+                    "各1概念（2人）+ 友情1概念",
+                    "共精修6张"
+                ]
+            },
+            {
+                "title": "PACKAGE 2",
+                "price": "1,100,000韩元",
+                "details": [
+                    "各2概念（2人）+ 友情1概念",
+                    "共精修10张"
+                ]
+            }
+        ],
+        "notices": [
+            "精修期：选片当天1张当天精修，其余约4周内完成第一批精修（可申请额外修改）",
+            "原图以网络用约2000px提供。",
+            "额外精修每张33,000韩元。",
+            "停车请使用斗元大厦收费停车场。",
+            "撰写Naver评论可获赠精修1张，同意SNS上传可再获赠精修1张。"
+        ]
+    }
+}

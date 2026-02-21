@@ -1,0 +1,116 @@
+.location-container {
+    padding-top: 60px;
+    padding-bottom: 80px;
+}
+
+.location-card {
+    background: var(--color-surface);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+}
+
+.map-placeholder {
+    width: 100%;
+    height: 300px;
+    background-color: #f0f0f0;
+    position: relative;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.map-placeholder iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.marker-sim {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #000;
+}
+
+.red-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.location-info {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.info-row strong {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--color-primary);
+}
+
+.info-row p {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.location-buttons {
+    display: flex;
+    gap: 12px;
+    padding: 0 24px 24px;
+}
+
+.btn-map {
+    flex: 1;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-primary);
+    color: #fff;
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    text-align: center;
+}
+
+.btn-map:hover {
+    background: #cc0000;
+    transform: translateY(-2px);
+}
+
+.btn-map.secondary {
+    background: var(--color-border);
+    color: var(--color-text);
+}
+
+.btn-map.secondary:hover {
+    background: #d0d0d0;
+}

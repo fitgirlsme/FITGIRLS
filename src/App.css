@@ -1,0 +1,80 @@
+.app-container {
+    height: 100dvh;
+    width: 100%;
+    position: relative;
+    background-color: var(--color-bg);
+}
+
+.app-header {
+    position: absolute;
+    /* Not fixed to flow with snap occasionally, or fixed for overlay */
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    mix-blend-mode: difference;
+    /* Toss style cool header trick */
+    color: #fff;
+    /* Ensure it works with difference */
+}
+
+.logo-text {
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.03em;
+    background: linear-gradient(90deg,
+            #e53935 0%,
+            #ef5350 30%,
+            #ff8a80 50%,
+            #ef5350 70%,
+            #e53935 100%) !important;
+    background-size: 200% auto !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: #e53935 !important;
+    animation: logoShimmer 3s linear infinite;
+}
+
+@keyframes logoShimmer {
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+.lang-switcher {
+    display: flex;
+    gap: 8px;
+}
+
+.lang-switcher button {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.lang-switcher button.active,
+.lang-switcher button:hover {
+    color: #fff;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100dvh;
+    font-weight: 700;
+    font-size: 24px;
+}

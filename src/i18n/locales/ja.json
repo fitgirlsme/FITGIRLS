@@ -1,0 +1,176 @@
+{
+    "nav": {
+        "home": "ホーム",
+        "gallery": "ギャラリー",
+        "service": "料金プラン",
+        "faq": "よくある質問",
+        "location": "アクセス"
+    },
+    "gallery": {
+        "women": "女性",
+        "men": "男性",
+        "couple": "友情＆カップル",
+        "outdoor": "アウトドア",
+        "fashion": "ファッション＆ビューティー",
+        "dancer": "ダンサー＆DJ",
+        "self": "セルフ",
+        "portrait": "ポートレート",
+        "hashtags": {
+            "ALL": "すべて",
+            "RED": "レッド",
+            "BLACK": "ブラック",
+            "WHITE": "ホワイト",
+            "COLOR": "カラー",
+            "MONO": "モノ",
+            "CLEAN": "クリーン",
+            "CONCEPT": "コンセプト"
+        }
+    },
+    "hero": {
+        "title": "FITORIALIST",
+        "subtitle": "FIT + EDITORIAL + IST",
+        "cta": "NAVERで予約"
+    },
+    "cs": {
+        "label": "お問い合わせ",
+        "link_text": "LINEで問い合わせる"
+    },
+    "reservation": {
+        "title": "RESERVATION",
+        "subtitle": "予約手順のご案内",
+        "button": "NAVER予約を申し込む",
+        "link": "https://naver.me/GWeuhE37",
+        "steps": {
+            "step1_title": "NAVER予約の申請",
+            "step2_title": "予約金の決済",
+            "step2_desc": "NAVER予約後、カカオトークにて「Toss Order」通知が届きましたら、予約金90,000ウォンを決済していただくと最終予約が確定します。"
+        },
+        "final_notice": "✅ 予約確定後、撮影準備に関する詳細案内をお送りいたします。💖✨"
+    },
+    "location": {
+        "title": "LOCATION",
+        "subtitle": "アクセス",
+        "address_label": "Address.",
+        "address": "ソウル市江南区江南大路160キル18 (アーティウムビル) B1\n(地番: ソウル市江南区新沙洞508-4番地 B1)",
+        "parking_label": "Parking.",
+        "parking": "有料駐車場をご利用ください。\n近隣: ドゥウォンビル、ソウル特別市江南区江南大路636 (1時間3,000ウォン)",
+        "contact_label": "Contact.",
+        "tel": "010-4696-1434",
+        "email": "inafit@daum.net",
+        "hours": "毎日 (All days) 10:00 ~ 18:00",
+        "links": {
+            "studio_map": "https://map.naver.com/v5/directions/-/14139841.851238009,4511765.692314798,핏걸즈스튜디오,1976065694,PLACE_POI/-/car?c=15,0,0,0,dh",
+            "parking_map": "https://map.naver.com/v5/search/두원빌딩%20주차장/place/667509448?placePath=%3Fentry=pll%26from=nx%26fromNxList=true"
+        },
+        "btn_studio": "スタジオへの案内",
+        "btn_parking": "駐車場の位置"
+    },
+    "faq": {
+        "title": "FAQ",
+        "subtitle": "よくある質問",
+        "list": [
+            {
+                "question": "予約はどうすればいいですか？",
+                "answer": "NAVER予約から可能です。ご相談後、4時間以内に予約金(₩90,000)を入金すると確定します。"
+            },
+            {
+                "question": "予約の変更・キャンセルは？",
+                "answer": "撮影日50日前まで1回のみ変更可能。50日前までのキャンセルは予約金全額返金、49日前～当日のキャンセルは違約金が発生します。"
+            },
+            {
+                "question": "いつまでに到着すればいいですか？",
+                "answer": "着替えやパンプアップのため、予約時間の30分前にお越しください。（早く来すぎると待機スペースがない場合があります）"
+            },
+            {
+                "question": "同行者やペットの撮影は可能ですか？",
+                "answer": "トレーナーや知人など最大2名まで同行可能です。ペットとの同伴撮影も追加費用なしで可能です。"
+            },
+            {
+                "question": "ヘア＆メイクの提携先はありますか？",
+                "answer": "ヘアメイクにつきましては、\nLINEにてお問い合わせをお願いいたします🙇\nLINE ID：@038avhqv\nまたは、**「mabelle」**で検索していただけますとご連絡可能です！\nこちらからも伝えておきます😊\n\n[予約案内]\n• 女性: 88,000ウォン (付加価値税込み)\n• 男性: 66,000ウォン (付加価値税込み)\n• ご自身での直接予約が必須 (出張不可)\n• 電話: 0507-1359-1859\n• 住所: ソウル江南区鶴洞路47キル5 1階 (江南区庁から徒歩5分)\n• LINE: https://line.me/R/ti/p/@038avhqv\n• Instagram: https://www.instagram.com/mabelle_korea_?igsh=MTV4eTJybGFoYzlodQ=="
+            },
+            {
+                "question": "補正された写真はいつもらえますか？",
+                "answer": "撮影当日にウェブ用元データ(約150枚)をメールでお送りし、写真選択後、約1ヶ月前後で1次補正データをお渡しします。"
+            },
+            {
+                "question": "駐車場はありますか？",
+                "answer": "建物内に駐車場はありません。近隣の「ドゥウォンビル」有料駐車場をご利用ください。"
+            }
+        ]
+    },
+    "services": {
+        "header_title": "FITGIRLS & INAFIT",
+        "header_subtitle": "PORTRAIT SERVICE 2026",
+        "header_desc": "OPEN YEAR ROUND · 予約制スタジオ · 全額VAT込み / カード＆現金領収書発行",
+        "menu1": {
+            "title": "PORTRAIT MENU",
+            "subtitle": "FITGIRLS & INAFIT SIGNATURE SESSIONS & PACKAGES",
+            "category": "PERSONAL\n個人撮影"
+        },
+        "list1": [
+            {
+                "title": "1 CONCEPT",
+                "price": "275,000 ウォン",
+                "details": [
+                    "コンセプトあたり衣装1着、背景2種",
+                    "補正2枚 · 5x7プリント1枚 · WEB用元データ提供 · 撮影30分"
+                ]
+            },
+            {
+                "title": "2 CONCEPTS",
+                "price": "440,000 ウォン",
+                "details": [
+                    "コンセプトあたり衣装1着、背景無制限 · ポーズ無制限",
+                    "補正4枚 · 5x7プリント2枚 · WEB用元データ提供 · 撮影90分"
+                ]
+            },
+            {
+                "title": "3 CONCEPTS",
+                "price": "550,000 ウォン",
+                "details": [
+                    "衣装 · 背景 · ポーズすべて無制限",
+                    "補正6枚 · 5x7プリント3枚 · WEB用元データ提供 · 撮影120分"
+                ]
+            }
+        ],
+        "menu2": {
+            "title": "FRIENDS & COUPLE",
+            "category": "友情＆カップルパッケージ"
+        },
+        "list2": [
+            {
+                "title": "友情/カップル 1コンセプト",
+                "price": "330,000 ウォン",
+                "details": [
+                    "2~3名基準 (4名目から1名追加 50,000ウォン)",
+                    "各衣装1着 · 背景1種 · ポーズ2~3種",
+                    "補正2枚 · 各5x7プリント1枚 · 撮影30分"
+                ]
+            },
+            {
+                "title": "PACKAGE 1",
+                "price": "770,000 ウォン",
+                "details": [
+                    "個人 1コンセプト × 2名 + 友情 1コンセプト",
+                    "トータル補正 6枚"
+                ]
+            },
+            {
+                "title": "PACKAGE 2",
+                "price": "1,100,000 ウォン",
+                "details": [
+                    "個人 2コンセプト × 2名 + 友情 1コンセプト",
+                    "トータル補正 10枚"
+                ]
+            }
+        ],
+        "notices": [
+            "補正作業：セレクト当日に1枚補正提供、残りの写真は約4週間以内に1次補正完了（追加修正リクエスト可能）。",
+            "元データはWEB用（約2000px）サイズで提供されます。",
+            "追加補正は1枚あたり33,000ウォンの追加料金が発生します。",
+            "駐車はドゥウォンビルの有料駐車場をご利用ください。",
+            "NAVERレビュー作成時に補正1枚サービス、SNSアップロード同意時に補正1枚サービス提供。"
+        ]
+    }
+}

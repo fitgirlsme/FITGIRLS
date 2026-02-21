@@ -1,0 +1,466 @@
+.gallery-full-container {
+    width: 100%;
+    margin: 0;
+    padding: 80px 0 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.gallery-header-wrapper {
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.gallery-main-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 24px;
+    letter-spacing: -0.03em;
+}
+
+/* 1. Tier 1 Tabs (Women, Men, Couple) */
+.tier1-tabs {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 10px;
+}
+
+.tier1-tab {
+    background: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 4px 8px;
+    position: relative;
+}
+
+.tier1-tab.active,
+.tier1-tab:hover {
+    color: var(--color-text);
+}
+
+.tier1-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -11px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-primary);
+}
+
+/* 2. Tier 2 Tags (Hashtags) */
+.tier2-tags-scroll {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    /* On desktop, wrap. On mobile, scroll */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+@media (max-width: 768px) {
+    .tier2-tags-scroll {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+.tier2-tags-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.tier2-chip {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.tier2-chip:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: var(--color-text);
+}
+
+.tier2-chip.active {
+    background: var(--color-text);
+    border-color: var(--color-text);
+    color: var(--color-bg);
+}
+
+/* 3. Masonry Layout (CSS Columns) */
+.gallery-masonry-grid {
+    column-count: 2;
+    column-gap: 2px;
+    line-height: 0;
+    width: 100%;
+    padding: 0 2px;
+}
+
+@media (min-width: 768px) {
+    .gallery-masonry-grid {
+        column-count: 3;
+        padding: 0 4px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .gallery-masonry-grid {
+        column-count: 4;
+        padding: 0 8px;
+    }
+}
+
+.masonry-item {
+    break-inside: avoid;
+    margin-bottom: 2px;
+    position: relative;
+    cursor: zoom-in;
+    background: #111;
+}
+
+.masonry-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+}
+
+.masonry-item:hover img {
+    opacity: 1;
+}
+
+.masonry-hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.masonry-plus {
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 300;
+}
+
+/* 호버 시 해시태그 묶음 */
+.masonry-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    padding: 0 10px;
+}
+
+.masonry-tag-chip {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.75rem;
+    padding: 2px 4px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.masonry-item:hover .masonry-hover-overlay {
+    opacity: 1;
+}
+
+/* 로컬 사진 X 삭제 버튼 */
+.masonry-delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.65);
+    border: none;
+    color: #fff;
+    font-size: 1.1rem;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: background 0.2s;
+    line-height: 1;
+}
+
+.masonry-item:hover .masonry-delete-btn {
+    display: flex;
+}
+
+.masonry-delete-btn:hover {
+    background: rgba(220, 50, 50, 0.85);
+}
+
+/* 어드민 전용 + 사진 추가 카드 */
+.masonry-add-card {
+    aspect-ratio: 4 / 5;
+    background: rgba(255, 255, 255, 0.04);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    display: flex !important;
+}
+
+.masonry-add-card:hover {
+    border-color: rgba(255, 80, 80, 0.6);
+    background: rgba(255, 80, 80, 0.05);
+}
+
+.masonry-add-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.masonry-add-icon {
+    font-size: 2.5rem;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.masonry-add-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 1px;
+    transition: color 0.2s;
+}
+
+.masonry-add-card:hover .masonry-add-icon,
+.masonry-add-card:hover .masonry-add-label {
+    color: rgba(255, 100, 100, 0.8);
+}
+
+/* 커스텀 삭제 확인 모달 */
+.delete-confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+}
+
+.delete-confirm-box {
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 32px 28px;
+    text-align: center;
+    max-width: 320px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.delete-confirm-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 8px;
+}
+
+.delete-confirm-sub {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.45);
+    margin: 0 0 24px;
+}
+
+.delete-confirm-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.delete-btn-cancel {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.delete-btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.delete-btn-ok {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(220, 50, 50, 0.85);
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.delete-btn-ok:hover {
+    background: rgba(220, 50, 50, 1);
+}
+
+/* 4. Lightbox Modal */
+.lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+    background-color: rgba(10, 10, 10, 0.95);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.lightbox-header {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1001;
+}
+
+.lightbox-counter {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+}
+
+.lightbox-close {
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: #fff;
+    font-size: 1.4rem;
+    cursor: pointer;
+    font-weight: 300;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+    transition: opacity 0.2s, background 0.2s;
+}
+
+.lightbox-close:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.lightbox-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.4);
+    border: none;
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: 300;
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+    transition: background 0.2s, opacity 0.2s;
+    opacity: 0.7;
+}
+
+.lightbox-nav-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+    opacity: 1;
+}
+
+.prev-btn {
+    left: 16px;
+}
+
+.next-btn {
+    right: 16px;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 85vh;
+}
+
+.lightbox-content img {
+    width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    display: block;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+    .lightbox-nav-btn {
+        font-size: 2rem;
+        padding: 10px;
+    }
+
+    .prev-btn {
+        left: 0px;
+    }
+
+    .next-btn {
+        right: 0px;
+    }
+}

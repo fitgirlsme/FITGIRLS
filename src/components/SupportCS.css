@@ -1,0 +1,59 @@
+.cs-container {
+    position: fixed;
+    bottom: 100px;
+    right: 24px;
+    z-index: 999;
+}
+
+.cs-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--color-text);
+    /* Black/Dark gray background */
+    color: var(--color-bg);
+    padding: 12px 20px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s var(--ease-spring), box-shadow 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+    .cs-button {
+        background-color: var(--color-surface);
+        color: var(--color-text);
+    }
+}
+
+.cs-button:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.cs-icon {
+    font-size: 1.2rem;
+}
+
+.cs-icon-img {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+/* 카카오 - 노란색 배경 */
+.cs-button--ko {
+    background-color: #FEE500 !important;
+    color: #191919 !important;
+    border: none;
+}
+
+/* LINE - 초록색 배경 */
+.cs-button--ja {
+    background-color: #06C755 !important;
+    color: #fff !important;
+    border: none;
+}
