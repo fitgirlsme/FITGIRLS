@@ -4,7 +4,7 @@ import { getReviews, getTotalReviewCount } from '../utils/reviewService';
 import reviewsBackup from '../data/reviews_backup.json';
 import './Reviews.css';
 
-const ReviewCard = ({ review }) => {
+const ReviewCard = ({ review, t }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const content = review.text || review.content || '';
     const shouldShowMore = content.length > 120;
@@ -18,7 +18,7 @@ const ReviewCard = ({ review }) => {
                     </div>
                     <div className="user-info">
                         <div className="user-name">{review.author}</div>
-                        <div className="user-meta">리뷰 {Math.floor(Math.random() * 20) + 1} · 사진 {Math.floor(Math.random() * 10) + 1}</div>
+                        <div className="user-meta">{t('reviews.stats_fake', '리뷰 {{count1}} · 사진 {{count2}}', { count1: Math.floor(Math.random() * 20) + 1, count2: Math.floor(Math.random() * 10) + 1 })}</div>
                     </div>
                 </div>
             </div>
@@ -30,25 +30,18 @@ const ReviewCard = ({ review }) => {
             )}
 
             <div className="review-content-body">
-                <h4 className="review-item-title">핏걸즈&이너핏 스튜디오 예약</h4>
+                <h4 className="review-item-title">
+                    {review.title || t('reviews.default_title', '핏걸즈&이너핏 스튜디오 예약')}
+                </h4>
                 <div className="review-text-wrapper">
                     <p className={`review-text-content ${isExpanded ? 'expanded' : ''}`}>
                         {content}
                     </p>
                     {shouldShowMore && !isExpanded && (
-                        <button className="btn-show-more" onClick={() => setIsExpanded(true)}>더보기</button>
+                        <button className="btn-show-more" onClick={() => setIsExpanded(true)}>
+                            {t('reviews.show_more', '더보기')}
+                        </button>
                     )}
-                </div>
-            </div>
-
-            <div className="review-tags">
-                <span className="naver-tag">💖 친절해요</span>
-                <span className="naver-tag-more">+4</span>
-            </div>
-
-            <div className="review-footer">
-                <div className="interaction-count">
-                    <span className="emoji">😎</span> 1명 &gt;
                 </div>
             </div>
         </div>
@@ -74,14 +67,31 @@ const Reviews = () => {
                     getTotalReviewCount()
                 ]);
                 
-                const combinedReviews = [...reviewsData];
+                let combinedReviews = [...reviewsData];
                 const existingIds = new Set(reviewsData.map(r => r.id));
-                reviewsBackup.forEach(backup => {
+                
+                // Backup reviews filtering/mapping by language
+                const lang = i18n.language;
+                const translatedBackup = reviewsBackup.map(backup => {
+                    // Simple check for translations in backup data if they exist
+                    // For now, we'll keep the original but show how it could be done
+                    if (lang !== 'ko' && backup.translations?.[lang]) {
+                        return {
+                            ...backup,
+                            text: backup.translations[lang].text,
+                            title: backup.translations[lang].title
+                        };
+                    }
+                    return backup;
+                });
+
+                translatedBackup.forEach(backup => {
                     if (!existingIds.has(backup.id)) {
                         combinedReviews.push(backup);
                     }
                 });
 
+                // Sort and set
                 setReviews(combinedReviews);
                 setTotalCount(Math.max(count, combinedReviews.length, reviewsBackup.length));
             } catch (error) {
@@ -91,7 +101,7 @@ const Reviews = () => {
             setLoading(false);
         };
         initData();
-    }, []);
+    }, [i18n.language]);
 
     const scrollSlider = (direction) => {
         const track = document.querySelector('.review-slider-track');
@@ -146,7 +156,7 @@ const Reviews = () => {
                             </div>
                         ) : (
                             reviews.map((review) => (
-                                <ReviewCard key={review.id} review={review} />
+                                <ReviewCard key={review.id} review={review} t={t} />
                             ))
                         )}
                         
