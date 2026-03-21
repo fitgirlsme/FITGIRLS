@@ -91,13 +91,7 @@ const GallerySection = () => {
                     createdAt: item.createdAt || item.order || 0,
                 }));
 
-                const localUploads = await getGalleryItems();
-                const localMapped = localUploads.map(item => ({
-                    ...item,
-                    mainCategory: item.mainCategory || item.type || 'fitorialist',
-                    type: item.type || 'women',
-                }));
-                setAllItems([...mapped, ...localMapped]);
+                setAllItems(mapped);
             } catch (err) {
                 console.warn('Gallery load failed, falling back to IndexedDB:', err);
                 try {
@@ -202,7 +196,7 @@ const GallerySection = () => {
             tag.replace('#', '').toUpperCase() === activeTag.toUpperCase()
         ));
         return matchMain && matchSub && matchTag;
-    });
+    }).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
     // 페이지네이션: 보이는 항목만 슬라이스
     const visibleItems = filteredGallery.slice(0, visibleCount);

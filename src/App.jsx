@@ -7,7 +7,7 @@ import Intro from './components/sections/Intro';
 import Gallery from './components/sections/Gallery';
 import Service from './components/sections/Service';
 import Zone from './components/sections/Zone';
-import HM from './components/sections/HM';
+import Partner from './components/sections/Partner';
 import FAQ from './components/sections/FAQ';
 import Notice from './components/sections/Notice';
 import Location from './components/sections/Location';
@@ -72,7 +72,7 @@ const Home = ({ changeLanguage, currentLang }) => {
         <section className="snap-section" id="gallery"><Gallery /></section>
         <section className="snap-section" id="service"><Service /></section>
         <section className="snap-section" id="zone"><Zone /></section>
-        <section className="snap-section" id="hair-makeup"><HM /></section>
+        <section className="snap-section" id="hair-makeup"><Partner /></section>
         <section className="snap-section" id="faq"><FAQ /></section>
         <section className="snap-section" id="event-board"><Notice /></section>
         <section className="snap-section" id="location"><Location /></section>

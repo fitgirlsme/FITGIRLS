@@ -180,7 +180,8 @@
             "step3_title": "支付定金并确定",
             "step3_desc": "在 Naver 预约后，请支付定金 (90,000 韩元) 以最终确定预约并在随后收到准则指南。"
         },
-        "final_notice": "✅ 预约确认后，我们将为您发送详细的拍摄准备指南。💖✨"
+        "final_notice": "✅ 预约确认后，我们将为您发送详细的拍摄准备指南。💖✨",
+        "return_discount": "* 再次预约优惠: 第2次享8折, 第3次起享7折 — 请通过KakaoTalk FITGIRLS频道咨询"
     },
     "location": {
         "title": "LOCATION",
@@ -214,33 +215,81 @@
     "faq": {
         "title": "FAQ",
         "subtitle": "常见问题",
-        "category_before_reservation": "预约前",
-        "before_reservation": [
+        "tabs": ["预约前", "拍摄前", "拍摄后"],
+        "before_booking": [
             {
-                "question": "如何进行预约？",
-                "answer": "通过Naver Reservation进行预约。在咨询后支付定金(90,000韩元)即可确认。"
+                "question": "如何预约？",
+                "answer": "咨询预约时，请提供姓名、联系方式、期望日期及时间、拍摄概念数量。咨询后，请通过我们提供的预约系统进行申请，并在接到KakaoTalk Toss通知后4小时内支付9万韩元定金，预约方可最终确认。"
             },
             {
-                "question": "可以取消或更改日期吗？",
-                "answer": "拍摄前50天可免费更改一次。拍摄前50天取消可全额退还定金。49天起或当天取消需支付违约金。"
-            }
-        ],
-        "category_before_shooting": "拍摄前",
-        "before_shooting": [
-            {
-                "question": "应该几点到达？",
-                "answer": "原则上请在预约时间前30分钟到达，以便更换衣服和进行准备工作。迟到1分钟将自动取消预约且不予退款。"
+                "question": "我想了解拍摄价格。",
+                "answer": "各套餐的详细价格可在Naver Smart Place或KakaoTalk咨询频道菜单中直接确认。详情请参考 FITORIAL 套餐说明。",
+                "links": [{ "label": "查看 FITORIAL 套餐", "url": "https://naver.me/GWeuhE37", "type": "naver" }]
             },
             {
-                "question": "可以带朋友 or 宠物吗？",
-                "answer": "最多允许2位陪同人员。您也可以免费带宠物一起参加拍摄。"
+                "question": "可以排队候选预约吗？",
+                "answer": "我们目前不提供候补预约服务。由于预约情况随时可能变动，请直接通过预约系统查看可预约日期。"
+            },
+            {
+                "question": "取消及退款规定是什么？",
+                "answer": "拍摄日50天前取消时，定金可全额退还。拍摄日前49天至当天取消将产生违约金（90,000韩元）且无法退款，如取消2次以上，今后的拍摄可能会受到限制。"
+            },
+            {
+                "question": "我想更改预约日期或时间。",
+                "answer": "拍摄日50天前，仅限更改1次。如在距离拍摄日50天以内预约，则无论因何事由，绝对无法更改日期及全额退款，敬请慎重预约。"
+            },
+            {
+                "question": "如果汇款人姓名与预约人姓名不同怎么办？",
+                "answer": "如果汇款人姓名与预约信息或实际拍摄者的信息不一致，请务必通过咨询频道告知我们汇款时间和汇款人姓名，以免确认遗漏。"
             }
         ],
-        "category_after_shooting": "拍摄后",
-        "after_shooting": [
+        "before_shoot": [
             {
-                "question": "什么时候能收到修过的照片？",
-                "answer": "拍摄当天将通过电子邮件发送原片。在您选择照片后，大约一个月可以收到第一版精修图。"
+                "question": "在哪里可以查看可租赁的服装信息？",
+                "answer": "您可以在网站的 Lookbook 选项卡中提前查看 FITGIRLS 的各种背景概念和可租赁服装系列。",
+                "links": [{ "label": "查看 FITGIRLS Lookbook", "url": "#zone", "type": "link" }]
+            },
+            {
+                "question": "拍摄概念参考图必须在何时提交？",
+                "answer": "请务必在拍摄前1周上传您想要的风格参考图（图片、是否租赁服装等）。\n文件名示例：姓名_拍摄日期（例如：张三_1025）",
+                "links": [{ "label": "上传参考图文件", "url": "https://www.dropbox.com/request/dLsnN9aUQwOOauBCODY4", "type": "dropbox" }]
+            },
+            {
+                "question": "拍摄当天应在几点前到达？",
+                "answer": "原则上需在预约时间前30分钟到达。到达后进行换装、充血热身、准备婴儿油及凡士林等准备工作，然后准时开始拍摄。"
+            },
+            {
+                "question": "工作室备有道具或运动器材吗？",
+                "answer": "教室内备有婴儿油和凡士林，您无需另外准备。您可以自由使用各种重量的哑铃（Dumbbell）、弹力带、垫子等充血热身器材，以及 FITGIRLS SNS 上出现的各种道具。也随时欢迎您带上具有特殊意义的个人专属道具。"
+            },
+            {
+                "question": "可以停车吗？",
+                "answer": "请使用工作室前方的收费代客泊车服务（2小时10,000韩元）或附近大楼的收费停车场。",
+                "links": [{ "label": "斗元大厦停车场", "url": "https://naver.me/xSomeMap", "type": "map" }]
+            }
+        ],
+        "after_shoot": [
+            {
+                "question": "原图什么时候能够通过何种方式收到？",
+                "answer": "拍摄当天，我们将通过电子邮件和 Airdrop（隔空投送）发送全部原图。"
+            },
+            {
+                "question": "如何挑选用于精修的照片？",
+                "answer": "请在收到的原图中亲自挑选您想要精修的照片，并回复至 inafit@daum.net。为了防止操作失误，请绝对不要更改附件的文件名编号，务必以回复邮件的形式发送。原图文件请在拍摄后20日内完成挑选，逾期文件可能被删除。",
+                "links": [{ "label": "inafit@daum.net", "url": "mailto:inafit@daum.net", "type": "email" }]
+            },
+            {
+                "question": "精修需要多长时间？",
+                "answer": "从您回复挑选照片的日期算起，我们将会在当天或次日对1张照片进行初步修整并通过回复邮件发送给您。剩余照片的最终精修版本将会在大约4周后发送给您。"
+            },
+            {
+                "question": "精修的具体程度是怎样的？",
+                "answer": "在保留自然魅力的基础上，我们将最大限度地突显肌肤纹理、身材线条以及画报般的氛围。第一次修整完成后，您可以查看结果，并且仅限1次申请重新修改。精修完成后，我们还会为您制作并发送充满 FITGIRLS & INAFIT 独特风格的画报封面影像。"
+            },
+            {
+                "question": "有什么方法可以获得额外的精修照片吗？",
+                "answer": "如果您在Naver填写访客评价，我们将赠送1张精修；如果您同意将照片上传至Instagram，我们将再赠送1张精修。您也可以通过FITGIRLS智能商店付费购买额外精修（每张33,000韩元）。",
+                "links": [{ "label": "FITGIRLS 智能商店", "url": "https://smartstore.naver.com/fitgirls", "type": "naver" }]
             }
         ]
     },
@@ -248,38 +297,38 @@
         "desc_1concept": "1:1 指导, 3张精修图, 提供全部原片",
         "desc_2concepts": "1:1 指导, 6张精修图, 提供全部原片",
         "desc_3concepts": "1:1 指导, 9张精修图, 提供全部原片",
-        "header_title": "SERVICE & PRICE",
+        "header_title": "FITGIRLS & INAFIT",
         "header_subtitle": "PORTRAIT SERVICE 2026",
-        "header_desc": "全年无休 · 预约制工作室 · 所有费用均含增值税 / 可开具收据",
+        "header_desc": "OPEN YEAR ROUND · 预约制工作室 · 所有费用均含增值税 / 可开具收据",
+        "same_price": "FITGIRLS工作室平日和周末价格完全一致。",
         "menu1": {
             "title": "PORTRAIT MENU",
-            "subtitle": "个人身体档案 / 形象照",
-            "category": "WOMEN / MEN"
+            "subtitle": "FITGIRLS & INAFIT SIGNATURE SESSIONS & PACKAGES",
+            "category": "PERSONAL\n个人拍摄"
         },
         "list1": [
             {
                 "title": "1 CONCEPT",
-                "price": "275,000",
+                "price": "275,000 韩元",
                 "details": [
-                    "1:1 指导",
-                    "3张精修图",
-                    "提供全部原片"
+                    "每个概念1套服装、2种背景",
+                    "精修2张 · 5x7打印1张 · 提供网页用原片 · 30分钟拍摄"
                 ]
             },
             {
                 "title": "2 CONCEPTS",
-                "price": "440,000",
+                "price": "440,000 韩元",
                 "details": [
-                    "1:1 指导",
-                    "6张精修图",
-                    "提供全部原片"
+                    "每个概念1套服装、背景无限 · 姿势无限",
+                    "精修4张 · 5x7打印2张 · 提供网页用原片 · 90分钟拍摄"
                 ]
             },
             {
                 "title": "3 CONCEPTS",
+                "price": "550,000 韩元",
                 "details": [
                     "服装 · 背景 · 姿势均不限",
-                    "6张精修 · 3张5x7照片打印 · 提供网页用原片 · 120分钟拍摄"
+                    "精修6张 · 5x7打印3张 · 提供网页用原片 · 120分钟拍摄"
                 ]
             }
         ],
@@ -294,14 +343,14 @@
                 "details": [
                     "2~3人基准 (第4人起每人加收50,000韩元)",
                     "每人一套服装 · 1个背景 · 2~3种姿势",
-                    "2张精修 · 每人一张5x7照片打印 · 30分钟拍摄"
+                    "精修2张 · 每人一张5x7打印 · 30分钟拍摄"
                 ]
             },
             {
                 "title": "PACKAGE 1",
                 "price": "770,000 韩元",
                 "details": [
-                    "个人1概念x2人 + 友情1概念",
+                    "个人1概念×2人 + 友情1概念",
                     "共6张精修"
                 ]
             },
@@ -309,7 +358,7 @@
                 "title": "PACKAGE 2",
                 "price": "1,100,000 韩元",
                 "details": [
-                    "个人2概念x2人 + 友情1概念",
+                    "个人2概念×2人 + 友情1概念",
                     "共10张精修"
                 ]
             }
@@ -326,8 +375,8 @@
         "title": "PARTNERSHIP",
         "subtitle": "FITGIRLS & INAFIT 合作妆造服务指南",
         "shop_name": "Mabelle Boutique",
-        "price_women": "女性 88,000韩元 (含税)",
-        "price_men": "男性 66,000韩元 (含税)",
+        "price_women": "88,000韩元",
+        "price_men": "66,000韩元",
         "notices": [
             "客户必须直接预约 (不提供驻场服务)",
             "建议通过KakaoTalk或LINE进行预约咨询。"

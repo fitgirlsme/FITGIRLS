@@ -180,7 +180,8 @@
             "step3_title": "Pay Deposit & Confirm",
             "step3_desc": "Pay the deposit (90,000 KRW) via 'Toss Order' notification or account transfer to complete the reservation."
         },
-        "final_notice": "✅ Once the reservation is confirmed, we will send you detailed filming preparation guides. 💖✨"
+        "final_notice": "✅ Once the reservation is confirmed, we will send you detailed filming preparation guides. 💖✨",
+        "return_discount": "* Returning guests: 2nd visit 20% off, 3rd+ visit 30% off — Inquire via KakaoTalk FITGIRLS channel"
     },
     "location": {
         "title": "LOCATION",
@@ -214,33 +215,81 @@
     "faq": {
         "title": "FAQ",
         "subtitle": "Frequently Asked Questions",
-        "category_before_reservation": "Before Reservation",
-        "before_reservation": [
+        "tabs": ["Before Booking", "Before Shoot", "After Shoot"],
+        "before_booking": [
             {
                 "question": "How do I make a reservation?",
-                "answer": "Make a reservation through Naver Reservation. After consultation, pay the deposit (90,000 KRW) to confirm."
+                "answer": "Please inquire with your name, contact info, preferred date/time, and number of concepts. After consultation, please apply through the reservation system we guide you to, and pay the 90,000 KRW deposit via the Toss notification on KakaoTalk within 4 hours to finalize your booking."
             },
             {
-                "question": "Can I cancel or change the date?",
-                "answer": "Free changes are possible once up to 50 days before filming. Full deposit refund for cancellations 50 days before filming. Penalty applies from 49 days or same-day cancellation."
-            }
-        ],
-        "category_before_shooting": "Before Filming",
-        "before_shooting": [
-            {
-                "question": "What time should I arrive?",
-                "answer": "Arrival 30 minutes before the reservation time is the principle for outfit changes and preparation. Late arrival by 1 minute will automatically cancel the reservation without a refund."
+                "question": "How much does the shoot cost?",
+                "answer": "Detailed package prices can be checked directly on the Naver Smart Place or the KakaoTalk consultation channel menu. Please refer to the detailed guide for the FITORIAL package.",
+                "links": [{ "label": "View FITORIAL Packages", "url": "https://naver.me/GWeuhE37", "type": "naver" }]
             },
             {
-                "question": "Can I bring friends or pets?",
-                "answer": "Maximum of 2 companions allowed. You can also bring pets for free filming together."
+                "question": "Can I be put on a waiting list?",
+                "answer": "We do not currently operate a waiting list for reservations. Since the reservation status changes frequently, please check available dates directly through the reservation system."
+            },
+            {
+                "question": "What is the cancellation and refund policy?",
+                "answer": "A 100% refund of the deposit is possible if canceled 50 days or more before the shoot date. Cancellations made from 49 days up to the day of the shoot will incur a penalty (90,000 KRW) and are non-refundable. Also, canceling 2 or more times may restrict your ability to book future shoots."
+            },
+            {
+                "question": "I want to change my reservation date or time.",
+                "answer": "Changes can be made only once, up to 50 days before the shoot date. If you book within 50 days of the shoot date, date changes and full refunds are absolutely not possible regardless of the reason, so please book carefully."
+            },
+            {
+                "question": "What if the depositor's name is different from the reservation name?",
+                "answer": "If the depositor's name is different or the reservation information doesn't match the actual person being photographed, you must tell us the date/time of deposit and the depositor's name via the consultation channel to guarantee confirmation without omission."
             }
         ],
-        "category_after_shooting": "After Filming",
-        "after_shooting": [
+        "before_shoot": [
             {
-                "question": "When can I receive edited photos?",
-                "answer": "Raw files are sent via email on the day of filming. After you select photos, it takes about a month for the first draft of edits."
+                "question": "Where can I find information about rental outfits?",
+                "answer": "You can check FITGIRLS' various background concepts and rental outfit lineup in advance on the website's Lookbook tab.",
+                "links": [{ "label": "View FITGIRLS Lookbook", "url": "#zone", "type": "link" }]
+            },
+            {
+                "question": "By when do I need to submit my shoot concept draft?",
+                "answer": "You must upload a draft of the vibe you want (images, whether you'll rent outfits, etc.) by 1 week before the shoot.\nFile name example: Name_ShootDate (e.g., JaneDoe_1025)",
+                "links": [{ "label": "Upload Concept Draft", "url": "https://www.dropbox.com/request/dLsnN9aUQwOOauBCODY4", "type": "dropbox" }]
+            },
+            {
+                "question": "What time should I arrive on the day of the shoot?",
+                "answer": "Our policy is for you to arrive 30 minutes before your reservation time. After arriving, you will change clothes, pump up, prepare oil and Vaseline, and we will begin shooting on time."
+            },
+            {
+                "question": "Are there props or exercise equipment available at the studio?",
+                "answer": "Oil and Vaseline are provided, so you do not need to prepare them separately. You are free to use our pump-up equipment like dumbbells of various weights, bands, and mats, as well as the diverse props featured on FITGIRLS' SNS. You are also always welcome to bring your own personal props that have special meaning to you."
+            },
+            {
+                "question": "Is parking available?",
+                "answer": "Please use the paid valet service in front of the studio (10,000 KRW for 2 hours) or paid parking lots in nearby buildings.",
+                "links": [{ "label": "Doowon Building Parking", "url": "https://naver.me/xSomeMap", "type": "map" }]
+            }
+        ],
+        "after_shoot": [
+            {
+                "question": "When and how will I receive the original photos?",
+                "answer": "We will send all the originals on the day of the shoot via email and Airdrop."
+            },
+            {
+                "question": "How do I select photos for retouching?",
+                "answer": "Please personally select the photos you want retouched from the originals you received and reply to inafit@daum.net. To prevent work errors, you must reply without ever changing the file numbers of the attached files. You must select the original files within 20 days after the shoot; files may be deleted if this deadline passes.",
+                "links": [{ "label": "inafit@daum.net", "url": "mailto:inafit@daum.net", "type": "email" }]
+            },
+            {
+                "question": "How long does the retouching process take?",
+                "answer": "Starting from the day you reply with your photo selection, we will perform preliminary retouching on 1 photo on that same day or the next, and send it back via email. You will receive the final retouched versions of the remaining photos in about 4 weeks."
+            },
+            {
+                "question": "To what extent is retouching done?",
+                "answer": "Retouching is done to maximize skin texture, body lines, and a pictorial mood while maintaining your natural charm. After the 1st round of edits is completed, you can review the results and request re-edits only once. Once retouching is finished, we will also create and send a stylish magazine cover unique to FITGIRLS & INAFIT."
+            },
+            {
+                "question": "Is there a way to get additional retouched photos?",
+                "answer": "We provide a complimentary retouching of 1 photo for writing a Naver Visitor Review, and 1 photo for consenting to an Instagram upload. You can purchase additional retouched photos via the FITGIRLS Smart Store (33,000 KRW per photo).",
+                "links": [{ "label": "FITGIRLS Smart Store", "url": "https://smartstore.naver.com/fitgirls", "type": "naver" }]
             }
         ]
     },
@@ -248,28 +297,29 @@
         "desc_1concept": "1:1 Directing, 3 Retouched Photos, Original Data Included",
         "desc_2concepts": "1:1 Directing, 6 Retouched Photos, Original Data Included",
         "desc_3concepts": "1:1 Directing, 9 Retouched Photos, Original Data Included",
-        "header_title": "SERVICE & PRICE",
+        "header_title": "FITGIRLS & INAFIT",
         "header_subtitle": "PORTRAIT SERVICE 2026",
-        "header_desc": "Open Year Round · Reservation Only · All prices include VAT / Receipts available",
+        "header_desc": "OPEN YEAR ROUND · Reservation Only · All prices include VAT / Card & Cash receipts available",
+        "same_price": "Fitgirls Studio offers the same pricing on weekdays & weekends.",
         "menu1": {
             "title": "PORTRAIT MENU",
-            "subtitle": "Personal Body Profile / Profile",
-            "category": "WOMEN / MEN"
+            "subtitle": "FITGIRLS & INAFIT SIGNATURE SESSIONS & PACKAGES",
+            "category": "PERSONAL\nIndividual Shoot"
         },
         "list1": [
             {
                 "title": "1 CONCEPT",
-                "price": "275,000",
+                "price": "275,000 KRW",
                 "details": [
-                    "1:1 Directing",
-                    "3 Retouched Photos",
-                    "Original Data Included"
+                    "1 outfit per concept, 2 backgrounds",
+                    "2 Retouched · One 5x7 print · Web raw files provided · 30 min shoot"
                 ]
             },
             {
                 "title": "2 CONCEPTS",
+                "price": "440,000 KRW",
                 "details": [
-                    "One outfit per concept, unlimited background & poses",
+                    "1 outfit per concept, unlimited backgrounds & poses",
                     "4 Retouched · Two 5x7 prints · Web raw files provided · 90 min shoot"
                 ]
             },
@@ -292,7 +342,7 @@
                 "price": "330,000 KRW",
                 "details": [
                     "Based on 2~3 people (50,000 KRW per extra person from 4th)",
-                    "One outfit each · 1 background · 2~3 poses",
+                    "1 outfit each · 1 background · 2~3 poses",
                     "2 Retouched · One 5x7 print each · 30 min shoot"
                 ]
             },
@@ -314,7 +364,7 @@
             }
         ],
         "notices": [
-            "Editing: 1 preview edit provided on the day of selection, others within 4 weeks (revisions possible).",
+            "Editing: 1 preview edit on the day of selection, others within 4 weeks (revisions possible).",
             "Raw files provided in web size (approx. 2000px).",
             "Additional edits cost 33,000 KRW per photo.",
             "Parking: Use Doowon Building paid parking lot.",
@@ -325,8 +375,8 @@
         "title": "PARTNERSHIP",
         "subtitle": "FITGIRLS & INAFIT Partnership Hair/Makeup Guide",
         "shop_name": "Mabelle Boutique",
-        "price_women": "Women 88,000 KRW (VAT included)",
-        "price_men": "Men 66,000 KRW (VAT included)",
+        "price_women": "88,000 KRW",
+        "price_men": "66,000 KRW",
         "notices": [
             "Clients must book directly (no studio call-outs)",
             "Booking via KakaoTalk or LINE is recommended."

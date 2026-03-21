@@ -1,18 +1,49 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import FadeInSection from '../FadeInSection';
 import './Intro.css';
 
 const Intro = () => {
     const { t } = useTranslation();
+    const videoRef = useRef(null);
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        const snapContainer = document.querySelector('.snap-container');
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    video.muted = false;
+                    video.play().catch((err) => {
+                        console.warn('Autoplay with sound blocked:', err);
+                    });
+                } else {
+                    video.pause();
+                    video.muted = true;
+                }
+            },
+            { root: snapContainer, threshold: 0.2 }
+        );
+
+        observer.observe(video);
+
+        return () => {
+            observer.disconnect();
+            video && video.pause();
+        };
+    }, []);
 
     return (
         <div className="hero-intro-container">
             <video
+                ref={videoRef}
                 className="hero-intro-video"
                 autoPlay
                 loop
-                muted
+                muted={false}
                 playsInline
                 src="/images/intro-bg.mp4"
             />

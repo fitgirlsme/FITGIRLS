@@ -118,38 +118,26 @@
 
 .faq-answer-content {
     padding-bottom: 24px;
-    display: flex;
-    /* A. 아이콘과 텍스트 영역을 나란히 배치하기 위해 */
-    gap: 8px;
-    align-items: flex-start;
 }
 
 .faq-answer-text-wrap {
     flex: 1;
 }
 
-/* Q/A Prefix Styles */
-.faq-prefix {
+/* Q Mark */
+.faq-q-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #fff;
+    font-size: 0.75rem;
     font-weight: 800;
-    font-size: 1.1rem;
-}
-
-.q-prefix {
-    color: var(--color-primary);
-    margin-right: 6px;
-}
-
-.a-prefix {
-    color: var(--color-text-secondary);
-    /* A는 기본 텍스트보다 살짝 흐리게 */
-    margin-top: 2px;
-    /* 줄 간격 미세 조정 */
-}
-
-@media (max-width: 768px) {
-    .faq-prefix {
-        font-size: 1rem;
-    }
+    flex-shrink: 0;
+    margin-right: 10px;
 }
 
 .faq-answer-content p {
@@ -211,6 +199,31 @@
 
 .faq-action-btn.line {
     background: #06C755;
+    color: #fff;
+}
+
+.faq-action-btn.naver {
+    background: #03C75A;
+    color: #fff;
+}
+
+.faq-action-btn.dropbox {
+    background: #0061FF;
+    color: #fff;
+}
+
+.faq-action-btn.email {
+    background: var(--color-text);
+    color: var(--color-bg);
+}
+
+.faq-action-btn.map {
+    background: #03C75A;
+    color: #fff;
+}
+
+.faq-action-btn.link {
+    background: var(--color-primary);
     color: #fff;
 }
 

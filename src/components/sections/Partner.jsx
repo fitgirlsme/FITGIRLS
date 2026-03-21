@@ -17,9 +17,12 @@ const Partner = () => {
     // Contact Info
     const tel = t('partners.contact.tel');
     const address = t('partners.contact.address');
-    const kakaoChannel = t('partners.contact.kakao_channel');
-    const instagram = t('partners.contact.instagram');
-    const line = t('partners.contact.line'); // For Japanese
+    const kakaoRaw = t('partners.contact.kakao_channel', { defaultValue: '' });
+    const kakaoChannel = kakaoRaw && kakaoRaw.startsWith('http') ? kakaoRaw : '';
+    const instaRaw = t('partners.contact.instagram', { defaultValue: '' });
+    const instagram = instaRaw && instaRaw.startsWith('http') ? instaRaw : '';
+    const lineRaw = t('partners.contact.line', { defaultValue: '' });
+    const line = lineRaw && lineRaw.startsWith('http') ? lineRaw : '';
 
     return (
         <div className="container-inner partner-container">

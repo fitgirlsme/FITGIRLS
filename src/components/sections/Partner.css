@@ -1,6 +1,7 @@
 .partner-container {
     padding-top: 40px;
     padding-bottom: 80px;
+    height: auto;
 }
 
 .partner-alert {
