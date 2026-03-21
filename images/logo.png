@@ -64,7 +64,7 @@
         "opens": "10:00",
         "closes": "23:00"
       },
-      "hasMenu": [
+      "hasMenu": [ 
         { "@type": "Menu", "name": "GALLERY", "url": "https://fitgirls.me/gallery" },
         { "@type": "Menu", "name": "RESERVATION", "url": "https://fitgirls.me/reservation" },
         { "@type": "Menu", "name": "PRICE", "url": "https://fitgirls.me/service" },
@@ -76,13 +76,13 @@
         "https://pf.kakao.com/_QPjsxb"
       ]
     }
-  </script>
+    </script>
   <!-- Elfsight Platform Script -->
   <script src="https://elfsightcdn.com/platform.js" async></script>
   <!-- Pinterest Widget Script -->
   <script async defer src="//assets.pinterest.com/js/pinit.js"></script>
-  <script type="module" crossorigin src="./assets/index-Cu7lZ1zy.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-BGr0a2gD.css">
+  <script type="module" crossorigin src="./assets/index-D0W109b5.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-OFrIgRhB.css">
 </head>
 
 <body>
