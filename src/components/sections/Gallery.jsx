@@ -77,13 +77,18 @@ const GallerySection = () => {
         if (lightboxIndex !== null) {
             document.body.style.overflow = 'hidden';
             document.body.classList.add('hide-support-cs');
+            document.body.classList.add('lightbox-active');
         } else {
             document.body.style.overflow = 'auto';
+            document.body.classList.remove('lightbox-active');
             if (viewMode !== 'detail') {
                 document.body.classList.remove('hide-support-cs');
             }
         }
-        return () => { document.body.classList.remove('hide-support-cs'); };
+        return () => { 
+            document.body.classList.remove('hide-support-cs'); 
+            document.body.classList.remove('lightbox-active');
+        };
     }, [lightboxIndex, viewMode]);
 
     // Firebase + IndexedDB에서 갤러리 데이터 로드
@@ -619,7 +624,7 @@ const GallerySection = () => {
                         <button className="lightbox-close" onClick={closeLightbox}>✕</button>
                     </div>
                     <button className="lightbox-nav-btn prev-btn" onClick={showPrev}>⟨</button>
-                    <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+                    <div className="lightbox-content" onClick={closeLightbox}>
                         <img src={filteredGallery[lightboxIndex].img} alt="Lightbox Detail" />
                     </div>
                     <button className="lightbox-nav-btn next-btn" onClick={showNext}>⟩</button>

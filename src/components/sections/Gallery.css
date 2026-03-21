@@ -860,3 +860,16 @@
 @media (min-width: 1024px) {
     .swipe-guide-overlay { display: none; }
 }
+
+/* ===== Immersive Lightbox Fixes ===== */
+body.lightbox-active .app-header {
+    display: none !important; /* 라이트박스 열릴 때 상단바 숨김 */
+}
+
+body.lightbox-active {
+    overscroll-behavior: none; /* 브라우저 스와이프 제스처(뒤로가기 등) 방지 */
+}
+
+.lightbox-overlay {
+    touch-action: none; /* 모든 브라우저 기본 터치 동작 비활성화 (JS 스와이프만 허용) */
+}
