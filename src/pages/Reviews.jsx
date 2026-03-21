@@ -106,7 +106,6 @@ const Reviews = () => {
                                                 <div className="user-meta">리뷰 {Math.floor(Math.random() * 20) + 1} · 사진 {Math.floor(Math.random() * 10) + 1}</div>
                                             </div>
                                         </div>
-                                        <button className="btn-follow">팔로우</button>
                                     </div>
 
                                     {(review.img || review.imageUrl) && (
