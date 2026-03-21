@@ -326,9 +326,9 @@ const GallerySection = () => {
                                 </div>
                                 {dynamicTags.filter(tag => tag !== 'ALL').map((tag, idx) => {
                                     const displayTag = tag;
-                                    const repItem = categoryFiltered.find(item =>
-                                        item.tags && item.tags.some(t => t.replace('#', '').toUpperCase() === tag.toUpperCase())
-                                    );
+                                    const repItem = categoryFiltered
+                                        .filter(item => item.tags && item.tags.some(t => t.replace('#', '').toUpperCase() === tag.toUpperCase()))
+                                        .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))[0];
                                     return (
                                         <div
                                             key={idx}
