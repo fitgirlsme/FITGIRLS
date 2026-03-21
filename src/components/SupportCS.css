@@ -36,8 +36,8 @@
 .cs-container:hover .cs-button,
 .cs-container:focus-within .cs-button,
 .cs-button:active {
-    /* 호버/클릭 시 화면 밖으로 밀려나있던 요소 전체 노출. 약간 좌측 여백(-16px)을 줌 */
-    transform: translateX(-16px);
+    /* 호버/클릭 시 화면 밖으로 밀려나있던 요소 전체 노출. 벽에 딱 붙임(0) */
+    transform: translateX(0);
     box-shadow: -8px 12px 24px rgba(0, 0, 0, 0.2);
 }
 
