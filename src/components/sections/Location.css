@@ -4,114 +4,146 @@
     background-color: var(--color-bg);
 }
 
+/* Cards */
 .location-card {
     background: var(--color-surface);
-    border-radius: 20px;
-    overflow: hidden;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
     border: 1px solid var(--color-border);
+}
+
+.location-card-title {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--color-text);
+    margin: 0 0 16px 0;
+}
+
+/* Address row with copy button */
+.location-address-row {
     display: flex;
-    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 12px;
 }
 
-.map-placeholder {
-    width: 100%;
-    height: 300px;
-    background-color: #f0f0f0;
-    position: relative;
-    border-bottom: 1px solid var(--color-border);
+.location-address {
+    font-size: 0.92rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+    word-break: keep-all;
 }
 
-.map-placeholder iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.location-copy-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    padding: 4px;
+    flex-shrink: 0;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+    margin-top: 1px;
 }
 
-.marker-sim {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-weight: 800;
-    font-size: 14px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    display: flex;
+.location-copy-btn:hover {
+    opacity: 1;
+}
+
+/* Naver directions button */
+.location-naver-btn {
+    display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: #000;
+    padding: 10px 20px;
+    border: 1.5px solid #03C75A;
+    border-radius: 24px;
+    background: transparent;
+    color: #03C75A;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    margin-top: 4px;
 }
 
-.red-dot {
-    width: 10px;
-    height: 10px;
-    background-color: var(--color-primary);
-    border-radius: 50%;
-    display: inline-block;
+.location-naver-btn svg {
+    stroke: #03C75A;
 }
 
-.location-info {
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.location-naver-btn:hover {
+    background: rgba(3, 199, 90, 0.08);
+    transform: translateY(-1px);
 }
 
-.info-row {
+/* Parking section */
+.location-parking-notices {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    margin-bottom: 16px;
 }
 
-.info-row strong {
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: var(--color-primary);
-}
-
-.info-row p {
-    font-size: 0.95rem;
+.location-parking-notice {
+    font-size: 0.9rem;
     color: var(--color-text-secondary);
+    line-height: 1.5;
     margin: 0;
-    line-height: 1.6;
 }
 
-.location-buttons {
-    display: flex;
-    gap: 12px;
-    padding: 0 24px 24px;
-}
-
-.btn-map {
-    flex: 1;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    background: var(--color-primary);
-    color: #fff;
-    padding: 14px 16px;
-    border-radius: 12px;
-    font-weight: bold;
-    font-size: 0.95rem;
-    text-decoration: none;
-    transition: background 0.2s, transform 0.2s;
-    text-align: center;
-}
-
-.btn-map:hover {
-    background: #cc0000;
-    transform: translateY(-2px);
-}
-
-.btn-map.secondary {
+.location-divider {
+    height: 1px;
     background: var(--color-border);
-    color: var(--color-text);
+    margin: 20px 0;
 }
 
-.btn-map.secondary:hover {
-    background: #d0d0d0;
+.location-parking-name {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--color-text);
+    margin: 0 0 12px 0;
+}
+
+.location-parking-distance {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin: 8px 0;
+}
+
+.location-parking-price {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    font-weight: 600;
+    margin: 8px 0 16px 0;
+}
+
+.location-parking-warning {
+    background: rgba(229, 9, 20, 0.06);
+    border-left: 3px solid var(--color-primary);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+}
+
+.location-parking-warning p {
+    font-size: 0.85rem;
+    color: var(--color-primary);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .location-card {
+        padding: 20px;
+    }
+
+    .location-card-title {
+        font-size: 1.2rem;
+    }
+
+    .location-parking-name {
+        font-size: 1.05rem;
+    }
 }

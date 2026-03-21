@@ -7,6 +7,10 @@ const Location = () => {
     const { t } = useTranslation();
     const loc = t('location', { returnObjects: true });
 
+    const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text).catch(() => {});
+    };
+
     return (
         <div className="container-inner location-container">
             <FadeInSection className="section-header">
@@ -14,47 +18,69 @@ const Location = () => {
                 <p className="section-subtitle">{loc.subtitle}</p>
             </FadeInSection>
 
-            <FadeInSection delay={1} className="location-card">
-                <div className="map-placeholder">
-                    {/* Google Maps Embed iframe replacing the placeholder */}
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3164.673859664652!2d127.01899551531016!3d37.51560067980757!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca3e7a6858ee7%3A0xe104fc6f272a76f2!2z7Z핏걸즈스튜디오!5e0!3m2!1sko!2skr!4v1699999999999!5m2!1sko!2skr"
-                        width="100%"
-                        height="100%"
-                        style={{ border: 0 }}
-                        allowFullScreen=""
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                        title="FITGIRLS &amp; INAFIT Studio Map"
-                    ></iframe>
-                </div>
-
-                <div className="location-info">
-                    <div className="info-row">
-                        <strong>{loc.address_label}</strong>
-                        <p style={{ whiteSpace: 'pre-line' }}>{loc.address}</p>
+            {/* 스튜디오 카드 */}
+            <FadeInSection delay={0.2}>
+                <div className="location-card">
+                    <h3 className="location-card-title">{loc.studio_name}</h3>
+                    <div className="location-address-row">
+                        <p className="location-address" style={{ whiteSpace: 'pre-line' }}>{loc.address}</p>
+                        <button
+                            className="location-copy-btn"
+                            onClick={(e) => { e.stopPropagation(); copyToClipboard(loc.address_copy || loc.address); }}
+                            title="Copy"
+                        >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                            </svg>
+                        </button>
                     </div>
-                    <div className="info-row">
-                        <strong>{loc.parking_label}</strong>
-                        <p style={{ whiteSpace: 'pre-line' }}>{loc.parking}</p>
-                    </div>
-                    <div className="info-row">
-                        <strong>{loc.contact_label}</strong>
-                        <p>
-                            Tel. {loc.tel}<br />
-                            Email. {loc.email}<br />
-                            {loc.hours}
-                        </p>
-                    </div>
-                </div>
-
-                <div className="location-buttons">
-                    <a href={loc.links.studio_map} target="_blank" rel="noopener noreferrer" className="btn-map">
-                        📍 {loc.btn_studio}
+                    <a
+                        href={loc.links.studio_map}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="location-naver-btn"
+                    >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        {loc.btn_studio}
                     </a>
-                    <a href={loc.links.parking_map} target="_blank" rel="noopener noreferrer" className="btn-map secondary">
-                        🚗 {loc.btn_parking}
-                    </a>
+                </div>
+            </FadeInSection>
+
+            {/* 주차 안내 카드 */}
+            <FadeInSection delay={0.4}>
+                <div className="location-card">
+                    <h3 className="location-card-title">{loc.parking_title}</h3>
+                    <div className="location-parking-notices">
+                        {Array.isArray(loc.parking_notices) && loc.parking_notices.map((notice, idx) => (
+                            <p key={idx} className="location-parking-notice">* {notice}</p>
+                        ))}
+                    </div>
+
+                    <div className="location-divider" />
+
+                    <h4 className="location-parking-name">{loc.parking_name}</h4>
+                    <div className="location-address-row">
+                        <p className="location-address">{loc.parking_address}</p>
+                        <button
+                            className="location-copy-btn"
+                            onClick={(e) => { e.stopPropagation(); copyToClipboard(loc.parking_address); }}
+                            title="Copy"
+                        >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <p className="location-parking-distance">{loc.parking_distance}</p>
+                    <p className="location-parking-price">{loc.parking_price}</p>
+                    <div className="location-parking-warning">
+                        <p>* {loc.parking_warning}</p>
+                    </div>
                 </div>
             </FadeInSection>
         </div>

@@ -16,15 +16,6 @@
   --ease-smooth: cubic-bezier(.25, 1, .5, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #0A0A0A;
-    --color-text: #F9FAFB;
-    --color-text-secondary: #8B95A1;
-    --color-surface: #1C1C1E;
-    --color-border: #2C2C2E;
-  }
-}
 
 * {
   box-sizing: border-box;

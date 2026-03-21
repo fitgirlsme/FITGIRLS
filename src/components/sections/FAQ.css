@@ -145,7 +145,11 @@
     font-size: 0.95rem;
     line-height: 1.6;
     word-break: keep-all;
-    margin: 0;
+    margin: 0 0 6px 0;
+}
+
+.faq-answer-content p:last-child {
+    margin-bottom: 0;
 }
 
 /* Formatted Text Styles */

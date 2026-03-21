@@ -186,31 +186,39 @@
     "location": {
         "title": "LOCATION",
         "subtitle": "How to Find Us",
-        "address_label": "Address.",
-        "address": "B1, 18, Gangnam-daero 160-gil, Gangnam-gu, Seoul (Atium Building)",
-        "parking_label": "Parking.",
-        "parking": "Please use a paid parking lot.\nNearby: Doowon Building Hwarang Paid Parking Lot, 7 Dosan-daero 24-gil",
-        "contact_label": "Contact.",
-        "tel": "010-4696-1434",
-        "email": "inafit@daum.net",
-        "hours": "All days 10:00 ~ 23:00",
+        "studio_name": "FITGIRLS & INAFIT",
+        "address": "B1, 18, Gangnam-daero 160-gil, Gangnam-gu, Seoul (Atium Building)\n(Lot: 508-4, Sinsa-dong, Gangnam-gu, Seoul, Basement)",
+        "address_copy": "B1, 18, Gangnam-daero 160-gil, Gangnam-gu, Seoul, Atium Building",
         "links": {
-            "studio_map": "https://map.naver.com/v5/search/%ED%95%8F%EA%B1%B8%EC%A6%88%EC%8A%A4%ED%84%B0%EB%94%94%EC%98%A4/place/1976065694",
-            "parking_map": "https://map.naver.com/v5/search/%EB%91%90%EC%9B%90%EB%B9%20%EB%B9%8C%EB%94%A9%20%EC%A3%BC%EC%B0%A8%EC%9E%A5/place/667509448"
+            "studio_map": "https://map.naver.com/v5/search/%ED%95%8F%EA%B1%B8%EC%A6%88%EC%8A%A4%ED%84%B0%EB%94%94%EC%98%A4/place/1976065694"
         },
         "btn_studio": "Naver Directions",
-        "btn_parking": "Parking Directions"
+        "parking_title": "Parking Info",
+        "parking_notices": [
+            "Parking is not available in this building.",
+            "If driving, please use nearby paid/public parking lots!"
+        ],
+        "parking_name": "Doowon Building Paid Parking (Underground)",
+        "parking_address": "636, Gangnam-daero, Gangnam-gu, Seoul, Doowon Building",
+        "parking_distance": "2 min walk to studio, 143m",
+        "parking_price": "60 min 3,000 KRW / 120 min 6,000 KRW / 240 min 9,000 KRW",
+        "parking_warning": "Parking lot closes at 20:00. Please exit before closing time."
     },
-    "model_recruit": {
-        "title": "MODEL RECRUIT",
-        "subtitle": "2026 NEW FACE WANTED",
-        "main_title": "Looking for new muses for Fitgirls.",
-        "desc": "We look forward to applications from those who want to discover their own charm through various concept shootings. Anyone with passion for body profiles is welcome.",
-        "target_label": "Target:",
-        "target_value": "All women interested in body profiles",
-        "benefit_label": "Benefits:",
-        "benefit_value": "Hair/Makeup support & Shooting voucher",
-        "button": "Apply Now"
+    "modelApply": {
+        "title": "Apply for Model (MODEL RECRUIT)",
+        "subtitle": "We are looking for models who dream of growing with Fitgirls.",
+        "name": "Name",
+        "namePlaceholder": "Enter your name",
+        "insta": "Instagram ID",
+        "instaPlaceholder": "@username",
+        "location": "Location",
+        "locationPlaceholder": "Your area",
+        "phone": "Phone",
+        "phonePlaceholder": "010-0000-0000",
+        "submit": "Apply Now",
+        "submitting": "Submitting...",
+        "successMsg": "Your application has been submitted. Thank you!",
+        "errorMsg": "An error occurred. Please try again."
     },
     "faq": {
         "title": "FAQ",
@@ -219,7 +227,7 @@
         "before_booking": [
             {
                 "question": "How do I make a reservation?",
-                "answer": "Please inquire with your name, contact info, preferred date/time, and number of concepts. After consultation, please apply through the reservation system we guide you to, and pay the 90,000 KRW deposit via the Toss notification on KakaoTalk within 4 hours to finalize your booking."
+                "answer": "Please inquire with your name, contact info, preferred date/time, and number of concepts.\n\nAfter consultation, please apply through the reservation system we guide you to, and pay the 90,000 KRW deposit via the Toss notification on KakaoTalk within 4 hours to finalize your booking."
             },
             {
                 "question": "How much does the shoot cost?",
@@ -232,11 +240,11 @@
             },
             {
                 "question": "What is the cancellation and refund policy?",
-                "answer": "A 100% refund of the deposit is possible if canceled 50 days or more before the shoot date. Cancellations made from 49 days up to the day of the shoot will incur a penalty (90,000 KRW) and are non-refundable. Also, canceling 2 or more times may restrict your ability to book future shoots."
+                "answer": "A 100% refund of the deposit is possible if canceled 50 days or more before the shoot date.\n\nCancellations made from 49 days up to the day of the shoot will incur a penalty (90,000 KRW) and are non-refundable. Also, canceling 2 or more times may restrict your ability to book future shoots."
             },
             {
                 "question": "I want to change my reservation date or time.",
-                "answer": "Changes can be made only once, up to 50 days before the shoot date. If you book within 50 days of the shoot date, date changes and full refunds are absolutely not possible regardless of the reason, so please book carefully."
+                "answer": "Changes can be made only once, up to 50 days before the shoot date.\n\nIf you book within 50 days of the shoot date, date changes and full refunds are absolutely not possible regardless of the reason, so please book carefully."
             },
             {
                 "question": "What if the depositor's name is different from the reservation name?",
@@ -256,11 +264,11 @@
             },
             {
                 "question": "What time should I arrive on the day of the shoot?",
-                "answer": "Our policy is for you to arrive 30 minutes before your reservation time. After arriving, you will change clothes, pump up, prepare oil and Vaseline, and we will begin shooting on time."
+                "answer": "Our policy is for you to arrive 30 minutes before your reservation time.\n\nAfter arriving, you will change clothes, pump up, prepare oil and Vaseline, and we will begin shooting on time."
             },
             {
                 "question": "Are there props or exercise equipment available at the studio?",
-                "answer": "Oil and Vaseline are provided, so you do not need to prepare them separately. You are free to use our pump-up equipment like dumbbells of various weights, bands, and mats, as well as the diverse props featured on FITGIRLS' SNS. You are also always welcome to bring your own personal props that have special meaning to you."
+                "answer": "Oil and Vaseline are provided, so you do not need to prepare them separately.\n\nYou are free to use our pump-up equipment like dumbbells of various weights, bands, and mats, as well as the diverse props featured on FITGIRLS' SNS.\n\nYou are also always welcome to bring your own personal props that have special meaning to you."
             },
             {
                 "question": "Is parking available?",
@@ -275,21 +283,21 @@
             },
             {
                 "question": "How do I select photos for retouching?",
-                "answer": "Please personally select the photos you want retouched from the originals you received and reply to inafit@daum.net. To prevent work errors, you must reply without ever changing the file numbers of the attached files. You must select the original files within 20 days after the shoot; files may be deleted if this deadline passes.",
+                "answer": "Please personally select the photos you want retouched from the originals you received and reply to inafit@daum.net.\n\nTo prevent work errors, you must reply without ever changing the file numbers of the attached files.\n\nYou must select the original files within 20 days after the shoot; files may be deleted if this deadline passes.",
                 "links": [{ "label": "inafit@daum.net", "url": "mailto:inafit@daum.net", "type": "email" }]
             },
             {
                 "question": "How long does the retouching process take?",
-                "answer": "Starting from the day you reply with your photo selection, we will perform preliminary retouching on 1 photo on that same day or the next, and send it back via email. You will receive the final retouched versions of the remaining photos in about 4 weeks."
+                "answer": "Starting from the day you reply with your photo selection, we will perform preliminary retouching on 1 photo on that same day or the next, and send it back via email.\n\nYou will receive the final retouched versions of the remaining photos in about 4 weeks."
             },
             {
                 "question": "To what extent is retouching done?",
-                "answer": "Retouching is done to maximize skin texture, body lines, and a pictorial mood while maintaining your natural charm. After the 1st round of edits is completed, you can review the results and request re-edits only once. Once retouching is finished, we will also create and send a stylish magazine cover unique to FITGIRLS & INAFIT."
+                "answer": "Retouching is done to maximize skin texture, body lines, and a pictorial mood while maintaining your natural charm.\n\nAfter the 1st round of edits is completed, you can review the results and request re-edits only once.\n\nOnce retouching is finished, we will also create and send a stylish magazine cover unique to FITGIRLS & INAFIT."
             },
             {
                 "question": "Is there a way to get additional retouched photos?",
-                "answer": "We provide a complimentary retouching of 1 photo for writing a Naver Visitor Review, and 1 photo for consenting to an Instagram upload. You can purchase additional retouched photos via the FITGIRLS Smart Store (33,000 KRW per photo).",
-                "links": [{ "label": "FITGIRLS Smart Store", "url": "https://smartstore.naver.com/fitgirls", "type": "naver" }]
+                "answer": "We provide a complimentary retouching of 1 photo for writing a Naver Visitor Review, and 1 photo for consenting to an Instagram upload.\n\nYou can purchase additional retouched photos via the FITGIRLS Smart Store (33,000 KRW per photo).",
+                "links": [{ "label": "FITGIRLS Smart Store", "url": "https://smartstore.naver.com/imfitgirl", "type": "naver" }]
             }
         ]
     },
@@ -435,6 +443,8 @@
             "bullet3": "Diverse concepts available and high-quality rental outfits"
         },
         "write": "Write Review",
+        "writeNaver": "Write a Naver Review",
+        "writeGoogle": "Write a Google Review",
         "empty": "No reviews yet.",
         "tags": {
             "all": "All",

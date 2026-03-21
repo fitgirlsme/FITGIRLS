@@ -84,6 +84,58 @@
     transform: translateY(-2px);
 }
 
+.reservation-video-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000;
+    margin-bottom: 8px;
+}
+
+.reservation-video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
+
+.reservation-video-thumb {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.reservation-video-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.reservation-video-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #fff;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.reservation-video-thumb:hover .reservation-video-play {
+    background: var(--color-primary);
+    transform: translate(-50%, -50%) scale(1.08);
+}
+
 .reservation-notice {
     background: var(--color-bg);
     padding: 20px;

@@ -142,11 +142,11 @@ const Reviews = () => {
 
             <div className="review-footer-actions">
                 <div className="review-write-buttons">
-                    <a href="https://map.naver.com" target="_blank" rel="noopener noreferrer" className="btn-review btn-naver-review">
-                        Write a Naver Review
+                    <a href="https://map.naver.com/p/entry/place/1976065694?placePath=/review" target="_blank" rel="noopener noreferrer" className="btn-review btn-naver-review">
+                        {t('reviews.writeNaver', '네이버 리뷰 작성')}
                     </a>
-                    <a href="https://g.page" target="_blank" rel="noopener noreferrer" className="btn-review btn-google-review">
-                        Write a Google Review
+                    <a href="https://www.google.com/search?sca_esv=2e9e3577ff7485d9&hl=ko&authuser=0&sxsrf=ANbL-n7JjrpveMU3UGF7GxcTHomaZ1m2UQ:1774094463436&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOSeAIICn3qQGV4UrsKJn9wgGvWRvR4VcR0N9BHBELwXm15v6TmseYfn8jp9bxJhi3o3rEUqijMXdqzOafdm6vqDnvWukLyh1mm2zL1hy7cXQnaZyDGeRgQickv7RH7J-r72LMe0%3D&q=%ED%95%8F%EA%B1%B8%EC%A6%88%26%EC%9D%B4%EB%84%88%ED%95%8F%28+fitgirls+%26+inafit+%29+%EB%A6%AC%EB%B7%B0&sa=X&ved=2ahUKEwjx4Kny-LCTAxXdiK8BHW22Iz8Q0bkNegQIKhAH&biw=1280&bih=1289&dpr=2" target="_blank" rel="noopener noreferrer" className="btn-review btn-google-review">
+                        {t('reviews.writeGoogle', '구글 리뷰 작성')}
                     </a>
                 </div>
                 <a href="/" className="report-link">Back to Home</a>

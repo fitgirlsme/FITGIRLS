@@ -1,10 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import './SocialWall.css';
 
 const SocialWall = () => {
     const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState('instagram');
+    const pinterestRef = useRef(null);
+
+    useEffect(() => {
+        if (activeTab === 'pinterest') {
+            const timer = setTimeout(() => {
+                if (window.PinUtils && window.PinUtils.build) {
+                    window.PinUtils.build();
+                }
+            }, 100);
+            return () => clearTimeout(timer);
+        }
+    }, [activeTab]);
 
     return (
         <div className="social-wall-container">
@@ -48,13 +60,13 @@ const SocialWall = () => {
                     </div>
                 )}
                 {activeTab === 'pinterest' && (
-                    <div className="social-pinterest">
+                    <div className="social-pinterest" ref={pinterestRef}>
                         <a
-                            data-pin-do="embedBoard"
+                            data-pin-do="embedUser"
                             data-pin-board-width="900"
-                            data-pin-scale-height="600"
-                            data-pin-scale-width="80"
-                            href="https://www.pinterest.com/fitgirls_me/"
+                            data-pin-scale-height="500"
+                            data-pin-scale-width="60"
+                            href="https://kr.pinterest.com/fitgirlsme/"
                         ></a>
                     </div>
                 )}

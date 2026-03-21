@@ -186,31 +186,39 @@
     "location": {
         "title": "LOCATION",
         "subtitle": "如何找到我们",
-        "address_label": "Address.",
-        "address": "首尔市江南区江南大路160街18 (Atium大厦) B1",
-        "parking_label": "Parking.",
-        "parking": "请使用付费停车场。\n附近: Doowon大厦 \"Hwarang\" 付费停车场, 首尔特别市江南区岛山大路24街7",
-        "contact_label": "Contact.",
-        "tel": "010-4696-1434",
-        "email": "inafit@daum.net",
-        "hours": "每天 (All days) 10:00 ~ 23:00",
+        "studio_name": "FITGIRLS & INAFIT",
+        "address": "首尔市江南区江南大路160街18 (Atium大厦), B1\n(地番: 首尔市江南区新沙洞508-4番地 地下)",
+        "address_copy": "首尔市江南区江南大路160街18 Atium大厦 B1",
         "links": {
-            "studio_map": "https://map.naver.com/v5/search/%ED%95%8F%EA%B1%B8%EC%A6%88%EC%8A%A4%ED%84%B0%EB%94%94%EC%98%A4/place/1976065694",
-            "parking_map": "https://map.naver.com/v5/search/%EB%91%90%EC%9B%90%EB%B9%20%EB%B9%8C%EB%94%A9%20%EC%A3%BC%EC%B0%A8%EC%9E%A5/place/667509448"
+            "studio_map": "https://map.naver.com/v5/search/%ED%95%8F%EA%B1%B8%EC%A6%88%EC%8A%A4%ED%84%B0%EB%94%94%EC%98%A4/place/1976065694"
         },
         "btn_studio": "Naver导航",
-        "btn_parking": "停车场导航"
+        "parking_title": "停车指南",
+        "parking_notices": [
+            "本工作室大楼不提供停车。",
+            "自驾前来时，请使用附近的收费/公共停车场！"
+        ],
+        "parking_name": "斗元大厦 收费停车场 (地下停车场)",
+        "parking_address": "首尔特别市江南区江南大路636 斗元大厦",
+        "parking_distance": "步行至工作室2分钟 143m",
+        "parking_price": "60分钟 3,000韩元 / 120分钟 6,000韩元 / 240分钟 9,000韩元",
+        "parking_warning": "停车场营业截止时间为20:00，请在关闭前驶出。"
     },
-    "model_recruit": {
-        "title": "MODEL RECRUIT",
-        "subtitle": "2026 NEW FACE WANTED",
-        "main_title": "寻找 Fitgirls 的新缪斯",
-        "desc": "期待通过多种概念拍摄发现属于自己魅力的您踊跃报名。只要是对身体写真充满热情的女性，我们都表示欢迎。",
-        "target_label": "招募对象:",
-        "target_value": "所有对身体写真感兴趣的女性",
-        "benefit_label": "支持福利:",
-        "benefit_value": "提供发型/化妆支持及赠送拍摄券",
-        "button": "立即申请"
+    "modelApply": {
+        "title": "模特申请 (MODEL RECRUIT)",
+        "subtitle": "我们正在寻找与Fitgirls一起成长的模特。",
+        "name": "姓名",
+        "namePlaceholder": "请输入姓名",
+        "insta": "Instagram ID",
+        "instaPlaceholder": "@用户名",
+        "location": "地区",
+        "locationPlaceholder": "居住地区",
+        "phone": "联系方式",
+        "phonePlaceholder": "010-0000-0000",
+        "submit": "申请",
+        "submitting": "提交中...",
+        "successMsg": "申请已完成。谢谢！",
+        "errorMsg": "发生错误，请重试。"
     },
     "faq": {
         "title": "FAQ",
@@ -219,7 +227,7 @@
         "before_booking": [
             {
                 "question": "如何预约？",
-                "answer": "咨询预约时，请提供姓名、联系方式、期望日期及时间、拍摄概念数量。咨询后，请通过我们提供的预约系统进行申请，并在接到KakaoTalk Toss通知后4小时内支付9万韩元定金，预约方可最终确认。"
+                "answer": "咨询预约时，请提供姓名、联系方式、期望日期及时间、拍摄概念数量。\n\n咨询后，请通过我们提供的预约系统进行申请，并在接到KakaoTalk Toss通知后4小时内支付9万韩元定金，预约方可最终确认。"
             },
             {
                 "question": "我想了解拍摄价格。",
@@ -232,11 +240,11 @@
             },
             {
                 "question": "取消及退款规定是什么？",
-                "answer": "拍摄日50天前取消时，定金可全额退还。拍摄日前49天至当天取消将产生违约金（90,000韩元）且无法退款，如取消2次以上，今后的拍摄可能会受到限制。"
+                "answer": "拍摄日50天前取消时，定金可全额退还。\n\n拍摄日前49天至当天取消将产生违约金（90,000韩元）且无法退款，如取消2次以上，今后的拍摄可能会受到限制。"
             },
             {
                 "question": "我想更改预约日期或时间。",
-                "answer": "拍摄日50天前，仅限更改1次。如在距离拍摄日50天以内预约，则无论因何事由，绝对无法更改日期及全额退款，敬请慎重预约。"
+                "answer": "拍摄日50天前，仅限更改1次。\n\n如在距离拍摄日50天以内预约，则无论因何事由，绝对无法更改日期及全额退款，敬请慎重预约。"
             },
             {
                 "question": "如果汇款人姓名与预约人姓名不同怎么办？",
@@ -256,11 +264,11 @@
             },
             {
                 "question": "拍摄当天应在几点前到达？",
-                "answer": "原则上需在预约时间前30分钟到达。到达后进行换装、充血热身、准备婴儿油及凡士林等准备工作，然后准时开始拍摄。"
+                "answer": "原则上需在预约时间前30分钟到达。\n\n到达后进行换装、充血热身、准备婴儿油及凡士林等准备工作，然后准时开始拍摄。"
             },
             {
                 "question": "工作室备有道具或运动器材吗？",
-                "answer": "教室内备有婴儿油和凡士林，您无需另外准备。您可以自由使用各种重量的哑铃（Dumbbell）、弹力带、垫子等充血热身器材，以及 FITGIRLS SNS 上出现的各种道具。也随时欢迎您带上具有特殊意义的个人专属道具。"
+                "answer": "教室内备有婴儿油和凡士林，您无需另外准备。\n\n您可以自由使用各种重量的哑铃（Dumbbell）、弹力带、垫子等充血热身器材，以及 FITGIRLS SNS 上出现的各种道具。\n\n也随时欢迎您带上具有特殊意义的个人专属道具。"
             },
             {
                 "question": "可以停车吗？",
@@ -275,21 +283,21 @@
             },
             {
                 "question": "如何挑选用于精修的照片？",
-                "answer": "请在收到的原图中亲自挑选您想要精修的照片，并回复至 inafit@daum.net。为了防止操作失误，请绝对不要更改附件的文件名编号，务必以回复邮件的形式发送。原图文件请在拍摄后20日内完成挑选，逾期文件可能被删除。",
+                "answer": "请在收到的原图中亲自挑选您想要精修的照片，并回复至 inafit@daum.net。\n\n为了防止操作失误，请绝对不要更改附件的文件名编号，务必以回复邮件的形式发送。\n\n原图文件请在拍摄后20日内完成挑选，逾期文件可能被删除。",
                 "links": [{ "label": "inafit@daum.net", "url": "mailto:inafit@daum.net", "type": "email" }]
             },
             {
                 "question": "精修需要多长时间？",
-                "answer": "从您回复挑选照片的日期算起，我们将会在当天或次日对1张照片进行初步修整并通过回复邮件发送给您。剩余照片的最终精修版本将会在大约4周后发送给您。"
+                "answer": "从您回复挑选照片的日期算起，我们将会在当天或次日对1张照片进行初步修整并通过回复邮件发送给您。\n\n剩余照片的最终精修版本将会在大约4周后发送给您。"
             },
             {
                 "question": "精修的具体程度是怎样的？",
-                "answer": "在保留自然魅力的基础上，我们将最大限度地突显肌肤纹理、身材线条以及画报般的氛围。第一次修整完成后，您可以查看结果，并且仅限1次申请重新修改。精修完成后，我们还会为您制作并发送充满 FITGIRLS & INAFIT 独特风格的画报封面影像。"
+                "answer": "在保留自然魅力的基础上，我们将最大限度地突显肌肤纹理、身材线条以及画报般的氛围。\n\n第一次修整完成后，您可以查看结果，并且仅限1次申请重新修改。\n\n精修完成后，我们还会为您制作并发送充满 FITGIRLS & INAFIT 独特风格的画报封面影像。"
             },
             {
                 "question": "有什么方法可以获得额外的精修照片吗？",
-                "answer": "如果您在Naver填写访客评价，我们将赠送1张精修；如果您同意将照片上传至Instagram，我们将再赠送1张精修。您也可以通过FITGIRLS智能商店付费购买额外精修（每张33,000韩元）。",
-                "links": [{ "label": "FITGIRLS 智能商店", "url": "https://smartstore.naver.com/fitgirls", "type": "naver" }]
+                "answer": "如果您在Naver填写访客评价，我们将赠送1张精修；如果您同意将照片上传至Instagram，我们将再赠送1张精修。\n\n您也可以通过FITGIRLS智能商店付费购买额外精修（每张33,000韩元）。",
+                "links": [{ "label": "FITGIRLS 智能商店", "url": "https://smartstore.naver.com/imfitgirl", "type": "naver" }]
             }
         ]
     },
@@ -435,6 +443,8 @@
             "bullet3": "多种概念可选，租赁服装品质优良"
         },
         "write": "撰写评价",
+        "writeNaver": "撰写Naver评价",
+        "writeGoogle": "撰写Google评价",
         "empty": "暂无评价。",
         "tags": {
             "all": "全部",
