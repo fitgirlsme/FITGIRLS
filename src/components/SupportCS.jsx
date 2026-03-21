@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './SupportCS.css';
 
 const SupportCS = () => {
     const { t, i18n: { language } } = useTranslation();
+    const [showWeChatQR, setShowWeChatQR] = useState(false);
 
     const getLink = () => {
         switch (language) {
             case 'en': return 'https://wa.me/message/KHRISURJCH5GC1';
             case 'ja': return 'https://line.me/R/ti/p/@575kojji';
-            case 'zh': return "javascript:alert('WeChat ID: fitgirlsme copied! (Please add manually)');";
+            case 'zh': return "#wechat";
             case 'ko':
             default: return 'http://pf.kakao.com/_cpxbxnC';
         }
@@ -31,21 +32,40 @@ const SupportCS = () => {
         return <span className="cs-icon">CS</span>;
     };
 
-
+    const handleCSClick = (e) => {
+        if (language === 'zh') {
+            e.preventDefault();
+            setShowWeChatQR(true);
+        }
+    };
 
     return (
-        <div className="cs-container">
-            <a
-                href={getLink()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`cs-button cs-button--${language}`}
-            >
-                {getIcon()}
-                <span className="cs-label">{t('cs.link_text')}</span>
-            </a>
-        </div>
+        <>
+            <div className="cs-container">
+                <a
+                    href={getLink()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`cs-button cs-button--${language}`}
+                    onClick={handleCSClick}
+                >
+                    {getIcon()}
+                    <span className="cs-label">{t('cs.link_text')}</span>
+                </a>
+            </div>
+
+            {showWeChatQR && (
+                <div className="cs-modal-overlay" onClick={() => setShowWeChatQR(false)}>
+                    <div className="cs-modal-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="cs-modal-close" onClick={() => setShowWeChatQR(false)}>&times;</button>
+                        <img src="/images/wechat-qr.jpg" alt="WeChat QR Code" className="cs-qr-image" />
+                        <p className="cs-qr-text">{t('cs.wechat_qr_desc')}</p>
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 
 export default SupportCS;
+

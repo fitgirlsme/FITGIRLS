@@ -165,7 +165,8 @@
     },
     "cs": {
         "label": "联系我们",
-        "link_text": "WeChat: fitgirlsme"
+        "link_text": "WeChat: fitgirlsme",
+        "wechat_qr_desc": "请扫描上方二维码，在此添加微信。"
     },
     "reservation": {
         "title": "RESERVATION",
