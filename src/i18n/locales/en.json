@@ -1,128 +1,276 @@
 {
     "nav": {
         "home": "Home",
-        "gallery": "Gallery & Archive",
-        "service": "Service & Pricing",
+        "intro": "Intro",
+        "gallery": "Gallery",
+        "studios": "Studio Zone",
+        "lookbook": "Lookbook",
+        "reservation": "Reservation",
+        "review": "Reviews",
+        "service": "Program",
+        "hairmakeup": "Hair & Makeup",
+        "hm": "H & M",
         "faq": "FAQ",
-        "location": "Location"
+        "notice": "Notice",
+        "location": "Location",
+        "zone": "Zone",
+        "social": "Social",
+        "mgmt": "Model Mgmt",
+        "program": "Program",
+        "info": "Info",
+        "event": "Event"
+    },
+    "event": {
+        "title": "Event Board",
+        "adminLink": "Admin"
+    },
+    "social": {
+        "posts": "Instagram & Pinterest",
+        "searchPlaceholder": "Search...",
+        "subtitle": "Follow us on social media"
+    },
+    "intro": {
+        "slogan": "Beyond simple body records,\na way to complete your own aura in a single pictorial.",
+        "desc": "Fitorialist's suggestion to capture the subject's unique mood and energy rather than just muscle definition"
+    },
+    "studios": {
+        "title": "STUDIO ZONE",
+        "subtitle": "The optimal space to complete your mood",
+        "zones": {
+            "blackmoon": "Black Moon",
+            "blackwall": "Black Wall",
+            "sofa": "Long Sofa",
+            "yellow": "Yellow Background",
+            "cake": "White Cake Shot",
+            "blue": "Blue Background",
+            "pink": "Pink Background",
+            "curtain": "Pure Curtain",
+            "natural": "Natural Wall",
+            "mirror": "Mirror Shot",
+            "jennie": "Jennie Zone",
+            "red": "Red Background"
+        }
+    },
+    "zone": {
+        "title": "ZONE",
+        "subtitle": "Choose from various backgrounds available only at Fitgirls.",
+        "subtitleInsta": "More backgrounds on Instagram",
+        "subtitleHashtag": "#fitgirls",
+        "subtitleInstaEnd": " — search to see more.",
+        "names": {
+            "zone1": "Basic Brown",
+            "zone2": "Orange",
+            "zone3": "White",
+            "zone4": "Natural Brown",
+            "zone5": "Surfing",
+            "zone6": "Basic Vivid",
+            "zone7": "Blue White",
+            "zone8": "Kitchen",
+            "zone9": "Bicycle",
+            "zone10": "Refrigerator",
+            "zone11": "Red Sofa",
+            "zone12": "Yellow Cabinet",
+            "zone13": "Black Moon",
+            "zone14": "Black Wall",
+            "zone15": "Long Sofa",
+            "zone16": "Yellow Background",
+            "zone17": "White Cake Shot",
+            "zone18": "Blue Background",
+            "zone19": "Pink Background",
+            "zone20": "Pure Curtain",
+            "zone21": "Natural Wall",
+            "zone22": "Mirror Shot",
+            "zone23": "Jennie Zone",
+            "zone24": "Red Background"
+        },
+        "tabs": {
+            "zone": "STUDIO ZONE",
+            "lookbook": "LOOKBOOK"
+        },
+        "lookbookNotice": "*Check available rental outfits at Fitgirls. Various props are available for use.",
+        "lookbook": {
+            "top": "Top",
+            "bottom": "Bottom",
+            "sizeLabel": "Size:",
+            "sizeUnknown": "Size TBD"
+        }
+    },
+    "lookbook": {
+        "title": "LOOKBOOK",
+        "subtitle": "Your own style completed with various concepts and outfits",
+        "fitorialist": "Capturing body profiles from an editorial fashion photographer's perspective",
+        "artist": "Bold and artistic expression of muscles and lines",
+        "fashion": "Trendy and stylish mood like a magazine pictorial",
+        "portrait": "Focusing on the most natural and beautiful inherent moments"
+    },
+    "hm": {
+        "title": "HAIR & MAKEUP",
+        "subtitle": "Professional partnership for a more perfect pictorial",
+        "partner": "Mabelle Boutique",
+        "price_women": "Women 88,000 KRW",
+        "price_men": "Men 66,000 KRW",
+        "vat": "VAT Included",
+        "notice": "Direct booking required (no call-outs), discount applied upon verification of Naver reservation",
+        "location": "1F, 5, Hakdong-ro 47-gil, Gangnam-gu, Seoul (Near Gangnam-gu Office Stn)",
+        "tel": "0507-1359-1859"
+    },
+    "notice": {
+        "title": "NOTICE",
+        "subtitle": "Stay updated with the latest news from FITGIRLS & INAFIT",
+        "items": [
+            {
+                "date": "2026.03.04",
+                "title": "2026 FITGIRLS & INAFIT Gym Partnership Benefits & Recruitment"
+            },
+            {
+                "date": "2026.03.04",
+                "title": "April 'Pink Room' Opening Announcement"
+            }
+        ]
     },
     "gallery": {
+        "main": {
+            "fitorialist": "FITORIALIST",
+            "artist": "ARTIST",
+            "fashion": "FASHION & BEAUTY",
+            "portrait": "PORTRAIT"
+        },
+        "fitorialist": "FITORIALIST",
+        "artist": "ARTIST",
+        "fashion_beauty": "FASHION & BEAUTY",
+        "portrait": "PORTRAIT",
         "women": "Women",
         "men": "Men",
-        "couple": "Friendship & Couple",
+        "couple": "Friends & Couple",
         "outdoor": "Outdoor",
         "fashion": "Fashion & Beauty",
         "dancer": "Dancer & DJ",
         "self": "Self",
-        "portrait": "Portrait",
         "hashtags": {
-            "ALL": "ALL",
-            "RED": "RED",
-            "BLACK": "BLACK",
-            "WHITE": "WHITE",
-            "COLOR": "COLOR",
-            "MONO": "MONO",
-            "CLEAN": "CLEAN",
-            "CONCEPT": "CONCEPT"
+            "ALL": "All",
+            "RED": "Red",
+            "BLACK": "Black",
+            "WHITE": "White",
+            "COLOR": "Color",
+            "MONO": "Mono",
+            "CLEAN": "Clean",
+            "CONCEPT": "Concept"
         }
     },
     "hero": {
         "title": "FITORIALIST",
-        "subtitle": "FIT + EDITORIAL + IST",
+        "subtitle": "PHOTOGRAPHED BY ANGELO SHIN.",
+        "fitorialist_desc": "FIT + EDITORIAL + IST",
         "cta": "Book via Naver"
     },
     "cs": {
         "label": "Contact Us",
-        "link_text": "Chat with us"
+        "link_text": "Contact via KakaoTalk"
     },
     "reservation": {
         "title": "RESERVATION",
-        "subtitle": "Booking Process",
-        "button": "Apply on Naver",
+        "subtitle": "Reservation Process Guide",
+        "button": "Apply via Naver",
         "link": "https://naver.me/GWeuhE37",
         "steps": {
-            "step1_title": "Submit Naver Booking",
-            "step2_title": "Deposit Payment",
-            "step2_desc": "After booking on Naver, you will receive a 'Toss Order' notification via KakaoTalk. Please pay the 90,000 KRW deposit to confirm your reservation."
+            "step1_title": "KakaoTalk Booking Inquiry",
+            "step1_desc": "Please check if your desired filming schedule is available through the Kakao Channel 'FitGirls' first.",
+            "step2_title": "Submit Naver Reservation",
+            "step2_desc": "After checking the schedule, proceed with the Naver reservation via the guided link.",
+            "step3_title": "Pay Deposit & Confirm",
+            "step3_desc": "Pay the deposit (90,000 KRW) via 'Toss Order' notification or account transfer to complete the reservation."
         },
-        "final_notice": "✅ Once confirmed, we will send you detailed guidelines for your photoshoot prep. 💖✨"
+        "final_notice": "✅ Once the reservation is confirmed, we will send you detailed filming preparation guides. 💖✨"
     },
     "location": {
         "title": "LOCATION",
-        "subtitle": "How to find us",
+        "subtitle": "How to Find Us",
         "address_label": "Address.",
-        "address": "B1, Artium Bldg, 18 Gangnam-daero 160-gil, Gangnam-gu, Seoul\n(Parcel: B1, 508-4 Sinsa-dong, Gangnam-gu, Seoul)",
+        "address": "B1, 18, Gangnam-daero 160-gil, Gangnam-gu, Seoul (Atium Building)",
         "parking_label": "Parking.",
-        "parking": "Please use a paid parking lot.\nNearby: Doowon Bldg, 636 Gangnam-daero, Gangnam-gu (3,000 KRW/hour)",
+        "parking": "Please use a paid parking lot.\nNearby: Doowon Building Hwarang Paid Parking Lot, 7 Dosan-daero 24-gil",
         "contact_label": "Contact.",
         "tel": "010-4696-1434",
         "email": "inafit@daum.net",
-        "hours": "All days 10:00 ~ 18:00",
+        "hours": "All days 10:00 ~ 23:00",
         "links": {
-            "studio_map": "https://map.naver.com/v5/directions/-/14139841.851238009,4511765.692314798,핏걸즈스튜디오,1976065694,PLACE_POI/-/car?c=15,0,0,0,dh",
-            "parking_map": "https://map.naver.com/v5/search/두원빌딩%20주차장/place/667509448?placePath=%3Fentry=pll%26from=nx%26fromNxList=true"
+            "studio_map": "https://map.naver.com/v5/search/%ED%95%8F%EA%B1%B8%EC%A6%88%EC%8A%A4%ED%84%B0%EB%94%94%EC%98%A4/place/1976065694",
+            "parking_map": "https://map.naver.com/v5/search/%EB%91%90%EC%9B%90%EB%B9%20%EB%B9%8C%EB%94%A9%20%EC%A3%BC%EC%B0%A8%EC%9E%A5/place/667509448"
         },
-        "btn_studio": "Studio Directions",
-        "btn_parking": "Parking Location"
+        "btn_studio": "Naver Directions",
+        "btn_parking": "Parking Directions"
+    },
+    "model_recruit": {
+        "title": "MODEL RECRUIT",
+        "subtitle": "2026 NEW FACE WANTED",
+        "main_title": "Looking for new muses for Fitgirls.",
+        "desc": "We look forward to applications from those who want to discover their own charm through various concept shootings. Anyone with passion for body profiles is welcome.",
+        "target_label": "Target:",
+        "target_value": "All women interested in body profiles",
+        "benefit_label": "Benefits:",
+        "benefit_value": "Hair/Makeup support & Shooting voucher",
+        "button": "Apply Now"
     },
     "faq": {
         "title": "FAQ",
         "subtitle": "Frequently Asked Questions",
-        "list": [
+        "category_before_reservation": "Before Reservation",
+        "before_reservation": [
             {
                 "question": "How do I make a reservation?",
-                "answer": "Book via Naver Reservation. It is confirmed once the deposit (90,000 KRW) is paid within 4 hours after consultation."
+                "answer": "Make a reservation through Naver Reservation. After consultation, pay the deposit (90,000 KRW) to confirm."
             },
             {
-                "question": "How can I change or cancel my booking?",
-                "answer": "You can change once up to 50 days before the shoot. 100% deposit refund only for cancellations 50 days prior. Penalty applies from 49 days or on the day."
+                "question": "Can I cancel or change the date?",
+                "answer": "Free changes are possible once up to 50 days before filming. Full deposit refund for cancellations 50 days before filming. Penalty applies from 49 days or same-day cancellation."
+            }
+        ],
+        "category_before_shooting": "Before Filming",
+        "before_shooting": [
+            {
+                "question": "What time should I arrive?",
+                "answer": "Arrival 30 minutes before the reservation time is the principle for outfit changes and preparation. Late arrival by 1 minute will automatically cancel the reservation without a refund."
             },
             {
-                "question": "When should I arrive?",
-                "answer": "Please arrive 30 minutes before your scheduled time for changing clothes and pumping up. Arriving too early may result in a lack of waiting space."
-            },
+                "question": "Can I bring friends or pets?",
+                "answer": "Maximum of 2 companions allowed. You can also bring pets for free filming together."
+            }
+        ],
+        "category_after_shooting": "After Filming",
+        "after_shooting": [
             {
-                "question": "Can I bring friends or a pet?",
-                "answer": "Up to 2 companions (trainers/friends) are allowed. You can also shoot with your pet at no extra cost."
-            },
-            {
-                "question": "Is there a hair & makeup partnership?",
-                "answer": "You can get a discounted price at our partner 'Mabelle GGuttique'.\n• Women: 88,000 KRW (VAT included)\n• Men: 66,000 KRW (VAT included)\n\n[Reservation Info]\n• Direct booking required (No business trip)\n• Tel: 0507-1359-1859\n• Address: 1F, 5 Hakdong-ro 47-gil, Gangnam-gu, Seoul (5 mins walk from Gangnam-gu Office)\n• KakaoTalk Channel: https://pf.kakao.com/_QPjsxb?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPMTI0MDI0NTc0Mjg3NDE0AAGnaE51q1t4FDA0DOnxsJHIiqwqlznx0KIhhXs0oL6ylMyqysBIC8HMy7cxt98_aem_0kdbP2JNBJTvwrsJ-3de9A\n• Instagram: https://www.instagram.com/mabelle_korea_?igsh=MTV4eTJybGFoYzlodQ=="
-            },
-            {
-                "question": "When will I receive the retouched photos?",
-                "answer": "Original web-size files (approx. 150 cuts) will be emailed on the day. The 1st retouched draft takes about a month after your photo selection."
-            },
-            {
-                "question": "Is parking available?",
-                "answer": "No parking in the building. Please use the paid parking lot at 'Doowon Building' nearby."
+                "question": "When can I receive edited photos?",
+                "answer": "Raw files are sent via email on the day of filming. After you select photos, it takes about a month for the first draft of edits."
             }
         ]
     },
     "services": {
-        "header_title": "FITGIRLS & INAFIT",
+        "desc_1concept": "1:1 Directing, 3 Retouched Photos, Original Data Included",
+        "desc_2concepts": "1:1 Directing, 6 Retouched Photos, Original Data Included",
+        "desc_3concepts": "1:1 Directing, 9 Retouched Photos, Original Data Included",
+        "header_title": "SERVICE & PRICE",
         "header_subtitle": "PORTRAIT SERVICE 2026",
-        "header_desc": "OPEN YEAR ROUND · Reservation Only · All prices include VAT / Card & Cash receipt available",
+        "header_desc": "Open Year Round · Reservation Only · All prices include VAT / Receipts available",
         "menu1": {
             "title": "PORTRAIT MENU",
-            "subtitle": "FITGIRLS & INAFIT SIGNATURE SESSIONS & PACKAGES",
-            "category": "PERSONAL"
+            "subtitle": "Personal Body Profile / Profile",
+            "category": "WOMEN / MEN"
         },
         "list1": [
             {
                 "title": "1 CONCEPT",
-                "price": "275,000 KRW",
+                "price": "275,000",
                 "details": [
-                    "1 outfit per concept, 2 backgrounds",
-                    "2 retouched cuts · 1 5x7 print · Web original files provided · 30 mins shooting"
+                    "1:1 Directing",
+                    "3 Retouched Photos",
+                    "Original Data Included"
                 ]
             },
             {
                 "title": "2 CONCEPTS",
-                "price": "440,000 KRW",
                 "details": [
-                    "1 outfit per concept, unlimited backgrounds & poses",
-                    "4 retouched cuts · 2 5x7 prints · Web original files provided · 90 mins shooting"
+                    "One outfit per concept, unlimited background & poses",
+                    "4 Retouched · Two 5x7 prints · Web raw files provided · 90 min shoot"
                 ]
             },
             {
@@ -130,47 +278,130 @@
                 "price": "550,000 KRW",
                 "details": [
                     "Unlimited outfits · backgrounds · poses",
-                    "6 retouched cuts · 3 5x7 prints · Web original files provided · 120 mins shooting"
+                    "6 Retouched · Three 5x7 prints · Web raw files provided · 120 min shoot"
                 ]
             }
         ],
         "menu2": {
             "title": "FRIENDS & COUPLE",
-            "category": "Friends & Couple Package"
+            "category": "Friends & Couple Packages"
         },
         "list2": [
             {
                 "title": "Friends/Couple 1 Concept",
                 "price": "330,000 KRW",
                 "details": [
-                    "2~3 persons (add 50,000 KRW per person from 4th)",
-                    "1 outfit each · 1 background · 2~3 poses",
-                    "2 retouched cuts · 1 5x7 print per person · 30 mins shooting"
+                    "Based on 2~3 people (50,000 KRW per extra person from 4th)",
+                    "One outfit each · 1 background · 2~3 poses",
+                    "2 Retouched · One 5x7 print each · 30 min shoot"
                 ]
             },
             {
                 "title": "PACKAGE 1",
                 "price": "770,000 KRW",
                 "details": [
-                    "1 personal concept x 2 persons + 1 friends concept",
-                    "Total 6 retouched cuts"
+                    "Personal 1 Concept x 2 people + Friends 1 Concept",
+                    "Total 6 Retouched"
                 ]
             },
             {
                 "title": "PACKAGE 2",
                 "price": "1,100,000 KRW",
                 "details": [
-                    "2 personal concepts x 2 persons + 1 friends concept",
-                    "Total 10 retouched cuts"
+                    "Personal 2 Concepts x 2 people + Friends 1 Concept",
+                    "Total 10 Retouched"
                 ]
             }
         ],
         "notices": [
-            "Retouching period: 1 cut same-day retouching, the rest within 4 weeks for the 1st draft (additional edits possible).",
-            "Original files are provided in web size (around 2000px).",
-            "Additional retouching costs 33,000 KRW per cut.",
-            "For parking, please use the Doowon Building paid parking lot.",
-            "Provide 1 free retouched cut for Naver review, 1 free retouched cut for SNS upload consent."
+            "Editing: 1 preview edit provided on the day of selection, others within 4 weeks (revisions possible).",
+            "Raw files provided in web size (approx. 2000px).",
+            "Additional edits cost 33,000 KRW per photo.",
+            "Parking: Use Doowon Building paid parking lot.",
+            "Naver reviews yield 1 extra edit, SNS upload agreement yields 1 extra edit."
         ]
+    },
+    "partners": {
+        "title": "PARTNERSHIP",
+        "subtitle": "FITGIRLS & INAFIT Partnership Hair/Makeup Guide",
+        "shop_name": "Mabelle Boutique",
+        "price_women": "Women 88,000 KRW (VAT included)",
+        "price_men": "Men 66,000 KRW (VAT included)",
+        "notices": [
+            "Clients must book directly (no studio call-outs)",
+            "Booking via KakaoTalk or LINE is recommended."
+        ],
+        "contact": {
+            "tel": "0507-1359-1859",
+            "address": "1F, 5, Hakdong-ro 47-gil, Gangnam-gu, Seoul (5 min walk from Gangnam-gu Office Stn)",
+            "kakao_channel": "https://pf.kakao.com/_QPjsxb",
+            "instagram": "https://www.instagram.com/mabelle_korea_"
+        },
+        "women": "Women",
+        "men": "Men",
+        "vat_included": "VAT Incl.",
+        "alert": "When booking hair/makeup, <strong>FITGIRLS reservation form must be attached</strong>"
+    },
+    "how_to_book": {
+        "title": "HOW TO BOOK",
+        "subtitle": "How to Book",
+        "steps": [
+            {
+                "step": "STEP 1",
+                "title": "Naver Reservation",
+                "highlight": "Pick date & options\nand book",
+                "desc": "Visit the Naver reservation site, pick your ideal date and shoot options to complete booking."
+            },
+            {
+                "step": "STEP 2",
+                "title": "Pay Deposit",
+                "highlight": "Pay 90,000 KRW\ndeposit",
+                "desc": "Please pay the deposit within 4 hours after booking. Unpaid bookings will be cancelled automatically."
+            },
+            {
+                "step": "STEP 3",
+                "title": "Booking confirmed!",
+                "highlight": "Check 'My Booking'\non Naver",
+                "desc": "When the Naver booker and payer are the same, the booking is confirmed."
+            }
+        ]
+    },
+    "reviews": {
+        "title": "REAL REVIEWS",
+        "subtitle": "Proven Quality of FITGIRLS by Real Clients",
+        "stats": {
+            "total": "Total Reviews",
+            "ranking": "No.1 Body Profile Studio",
+            "rating": "Avg Rating",
+            "years": "Experience",
+            "shooting": "Filming Count"
+        },
+        "ai_summary": {
+            "badge": "AI SUMMARY",
+            "title": "AI Summary",
+            "desc": "Analyzed over {{count}} reviews",
+            "bullet1": "Professional directing that makes posing natural even for beginners",
+            "bullet2": "Extreme satisfaction with delicate retouching and high-quality results",
+            "bullet3": "Diverse concepts available and high-quality rental outfits"
+        },
+        "write": "Write Review",
+        "empty": "No reviews yet.",
+        "tags": {
+            "all": "All",
+            "photo": "Great Photos",
+            "kind": "Friendly",
+            "config": "Good Packages",
+            "mood": "Great Vibe"
+        },
+        "samples": {
+            "review1": {
+                "author": "jm47",
+                "text": "It was my first body profile shoot, and the photographer lived up to the reputation. I wasn't fully prepared with outfits, poses, or concepts, but the moment the photographer saw me, he guided me perfectly. I am extremely satisfied! I plan to visit again after building a better body! He catches every detail vividly, so I will definitely come back!"
+            },
+            "review2": {
+                "author": "JaeHee43",
+                "text": "Above all, the photographer was so nice!! I was very nervous before the shoot, but he directed me so kindly and captured amazing angles and compositions. The results are some of my prettiest. I was so comfortable that the photoshoot felt like hanging out at a friend's house. Strongly recommended!"
+            }
+        }
     }
 }

@@ -1,0 +1,32 @@
+.brand-report-page {
+  min-height: 100dvh;
+  background: var(--color-bg, #000);
+  color: var(--color-text, #fff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-report-content {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.brand-report-title {
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.brand-report-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.6;
+  margin-bottom: 40px;
+}
+
+.brand-report-placeholder {
+  opacity: 0.5;
+  font-size: 1rem;
+  line-height: 2;
+}

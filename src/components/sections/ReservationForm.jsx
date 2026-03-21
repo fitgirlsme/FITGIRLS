@@ -5,7 +5,9 @@ import './Reservation.css';
 
 const ReservationForm = () => {
     const { t } = useTranslation();
-    const steps = t('reservation.steps', { returnObjects: true });
+    const stepsData = t('reservation.steps', { returnObjects: true });
+    
+    const stepKeys = [1, 2, 3];
 
     return (
         <div className="container-inner reservation-container">
@@ -14,30 +16,27 @@ const ReservationForm = () => {
                 <p className="section-subtitle">{t('reservation.subtitle')}</p>
             </FadeInSection>
 
-            <FadeInSection delay={1} className="reservation-cta-card">
+            <FadeInSection delay={0.2} className="reservation-cta-card">
                 <div className="reservation-steps">
-                    <div className="res-step">
-                        <div className="step-number">1</div>
-                        <div className="step-content">
-                            <h3>{steps.step1_title}</h3>
-                            <a
-                                href={t('reservation.link')}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="naver-booking-btn"
-                            >
-                                📅 {t('reservation.button')}
-                            </a>
+                    {stepKeys.map((num) => (
+                        <div key={num} className="res-step">
+                            <div className="step-number">{num}</div>
+                            <div className="step-content">
+                                <h3>{stepsData[`step${num}_title`]}</h3>
+                                <p style={{ whiteSpace: 'pre-line' }}>{stepsData[`step${num}_desc`]}</p>
+                                {num === 2 && (
+                                    <a
+                                        href={t('reservation.link')}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="naver-booking-btn"
+                                    >
+                                        📅 {t('reservation.button')}
+                                    </a>
+                                )}
+                            </div>
                         </div>
-                    </div>
-
-                    <div className="res-step">
-                        <div className="step-number">2</div>
-                        <div className="step-content">
-                            <h3>{steps.step2_title}</h3>
-                            <p style={{ whiteSpace: 'pre-line' }}>{steps.step2_desc}</p>
-                        </div>
-                    </div>
+                    ))}
                 </div>
 
                 <div className="reservation-notice">

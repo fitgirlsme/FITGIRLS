@@ -91,19 +91,22 @@
 }
 
 .hero-title {
-    font-size: clamp(3rem, 10vw, 8rem);
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 12vw, 9rem);
     font-weight: 800;
-    letter-spacing: -0.04em;
-    margin-bottom: 20px;
+    letter-spacing: -0.05em;
+    margin-bottom: 24px;
     color: #fff;
+    line-height: 1;
 }
 
 .hero-subtitle {
-    font-size: clamp(1rem, 3vw, 1.5rem);
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.8);
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
     max-width: 600px;
     margin: 0 auto;
+    letter-spacing: 0.05em;
 }
 
 .floating-cta {

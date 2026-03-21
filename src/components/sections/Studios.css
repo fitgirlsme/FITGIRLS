@@ -1,0 +1,98 @@
+/* src/components/sections/Studios.css */
+.studios-section {
+    background-color: #000;
+    color: #fff;
+}
+
+.studios-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.studios-header .section-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    margin-bottom: 1rem;
+}
+
+.studios-header .section-subtitle {
+    color: #888;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+}
+
+.zones-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.zone-card {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: #111;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid #222;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.zone-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-primary);
+}
+
+.zone-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    color: #333;
+    font-weight: 900;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.zone-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+}
+
+.zone-name {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+}
+
+.zone-tag {
+    font-size: 0.7rem;
+    color: var(--color-primary);
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+@media (max-width: 1024px) {
+    .zones-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .zones-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    .studios-header .section-title {
+        font-size: 2rem;
+    }
+}

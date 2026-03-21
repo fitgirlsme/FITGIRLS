@@ -1,0 +1,204 @@
+.zone-full-container {
+    width: 100%;
+    padding: 50px 0 40px;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    color: #111;
+    min-height: 100%;
+}
+
+.zone-header-wrapper {
+    padding: 0 24px;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.zone-main-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    letter-spacing: -0.03em;
+    color: #111;
+}
+
+.zone-subtitle {
+    font-size: 0.95rem;
+    color: #777;
+    margin-bottom: 4px;
+    line-height: 1.6;
+}
+
+.zone-subtitle-insta {
+    font-size: 0.85rem;
+    color: #999;
+}
+
+.zone-insta-hashtag {
+    color: var(--color-primary, #e53e3e);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.zone-insta-hashtag:hover {
+    text-decoration: underline;
+}
+
+.zone-tabs-container {
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ===== Zone Grid ===== */
+.zone-grid-container {
+    padding: 0;
+}
+
+.zone-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    width: 100%;
+    padding: 0 4px;
+}
+
+@media (max-width: 1024px) {
+    .zone-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .zone-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2px;
+        padding: 0 2px;
+    }
+}
+
+.zone-card {
+    position: relative;
+    overflow: hidden;
+    background: #f0f0f0;
+    cursor: default;
+}
+
+.zone-img-wrapper {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+}
+
+.zone-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.zone-card:hover .zone-img-wrapper img {
+    transform: scale(1.05);
+}
+
+.zone-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.zone-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.zone-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .zone-info {
+        padding: 10px;
+    }
+    .zone-name {
+        font-size: 0.85rem;
+    }
+    .zone-badge {
+        font-size: 0.55rem;
+    }
+}
+
+/* ===== Lookbook Grid ===== */
+.lookbook-notice-text {
+    padding: 12px 24px;
+    font-size: 0.85rem;
+    color: #999;
+    text-align: center;
+}
+
+.lookbook-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    width: 100%;
+    padding: 0 4px;
+}
+
+@media (max-width: 768px) {
+    .lookbook-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2px;
+        padding: 0 2px;
+    }
+}
+
+.lookbook-item {
+    position: relative;
+    overflow: hidden;
+    background: #f0f0f0;
+}
+
+.lookbook-img-wrapper {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+}
+
+.lookbook-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.lookbook-info {
+    padding: 10px 12px;
+    background: #fff;
+}
+
+.lookbook-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 4px;
+}
+
+.lookbook-size {
+    font-size: 0.8rem;
+    color: #999;
+    margin: 0;
+}

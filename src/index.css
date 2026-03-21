@@ -1,125 +1,145 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css");
+@import "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;700&display=swap";
+@import "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css";
 @import './styles/theme.css';
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    -webkit-tap-highlight-color: transparent;
-}
-
-html,
-body {
-    width: 100%;
-    height: 100%;
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    font-family: var(--font-family);
-    overflow-x: hidden;
-    /* Prevent rubber-banding on mobile for app-like feel */
-    overscroll-behavior-y: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.3;
-}
-
-p {
-    line-height: 1.6;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-ul,
-li {
-    list-style: none;
-}
-
-/* Full-page snapping layout */
-.snap-container {
-    height: 100dvh;
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-
-    /* Firefox */
-    scroll-behavior: smooth;
-}
-
-.snap-container::-webkit-scrollbar {
-    display: none;
-}
-
-.snap-section {
-    height: 100dvh;
-    width: 100%;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-}
+/* Global Overrides and Utility Classes from fitgirls.me */
 
 .container-inner {
-    max-width: 600px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 80px 24px 40px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 80px 24px 40px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-/* 데스크탑 및 태블릿 등 큰 화면에 대한 반응형 최적화 */
 @media (min-width: 768px) {
-    .container-inner {
-        max-width: 720px;
-        padding-top: 100px;
-        /* 헤더 공간 여유분 추가 */
-    }
+  .container-inner {
+    max-width: 720px;
+    padding-top: 100px;
+  }
 }
 
 @media (min-width: 1024px) {
-    .container-inner {
-        max-width: 800px;
-    }
+  .container-inner {
+    max-width: 800px;
+  }
 }
 
-/* Scroll Animations */
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-text);
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 480px) {
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    border-bottom: 1px solid var(--color-text);
+    margin-bottom: 1.5rem;
+  }
+  .section-title {
+    font-size: 1.35rem;
+  }
+  .section-subtitle {
+    font-size: 1rem;
+  }
+}
+
 .fade-up {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
 }
 
 .fade-up.visible {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.delay-1 {
-    transition-delay: 0.1s;
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+
+/* Root layout */
+.root-layout {
+  width: 100%;
+  height: 100%;
 }
 
-.delay-2 {
-    transition-delay: 0.2s;
+/* App container */
+.app-container {
+  min-height: 100dvh;
+  width: 100%;
+  position: relative;
+  background-color: var(--color-bg);
 }
 
-.delay-3 {
-    transition-delay: 0.3s;
+/* Site footer */
+.site-footer {
+  padding: 24px 0;
+  text-align: center;
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  transition: opacity 0.3s;
+}
+
+.site-footer.footer-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.site-footer-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.site-footer-logo {
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.site-footer-divider {
+  opacity: 0.3;
+}
+
+.site-footer-copy {
+  opacity: 0.7;
+}
+
+/* Loading state */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+  font-weight: 700;
+  font-size: 24px;
 }

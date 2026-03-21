@@ -17,38 +17,88 @@
     display: none;
 }
 
+/* ── 탭 버튼 ──────────────────────────── */
+.faq-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 0;
+}
+
+.faq-tab-btn {
+    position: relative;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+    letter-spacing: 0.03em;
+    word-break: keep-all;
+}
+
+.faq-tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color-primary);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.faq-tab-btn:hover {
+    color: var(--color-text);
+}
+
+.faq-tab-btn.active {
+    color: var(--color-primary);
+}
+
+.faq-tab-btn.active::after {
+    opacity: 1;
+}
+
+/* ── Q&A 목록 ────────────────────────── */
 .faq-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 0;
 }
 
 .faq-item {
     border-bottom: 1px solid var(--color-border);
-    padding-bottom: 16px;
     cursor: pointer;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .faq-question {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 0;
-    color: var(--color-text);
+    padding: 20px 0;
+    gap: 16px;
+    width: 100%;
 }
 
-.faq-question h3 {
-    font-size: 1.125rem;
+.faq-question h4 {
+    font-size: 1rem;
     font-weight: 600;
+    color: var(--color-text);
     margin: 0;
+    flex: 1;
     line-height: 1.4;
-    transition: color 0.2s;
     word-break: keep-all;
-    padding-right: 16px;
 }
 
 .faq-icon {
-    font-size: 1.5rem;
     font-weight: 300;
     color: var(--color-text-secondary);
     transition: transform 0.3s var(--ease-spring), color 0.2s;
@@ -67,7 +117,39 @@
 }
 
 .faq-answer-content {
-    padding-bottom: 16px;
+    padding-bottom: 24px;
+    display: flex;
+    /* A. 아이콘과 텍스트 영역을 나란히 배치하기 위해 */
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.faq-answer-text-wrap {
+    flex: 1;
+}
+
+/* Q/A Prefix Styles */
+.faq-prefix {
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.q-prefix {
+    color: var(--color-primary);
+    margin-right: 6px;
+}
+
+.a-prefix {
+    color: var(--color-text-secondary);
+    /* A는 기본 텍스트보다 살짝 흐리게 */
+    margin-top: 2px;
+    /* 줄 간격 미세 조정 */
+}
+
+@media (max-width: 768px) {
+    .faq-prefix {
+        font-size: 1rem;
+    }
 }
 
 .faq-answer-content p {

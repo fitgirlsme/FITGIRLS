@@ -1,0 +1,133 @@
+/* src/components/sections/Lookbook.css */
+.lookbook-section {
+    background-color: #000;
+    color: #fff;
+}
+
+.lookbook-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.lookbook-header .section-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    margin-bottom: 1rem;
+}
+
+.lookbook-header .section-subtitle {
+    color: #888;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+}
+
+.lookbook-categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    width: 100%;
+}
+
+.lookbook-category-item {
+    width: 100%;
+}
+
+.lookbook-image-box {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: #111;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #222;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.lookbook-image-box:hover {
+    transform: translateY(-10px);
+    border-color: var(--color-primary);
+}
+
+.lookbook-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1a1a1a 0%, #050505 100%);
+    color: #222;
+    font-weight: 900;
+    font-size: 2rem;
+    text-align: center;
+    padding: 2rem;
+}
+
+.lookbook-info-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
+}
+
+.l-tag {
+    color: var(--color-primary);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    display: block;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.l-title {
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin-bottom: 0.75rem;
+}
+
+.l-desc {
+    font-size: 0.95rem;
+    color: #ccc;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.l-thumb {
+    aspect-ratio: 4 / 5;
+    background: #111;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #222;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.l-thumb:hover {
+    border-color: var(--color-primary);
+}
+
+.thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #222;
+    font-weight: 900;
+}
+
+@media (max-width: 768px) {
+    .lookbook-main {
+        aspect-ratio: 4 / 5;
+    }
+    .l-title {
+        font-size: 1.5rem;
+    }
+    .lookbook-thumbnails {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}

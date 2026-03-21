@@ -1,0 +1,45 @@
+# FITGIRLS 프로젝트 코드베이스 분석 문서
+
+## 1. 기술 스택 (Tech Stack)
+본 프로젝트는 최신 웹 개발 트렌드를 반영하여 성능과 유지보수성을 고려한 기술들로 구성되어 있습니다.
+
+*   **Runtime & Build Tool**: Node.js, Vite (빠른 번들링 및 개발 서버)
+*   **Library**: React (v18.2.0)
+*   **Routing**: React-Router-DOM (SPA 네비게이션)
+*   **State & Storage**: 
+    *   Firebase Firestore (실시간 클라우드 DB)
+    *   IndexedDB (브라우저 로컬 DB, 오프라인 및 성능 최적화용)
+*   **Localization**: i18next (다국어 지원)
+*   **Styling**: Vanilla CSS (유연한 커스텀 디자인)
+
+## 2. 프로젝트 구조 (Folder Structure)
+
+### `src/` (Source Root)
+애플리케이션의 모든 소스 코드가 위치한 핵심 디렉토리입니다.
+
+*   **`components/`**: 재사용 가능한 UI 컴포넌트들이 모여 있습니다.
+    *   [Hero.jsx](file:///Users/house/Pictures/%EC%95%88%ED%8B%B0%EA%B7%B8%EB%9D%BC%ED%94%BC%ED%8B%B0/src/components/Hero.jsx), [Intro.jsx](file:///Users/house/Pictures/%EC%95%88%ED%8B%B0%EA%B7%B8%EB%9D%BC%ED%94%BC%ED%8B%B0/src/components/Intro.jsx), [Header.jsx](file:///Users/house/Pictures/%EC%95%88%ED%8B%B0%EA%B7%B8%EB%9D%BC%ED%94%BC%ED%8B%B0/src/components/Header.jsx) 등: 라이브 사이트 수준의 완성된 메인 섹션들.
+    *   **`sections/`**: 기능별/섹션별 컴포넌트 확장 공간. 현재 리뉴얼 작업 및 테스트를 위한 컴포넌트들이 포함되어 있습니다.
+*   **`pages/`**: 라우팅의 기준이 되는 페이지 단위 컴포넌트 (예: `Reviews.jsx`).
+*   **`utils/`**: 비즈니스 로직 및 공통 유틸리티 함수.
+    *   [firebase.js](file:///Users/house/Pictures/%EC%95%88%ED%8B%B0%EA%B7%B8%EB%9D%BC%ED%94%BC%ED%8B%B0/src/utils/firebase.js): Firebase 초기화 및 설정.
+    *   [db.js](file:///Users/house/Pictures/%EC%95%88%ED%8B%B0%EA%B7%B8%EB%9D%BC%ED%94%BC%ED%8B%B0/src/utils/db.js): IndexedDB(FitgirlsLiveDB) 초기화 및 CRUD 헬퍼 함수.
+    *   [syncService.js](file:///Users/house/Pictures/%EC%95%88%ED%8B%B0%EA%B7%B8%EB%9D%BC%ED%94%BC%ED%8B%B0/src/utils/syncService.js): Firestore와 IndexedDB 간의 데이터 동기화 로직.
+    *   [galleryService.js](file:///Users/house/Pictures/%EC%95%88%ED%8B%B0%EA%B7%B8%EB%9D%BC%ED%94%BC%ED%8B%B0/src/utils/galleryService.js), [reviewService.js](file:///Users/house/Pictures/%EC%95%88%ED%8B%B0%EA%B7%B8%EB%9D%BC%ED%94%BC%ED%8B%B0/src/utils/reviewService.js): 각 기능별 특화 데이터 처리 로직.
+*   **`i18n/`**: 다국어 번역 데이터 및 설정.
+    *   `locales/`: ko, en, ja, zh 언어별 JSON 파일 위치.
+*   **`styles/`**: 전역 스타일 시트 및 테마 정의.
+*   **`assets/`**: 이미지, 로고, 비디오 등 정적 자원 (현재 일부는 public 폴더와 병행 사용).
+*   **`data/`**: 정적 데이터나 목업(Mockup) 데이터 관리.
+
+### Root Files
+*   [App.jsx](file:///Users/house/Pictures/%EC%95%88%ED%8B%B0%EA%B7%B8%EB%9D%BC%ED%94%BC%ED%8B%B0/src/App.jsx): 메인 라우팅 및 전역 레이아웃 구성.
+*   [main.jsx](file:///Users/house/Pictures/%EC%95%88%ED%8B%B0%EA%B7%B8%EB%9D%BC%ED%94%BC%ED%8B%B0/src/main.jsx): React 엔트리 포인트.
+*   [index.css](file:///Users/house/Pictures/%EC%95%88%ED%8B%B0%EA%B7%B8%EB%9D%BC%ED%94%BC%ED%8B%B0/src/index.css): 기본 전역 스타일 및 CSS 변수(Variables) 정의.
+*   [vite.config.js](file:///Users/house/Pictures/%EC%95%88%ED%8B%B0%EA%B7%B8%EB%9D%BC%ED%94%BC%ED%8B%B0/vite.config.js): Vite 빌드 및 개발 환경 설정.
+*   `package.json`: 프로젝트 의존성 및 스크립트 정의.
+
+## 3. 핵심 아키텍처 특징
+1.  **Hybrid Data Fetching**: Firebase Firestore를 원천 데이터로 사용하되, 사용자 경험을 위해 브라우저의 IndexedDB에 데이터를 동기화(Sync)하여 사용합니다.
+2.  **Modular Components**: 각 섹션(Hero, Intro, Studios 등)이 독립된 JSX와 CSS 파일을 가져 유지보수가 용이합니다.
+3.  **Global Localization**: `react-i18next`를 통해 어떤 컴포넌트에서든 손쉽게 다국어 지원이 가능하도록 설계되었습니다.

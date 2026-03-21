@@ -7,7 +7,6 @@
 
 .app-header {
     position: absolute;
-    /* Not fixed to flow with snap occasionally, or fixed for overlay */
     top: 0;
     left: 0;
     width: 100%;
@@ -16,43 +15,41 @@
     justify-content: space-between;
     align-items: center;
     z-index: 100;
-    mix-blend-mode: difference;
-    /* Toss style cool header trick */
-    color: #fff;
-    /* Ensure it works with difference */
+}
+
+@media (max-width: 768px) {
+    .app-header {
+        padding: 16px 20px;
+    }
 }
 
 .logo-text {
-    font-weight: 800;
+    font-weight: 900;
     font-size: 20px;
     letter-spacing: -0.03em;
-    background: linear-gradient(90deg,
-            #e53935 0%,
-            #ef5350 30%,
-            #ff8a80 50%,
-            #ef5350 70%,
-            #e53935 100%) !important;
-    background-size: 200% auto !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
-    color: #e53935 !important;
-    animation: logoShimmer 3s linear infinite;
+    color: #E50914 !important;
 }
 
-@keyframes logoShimmer {
-    0% {
-        background-position: 0% center;
-    }
-
-    100% {
-        background-position: 200% center;
+@media (max-width: 480px) {
+    .logo-text {
+        font-size: 16px;
     }
 }
 
 .lang-switcher {
     display: flex;
-    gap: 8px;
+    gap: 12px;
+    mix-blend-mode: difference;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+    .lang-switcher {
+        gap: 8px;
+        position: relative;
+        right: 0;
+    }
 }
 
 .lang-switcher button {
@@ -63,6 +60,12 @@
     font-weight: 600;
     cursor: pointer;
     transition: color 0.2s;
+}
+
+@media (max-width: 480px) {
+    .lang-switcher button {
+        font-size: 11px;
+    }
 }
 
 .lang-switcher button.active,

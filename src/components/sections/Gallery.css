@@ -1,11 +1,78 @@
 .gallery-full-container {
     width: 100%;
     margin: 0;
-    padding: 80px 0 40px;
+    padding: 50px 0 40px;
     display: flex;
     flex-direction: column;
+    background: #fff;
+    color: #111;
+    min-height: 100%;
 }
 
+.gallery-full-container .section-title {
+    color: #111 !important;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.gallery-full-container .section-header {
+    border-bottom-color: rgba(0, 0, 0, 0.1) !important;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+/* ===== Main Selection Grid ===== */
+.main-selection-grid {
+    padding: 0 24px;
+    gap: 12px;
+}
+
+.main-selection-card {
+    position: relative;
+    cursor: pointer;
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a, #333);
+    transition: transform 0.3s, box-shadow 0.3s;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+}
+
+.main-selection-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.card-inner {
+    width: 100%;
+    padding: 32px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-label {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+}
+
+.card-arrow {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+}
+
+.main-selection-card:hover .card-arrow {
+    color: #fff;
+}
+
+/* ===== Detail View Header ===== */
 .gallery-header-wrapper {
     padding: 0 24px;
     display: flex;
@@ -14,37 +81,108 @@
     margin-bottom: 24px;
 }
 
-.gallery-main-title {
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 24px;
-    letter-spacing: -0.03em;
+.gallery-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
-/* 1. Tier 1 Tabs (Women, Men, Couple) */
+.gallery-current-category {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #111;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+.back-to-main-btn {
+    background: transparent;
+    border: 1px solid #ddd;
+    color: #666;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.back-to-main-btn:hover {
+    border-color: #111;
+    color: #111;
+}
+
+/* ===== Search Bar ===== */
+.gallery-search-bar-container {
+    width: 100%;
+    max-width: 400px;
+}
+
+.gallery-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f5f5f5;
+    border-radius: 12px;
+    padding: 10px 16px;
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.gallery-search-bar:focus-within {
+    border-color: #111;
+}
+
+.search-icon {
+    color: #999;
+    flex-shrink: 0;
+}
+
+.gallery-search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.9rem;
+    color: #111;
+    width: 100%;
+}
+
+.gallery-search-input::placeholder {
+    color: #bbb;
+}
+
+/* ===== Sub-category Tabs (Tier 1 / women, men, couple, outdoor) ===== */
 .tier1-tabs {
     display: flex;
     gap: 20px;
     margin-bottom: 20px;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid #eee;
     padding-bottom: 10px;
+}
+
+.tier1-tabs.sub-category-tabs {
+    width: 100%;
+    justify-content: center;
 }
 
 .tier1-tab {
     background: transparent;
     border: none;
-    color: var(--color-text-secondary);
+    color: #999;
     font-size: 1.1rem;
     font-weight: 700;
     cursor: pointer;
     transition: color 0.2s;
     padding: 4px 8px;
     position: relative;
+    text-transform: uppercase;
 }
 
 .tier1-tab.active,
 .tier1-tab:hover {
-    color: var(--color-text);
+    color: #111;
 }
 
 .tier1-tab.active::after {
@@ -57,28 +195,52 @@
     background-color: var(--color-primary);
 }
 
-/* 2. Tier 2 Tags (Hashtags) */
+.tab-label-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tab-new-badge {
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: #ff4444;
+    letter-spacing: 0.05em;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.tier1-tab.has-new {
+    color: #111;
+}
+
+/* ===== Tag Chips (Tier 2) ===== */
 .tier2-tags-scroll {
     display: flex;
     gap: 8px;
     width: 100%;
     overflow-x: auto;
-    padding-bottom: 8px;
+    padding-bottom: 12px;
     justify-content: center;
     flex-wrap: wrap;
-    /* On desktop, wrap. On mobile, scroll */
     -ms-overflow-style: none;
-    /* IE and Edge */
     scrollbar-width: none;
-    /* Firefox */
+    -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 768px) {
     .tier2-tags-scroll {
         flex-wrap: nowrap;
         justify-content: flex-start;
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left: 24px;
+        padding-right: 24px;
+        margin-left: -24px;
+        margin-right: -24px;
+        width: calc(100% + 48px);
     }
 }
 
@@ -88,8 +250,8 @@
 
 .tier2-chip {
     background: transparent;
-    border: 1px solid var(--color-border);
-    color: var(--color-text-secondary);
+    border: 1px solid #ddd;
+    color: #999;
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 0.85rem;
@@ -97,53 +259,112 @@
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.2s;
+    text-transform: uppercase;
 }
 
 .tier2-chip:hover {
-    border-color: rgba(255, 255, 255, 0.5);
-    color: var(--color-text);
+    border-color: #999;
+    color: #111;
 }
 
 .tier2-chip.active {
-    background: var(--color-text);
-    border-color: var(--color-text);
-    color: var(--color-bg);
+    background: #111;
+    border-color: #111;
+    color: #fff;
 }
 
-/* 3. Masonry Layout (CSS Columns) */
+/* ===== Gallery Masonry Wrapper ===== */
+.gallery-masonry-wrapper {
+    position: relative;
+}
+
+.gallery-fab-upload {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    background: var(--color-primary, #e53e3e);
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 300;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.gallery-fab-upload:hover {
+    transform: scale(1.1);
+}
+
+/* ===== Masonry Grid ===== */
 .gallery-masonry-grid {
-    column-count: 2;
-    column-gap: 2px;
-    line-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
     width: 100%;
     padding: 0 2px;
 }
 
 @media (min-width: 768px) {
     .gallery-masonry-grid {
-        column-count: 3;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px;
         padding: 0 4px;
     }
 }
 
 @media (min-width: 1024px) {
     .gallery-masonry-grid {
-        column-count: 4;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+        padding: 0 6px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .gallery-masonry-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
         padding: 0 8px;
     }
 }
 
+@media (min-width: 1920px) {
+    .gallery-masonry-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+        padding: 0 8px;
+    }
+}
+
+@media (min-width: 2560px) {
+    .gallery-masonry-grid {
+        grid-template-columns: repeat(8, 1fr);
+        gap: 10px;
+        padding: 0 10px;
+    }
+}
+
 .masonry-item {
-    break-inside: avoid;
-    margin-bottom: 2px;
+    width: 100%;
     position: relative;
     cursor: zoom-in;
-    background: #111;
+    background: #f0f0f0;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
 }
 
 .masonry-item img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
     opacity: 0.9;
     transition: opacity 0.3s;
@@ -175,7 +396,6 @@
     font-weight: 300;
 }
 
-/* 호버 시 해시태그 묶음 */
 .masonry-tags {
     display: flex;
     flex-wrap: wrap;
@@ -185,94 +405,148 @@
 }
 
 .masonry-tag-chip {
-    background: none;
+    background: rgba(0, 0, 0, 0.3);
     border: none;
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 0.75rem;
-    padding: 2px 4px;
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
     letter-spacing: 0.5px;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    text-transform: uppercase;
 }
 
 .masonry-item:hover .masonry-hover-overlay {
     opacity: 1;
 }
 
-/* 로컬 사진 X 삭제 버튼 */
-.masonry-delete-btn {
+/* ===== Load More Button ===== */
+.gallery-more-container {
+    display: flex;
+    justify-content: center;
+    padding: 32px 0 16px;
+}
+
+.gallery-more-btn {
+    background: transparent;
+    border: 1px solid #ddd;
+    color: #666;
+    padding: 12px 48px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+}
+
+.gallery-more-btn:hover {
+    border-color: #111;
+    color: #111;
+    background: #f9f9f9;
+}
+
+/* ===== Empty State ===== */
+.gallery-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+    font-size: 0.95rem;
+}
+
+/* ===== Admin Tools ===== */
+.masonry-admin-tools {
     position: absolute;
     top: 8px;
     right: 8px;
-    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    gap: 6px;
+    z-index: 10;
+}
+
+.masonry-move-btn,
+.masonry-delete-btn,
+.masonry-edit-btn {
+    background: rgba(0, 0, 0, 0.75);
     border: none;
     color: #fff;
-    font-size: 1.1rem;
-    width: 28px;
-    height: 28px;
+    font-size: 1rem;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     cursor: pointer;
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 10;
-    transition: background 0.2s;
+    transition: all 0.2s;
     line-height: 1;
 }
 
-.masonry-item:hover .masonry-delete-btn {
+.masonry-move-btn { font-size: 0.9rem; }
+
+.masonry-item:hover .masonry-move-btn,
+.masonry-item:hover .masonry-delete-btn,
+.masonry-item:hover .masonry-edit-btn {
     display: flex;
 }
 
-.masonry-delete-btn:hover {
-    background: rgba(220, 50, 50, 0.85);
+.masonry-move-btn:hover { background: #4F46E5; }
+.masonry-delete-btn:hover { background: rgba(220, 50, 50, 0.85); }
+
+/* ===== Move Menu ===== */
+.move-menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
 }
 
-/* 어드민 전용 + 사진 추가 카드 */
-.masonry-add-card {
-    aspect-ratio: 4 / 5;
-    background: rgba(255, 255, 255, 0.04);
-    border: 2px dashed rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    display: flex !important;
+.move-menu-box {
+    position: absolute;
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    min-width: 160px;
+    animation: fadeInScale 0.2s ease-out;
 }
 
-.masonry-add-card:hover {
-    border-color: rgba(255, 80, 80, 0.6);
-    background: rgba(255, 80, 80, 0.05);
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
 }
 
-.masonry-add-inner {
-    width: 100%;
-    height: 100%;
+.move-menu-title {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 8px;
+    padding-left: 8px;
+    font-weight: 600;
+}
+
+.move-menu-list {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    gap: 2px;
 }
 
-.masonry-add-icon {
-    font-size: 2.5rem;
-    color: rgba(255, 255, 255, 0.4);
-    line-height: 1;
-    transition: color 0.2s;
+.move-menu-item {
+    background: transparent;
+    border: none;
+    color: #fff;
+    text-align: left;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background 0.2s;
 }
 
-.masonry-add-label {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.35);
-    letter-spacing: 1px;
-    transition: color 0.2s;
+.move-menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
-.masonry-add-card:hover .masonry-add-icon,
-.masonry-add-card:hover .masonry-add-label {
-    color: rgba(255, 100, 100, 0.8);
-}
-
-/* 커스텀 삭제 확인 모달 */
+/* ===== Delete Confirm Modal ===== */
 .delete-confirm-overlay {
     position: fixed;
     inset: 0;
@@ -326,9 +600,7 @@
     transition: background 0.2s;
 }
 
-.delete-btn-cancel:hover {
-    background: rgba(255, 255, 255, 0.12);
-}
+.delete-btn-cancel:hover { background: rgba(255, 255, 255, 0.12); }
 
 .delete-btn-ok {
     flex: 1;
@@ -343,11 +615,9 @@
     transition: background 0.2s;
 }
 
-.delete-btn-ok:hover {
-    background: rgba(220, 50, 50, 1);
-}
+.delete-btn-ok:hover { background: rgba(220, 50, 50, 1); }
 
-/* 4. Lightbox Modal */
+/* ===== Lightbox Modal ===== */
 .lightbox-overlay {
     position: fixed;
     top: 0;
@@ -429,13 +699,8 @@
     opacity: 1;
 }
 
-.prev-btn {
-    left: 16px;
-}
-
-.next-btn {
-    right: 16px;
-}
+.prev-btn { left: 16px; }
+.next-btn { right: 16px; }
 
 .lightbox-content {
     max-width: 90%;
@@ -455,12 +720,16 @@
         font-size: 2rem;
         padding: 10px;
     }
+    .prev-btn { left: 0px; }
+    .next-btn { right: 0px; }
 
-    .prev-btn {
-        left: 0px;
+    .card-label {
+        font-size: 1.2rem;
     }
-
-    .next-btn {
-        right: 0px;
+    .card-inner {
+        padding: 24px 20px;
+    }
+    .gallery-current-category {
+        font-size: 1.4rem;
     }
 }

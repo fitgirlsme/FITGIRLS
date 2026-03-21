@@ -1,0 +1,39 @@
+# FITGIRLS 리뉴얼 프로젝트 PRD (Product Requirements Document)
+
+## 1. 프로젝트 개요
+`fitgirls-renewal` 프로젝트는 기존의 [fitgirls.me](https://fitgirls.me) 사이트를 현대적인 감각으로 리뉴얼하여, "FITORIALIST"라는 브랜드 정체성을 강화하고 사용자에게 고품질의 비주얼 경험을 제공하는 것을 목표로 합니다.
+
+## 2. 프로젝트 목표
+*   **브랜드 아이덴티티 강화**: 고품질 화보 중심의 디자인을 통해 "FITORIALIST" 브랜드 이미지 구축.
+*   **사용자 경험(UX) 최적화**: 스냅 스크롤(Snap Scroll) 및 부드러운 애니메이션을 통한 몰입감 있는 브라우징 제공.
+*   **관리 효율성**: Firebase와 연동하여 관리자가 실시간으로 콘텐츠(공지사항, 갤러리 등)를 업데이트할 수 있는 구조 마련.
+*   **글로벌 대응**: 한국어, 영어, 일본어, 중국어 지원을 통한 글로벌 고객 유치.
+
+## 3. 주요 기능 및 사용자 시나리오
+| 기능 | 상세 설명 |
+| :--- | :--- |
+| **Hero 슬라이드쇼** | 메인 화면에서 고해상도 화보 슬라이드쇼와 Ken Burns 효과를 통한 압도적인 첫인상 제공. |
+| **인트로 비디오** | 브랜드 철학을 담은 영상 배경과 텍스트 레이아웃. |
+| **실시간 데이터 동기화** | Firebase Firestore의 데이터를 IndexedDB에 동기화하여 빠른 로딩 속도와 안정적인 데이터 제공. |
+| **다국어 지원 (i18n)** | KR, EN, JP, CN 언어 전환 기능을 통해 국가별 맞춤 텍스트 제공. |
+| **갤러리 & 룩북** | 카테고리별 사진 조회 및 상세 보기 기능. |
+| **부대 서비스 소개** | Hair & Makeup, Studios 등 협력 서비스 및 장소 안내. |
+| **고객 지원** | FAQ 및 공지사항을 통한 정보 전달. |
+
+## 4. 기술 스택 (Tech Stack)
+*   **Frontend**: React (v18.2.0), Vite (v5.1.4)
+*   **Routing**: React Router DOM (v6.22.0)
+*   **Styling**: Vanilla CSS (현대적인 레이아웃 및 애니메이션 적용)
+*   **Database**: Firebase Firestore (실시간), IndexedDB (로컬 캐시용)
+*   **Localization**: i18next
+*   **Deployment**: GitHub Pages (gh-pages)
+
+## 5. 디자인 원칙
+*   **Premium & Minimalist**: 복잡한 요소는 제거하고 사진 본연의 퀄리티를 강조.
+*   **Dynamic Motion**: Fade-in, Scale-up 등 세련된 마이크로 인터랙션 활용.
+*   **Responsive**: 모바일과 데스크탑 환경 모두에 최적화된 반응형 디자인.
+
+## 6. 향후 계획 (Roadmap)
+*   예약 시스템 연동 및 자동화.
+*   포트폴리오 고도화 및 고객 리뷰 시스템 강화.
+*   성과 측정을 위한 분석 도구(Google Analytics 등) 통합.

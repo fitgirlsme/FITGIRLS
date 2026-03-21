@@ -1,12 +1,144 @@
 {
     "nav": {
         "home": "ホーム",
+        "intro": "イントロ",
         "gallery": "ギャラリー",
-        "service": "料金プラン",
-        "faq": "よくある質問",
-        "location": "アクセス"
+        "studios": "スタジオゾーン",
+        "lookbook": "ルックブック",
+        "reservation": "ご予約",
+        "review": "レビュー",
+        "service": "プログラム",
+        "hairmakeup": "ヘアメイク",
+        "hm": "H & M",
+        "faq": "FAQ",
+        "notice": "お知らせ",
+        "location": "アクセス",
+        "zone": "撮影ゾーン",
+        "social": "ソーシャル",
+        "mgmt": "モデルマネジメント",
+        "program": "プログラム",
+        "info": "情報",
+        "event": "イベント"
+    },
+    "event": {
+        "title": "イベント掲示板",
+        "adminLink": "管理者"
+    },
+    "social": {
+        "posts": "Instagram & Pinterest",
+        "searchPlaceholder": "検索...",
+        "subtitle": "ソーシャルメディアでフォロー"
+    },
+    "intro": {
+        "slogan": "単なるボディ記録を越えて、\n自分だけのオーラを一枚のグラビアとして完成させる方法。",
+        "desc": "筋肉の鮮明さより、被写体固有のムードとエネルギーを表現するフィトリアリストの提案"
+    },
+    "studios": {
+        "title": "STUDIO ZONE",
+        "subtitle": "あなたのムードを完成させる最適な空間",
+        "zones": {
+            "blackmoon": "ブラックムーン",
+            "blackwall": "ブラック壁",
+            "sofa": "ソファ",
+            "yellow": "イエロー背景",
+            "cake": "ホワイトケーキショット",
+            "blue": "ブルー背景",
+            "pink": "ピンク背景",
+            "curtain": "ピュアカ―テン",
+            "natural": "ナチュラル壁",
+            "mirror": "ミラーショット",
+            "jennie": "ジェニーゾーン",
+            "red": "レッド背景"
+        }
+    },
+    "zone": {
+        "title": "ZONE",
+        "subtitle": "フィットガールズだけの多様な背景をお選びください。",
+        "subtitleInsta": "さらに多くの背景はInstagramで",
+        "subtitleHashtag": "#フィットガールズ",
+        "subtitleInstaEnd": "を検索してご覧ください。",
+        "names": {
+            "zone1": "ベーシックブラウン",
+            "zone2": "オレンジ",
+            "zone3": "ホワイト",
+            "zone4": "ナチュラルブラウン",
+            "zone5": "サーフィン",
+            "zone6": "ベーシックビビッド",
+            "zone7": "ブルーホワイト",
+            "zone8": "キッチン",
+            "zone9": "自転車",
+            "zone10": "冷蔵庫",
+            "zone11": "レッドソファ",
+            "zone12": "イエローキャビネット",
+            "zone13": "ブラックムーン",
+            "zone14": "ブラック壁",
+            "zone15": "ロングソファ",
+            "zone16": "イエロー背景",
+            "zone17": "ホワイトケーキショット",
+            "zone18": "ブルー背景",
+            "zone19": "ピンク背景",
+            "zone20": "ピュアカーテン",
+            "zone21": "ナチュラル壁",
+            "zone22": "ミラーショット",
+            "zone23": "ジェニーゾーン",
+            "zone24": "レッド背景"
+        },
+        "tabs": {
+            "zone": "STUDIO ZONE",
+            "lookbook": "LOOKBOOK"
+        },
+        "lookbookNotice": "*フィットガールズでレンタル可能な衣装をチェックしてください。小道具は多様にご利用いただけます。",
+        "lookbook": {
+            "top": "トップス",
+            "bottom": "ボトムス",
+            "sizeLabel": "サイズ：",
+            "sizeUnknown": "サイズ未定"
+        }
+    },
+    "lookbook": {
+        "title": "LOOKBOOK",
+        "subtitle": "多様なコンセプトと衣装で完成する自分だけのスタイル",
+        "fitorialist": "ファッション写真家の視点でボディプロフィールを構成するスタイル",
+        "artist": "筋肉と線の対比を大胆かつ芸術的に表現",
+        "fashion": "雑誌のグラビアのようなトレンディでスタイリッシュなムード",
+        "portrait": "最も自然で美しい本来の瞬間にフォーカス"
+    },
+    "hm": {
+        "title": "HAIR & MAKEUP",
+        "subtitle": "より完璧なグラビアのための専門提携サービス",
+        "partner": "Mabelle Boutique",
+        "price_women": "女性 88,000ウォン",
+        "price_men": "男性 66,000ウォン",
+        "vat": "税込",
+        "notice": "直接予約必須（スタジオ出張不可）、NAVER予約履歴提示で提携価格適用",
+        "location": "ソウル江南区鶴洞路47ギル5 1階（江南区庁駅近く）",
+        "tel": "0507-1359-1859"
+    },
+    "notice": {
+        "title": "NOTICE",
+        "subtitle": "FITGIRLS & INAFITの最新ニュースをチェックしてください",
+        "items": [
+            {
+                "date": "2026.03.04",
+                "title": "2026 FITGIRLS & INAFIT フィットネスセンター提携特典＆募集"
+            },
+            {
+                "date": "2026.03.04",
+                "title": "4月ピンクルームオープンのお知らせ"
+            }
+        ]
     },
     "gallery": {
+        "main": {
+            "fitorialist": "FITORIALIST",
+            "artist": "ARTIST",
+            "fashion": "FASHION & BEAUTY",
+            "portrait": "PORTRAIT"
+        },
+        "fitorialist": "FITORIALIST",
+        "artist": "ARTIST",
+        "fashion_beauty": "FASHION & BEAUTY",
+        "portrait": "PORTRAIT",
         "women": "女性",
         "men": "男性",
         "couple": "友情＆カップル",
@@ -14,7 +146,6 @@
         "fashion": "ファッション＆ビューティー",
         "dancer": "ダンサー＆DJ",
         "self": "セルフ",
-        "portrait": "ポートレート",
         "hashtags": {
             "ALL": "すべて",
             "RED": "レッド",
@@ -28,7 +159,8 @@
     },
     "hero": {
         "title": "FITORIALIST",
-        "subtitle": "FIT + EDITORIAL + IST",
+        "subtitle": "PHOTOGRAPHED BY ANGELO SHIN.",
+        "fitorialist_desc": "FIT + EDITORIAL + IST",
         "cta": "NAVERで予約"
     },
     "cs": {
@@ -38,69 +170,117 @@
     "reservation": {
         "title": "RESERVATION",
         "subtitle": "予約手順のご案内",
-        "button": "NAVER予約を申し込む",
+        "button": "NAVERで予約する",
         "link": "https://naver.me/GWeuhE37",
         "steps": {
-            "step1_title": "NAVER予約の申請",
-            "step2_title": "予約金の決済",
-            "step2_desc": "NAVER予約後、カカオトークにて「Toss Order」通知が届きましたら、予約金90,000ウォンを決済していただくと最終予約が確定します。"
+            "step1_title": "公式LINE/KakaoTalk 予約問い合わせ",
+            "step1_desc": "まず, カカオチャンネルまたはLINE公式アカウントにて, ご希望の撮影スケジュールが空いているかご確認ください。",
+            "step2_title": "NAVER予約の申請",
+            "step2_desc": "スケジュールを確認後, 案内されたリンクからNAVER予約を行ってください。",
+            "step3_title": "予約金の決済および確定",
+            "step3_desc": "NAVER予約後, 'トスオーダー'通知または案内された口座へ予約金(90,000ウォン)をお振り込みいただくと, 最終的な予約確定および案内状が発送されます。"
         },
-        "final_notice": "✅ 予約確定後、撮影準備に関する詳細案内をお送りいたします。💖✨"
+        "final_notice": "✅ 予約確定後, 撮影準備に関する詳細案内をお送りいたします。💖✨"
     },
     "location": {
         "title": "LOCATION",
         "subtitle": "アクセス",
         "address_label": "Address.",
-        "address": "ソウル市江南区江南大路160キル18 (アーティウムビル) B1\n(地番: ソウル市江南区新沙洞508-4番地 B1)",
+        "address": "ソウル市江南区江南大路160ギル18 (アティウムビル) B1",
         "parking_label": "Parking.",
-        "parking": "有料駐車場をご利用ください。\n近隣: ドゥウォンビル、ソウル特別市江南区江南大路636 (1時間3,000ウォン)",
+        "parking": "有料駐車場をご利用ください。\n近隣: ドゥウォンビル「ハラン」有料駐車場, ソウル特別市江南区島山大路24キル7",
         "contact_label": "Contact.",
         "tel": "010-4696-1434",
         "email": "inafit@daum.net",
-        "hours": "毎日 (All days) 10:00 ~ 18:00",
+        "hours": "毎日 (All days) 10:00 ~ 23:00",
         "links": {
-            "studio_map": "https://map.naver.com/v5/directions/-/14139841.851238009,4511765.692314798,핏걸즈스튜디오,1976065694,PLACE_POI/-/car?c=15,0,0,0,dh",
-            "parking_map": "https://map.naver.com/v5/search/두원빌딩%20주차장/place/667509448?placePath=%3Fentry=pll%26from=nx%26fromNxList=true"
+            "studio_map": "https://map.naver.com/v5/search/%ED%95%8F%EA%B1%B8%EC%A6%88%EC%8A%A4%ED%84%B0%EB%94%94%EC%98%A4/place/1976065694",
+            "parking_map": "https://map.naver.com/v5/search/%EB%91%90%EC%9B%90%EB%B9%20%EB%B9%8C%EB%94%B1%20%EC%A3%BC%EC%B0%A8%EC%9E%A5/place/667509448"
         },
-        "btn_studio": "スタジオへの案内",
-        "btn_parking": "駐車場の位置"
+        "btn_studio": "NAVERルート案内",
+        "btn_parking": "駐車場ルート案内"
+    },
+    "model_recruit": {
+        "title": "MODEL RECRUIT",
+        "subtitle": "2026 NEW FACE WANTED",
+        "main_title": "フィットガールズの新しいミューズを募集中",
+        "desc": "多様なコンセプトの撮影を通じて、自分だけの魅力を発見したい方の応募をお待ちしております。ボディプロフィールに情熱がある方ならどなたでも歓迎です。",
+        "target_label": "募集対象:",
+        "target_value": "ボディプロフィールに興味のあるすべての女性",
+        "benefit_label": "特典:",
+        "benefit_value": "ヘアメイクサポート & 撮影券進呈",
+        "button": "今すぐ応募する"
     },
     "faq": {
         "title": "FAQ",
         "subtitle": "よくある質問",
-        "list": [
+        "category_before_reservation": "予約前",
+        "before_reservation": [
             {
                 "question": "予約はどうすればいいですか？",
-                "answer": "NAVER予約から可能です。ご相談後、4時間以内に予約金(₩90,000)を入金すると確定します。"
+                "answer": "1️⃣ NAVERで予約を申し込む\nhttps://naver.me/GWeuhE37\n\n2️⃣ 予約金の決済 (通知確認後に進行)\n\n📩 NAVER予約後, 予約確定の案内が届きましたら予約金90,000ウォンを決済していただくと, 最終的な予約確約が完了します。"
             },
             {
-                "question": "予約の変更・キャンセルは？",
-                "answer": "撮影日50日前まで1回のみ変更可能。50日前までのキャンセルは予約金全額返金、49日前～当日のキャンセルは違約金が発生します。"
+                "question": "価格はいくらですか？",
+                "answer": "パッケージ別の詳細単価は, NAVERスマートプレイスやカカオトークチャンネルのメニューからすぐにご確認いただけます。\n\nFITORIALパッケージの詳細案内を参考にしてください。"
             },
             {
-                "question": "いつまでに到着すればいいですか？",
-                "answer": "着替えやパンプアップのため、予約時間の30分前にお越しください。（早く来すぎると待機スペースがない場合があります）"
+                "question": "予約のキャンセルや日程変更は可能ですか？",
+                "answer": "撮影日の50日前までは100%返金および1回変更が可能です。\n\n撮影日の49日前からはキャンセル料が発生し, それ以降は理由を問わず変更および返金が不可となりますので, 慎重な予約をお願いいたします。"
             },
             {
-                "question": "同行者やペットの撮影は可能ですか？",
-                "answer": "トレーナーや知人など最大2名まで同行可能です。ペットとの同伴撮影も追加費用なしで可能です。"
+                "question": "スタジオの休業日はありますか？",
+                "answer": "毎週火曜日は撮影定休日です。"
+            }
+        ],
+        "category_before_shooting": "撮影前",
+        "before_shooting": [
+            {
+                "question": "撮影コンセプトの案内はいつまでに提出すべきですか？",
+                "answer": "撮影の1週間前までに, ご希望の雰囲気のコンセプト（イメージ, 衣装の貸出希望など）を必ずアップロードしてください。\n\n📂 提出用リンク: https://www.dropbox.com/request/OLYXbA6Ail00gAZBYPFa\n\nファイル名の例: お名前_撮影日 (例: 신철민_1025)"
             },
             {
-                "question": "ヘア＆メイクの提携先はありますか？",
-                "answer": "ヘアメイクにつきましては、\nLINEにてお問い合わせをお願いいたします🙇\nLINE ID：@038avhqv\nまたは、**「mabelle」**で検索していただけますとご連絡可能です！\nこちらからも伝えておきます😊\n\n[予約案内]\n• 女性: 88,000ウォン (付加価値税込み)\n• 男性: 66,000ウォン (付加価値税込み)\n• ご自身での直接予約が必須 (出張不可)\n• 電話: 0507-1359-1859\n• 住所: ソウル江南区鶴洞路47キル5 1階 (江南区庁から徒歩5分)\n• LINE: https://line.me/R/ti/p/@038avhqv\n• Instagram: https://www.instagram.com/mabelle_korea_?igsh=MTV4eTJybGFoYzlodQ=="
+                "question": "撮影当日, 何時までに到着すればいいですか？",
+                "answer": "予約時間の30分前到着を原則としています。\n\n到着後, 衣装の着替え, パンプアップ, オイルやワセリンの準備を済ませて定刻に撮影を開始します。\n\n1分でも遅刻された場合, 撮影は自動的にキャンセルとなり返金も不可となりますので, 時間は厳守してください。"
             },
             {
-                "question": "補正された写真はいつもらえますか？",
-                "answer": "撮影当日にウェブ用元データ(約150枚)をメールでお送りし、写真選択後、約1ヶ月前後で1次補正データをお渡しします。"
+                "question": "スタジオに備え付けの備品はありますか？",
+                "answer": "オイル, ワセリン, ダンベル, バンド, マットなどがすべて揃っており, 自由にご利用いただけます。\n\n#FITGIRLS ハッシュタグでご覧になった小道具のほか, 私物の持ち込みも歓迎です。"
             },
             {
                 "question": "駐車場はありますか？",
                 "answer": "建物内に駐車場はありません。近隣の「ドゥウォンビル」有料駐車場をご利用ください。"
             }
+        ],
+        "category_after_shooting": "撮影後",
+        "after_shooting": [
+            {
+                "question": "元データはいつ, どのような方法で受け取れますか？",
+                "answer": "撮影当日に全データを**メールおよびAirDrop**ですべてお送りいたします。"
+            },
+            {
+                "question": "写真のセレクト（選択）はどのようにすればいいですか？",
+                "answer": "受け取った元データの中から補正希望の写真を選択し, 20日以内に返信してください。\n\n作業ミスの防止のため, ファイル番号は絶対に変更せず, 返信メールでお送りください。"
+            },
+            {
+                "question": "補正にはどのくらいの期間がかかりますか？",
+                "answer": "セレクト返信日から, 1枚は当日中に先行補正を行い, 残りの写真は約4週間後に最終版をお受け取りいただけます。"
+            },
+            {
+                "question": "補正サービスの特徴は何ですか？",
+                "answer": "本来の魅力を活かしつつ, グラビアのようなムードを最大化するレタッチを行い, 再修正は1回可能です。\n\n補正が完了しましたら, FITGIRLS & INAFITだけのマガジンカバーを製作し, 一緒にお送りいたします。"
+            },
+            {
+                "question": "サービスの補正特典はありますか？",
+        "answer": "NAVER訪問者レビューの作成およびInstagramへのアップロード同意時に, それぞれサービス補正特典を差し上げます。"
+            }
         ]
     },
     "services": {
-        "header_title": "FITGIRLS & INAFIT",
+        "desc_1concept": "1:1 ディレクティング, 修正本3枚, 全体原本データ提供",
+        "desc_2concepts": "1:1 ディレクティング, 修正本6枚, 全体原本 データ提供",
+        "desc_3concepts": "1:1 ディレクティング, 修正本9枚, 全体原本 データ提供",
+        "header_title": "SERVICE & PRICE",
         "header_subtitle": "PORTRAIT SERVICE 2026",
         "header_desc": "OPEN YEAR ROUND · 予約制スタジオ · 全額VAT込み / カード＆現金領収書発行",
         "menu1": {
@@ -111,26 +291,29 @@
         "list1": [
             {
                 "title": "1 CONCEPT",
-                "price": "275,000 ウォン",
+                "price": "275,000",
                 "details": [
-                    "コンセプトあたり衣装1着、背景2種",
-                    "補正2枚 · 5x7プリント1枚 · WEB用元データ提供 · 撮影30分"
+                    "作家 1:1 ディレクティング",
+                    "修正本 3枚",
+                    "原本全体提供"
                 ]
             },
             {
                 "title": "2 CONCEPTS",
-                "price": "440,000 ウォン",
+                "price": "440,000",
                 "details": [
-                    "コンセプトあたり衣装1着、背景無制限 · ポーズ無制限",
-                    "補正4枚 · 5x7プリント2枚 · WEB用元データ提供 · 撮影90分"
+                    "作家 1:1 ディレクティング",
+                    "修正本 6枚",
+                    "原本全体提供"
                 ]
             },
             {
                 "title": "3 CONCEPTS",
-                "price": "550,000 ウォン",
+                "price": "550,000",
                 "details": [
-                    "衣装 · 背景 · ポーズすべて無制限",
-                    "補正6枚 · 5x7プリント3枚 · WEB用元データ提供 · 撮影120分"
+                    "作家 1:1 ディレクティング",
+                    "修正本 9枚",
+                    "原本全体提供"
                 ]
             }
         ],
@@ -153,7 +336,7 @@
                 "price": "770,000 ウォン",
                 "details": [
                     "個人 1コンセプト × 2名 + 友情 1コンセプト",
-                    "トータル補正 6枚"
+                    "合計補正 6枚"
                 ]
             },
             {
@@ -161,16 +344,99 @@
                 "price": "1,100,000 ウォン",
                 "details": [
                     "個人 2コンセプト × 2名 + 友情 1コンセプト",
-                    "トータル補正 10枚"
+                    "合計補正 10枚"
                 ]
             }
         ],
         "notices": [
-            "補正作業：セレクト当日に1枚補正提供、残りの写真は約4週間以内に1次補正完了（追加修正リクエスト可能）。",
+            "補正作業：セレクト当日に1枚補正提供, 残りの写真は約4週間以内に1次補正完了（追加修正リクエスト可能）。",
             "元データはWEB用（約2000px）サイズで提供されます。",
             "追加補正は1枚あたり33,000ウォンの追加料金が発生します。",
             "駐車はドゥウォンビルの有料駐車場をご利用ください。",
-            "NAVERレビュー作成時に補正1枚サービス、SNSアップロード同意時に補正1枚サービス提供。"
+            "NAVERレビュー作成時に補正1枚サービス, SNSアップロード同意時に補正1枚サービス提供。"
         ]
+    },
+    "partners": {
+        "title": "PARTNERSHIP",
+        "subtitle": "FITGIRLS & INAFIT 提携ヘアメイクのご案内",
+        "shop_name": "Mabelle Boutique",
+        "price_women": "女性 88,000ウォン (付加価値税込み)",
+        "price_men": "男性 66,000ウォン (付加価値税込み)",
+        "notices": [
+            "お客様のご自身での直接予約が必須です (出張不可)",
+            "LINEまたはカカオトークでの予約・お問い合わせをお勧めします。"
+        ],
+        "contact": {
+            "tel": "0507-1359-1859",
+            "address": "ソウル江南区鶴洞路47키ル5 1階 (江南区庁駅徒歩5分)",
+            "line": "https://line.me/R/ti/p/@038avhqv",
+            "instagram": "https://www.instagram.com/mabelle_korea_"
+        },
+        "women": "女性",
+        "men": "男性",
+        "vat_included": "付加価値税込み",
+        "alert": "ヘアメイク予約時, <strong>FITGIRLS予約書の添付が必須</strong>です"
+    },
+    "how_to_book": {
+        "title": "HOW TO BOOK",
+        "subtitle": "ご予約方法",
+        "steps": [
+            {
+                "step": "STEP 1",
+                "title": "NAVER予約",
+                "highlight": "日程・オプション(撮影商品)\nを選んで予約する",
+                "desc": "NAVER予約サイトにて, ご希望の日程および撮影オプションをお選びの上, ご予約ください。"
+            },
+            {
+                "step": "STEP 2",
+                "title": "予約金のお支払い",
+                "highlight": "予約金 90,000ウォン\nお支払い",
+                "desc": "NAVER予約後, 4時間以内に予約금をお支払いください。未払いの場合, 自動キャンセルとなります。"
+            },
+            {
+                "step": "STEP 3",
+                "title": "予約確定！",
+                "highlight": "NAVERの「マイ予約」で\n予約内容を確認",
+                "desc": "NAVER予約者とお支払い者が同一の場合, 予約が確定されます。\n\n異なる場合は LINE または KakaoTalk にてお知らせください。"
+            }
+        ]
+    },
+    "reviews": {
+        "title": "REAL REVIEWS",
+        "subtitle": "実際のお客様が認めたFITGIRLSの圧倒的なクオリティ",
+        "stats": {
+            "total": "総レビュー",
+            "ranking": "No.1 ボディプロフィールスタジオ",
+            "rating": "平均評価",
+            "years": "経歴",
+            "shooting": "撮影回数"
+        },
+        "ai_summary": {
+            "badge": "AI SUMMARY",
+            "title": "AIによる要約",
+            "desc": "{{count}}件のレビューを分析しました",
+            "bullet1": "初心者でもポージングが自然になる専門的なディレクティング",
+            "bullet2": "繊細な補正と高品質な仕上がりに対する圧倒的な満足度",
+            "bullet3": "多様なコンセプトが選択でき, レンタル衣装の質が高い"
+        },
+        "write": "レビューを書く",
+        "empty": "まだレビューがありません。",
+        "tags": {
+            "all": "すべて",
+            "photo": "写真のクオリティ",
+            "kind": "親切な対応",
+            "config": "充実した構成",
+            "mood": "雰囲気最高"
+        },
+        "samples": {
+            "review1": {
+                "author": "jm47",
+                "text": "初めてのボディプロフィール撮影でしたが、カメラマンさんの実力は本物でした。ポーズやコンセプトで悩みましたが、完璧にリードしてくれました。大満足です！もっと体を鍛えてまたお願いしたいです。細かいディテールまでこだわってくれて最高の写真が撮れました。"
+            },
+            "review2": {
+                "author": "ジェヒひ43",
+                "text": "何よりカメラマンさんがとても親切でした！撮影前はすごく緊張していましたが、柔らかい雰囲気の中でリラックスして撮影できました。特にアングルと色味がとても綺麗で、周りからもどこで撮ったのかと聞かれます。本当におすすめです！"
+            }
+        }
     }
 }

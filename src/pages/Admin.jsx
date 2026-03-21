@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { addGalleryItem } from '../utils/db';
+import { addItem, STORES } from '../utils/db';
+import { db, storage } from '../utils/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { syncAll } from '../utils/syncService';
 import './Admin.css';
 
 const Admin = () => {
@@ -40,10 +44,38 @@ const Admin = () => {
             <div className="admin-container">
                 <header className="admin-header">
                     <h2>Dashboard</h2>
-                    <button className="logout-btn" onClick={() => {
-                        setIsLoggedIn(false);
-                        localStorage.removeItem('isAdmin'); // 로그아웃 시 관리자 플래그 제거
-                    }}>로그아웃</button>
+                    <div className="admin-actions" style={{ display: 'flex', gap: '10px' }}>
+                        <button 
+                            className="sync-btn" 
+                            onClick={async () => {
+                                try {
+                                    const btn = document.querySelector('.sync-btn');
+                                    btn.innerText = 'Syncing...';
+                                    btn.disabled = true;
+                                    await syncAll();
+                                    alert('클라우드 데이터 동기화 완료!');
+                                    btn.innerText = 'Cloud Sync 🔄';
+                                    btn.disabled = false;
+                                } catch (e) {
+                                    alert('동기화 실패: ' + e.message);
+                                }
+                            }}
+                            style={{
+                                padding: '8px 16px',
+                                borderRadius: '6px',
+                                border: '1px solid #444',
+                                background: '#333',
+                                color: '#fff',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Cloud Sync 🔄
+                        </button>
+                        <button className="logout-btn" onClick={() => {
+                            setIsLoggedIn(false);
+                            localStorage.removeItem('isAdmin'); // 로그아웃 시 관리자 플래그 제거
+                        }}>로그아웃</button>
+                    </div>
                 </header>
                 <div className="admin-content">
                     <UploadForm />
@@ -123,19 +155,43 @@ const UploadForm = () => {
         localStorage.setItem('adminHashtags', JSON.stringify(newSavedTags));
 
         try {
-            // IndexedDB에 실제로 저장 (previewUrl = Base64 이미지 데이터)
-            await addGalleryItem({
-                type: category,
+            let cloudUrl = null;
+            
+            // 1. Firebase Storage에 업로드 (파일이 있는 경우)
+            if (file) {
+                const storageRef = ref(storage, `galleries/${Date.now()}_${file.name}`);
+                const uploadResult = await uploadBytes(storageRef, file);
+                cloudUrl = await getDownloadURL(uploadResult.ref);
+                console.log('Cloud Upload Success:', cloudUrl);
+            }
+
+            const galleryData = {
+                mainCategory: category === 'women' || category === 'men' ? 'STUDIO' : 'LOOKBOOK',
+                subCategory: category.toUpperCase(),
                 tags: parsedTags,
-                img: previewUrl,   // base64 data URL (FileReader로 이미 생성된 것)
+                imageUrl: cloudUrl || previewUrl, // Cloud URL 우선, 실패 시 base64
                 name: file.name,
                 size: file.size,
+                order: Date.now(), // 기본 정렬용
+                createdAt: serverTimestamp()
+            };
+
+            // 2. Firestore에 저장
+            const docRef = await addDoc(collection(db, STORES.GALLERY), galleryData);
+            console.log('Firestore Save Success:', docRef.id);
+
+            // 3. 로컬 IndexedDB에도 백업 저장
+            await addItem(STORES.GALLERY, {
+                ...galleryData,
+                id: docRef.id,
+                createdAt: new Date().toISOString()
             });
+
             setShowSuccess(true);
-            setTimeout(() => setShowSuccess(false), 3000); // 3초 후 자동 닫기
+            setTimeout(() => setShowSuccess(false), 3000);
         } catch (err) {
-            console.error('IndexedDB 저장 실패:', err);
-            alert('저장 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            console.error('Upload Error:', err);
+            alert('업로드 중 오류가 발생했습니다: ' + err.message);
         }
 
         // 폼 초기화
@@ -256,15 +312,19 @@ const UploadForm = () => {
                         <option value="men">남자</option>
                         <option value="couple">우정&amp;커플</option>
                         <option value="outdoor">OUTDOOR</option>
-                        <option value="fashion">FASHION &amp; BEAUTY</option>
-                        <option value="dancer">DANCER &amp; DJ</option>
-                        <option value="self">SELF</option>
-                        <option value="portrait">PORTRAIT</option>
                     </select>
                 </div>
 
                 <div className="form-group">
-                    <label>3. 해시태그 (공백 또는 콤마 구분, 최대 3개)</label>
+                    <label>
+                        3. 해시태그
+                        <span style={{ color: parsedTags.length > 3 ? '#ff4d4d' : '#E50914', marginLeft: '6px', fontWeight: 'bold' }}>
+                            ({parsedTags.length}/3)
+                        </span>
+                        <span style={{ fontSize: '0.85em', color: 'var(--color-text-secondary)', fontWeight: 'normal', marginLeft: '6px' }}>
+                            (공백 또는 콤마 구분)
+                        </span>
+                    </label>
                     <input
                         type="text"
                         placeholder="#바디프로필, #이너핏, #레드포인트"
@@ -345,7 +405,7 @@ const UploadForm = () => {
                 </button>
                 <button
                     type="button"
-                    onClick={() => window.location.href = '/'}
+                    onClick={() => window.location.href = '#/'}
                     style={{
                         marginTop: '10px',
                         padding: '14px',
@@ -366,7 +426,7 @@ const UploadForm = () => {
                     📸 갤러리로 이동
                 </button>
             </div>
-        </div>
+        </div >
     );
 };
 

@@ -1,12 +1,12 @@
 .social-links-container {
-    position: fixed;
+    position: absolute;
+    /* Hero 컨테이너 내부 렌더링 시 스크롤과 함께 사라지도록 변경 */
     bottom: 40px;
     left: 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    z-index: 998;
-    /* SupportCS 보다는 낮게, 하지만 섹션보다는 높게 */
+    z-index: 900;
     pointer-events: auto;
 }
 
@@ -34,8 +34,8 @@
 /* 흑백 배경이 아닌 곳에서도 보일 수 있도록 믹스 블렌드 모드 등을 고민할 수 있으나 우선 간단하게 구현 */
 @media (max-width: 768px) {
     .social-links-container {
-        left: 16px;
-        bottom: 30px;
+        display: none;
+        /* 모바일에서는 UI 간소화를 위해 숨김 */
     }
 
     .social-link {

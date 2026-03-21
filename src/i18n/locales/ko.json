@@ -1,12 +1,143 @@
 {
     "nav": {
         "home": "홈",
-        "gallery": "갤러리 & 아카이브",
-        "service": "서비스 및 가격표",
-        "faq": "자주 묻는 질문",
-        "location": "위치 및 안내"
+        "intro": "인트로",
+        "gallery": "갤러리",
+        "studios": "스튜디오 존",
+        "lookbook": "룩북",
+        "reservation": "예약",
+        "review": "리뷰",
+        "service": "프로그램",
+        "hairmakeup": "헤어&메이크업",
+        "hm": "H & M",
+        "faq": "FAQ",
+        "notice": "공지사항",
+        "location": "위치",
+        "zone": "촬영존",
+        "social": "소셜",
+        "mgmt": "모델 매니지먼트",
+        "program": "프로그램",
+        "info": "정보",
+        "event": "이벤트"
+    },
+    "event": {
+        "title": "이벤트 게시판",
+        "adminLink": "관리자"
+    },
+    "social": {
+        "posts": "Instagram & Pinterest",
+        "searchPlaceholder": "검색...",
+        "subtitle": "소셜 미디어에서 팔로우하세요"
+    },
+    "intro": {
+        "slogan": "단순한 바디 기록을 넘어,\n나만의 아우라를 한 장의 화보로 완성하는 방식.",
+        "desc": "근육의 선명도보다 피사체 고유의 무드와 에너지를 담아내는 핏토리얼리스트 제안"
+    },
+    "studios": {
+        "title": "STUDIO ZONE",
+        "subtitle": "당신의 무드를 완성할 최적의 공간",
+        "zones": {
+            "blackmoon": "블랙문",
+            "blackwall": "블랙벽",
+            "sofa": "긴소파",
+            "yellow": "노란배경지",
+            "cake": "화이트케이크샷",
+            "blue": "블루배경지",
+            "pink": "핑크배경지",
+            "curtain": "퓨어커튼",
+            "natural": "네추럴벽",
+            "mirror": "거울샷",
+            "jennie": "제니존",
+            "red": "레드배경지"
+        }
+    },
+    "zone": {
+        "title": "ZONE",
+        "subtitle": "핏걸즈에서만 할수 있는 다양한 배경을 다양하게 선택해 보세요.",
+        "subtitleInsta": "더 다양한 배경은 인스타그램에서",
+        "subtitleHashtag": "#핏걸즈",
+        "subtitleInstaEnd": "를 검색하면 보실수 있습니다.",
+        "names": {
+            "zone1": "베이직 브라운",
+            "zone2": "오렌지",
+            "zone3": "화이트",
+            "zone4": "네츄럴브라운",
+            "zone5": "서핑",
+            "zone6": "베이직 비비드",
+            "zone7": "블루화이트",
+            "zone8": "주방",
+            "zone9": "자전거",
+            "zone10": "냉장고",
+            "zone11": "빨간소파",
+            "zone12": "노란케비넷",
+            "zone13": "블랙문",
+            "zone14": "블랙벽",
+            "zone15": "긴소파",
+            "zone16": "노란배경지",
+            "zone17": "화이트케이크샷",
+            "zone18": "블루배경지",
+            "zone19": "핑크배경지",
+            "zone20": "퓨어커튼",
+            "zone21": "네추럴벽",
+            "zone22": "거울샷",
+            "zone23": "제니존",
+            "zone24": "레드배경지"
+        },
+        "tabs": {
+            "zone": "STUDIO ZONE",
+            "lookbook": "LOOKBOOK"
+        },
+        "lookbookNotice": "*핏걸즈에서 대여 가능 의상을 체크하세요. 소품은 다양하니 모두 사용이 가능하세요.",
+        "lookbook": {
+            "top": "상의",
+            "bottom": "하의",
+            "sizeLabel": "사이즈:",
+            "sizeUnknown": "사이즈 미정"
+        }
+    },
+    "lookbook": {
+        "title": "LOOKBOOK",
+        "subtitle": "다양한 컨셉과 의상으로 완성하는 나만의 스타일",
+        "fitorialist": "패션사진가의 시선으로 바디프로필을 담아내는 스타일",
+        "artist": "근육과 선의 대담하고 예술적인 표현",
+        "fashion": "매거진 화보 같은 트렌디하고 스타일리시한 무드",
+        "portrait": "가장 자연스럽고 아름다운 본연의 순간에 집중"
+    },
+    "hm": {
+        "title": "HAIR & MAKEUP",
+        "subtitle": "더 완벽한 화보를 위한 전문 제휴 서비스",
+        "partner": "마벨꾸띠끄 (Mabelle Boutique)",
+        "price_women": "여성 88,000원",
+        "price_men": "남성 66,000원",
+        "vat": "부가세 포함",
+        "notice": "직접 예약 필수 (스튜디오 출장 불가), 네이버 예약 내역 인증 시 제휴가 적용",
+        "location": "서울 강남구 학동로 47길 5 1층 (강남구청역 인근)",
+        "tel": "0507-1359-1859"
+    },
+    "notice": {
+        "title": "NOTICE",
+        "items": [
+            {
+                "title": "2026 핏걸즈&이너핏 제휴 피트니스센터 혜택 및 모집",
+                "date": "2026.03.04"
+            },
+            {
+                "title": "4월 핑크방 오픈",
+                "date": "2026.03.04"
+            }
+        ]
     },
     "gallery": {
+        "main": {
+            "fitorialist": "FITORIALIST",
+            "artist": "ARTIST",
+            "fashion": "FASHION & BEAUTY",
+            "portrait": "PORTRAIT"
+        },
+        "fitorialist": "FITORIALIST",
+        "artist": "ARTIST",
+        "fashion_beauty": "FASHION & BEAUTY",
+        "portrait": "PORTRAIT",
         "women": "여자",
         "men": "남자",
         "couple": "우정&커플",
@@ -14,7 +145,6 @@
         "fashion": "패션 & 뷰티",
         "dancer": "댄서 & DJ",
         "self": "셀프",
-        "portrait": "포트레이트",
         "hashtags": {
             "ALL": "전체",
             "RED": "레드",
@@ -28,7 +158,8 @@
     },
     "hero": {
         "title": "FITORIALIST",
-        "subtitle": "FIT + EDITORIAL + IST",
+        "subtitle": "PHOTOGRAPHED BY ANGELO SHIN.",
+        "fitorialist_desc": "FIT + EDITORIAL + IST",
         "cta": "네이버 예약하기"
     },
     "cs": {
@@ -41,9 +172,12 @@
         "button": "네이버 예약 신청하기",
         "link": "https://naver.me/GWeuhE37",
         "steps": {
-            "step1_title": "네이버 예약 신청",
-            "step2_title": "예약금 결제",
-            "step2_desc": "네이버 예약 후, 카카오톡 채팅에서 '토스오더' 알림이 도착하면 예약금 90,000원을 결제해 주셔야 최종 예약 확정이 완료됩니다."
+            "step1_title": "카카오톡 채팅 예약 문의",
+            "step1_desc": "카카오 채널 '핏걸즈'를 통해 원하시는 촬영 스케줄이 비어 있는지 먼저 확인해 주세요.",
+            "step2_title": "네이버 예약 신청",
+            "step2_desc": "스케줄 확인 후 안내된 링크를 통해 네이버 예약을 진행해 주세요.",
+            "step3_title": "예약금 결제 및 확정",
+            "step3_desc": "네이버 예약 후 '토스오더' 알림 또는 안내 계좌로 예약금(90,000원)을 입금하시면 최종 예약 확정 및 안내문이 발송됩니다."
         },
         "final_notice": "✅ 예약이 확정되면 촬영 준비 관련 상세 안내를 보내드립니다. 💖✨"
     },
@@ -51,55 +185,100 @@
         "title": "LOCATION",
         "subtitle": "찾아오시는 길",
         "address_label": "Address.",
-        "address": "서울시 강남구 강남대로 160길 18 (아티움빌딩), B1\n(지번: 서울시 강남구 신사동 508-4번지 지하)",
+        "address": "서울시 강남구 강남대로 160길 18 (아티움빌딩), B1",
         "parking_label": "Parking.",
-        "parking": "주차는 유료주차장을 이용하셔야 합니다.\n근처 유료주차장: 서울특별시 강남구 강남대로 636 두원빌딩 (시간당 3,000원)",
+        "parking": "본 스튜디오 건물은 주차가 불가합니다.\n근처 유료주차장: 두원빌딩 유료주차장 (도산대로 24길 7) 추천",
         "contact_label": "Contact.",
         "tel": "010-4696-1434",
         "email": "inafit@daum.net",
-        "hours": "매일 (All days) 10:00 ~ 18:00",
+        "hours": "매일 (All days) 10:00 ~ 23:00",
         "links": {
-            "studio_map": "https://map.naver.com/v5/directions/-/14139841.851238009,4511765.692314798,핏걸즈스튜디오,1976065694,PLACE_POI/-/car?c=15,0,0,0,dh",
-            "parking_map": "https://map.naver.com/v5/search/두원빌딩%20주차장/place/667509448?placePath=%3Fentry=pll%26from=nx%26fromNxList=true"
+            "studio_map": "https://map.naver.com/v5/search/%ED%95%8F%EA%B1%B8%EC%A6%88%EC%8A%A4%ED%84%B0%EB%94%94%EC%98%A4/place/1976065694",
+            "parking_map": "https://map.naver.com/v5/search/%EB%91%90%EC%9B%90%EB%B9%20%EB%B9%8C%EB%94%9D%20%EC%A3%BC%EC%B0%A8%EC%9E%A5/place/667509448"
         },
-        "btn_studio": "스튜디오 길찾기",
-        "btn_parking": "주차장 위치보기"
+        "btn_studio": "네이버 길찾기",
+        "btn_parking": "주차장 길찾기"
+    },
+    "model_recruit": {
+        "title": "MODEL RECRUIT",
+        "subtitle": "2026 NEW FACE WANTED",
+        "main_title": "핏걸즈와 함께할 새로운 뮤즈를 찾습니다.",
+        "desc": "다양한 컨셉의 촬영을 통해 자신만의 매력을 발견하고 싶은 분들의 많은 지원 바랍니다. 전문 모델이 아니어도 바디프로필에 열정이 있는 분이라면 누구든 환영합니다.",
+        "target_label": "모집대상:",
+        "target_value": "바디프로필에 관심 있는 모든 여성",
+        "benefit_label": "지원혜택:",
+        "benefit_value": "헤어/메이크업 지원 및 촬영권 증정",
+        "button": "지금 바로 지원하기"
     },
     "faq": {
         "title": "FAQ",
         "subtitle": "자주 묻는 질문",
-        "list": [
+        "category_before_reservation": "예약 전",
+        "before_reservation": [
             {
-                "question": "예약은 어떻게 하면 될까요?",
-                "answer": "네이버 예약 시스템을 통해 가능하며, 상담 후 4시간 이내에 예약금(90,000원)을 입금해야 확정됩니다."
+                "question": "예약은 어떻게 진행하나요?",
+                "answer": "1️⃣ 네이버 예약 신청하기\nhttps://naver.me/GWeuhE37\n\n2️⃣ 예약금 결제 (토스오더 알림 확인 후 진행)\n\n📩 네이버 예약 후, 카카오톡 채팅에서 토스오더 알림이 도착하면 예약금 90,000원을 결제해 주시면 최종 예약 확정이 완료됩니다."
             },
             {
-                "question": "예약 변경/취소는 어떻게 하나요?",
-                "answer": "촬영일 기준 50일 이전까지 1회 변경 가능하며, 50일 이전 취소 시에만 예약금 100% 환불이 가능합니다. (49일 전~당일 취소 시 위약금 적용)"
+                "question": "가격은 얼마인가요?",
+                "answer": "패키지별 상세 단가는 네이버 스마트플레이스나 카카오톡 채널 메뉴에서 바로 확인하실 수 있습니다.\n\nFITORIAL 패키지에 대한 상세 안내를 참고해 보시기 바랍니다."
             },
             {
-                "question": "언제까지 도착해야 하나요?",
-                "answer": "환복 및 펌핑 등 준비를 위해 예약 시간 30분 전에 도착해야 합니다. (너무 일찍 오시면 대기 공간이 부족할 수 있습니다.)"
+                "question": "예약 취소나 날짜 변경이 가능한가요?",
+                "answer": "촬영일 기준 50일 전까지는 100% 환불 및 1회 변경이 가능합니다.\n\n촬영일 49일 전부터는 위약금이 발생하며, 이후에는 사유와 관계없이 변경 및 환불이 불가하니 신중한 예약 부탁드립니다."
             },
             {
-                "question": "지인 동행이나 반려동물 촬영이 가능한가요?",
-                "answer": "트레이너나 지인 등 최대 2명까지 동행 가능하며, 반려동물 동반 촬영도 추가 비용 없이 가능합니다."
+                "question": "스튜디오 휴무일이 있나요?",
+                "answer": "매주 화요일은 촬영 휴무입니다."
+            }
+        ],
+        "category_before_shooting": "촬영 전",
+        "before_shooting": [
+            {
+                "question": "촬영 컨셉 시안은 언제까지 제출해야 하나요?",
+                "answer": "촬영 1주일 전까지 원하시는 느낌의 시안(이미지, 의상 대여 여부 등)을 반드시 업로드해 주셔야 합니다.\n\n📂 시안 파일 업로드 링크: https://www.dropbox.com/request/OLYXbA6Ail00gAZBYPFa\n\n파일명 예시: 성함_촬영날짜 (예: 신철민_1025)"
             },
             {
-                "question": "헤어/메이크업 제휴가 있나요?",
-                "answer": "헤어/메이크업 연계샵 문의 시 '마벨꾸띠끄'에서 제휴가에 진행 가능합니다.\n• 여자가격: 88,000원(부가세 포함)\n• 남자가격: 66,000원(부가세 포함)\n\n[예약 및 이용 안내]\n• 직접 예약 필수 (출장 불가)\n• 전화: 0507-1359-1859\n• 주소: 서울 강남구 학동로 47길 5 1층 (강남구청 도보 5분거리)\n• 카카오톡채널: https://pf.kakao.com/_QPjsxb?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPMTI0MDI0NTc0Mjg3NDE0AAGnaE51q1t4FDA0DOnxsJHIiqwqlznx0KIhhXs0oL6ylMyqysBIC8HMy7cxt98_aem_0kdbP2JNBJTvwrsJ-3de9A\n• 인스타그램: https://www.instagram.com/mabelle_korea_?igsh=MTV4eTJybGFoYzlodQ=="
+                "question": "촬영 당일, 몇 시까지 도착해야 하나요?",
+                "answer": "예약 시간 30분 전 도착을 원칙으로 합니다.\n\n도착 후 의상 교체, 펌핑, 오일 및 바세린 준비를 마치고 정시에 촬영을 시작합니다.\n\n1분이라도 지각하실 경우 촬영이 자동 취소되며 환불이 불가하오니 시간을 꼭 준수해 주세요."
             },
             {
-                "question": "보정본은 언제 받을 수 있나요?",
-                "answer": "촬영 당일 웹용 원본 전체(약 150장)를 메일로 보내드리며, 사진 셀렉 후 한 달 내외로 1차 보정본을 받아보실 수 있습니다."
+                "question": "스튜디오에 구비된 물품이 있나요?",
+                "answer": "오일, 바세린, 아령(덤벨), 밴드, 매트 등이 모두 구비되어 있어 자유롭게 활용 가능합니다.\n\n#핏걸즈 해시태그에서 보신 소품들 외에 개인 소품 지참도 환영합니다."
             },
             {
-                "question": "주차가 가능한가요?",
-                "answer": "건물 내 주차는 불가하며, 인근 '두원빌딩' 유료 주차장을 이용해 주셔야 합니다."
+                "question": "주차는 가능한가요?",
+                "answer": "스튜디오 앞 유료 발렛(2시간 10,000원) 서비스를 이용하시거나, 인근 빌딩의 유료 주차장을 이용해 주시기 바랍니다."
+            }
+        ],
+        "category_after_shooting": "촬영 후",
+        "after_shooting": [
+            {
+                "question": "원본 사진은 언제, 어떤 방식으로 받나요?",
+                "answer": "촬영 당일에 전체 원본을 **이메일과 에어드랍(Airdrop)**으로 모두 전송해 드립니다."
+            },
+            {
+                "question": "사진 셀렉(선택)은 어떻게 하나요?",
+                "answer": "수령하신 원본 중 보정 사진을 선택하여 20일 이내에 회신해 주세요.\n\n작업 오류 방지를 위해 파일 번호를 절대 변경하지 말고 답장 메일로 보내주셔야 합니다."
+            },
+            {
+                "question": "보정 기간은 얼마나 걸리나요?",
+                "answer": "셀렉 회신일로부터 1장은 당일에 바로 선보정을 진행해 드리며, 나머지 사진은 약 4주 후에 최종본을 받아보실 수 있습니다."
+            },
+            {
+                "question": "보정 서비스의 특징이 무엇인가요?",
+                "answer": "본연의 매력을 살리면서 화보 무드를 극대화하는 리터칭이 진행되며, 재수정은 1회 가능합니다.\n\n보정이 완료되면 핏걸즈 & 이너핏만의 매거진 커버를 제작하여 함께 보내드립니다."
+            },
+            {
+                "question": "서비스 보정 혜택이 있나요?",
+                "answer": "네이버 방문자 리뷰 작성 및 인스타그램 업로드 동의 시 각각 서비스 보정 혜택을 드립니다."
             }
         ]
     },
     "services": {
+        "desc_1concept": "작가 1:1 디렉팅, 정밀 리터칭 3장, 전체 원본 데이터 제공",
+        "desc_2concepts": "작가 1:1 디렉팅, 정밀 리터칭 6장, 전체 원본 데이터 제공",
+        "desc_3concepts": "작가 1:1 디렉팅, 정밀 리터칭 9장, 전체 원본 데이터 제공",
         "header_title": "FITGIRLS & INAFIT",
         "header_subtitle": "PORTRAIT SERVICE 2026",
         "header_desc": "OPEN YEAR ROUND · 예약제 스튜디오 · 모든 금액은 VAT 포함 / 카드 & 현금영수증 발급",
@@ -172,5 +351,88 @@
             "주차는 두원빌딩 유료주차장을 이용해 주세요.",
             "네이버 리뷰 작성 시 보정 1장 서비스, SNS 업로드 동의 시 보정 1장 서비스 제공."
         ]
+    },
+    "partners": {
+        "title": "PARTNERSHIP",
+        "subtitle": "FITGIRLS & INAFIT 제휴 헤어/메이크업 안내",
+        "shop_name": "마벨꾸띠끄 (mabelle)",
+        "price_women": "여성 88,000원 (부가세 포함)",
+        "price_men": "남성 66,000원 (부가세 포함)",
+        "notices": [
+            "고객 직접 예약 필수 (스튜디오 출장 불가)",
+            "카카오톡 예약/문의 권장드립니다."
+        ],
+        "contact": {
+            "tel": "0507-1359-1859",
+            "address": "서울 강남구 학동로 47길 5 1층 (강남구청역 도보 5분거리)",
+            "kakao_channel": "https://pf.kakao.com/_QPjsxb",
+            "instagram": "https://www.instagram.com/mabelle_korea_"
+        },
+        "women": "여성",
+        "men": "남성",
+        "vat_included": "VAT 포함",
+        "alert": "헤어메이크업 예약 시 <strong>핏걸즈 예약서 첨부 필수</strong>입니다"
+    },
+    "how_to_book": {
+        "title": "HOW TO BOOK",
+        "subtitle": "예약 방법 안내",
+        "steps": [
+            {
+                "step": "STEP 1",
+                "title": "네이버 예약",
+                "highlight": "일정 / 옵션(촬영 상품)\n선택해서 예약하기",
+                "desc": "네이버 예약 사이트에서 원하시는 일정 및 옵션(촬영 상품)을 선택하여 예약을 진행해 주세요."
+            },
+            {
+                "step": "STEP 2",
+                "title": "예약금 결제",
+                "highlight": "예약금 90,000원",
+                "desc": "네이버 예약 후 4시간 이내 예약금을 결제해 주세요. 미결제 시 자동 취소됩니다."
+            },
+            {
+                "step": "STEP 3",
+                "title": "예약 확정!",
+                "highlight": "네이버 '내 예약'으로\n예약 내용 확인",
+                "desc": "네이버 예약자와 결제자가 동일한 경우 예약이 확정됩니다.\n\n예약자명과 결제자명이 다를 경우 카카오톡 채널로 알려주세요."
+            }
+        ]
+    },
+    "reviews": {
+        "title": "REAL REVIEWS",
+        "subtitle": "실제 고객님이 인정한 핏걸즈의 압도적인 퀄리티",
+        "stats": {
+            "total": "총 리뷰",
+            "ranking": "No.1 바디프로필 스튜디오",
+            "rating": "평균 별점",
+            "years": "경력",
+            "shooting": "촬영 횟수"
+        },
+        "ai_summary": {
+            "badge": "AI SUMMARY",
+            "title": "AI 요약",
+            "desc": "{{count}}개의 리뷰를 분석했습니다",
+            "bullet1": "초보자도 포징이 자연스러워지는 전문적인 디렉팅",
+            "bullet2": "섬세한 보정과 고퀄리티 결과물에 대한 압도적 만족도",
+            "bullet3": "다양한 컨셉 선택 가능 및 대여 의상의 높은 퀄리티"
+        },
+        "write": "리뷰 작성하기",
+        "empty": "아직 작성된 리뷰가 없습니다.",
+        "tags": {
+            "all": "전체",
+            "photo": "사진 맛집",
+            "kind": "친절해요",
+            "config": "구성이 좋아요",
+            "mood": "분위기 장인"
+        },
+        "samples": {
+            "review1": {
+                "author": "김철민",
+                "text": "처음 찍어보는 바디프로필이었는데, 작가님의 명성 그대로였어요. 포즈나 컨셉 고민이 많았는데 작가님이 완벽하게 리드해주셨습니다. 너무 만족스럽고 더 몸 만들어서 다시 방문할 예정입니다! 작은 디테일까지 놓치지 않고 잡아주셔서 인생샷 건졌네요."
+            },
+            "review2": {
+                "author": "이지혜",
+                "text": "무엇보다 작가님이 너무 친절하셨어요! 촬영 전에는 엄청 긴장했는데 부드러운 분위기 속에서 편하게 촬영했습니다. 특히 구도랑 색감이 너무 예쁘게 나와서 주변에서도 다들 어디서 찍었냐고 물어보네요. 강력 추천합니다!"
+            }
+        }
     }
 }

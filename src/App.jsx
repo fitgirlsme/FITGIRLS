@@ -1,83 +1,124 @@
-import React, { Suspense } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import './App.css';
-
-// Lazy loading sections (in reality these can be regular imports for a one-page app)
-import Hero from './components/sections/Hero';
-import GallerySection from './components/sections/Gallery';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import Intro from './components/sections/Intro';
+import Gallery from './components/sections/Gallery';
 import Service from './components/sections/Service';
+import Zone from './components/sections/Zone';
+import HM from './components/sections/HM';
 import FAQ from './components/sections/FAQ';
+import Notice from './components/sections/Notice';
 import Location from './components/sections/Location';
 import ReservationForm from './components/sections/ReservationForm';
+import ModelRecruit from './components/sections/ModelRecruit';
+import SocialWall from './components/sections/SocialWall';
+import ModelMgmt from './components/ModelMgmt';
 import SupportCS from './components/SupportCS';
-import SocialLinks from './components/SocialLinks';
+import Reviews from './pages/Reviews';
+import BrandReport from './pages/BrandReport';
 import Admin from './pages/Admin';
+import { syncAll } from './utils/syncService';
+import './index.css';
 
-const OnePageApp = () => {
-    const { i18n } = useTranslation();
+const Home = ({ changeLanguage, currentLang }) => {
+  const location = useLocation();
+  const [isScrolled, setIsScrolled] = React.useState(false);
+  const [isOnHero, setIsOnHero] = React.useState(true);
+  const [isGalleryVisible, setIsGalleryVisible] = React.useState(false);
 
-    const changeLanguage = (lng) => {
-        i18n.changeLanguage(lng);
-    };
+  React.useEffect(() => {
+    const section = location.pathname.substring(1);
+    if (section && section !== 'admin' && section !== 'report') {
+      setTimeout(() => {
+        const el = document.getElementById(section);
+        const container = document.querySelector('.snap-container');
+        if (el && container) {
+          container.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [location.pathname]);
 
-    return (
-        <div className="app-container">
-            {/* Absolute Minimal Header */}
-            <header className="app-header">
-                <div className="logo-text">FITGIRLS &amp; INAFIT</div>
-                <div className="lang-switcher">
-                    <button onClick={() => changeLanguage('ko')} className={i18n.language === 'ko' ? 'active' : ''}>KR</button>
-                    <button onClick={() => changeLanguage('en')} className={i18n.language === 'en' ? 'active' : ''}>EN</button>
-                    <button onClick={() => changeLanguage('ja')} className={i18n.language === 'ja' ? 'active' : ''}>JP</button>
-                    <button onClick={() => changeLanguage('zh')} className={i18n.language === 'zh' ? 'active' : ''}>CN</button>
-                </div>
-            </header>
-
-            {/* Snap Scroll Container */}
-            <main className="snap-container">
-                <section className="snap-section" id="hero">
-                    <Hero />
-                </section>
-
-                <section className="snap-section" id="gallery">
-                    <GallerySection />
-                </section>
-
-                <section className="snap-section" id="service">
-                    <Service />
-                </section>
-
-                <section className="snap-section" id="faq">
-                    <FAQ />
-                </section>
-
-                <section className="snap-section" id="location">
-                    <Location />
-                </section>
-
-                <section className="snap-section" id="reservation">
-                    <ReservationForm />
-                </section>
-            </main>
-
-            <SocialLinks />
-            <SupportCS />
-        </div>
+  React.useEffect(() => {
+    const galleryEl = document.getElementById('gallery');
+    if (!galleryEl) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsGalleryVisible(entry.isIntersecting),
+      { threshold: 0.3 }
     );
+    observer.observe(galleryEl);
+    return () => observer.disconnect();
+  }, []);
+
+  const handleScroll = (e) => {
+    const scrollTop = e.target.scrollTop;
+    setIsScrolled(scrollTop > 50);
+    setIsOnHero(scrollTop < window.innerHeight * 0.5);
+  };
+
+  return (
+    <div className="app-container">
+      <Header
+        isScrolled={isScrolled}
+        isOnHero={isOnHero}
+        changeLanguage={changeLanguage}
+        currentLang={currentLang}
+      />
+      <main className="snap-container" onScroll={handleScroll}>
+        <section className="snap-section" id="hero"><Hero /></section>
+        <section className="snap-section" id="hero-intro"><Intro /></section>
+        <section className="snap-section" id="gallery"><Gallery /></section>
+        <section className="snap-section" id="service"><Service /></section>
+        <section className="snap-section" id="zone"><Zone /></section>
+        <section className="snap-section" id="hair-makeup"><HM /></section>
+        <section className="snap-section" id="faq"><FAQ /></section>
+        <section className="snap-section" id="event-board"><Notice /></section>
+        <section className="snap-section" id="location"><Location /></section>
+        <section className="snap-section" id="reservation"><ReservationForm /></section>
+        <section className="snap-section" id="reviews"><Reviews /></section>
+        <section className="snap-section" id="social"><SocialWall /></section>
+        <section className="snap-section" id="mgmt"><ModelMgmt /></section>
+        <section className="snap-section" id="apply"><ModelRecruit /></section>
+        <footer className={`site-footer ${isGalleryVisible ? 'footer-hidden' : ''}`}>
+          <div className="site-footer-inner">
+            <span className="site-footer-logo">FITGIRLS &amp; INAFIT</span>
+            <span className="site-footer-divider">|</span>
+            <span className="site-footer-copy">&copy; 2026 All Rights Reserved</span>
+          </div>
+        </footer>
+      </main>
+      <SupportCS />
+    </div>
+  );
 };
 
 function App() {
-    return (
-        <Router>
-            <Suspense fallback={<div className="loading">Loading...</div>}>
-                <Routes>
-                    <Route path="/" element={<OnePageApp />} />
-                    <Route path="/admin" element={<Admin />} />
-                </Routes>
-            </Suspense>
-        </Router>
-    );
+  const { i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
+  React.useEffect(() => {
+    syncAll().catch(console.error);
+  }, []);
+
+  return (
+    <div className="root-layout">
+      <React.Suspense fallback={<div className="loading">Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/:section" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/report" element={<BrandReport />} />
+          <Route path="/social" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/mgmt" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+        </Routes>
+      </React.Suspense>
+    </div>
+  );
 }
 
 export default App;

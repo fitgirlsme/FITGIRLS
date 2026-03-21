@@ -1,0 +1,28 @@
+
+> fitgirls-renewal@0.0.0 build
+> vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 108 modules transformed.
+x Build failed in 393ms
+error during build:
+src/components/sections/Gallery.jsx (4:9): "getGalleryItems" is not exported by "src/utils/db.js", imported by "src/components/sections/Gallery.jsx".
+file: /Users/house/Pictures/안티그라피티/src/components/sections/Gallery.jsx:4:9
+
+2: import { useTranslation } from 'react-i18next';
+3: import FadeInSection from '../FadeInSection';
+4: import { getGalleryItems, addGalleryItem, deleteGalleryItem, updateGalleryItem } from '../../utils/db';
+            ^
+5: import './Gallery.css';
+
+    at getRollupError (file:///Users/house/Pictures/%E1%84%8B%E1%85%A1%E1%86%AB%E1%84%90%E1%85%B5%E1%84%80%E1%85%B3%E1%84%85%E1%85%A1%E1%84%91%E1%85%B5%E1%84%90%E1%85%B5/node_modules/rollup/dist/es/shared/parseAst.js:402:41)
+    at error (file:///Users/house/Pictures/%E1%84%8B%E1%85%A1%E1%86%AB%E1%84%90%E1%85%B5%E1%84%80%E1%85%B3%E1%84%85%E1%85%A1%E1%84%91%E1%85%B5%E1%84%90%E1%85%B5/node_modules/rollup/dist/es/shared/parseAst.js:398:42)
+    at Module.error (file:///Users/house/Pictures/%E1%84%8B%E1%85%A1%E1%86%AB%E1%84%90%E1%85%B5%E1%84%80%E1%85%B3%E1%84%85%E1%85%A1%E1%84%91%E1%85%B5%E1%84%90%E1%85%B5/node_modules/rollup/dist/es/shared/node-entry.js:17040:16)
+    at Module.traceVariable (file:///Users/house/Pictures/%E1%84%8B%E1%85%A1%E1%86%AB%E1%84%90%E1%85%B5%E1%84%80%E1%85%B3%E1%84%85%E1%85%A1%E1%84%91%E1%85%B5%E1%84%90%E1%85%B5/node_modules/rollup/dist/es/shared/node-entry.js:17452:29)
+    at ModuleScope.findVariable (file:///Users/house/Pictures/%E1%84%8B%E1%85%A1%E1%86%AB%E1%84%90%E1%85%B5%E1%84%80%E1%85%B3%E1%84%85%E1%85%A1%E1%84%91%E1%85%B5%E1%84%90%E1%85%B5/node_modules/rollup/dist/es/shared/node-entry.js:15070:39)
+    at ReturnValueScope.findVariable (file:///Users/house/Pictures/%E1%84%8B%E1%85%A1%E1%86%AB%E1%84%90%E1%85%B5%E1%84%80%E1%85%B3%E1%84%85%E1%85%A1%E1%84%91%E1%85%B5%E1%84%90%E1%85%B5/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at FunctionBodyScope.findVariable (file:///Users/house/Pictures/%E1%84%8B%E1%85%A1%E1%86%AB%E1%84%90%E1%85%B5%E1%84%80%E1%85%B3%E1%84%85%E1%85%A1%E1%84%91%E1%85%B5%E1%84%90%E1%85%B5/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at ReturnValueScope.findVariable (file:///Users/house/Pictures/%E1%84%8B%E1%85%A1%E1%86%AB%E1%84%90%E1%85%B5%E1%84%80%E1%85%B3%E1%84%85%E1%85%A1%E1%84%91%E1%85%B5%E1%84%90%E1%85%B5/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at FunctionBodyScope.findVariable (file:///Users/house/Pictures/%E1%84%8B%E1%85%A1%E1%86%AB%E1%84%90%E1%85%B5%E1%84%80%E1%85%B3%E1%84%85%E1%85%A1%E1%84%91%E1%85%B5%E1%84%90%E1%85%B5/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at ReturnValueScope.findVariable (file:///Users/house/Pictures/%E1%84%8B%E1%85%A1%E1%86%AB%E1%84%90%E1%85%B5%E1%84%80%E1%85%B3%E1%84%85%E1%85%A1%E1%84%91%E1%85%B5%E1%84%90%E1%85%B5/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)

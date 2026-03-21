@@ -1,0 +1,1712 @@
+
+> fitgirls-renewal@0.0.0 dev
+> vite --debug
+
+2026-03-16T09:28:25.594Z vite:config bundled config file loaded in 20.78ms
+2026-03-16T09:28:25.600Z vite:config using resolved config: {
+  plugins: [
+    'vite:optimized-deps',
+    'vite:watch-package-data',
+    'vite:pre-alias',
+    'alias',
+    'vite:react-babel',
+    'vite:react-refresh',
+    'vite:modulepreload-polyfill',
+    'vite:resolve',
+    'vite:html-inline-proxy',
+    'vite:css',
+    'vite:esbuild',
+    'vite:json',
+    'vite:wasm-helper',
+    'vite:worker',
+    'vite:asset',
+    'vite:wasm-fallback',
+    'vite:define',
+    'vite:css-post',
+    'vite:worker-import-meta-url',
+    'vite:asset-import-meta-url',
+    'vite:dynamic-import-vars',
+    'vite:import-glob',
+    'vite:client-inject',
+    'vite:css-analysis',
+    'vite:import-analysis'
+  ],
+  base: '/',
+  optimizeDeps: {
+    holdUntilCrawlEnd: true,
+    force: undefined,
+    esbuildOptions: { preserveSymlinks: false, jsx: 'automatic' },
+    include: [
+      'react',
+      'react-dom',
+      'react/jsx-dev-runtime',
+      'react/jsx-runtime'
+    ]
+  },
+  server: {
+    preTransformRequests: true,
+    host: undefined,
+    sourcemapIgnoreList: [Function: isInNodeModules$1],
+    middlewareMode: false,
+    fs: {
+      strict: true,
+      allow: [Array],
+      deny: [Array],
+      cachedChecks: undefined
+    }
+  },
+  esbuild: { jsxDev: true, jsx: 'automatic', jsxImportSource: undefined },
+  build: {
+    target: [ 'es2020', 'edge88', 'firefox78', 'chrome87', 'safari14' ],
+    cssTarget: [ 'es2020', 'edge88', 'firefox78', 'chrome87', 'safari14' ],
+    outDir: 'dist',
+    assetsDir: 'assets',
+    assetsInlineLimit: 4096,
+    cssCodeSplit: true,
+    sourcemap: false,
+    rollupOptions: { onwarn: [Function: onwarn] },
+    minify: 'esbuild',
+    terserOptions: {},
+    write: true,
+    emptyOutDir: null,
+    copyPublicDir: true,
+    manifest: false,
+    lib: false,
+    ssr: false,
+    ssrManifest: false,
+    ssrEmitAssets: false,
+    reportCompressedSize: true,
+    chunkSizeWarningLimit: 500,
+    watch: null,
+    commonjsOptions: { include: [Array], extensions: [Array] },
+    dynamicImportVarsOptions: { warnOnError: true, exclude: [Array] },
+    modulePreload: { polyfill: true },
+    cssMinify: true
+  },
+  resolve: {
+    mainFields: [ 'browser', 'module', 'jsnext:main', 'jsnext' ],
+    conditions: [],
+    extensions: [
+      '.mjs',  '.js',
+      '.mts',  '.ts',
+      '.jsx',  '.tsx',
+      '.json'
+    ],
+    dedupe: [ 'react', 'react-dom' ],
+    preserveSymlinks: false,
+    alias: [ [Object], [Object] ]
+  },
+  configFile: '/Users/house/Pictures/안티그라피티/vite.config.js',
+  configFileDependencies: [ '/Users/house/Pictures/안티그라피티/vite.config.js' ],
+  inlineConfig: {
+    root: undefined,
+    base: undefined,
+    mode: undefined,
+    configFile: undefined,
+    logLevel: undefined,
+    clearScreen: undefined,
+    optimizeDeps: { force: undefined },
+    server: { host: undefined }
+  },
+  root: '/Users/house/Pictures/안티그라피티',
+  decodedBase: '/',
+  rawBase: '/',
+  publicDir: '/Users/house/Pictures/안티그라피티/public',
+  cacheDir: '/Users/house/Pictures/안티그라피티/node_modules/.vite',
+  command: 'serve',
+  mode: 'development',
+  ssr: {
+    target: 'node',
+    optimizeDeps: { noDiscovery: true, esbuildOptions: [Object] }
+  },
+  isWorker: false,
+  mainConfig: null,
+  bundleChain: [],
+  isProduction: false,
+  css: { lightningcss: undefined },
+  preview: {
+    port: undefined,
+    strictPort: undefined,
+    host: undefined,
+    allowedHosts: undefined,
+    https: undefined,
+    open: undefined,
+    proxy: undefined,
+    cors: undefined,
+    headers: undefined
+  },
+  envDir: '/Users/house/Pictures/안티그라피티',
+  env: {
+    VITE_FIREBASE_API_KEY: 'AIzaSyDkaXEX1UCe7JI6YGSwKSUwhlhicMWKduk',
+    VITE_FIREBASE_AUTH_DOMAIN: 'fitgirls-me-web.firebaseapp.com',
+    VITE_FIREBASE_PROJECT_ID: 'fitgirls-me-web',
+    VITE_FIREBASE_STORAGE_BUCKET: 'fitgirls-me-web.firebasestorage.app',
+    VITE_FIREBASE_MESSAGING_SENDER_ID: '997964786089',
+    VITE_FIREBASE_APP_ID: '1:997964786089:web:72eaba535985f0c8a2fcb8',
+    BASE_URL: '/',
+    MODE: 'development',
+    DEV: true,
+    PROD: false
+  },
+  assetsInclude: [Function: assetsInclude],
+  logger: {
+    hasWarned: false,
+    info: [Function: info],
+    warn: [Function: warn],
+    warnOnce: [Function: warnOnce],
+    error: [Function: error],
+    clearScreen: [Function: clearScreen],
+    hasErrorLogged: [Function: hasErrorLogged]
+  },
+  packageCache: Map(1) {
+    'fnpd_/Users/house/Pictures/안티그라피티' => {
+      dir: '/Users/house/Pictures/안티그라피티',
+      data: [Object],
+      hasSideEffects: [Function: hasSideEffects],
+      webResolvedImports: {},
+      nodeResolvedImports: {},
+      setResolvedCache: [Function: setResolvedCache],
+      getResolvedCache: [Function: getResolvedCache]
+    },
+    set: [Function (anonymous)]
+  },
+  createResolver: [Function: createResolver],
+  worker: { format: 'iife', plugins: '() => plugins', rollupOptions: {} },
+  appType: 'spa',
+  experimental: { importGlobRestoreExtension: false, hmrPartialAccept: false },
+  webSocketToken: 'AWtXw7YLCB26',
+  additionalAllowedHosts: [],
+  getSortedPlugins: [Function: getSortedPlugins],
+  getSortedPluginHooks: [Function: getSortedPluginHooks]
+}
+2026-03-16T09:28:25.621Z vite:deps Hash is consistent. Skipping. Use --force to override.
+
+  VITE v5.4.21  ready in 172 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+2026-03-16T09:28:26.169Z vite:html-fallback Rewriting GET / to /index.html
+2026-03-16T09:28:26.184Z vite:time 15.87ms /index.html
+2026-03-16T09:28:26.189Z vite:resolve 5.51ms /src/main.jsx -> /Users/house/Pictures/안티그라피티/src/main.jsx
+2026-03-16T09:28:26.198Z vite:resolve 0.25ms /@vite/client -> /Users/house/Pictures/안티그라피티/node_modules/vite/dist/client/client.mjs
+2026-03-16T09:28:26.200Z vite:load 0.44ms [plugin] /@react-refresh
+2026-03-16T09:28:26.205Z vite:import-analysis 0.85ms [0 imports rewritten] /@react-refresh
+2026-03-16T09:28:26.206Z vite:transform 5.55ms /@react-refresh
+2026-03-16T09:28:26.206Z vite:time 6.66ms /@react-refresh
+2026-03-16T09:28:26.206Z vite:load 11.77ms [fs] /src/main.jsx
+2026-03-16T09:28:26.397Z vite:load 199.09ms [fs] /@vite/client
+2026-03-16T09:28:26.399Z vite:resolve 0.09ms @vite/env -> /Users/house/Pictures/안티그라피티/node_modules/vite/dist/client/env.mjs
+2026-03-16T09:28:26.399Z vite:import-analysis 1.44ms [1 imports rewritten] node_modules/vite/dist/client/client.mjs
+2026-03-16T09:28:26.400Z vite:transform 1.83ms /@vite/client
+2026-03-16T09:28:26.404Z vite:time 206.97ms /@vite/client
+2026-03-16T09:28:26.406Z vite:resolve 0.43ms ./App.jsx -> /Users/house/Pictures/안티그라피티/src/App.jsx
+2026-03-16T09:28:26.406Z vite:resolve 0.47ms ./index.css -> /Users/house/Pictures/안티그라피티/src/index.css
+2026-03-16T09:28:26.406Z vite:resolve 0.49ms ./i18n/index.js -> /Users/house/Pictures/안티그라피티/src/i18n/index.js
+2026-03-16T09:28:26.406Z vite:resolve 0.53ms react/jsx-dev-runtime -> /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T09:28:26.406Z vite:resolve 0.54ms react -> /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T09:28:26.406Z vite:resolve 0.55ms react-dom/client -> /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/react-dom_client.js?v=ed915d34
+2026-03-16T09:28:26.406Z vite:resolve 0.56ms react-router-dom -> /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/react-router-dom.js?v=ed915d34
+2026-03-16T09:28:26.406Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.410Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.410Z vite:import-analysis /node_modules/.vite/deps/react-dom_client.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.410Z vite:optimize-deps load /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/react_jsx-dev-runtime.js
+2026-03-16T09:28:26.410Z vite:optimize-deps load /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/react.js
+2026-03-16T09:28:26.410Z vite:optimize-deps load /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/react-dom_client.js
+2026-03-16T09:28:26.410Z vite:optimize-deps load /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/react-router-dom.js
+2026-03-16T09:28:26.410Z vite:import-analysis 5.25ms [7 imports rewritten] src/main.jsx
+2026-03-16T09:28:26.412Z vite:transform 205.27ms /src/main.jsx
+2026-03-16T09:28:26.412Z vite:time 213.34ms /src/main.jsx
+2026-03-16T09:28:26.414Z vite:load 14.03ms [fs] /node_modules/vite/dist/client/env.mjs
+2026-03-16T09:28:26.414Z vite:import-analysis 0.03ms [no imports] node_modules/vite/dist/client/env.mjs
+2026-03-16T09:28:26.414Z vite:transform 0.23ms /node_modules/vite/dist/client/env.mjs
+2026-03-16T09:28:26.414Z vite:time 1.28ms /node_modules/vite/dist/client/env.mjs
+2026-03-16T09:28:26.414Z vite:load 3.84ms [plugin] /node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T09:28:26.416Z vite:resolve 0.62ms ./chunk-4HAMFFQC.js -> /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/chunk-4HAMFFQC.js?v=ed915d34
+2026-03-16T09:28:26.416Z vite:resolve 0.78ms ./chunk-EQCVQC35.js -> /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/chunk-EQCVQC35.js?v=ed915d34
+2026-03-16T09:28:26.417Z vite:optimize-deps load /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/chunk-4HAMFFQC.js
+2026-03-16T09:28:26.417Z vite:optimize-deps load /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/chunk-EQCVQC35.js
+2026-03-16T09:28:26.417Z vite:import-analysis 2.40ms [2 imports rewritten] node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T09:28:26.417Z vite:transform 2.71ms /node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T09:28:26.418Z vite:load 7.50ms [plugin] /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T09:28:26.420Z vite:import-analysis 1.70ms [2 imports rewritten] node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T09:28:26.420Z vite:transform 2.52ms /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T09:28:26.421Z vite:load 10.39ms [fs] /src/App.jsx
+2026-03-16T09:28:26.431Z vite:load 21.03ms [plugin] /node_modules/.vite/deps/react-dom_client.js?v=ed915d34
+2026-03-16T09:28:26.432Z vite:resolve 0.10ms ./chunk-BVI7NZOO.js -> /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/chunk-BVI7NZOO.js?v=ed915d34
+2026-03-16T09:28:26.432Z vite:optimize-deps load /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/chunk-BVI7NZOO.js
+2026-03-16T09:28:26.432Z vite:import-analysis 0.35ms [3 imports rewritten] node_modules/.vite/deps/react-dom_client.js?v=ed915d34
+2026-03-16T09:28:26.432Z vite:transform 0.42ms /node_modules/.vite/deps/react-dom_client.js?v=ed915d34
+2026-03-16T09:28:26.432Z vite:load 21.97ms [plugin] /node_modules/.vite/deps/react-router-dom.js?v=ed915d34
+2026-03-16T09:28:26.434Z vite:import-analysis 1.38ms [3 imports rewritten] node_modules/.vite/deps/react-router-dom.js?v=ed915d34
+2026-03-16T09:28:26.434Z vite:transform 1.84ms /node_modules/.vite/deps/react-router-dom.js?v=ed915d34
+2026-03-16T09:28:26.435Z vite:load 24.51ms [fs] /src/i18n/index.js
+2026-03-16T09:28:26.435Z vite:resolve 0.25ms ./locales/ko.json -> /Users/house/Pictures/안티그라피티/src/i18n/locales/ko.json
+2026-03-16T09:28:26.435Z vite:resolve 0.27ms ./locales/en.json -> /Users/house/Pictures/안티그라피티/src/i18n/locales/en.json
+2026-03-16T09:28:26.435Z vite:resolve 0.29ms ./locales/ja.json -> /Users/house/Pictures/안티그라피티/src/i18n/locales/ja.json
+2026-03-16T09:28:26.435Z vite:resolve 0.30ms ./locales/zh.json -> /Users/house/Pictures/안티그라피티/src/i18n/locales/zh.json
+2026-03-16T09:28:26.435Z vite:resolve 0.32ms i18next -> /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/i18next.js?v=ed915d34
+2026-03-16T09:28:26.435Z vite:resolve 0.33ms react-i18next -> /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/react-i18next.js?v=ed915d34
+2026-03-16T09:28:26.436Z vite:optimize-deps load /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/i18next.js
+2026-03-16T09:28:26.436Z vite:optimize-deps load /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/react-i18next.js
+2026-03-16T09:28:26.436Z vite:import-analysis 1.35ms [6 imports rewritten] src/i18n/index.js
+2026-03-16T09:28:26.436Z vite:transform 1.57ms /src/i18n/index.js
+2026-03-16T09:28:26.436Z vite:time 4.27ms /src/i18n/index.js
+2026-03-16T09:28:26.437Z vite:load 26.52ms [fs] /src/index.css
+2026-03-16T09:28:26.462Z vite:resolve 0.10ms ./styles/theme.css -> /Users/house/Pictures/안티그라피티/src/styles/theme.css
+2026-03-16T09:28:26.464Z vite:resolve 0.71ms ./components/Hero -> /Users/house/Pictures/안티그라피티/src/components/Hero.jsx
+2026-03-16T09:28:26.464Z vite:resolve 0.74ms ./components/Intro -> /Users/house/Pictures/안티그라피티/src/components/Intro.jsx
+2026-03-16T09:28:26.464Z vite:resolve 0.75ms ./components/Zone -> /Users/house/Pictures/안티그라피티/src/components/Zone.jsx
+2026-03-16T09:28:26.464Z vite:resolve 0.76ms ./components/ServicePrice -> /Users/house/Pictures/안티그라피티/src/components/ServicePrice.jsx
+2026-03-16T09:28:26.464Z vite:resolve 0.77ms ./components/HM -> /Users/house/Pictures/안티그라피티/src/components/HM.jsx
+2026-03-16T09:28:26.464Z vite:resolve 0.78ms ./components/Notice -> /Users/house/Pictures/안티그라피티/src/components/Notice.jsx
+2026-03-16T09:28:26.464Z vite:resolve 0.79ms ./components/FAQ -> /Users/house/Pictures/안티그라피티/src/components/FAQ.jsx
+2026-03-16T09:28:26.464Z vite:resolve 0.80ms ./components/ModelMgmt -> /Users/house/Pictures/안티그라피티/src/components/ModelMgmt.jsx
+2026-03-16T09:28:26.464Z vite:resolve 0.81ms ./components/Location -> /Users/house/Pictures/안티그라피티/src/components/Location.jsx
+2026-03-16T09:28:26.464Z vite:resolve 0.82ms ./pages/Reviews -> /Users/house/Pictures/안티그라피티/src/pages/Reviews.jsx
+2026-03-16T09:28:26.464Z vite:resolve 0.83ms ./utils/syncService -> /Users/house/Pictures/안티그라피티/src/utils/syncService.js
+2026-03-16T09:28:26.464Z vite:cache [memory] /@react-refresh
+2026-03-16T09:28:26.464Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.464Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.464Z vite:cache [memory] /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T09:28:26.464Z vite:cache [memory] /node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T09:28:26.464Z vite:cache [memory] /node_modules/.vite/deps/react-router-dom.js?v=ed915d34
+2026-03-16T09:28:26.464Z vite:hmr [self-accepts] src/App.jsx
+2026-03-16T09:28:26.464Z vite:import-analysis 1.56ms [16 imports rewritten] src/App.jsx
+2026-03-16T09:28:26.465Z vite:transform 44.28ms /src/App.jsx
+2026-03-16T09:28:26.465Z vite:time 33.12ms /src/App.jsx
+2026-03-16T09:28:26.471Z vite:load 54.06ms [plugin] /node_modules/.vite/deps/chunk-EQCVQC35.js?v=ed915d34
+2026-03-16T09:28:26.471Z vite:import-analysis 0.05ms [no imports] node_modules/.vite/deps/chunk-EQCVQC35.js?v=ed915d34
+2026-03-16T09:28:26.471Z vite:transform 0.18ms /node_modules/.vite/deps/chunk-EQCVQC35.js?v=ed915d34
+2026-03-16T09:28:26.471Z vite:load 54.40ms [plugin] /node_modules/.vite/deps/chunk-4HAMFFQC.js?v=ed915d34
+2026-03-16T09:28:26.472Z vite:cache [memory] /node_modules/.vite/deps/chunk-EQCVQC35.js?v=ed915d34
+2026-03-16T09:28:26.472Z vite:import-analysis 0.56ms [1 imports rewritten] node_modules/.vite/deps/chunk-4HAMFFQC.js?v=ed915d34
+2026-03-16T09:28:26.472Z vite:transform 0.80ms /node_modules/.vite/deps/chunk-4HAMFFQC.js?v=ed915d34
+2026-03-16T09:28:26.474Z vite:load 38.31ms [fs] /src/i18n/locales/ko.json
+2026-03-16T09:28:26.475Z vite:import-analysis [skipped] src/i18n/locales/ko.json
+2026-03-16T09:28:26.475Z vite:transform 1.00ms /src/i18n/locales/ko.json
+2026-03-16T09:28:26.475Z vite:time 2.07ms /src/i18n/locales/ko.json?import
+2026-03-16T09:28:26.475Z vite:load 39.36ms [plugin] /node_modules/.vite/deps/i18next.js?v=ed915d34
+2026-03-16T09:28:26.477Z vite:cache [memory] /node_modules/.vite/deps/chunk-EQCVQC35.js?v=ed915d34
+2026-03-16T09:28:26.477Z vite:import-analysis 1.06ms [1 imports rewritten] node_modules/.vite/deps/i18next.js?v=ed915d34
+2026-03-16T09:28:26.477Z vite:transform 1.70ms /node_modules/.vite/deps/i18next.js?v=ed915d34
+2026-03-16T09:28:26.477Z vite:load 41.22ms [plugin] /node_modules/.vite/deps/react-i18next.js?v=ed915d34
+2026-03-16T09:28:26.478Z vite:cache [memory] /node_modules/.vite/deps/chunk-4HAMFFQC.js?v=ed915d34
+2026-03-16T09:28:26.478Z vite:cache [memory] /node_modules/.vite/deps/chunk-EQCVQC35.js?v=ed915d34
+2026-03-16T09:28:26.478Z vite:import-analysis 0.35ms [2 imports rewritten] node_modules/.vite/deps/react-i18next.js?v=ed915d34
+2026-03-16T09:28:26.478Z vite:transform 0.46ms /node_modules/.vite/deps/react-i18next.js?v=ed915d34
+2026-03-16T09:28:26.478Z vite:load 42.07ms [fs] /src/i18n/locales/en.json
+2026-03-16T09:28:26.478Z vite:import-analysis [skipped] src/i18n/locales/en.json
+2026-03-16T09:28:26.478Z vite:transform 0.39ms /src/i18n/locales/en.json
+2026-03-16T09:28:26.478Z vite:time 4.49ms /src/i18n/locales/en.json?import
+2026-03-16T09:28:26.478Z vite:load 42.69ms [fs] /src/i18n/locales/ja.json
+2026-03-16T09:28:26.479Z vite:import-analysis [skipped] src/i18n/locales/ja.json
+2026-03-16T09:28:26.479Z vite:transform 0.73ms /src/i18n/locales/ja.json
+2026-03-16T09:28:26.481Z vite:hmr [self-accepts] src/index.css
+2026-03-16T09:28:26.481Z vite:import-analysis 0.13ms [0 imports rewritten] src/index.css
+2026-03-16T09:28:26.481Z vite:transform 44.37ms /src/index.css
+2026-03-16T09:28:26.481Z vite:time 49.18ms /src/index.css
+2026-03-16T09:28:26.481Z vite:load 45.81ms [fs] /src/i18n/locales/zh.json
+2026-03-16T09:28:26.482Z vite:import-analysis [skipped] src/i18n/locales/zh.json
+2026-03-16T09:28:26.482Z vite:transform 0.36ms /src/i18n/locales/zh.json
+2026-03-16T09:28:26.482Z vite:time 15.62ms /src/i18n/locales/zh.json?import
+2026-03-16T09:28:26.482Z vite:load 18.04ms [fs] /src/components/Hero.jsx
+2026-03-16T09:28:26.487Z vite:load 23.08ms [fs] /src/components/Zone.jsx
+2026-03-16T09:28:26.494Z vite:load 29.46ms [fs] /src/components/Intro.jsx
+2026-03-16T09:28:26.496Z vite:load 31.31ms [fs] /src/components/HM.jsx
+2026-03-16T09:28:26.497Z vite:load 33.05ms [fs] /src/components/Location.jsx
+2026-03-16T09:28:26.501Z vite:load 36.25ms [fs] /src/pages/Reviews.jsx
+2026-03-16T09:28:26.511Z vite:load 46.58ms [fs] /src/utils/syncService.js
+2026-03-16T09:28:26.511Z vite:resolve 0.20ms ./firebase -> /Users/house/Pictures/안티그라피티/src/utils/firebase.js
+2026-03-16T09:28:26.511Z vite:resolve 0.22ms ./db -> /Users/house/Pictures/안티그라피티/src/utils/db.js
+2026-03-16T09:28:26.511Z vite:resolve 0.25ms firebase/firestore -> /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/firebase_firestore.js?v=ed915d34
+2026-03-16T09:28:26.512Z vite:optimize-deps load /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/firebase_firestore.js
+2026-03-16T09:28:26.512Z vite:import-analysis 0.53ms [3 imports rewritten] src/utils/syncService.js
+2026-03-16T09:28:26.512Z vite:transform 0.61ms /src/utils/syncService.js
+2026-03-16T09:28:26.512Z vite:load 47.37ms [fs] /src/components/FAQ.jsx
+6:28:26 PM [vite] Pre-transform error: /Users/house/Pictures/안티그라피티/src/components/FAQ.jsx: Unterminated template. (71:3)
+
+  69 |
+  70 | export default FAQ;
+> 71 | ```
+     |    ^
+  72 |
+2026-03-16T09:28:26.540Z vite:load 75.42ms [fs] /src/components/ModelMgmt.jsx
+2026-03-16T09:28:26.545Z vite:load 80.73ms [fs] /src/components/ServicePrice.jsx
+2026-03-16T09:28:26.548Z vite:load 83.76ms [fs] /src/components/Notice.jsx
+2026-03-16T09:28:26.551Z vite:load 118.74ms [plugin] /node_modules/.vite/deps/chunk-BVI7NZOO.js?v=ed915d34
+2026-03-16T09:28:26.559Z vite:cache [memory] /node_modules/.vite/deps/chunk-4HAMFFQC.js?v=ed915d34
+2026-03-16T09:28:26.559Z vite:cache [memory] /node_modules/.vite/deps/chunk-EQCVQC35.js?v=ed915d34
+2026-03-16T09:28:26.559Z vite:import-analysis 5.73ms [2 imports rewritten] node_modules/.vite/deps/chunk-BVI7NZOO.js?v=ed915d34
+2026-03-16T09:28:26.559Z vite:transform 8.70ms /node_modules/.vite/deps/chunk-BVI7NZOO.js?v=ed915d34
+2026-03-16T09:28:26.564Z vite:cache [memory] /src/i18n/locales/ja.json
+2026-03-16T09:28:26.564Z vite:time 0.20ms /src/i18n/locales/ja.json?import
+2026-03-16T09:28:26.565Z vite:resolve 0.49ms ./Hero.css -> /Users/house/Pictures/안티그라피티/src/components/Hero.css
+2026-03-16T09:28:26.565Z vite:resolve 0.45ms ../utils/galleryService -> /Users/house/Pictures/안티그라피티/src/utils/galleryService.js
+2026-03-16T09:28:26.565Z vite:resolve 0.47ms ./Zone.css -> /Users/house/Pictures/안티그라피티/src/components/Zone.css
+2026-03-16T09:28:26.565Z vite:resolve 0.44ms ./Intro.css -> /Users/house/Pictures/안티그라피티/src/components/Intro.css
+2026-03-16T09:28:26.565Z vite:resolve 0.40ms ./HM.css -> /Users/house/Pictures/안티그라피티/src/components/HM.css
+2026-03-16T09:28:26.565Z vite:cache [memory] /@react-refresh
+2026-03-16T09:28:26.565Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.566Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.566Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.566Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.566Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.566Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.566Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.566Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.566Z vite:cache [memory] /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T09:28:26.566Z vite:cache [memory] /node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T09:28:26.566Z vite:hmr [self-accepts] src/components/Hero.jsx
+2026-03-16T09:28:26.566Z vite:hmr [self-accepts] src/components/Zone.jsx
+2026-03-16T09:28:26.566Z vite:hmr [self-accepts] src/components/Intro.jsx
+2026-03-16T09:28:26.566Z vite:hmr [self-accepts] src/components/HM.jsx
+2026-03-16T09:28:26.566Z vite:import-analysis 1.39ms [4 imports rewritten] src/components/Hero.jsx
+2026-03-16T09:28:26.566Z vite:import-analysis 1.40ms [5 imports rewritten] src/components/Zone.jsx
+2026-03-16T09:28:26.566Z vite:import-analysis 1.41ms [4 imports rewritten] src/components/Intro.jsx
+2026-03-16T09:28:26.566Z vite:import-analysis 1.44ms [4 imports rewritten] src/components/HM.jsx
+2026-03-16T09:28:26.568Z vite:transform 85.39ms /src/components/Hero.jsx
+2026-03-16T09:28:26.568Z vite:transform 80.34ms /src/components/Zone.jsx
+2026-03-16T09:28:26.568Z vite:transform 73.98ms /src/components/Intro.jsx
+2026-03-16T09:28:26.568Z vite:transform 72.16ms /src/components/HM.jsx
+2026-03-16T09:28:26.568Z vite:time 4.05ms /src/components/Hero.jsx
+2026-03-16T09:28:26.568Z vite:time 4.28ms /src/components/Zone.jsx
+2026-03-16T09:28:26.568Z vite:time 95.73ms /src/components/Intro.jsx
+2026-03-16T09:28:26.571Z vite:resolve 0.65ms ./Location.css -> /Users/house/Pictures/안티그라피티/src/components/Location.css
+2026-03-16T09:28:26.571Z vite:resolve 0.62ms ../components/FadeInSection -> /Users/house/Pictures/안티그라피티/src/components/FadeInSection.jsx
+2026-03-16T09:28:26.571Z vite:resolve 0.64ms ../utils/reviewService -> /Users/house/Pictures/안티그라피티/src/utils/reviewService.js
+2026-03-16T09:28:26.571Z vite:resolve 0.65ms ../data/reviews_backup.json -> /Users/house/Pictures/안티그라피티/src/data/reviews_backup.json
+2026-03-16T09:28:26.571Z vite:resolve 0.66ms ./Reviews.css -> /Users/house/Pictures/안티그라피티/src/pages/Reviews.css
+2026-03-16T09:28:26.571Z vite:resolve 0.63ms ./ModelMgmt.css -> /Users/house/Pictures/안티그라피티/src/components/ModelMgmt.css
+2026-03-16T09:28:26.571Z vite:cache [memory] /@react-refresh
+2026-03-16T09:28:26.571Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.571Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.571Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.571Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.571Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.571Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.572Z vite:cache [memory] /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T09:28:26.572Z vite:cache [memory] /node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T09:28:26.572Z vite:hmr [self-accepts] src/components/Location.jsx
+2026-03-16T09:28:26.572Z vite:cache [memory] /node_modules/.vite/deps/react-i18next.js?v=ed915d34
+2026-03-16T09:28:26.572Z vite:hmr [self-accepts] src/pages/Reviews.jsx
+2026-03-16T09:28:26.572Z vite:hmr [self-accepts] src/components/ModelMgmt.jsx
+2026-03-16T09:28:26.572Z vite:import-analysis 1.60ms [4 imports rewritten] src/components/Location.jsx
+2026-03-16T09:28:26.572Z vite:import-analysis 1.61ms [8 imports rewritten] src/pages/Reviews.jsx
+2026-03-16T09:28:26.572Z vite:import-analysis 1.62ms [5 imports rewritten] src/components/ModelMgmt.jsx
+2026-03-16T09:28:26.572Z vite:transform 74.93ms /src/components/Location.jsx
+2026-03-16T09:28:26.572Z vite:transform 71.73ms /src/pages/Reviews.jsx
+2026-03-16T09:28:26.572Z vite:transform 32.62ms /src/components/ModelMgmt.jsx
+2026-03-16T09:28:26.573Z vite:cache [memory] /src/pages/Reviews.jsx
+2026-03-16T09:28:26.573Z vite:time 0.21ms /src/pages/Reviews.jsx
+2026-03-16T09:28:26.573Z vite:cache [304] /src/components/HM.jsx
+2026-03-16T09:28:26.573Z vite:time 0.03ms /src/components/HM.jsx
+2026-03-16T09:28:26.574Z vite:resolve 0.47ms ./ServicePrice.css -> /Users/house/Pictures/안티그라피티/src/components/ServicePrice.css
+2026-03-16T09:28:26.574Z vite:resolve 0.46ms ../utils/dataService -> /Users/house/Pictures/안티그라피티/src/utils/dataService.js
+2026-03-16T09:28:26.574Z vite:resolve 0.50ms ./Notice.css -> /Users/house/Pictures/안티그라피티/src/components/Notice.css
+2026-03-16T09:28:26.574Z vite:cache [memory] /@react-refresh
+2026-03-16T09:28:26.575Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.575Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.575Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.575Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.575Z vite:cache [memory] /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T09:28:26.575Z vite:cache [memory] /node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T09:28:26.575Z vite:hmr [self-accepts] src/components/ServicePrice.jsx
+2026-03-16T09:28:26.575Z vite:hmr [self-accepts] src/components/Notice.jsx
+2026-03-16T09:28:26.575Z vite:import-analysis 1.52ms [4 imports rewritten] src/components/ServicePrice.jsx
+2026-03-16T09:28:26.575Z vite:import-analysis 1.54ms [5 imports rewritten] src/components/Notice.jsx
+2026-03-16T09:28:26.576Z vite:transform 30.46ms /src/components/ServicePrice.jsx
+2026-03-16T09:28:26.576Z vite:transform 27.43ms /src/components/Notice.jsx
+2026-03-16T09:28:26.576Z vite:time 11.63ms /src/components/ServicePrice.jsx
+2026-03-16T09:28:26.576Z vite:time 11.76ms /src/components/Notice.jsx
+2026-03-16T09:28:26.576Z vite:cache [memory] /src/utils/syncService.js
+2026-03-16T09:28:26.577Z vite:time 0.79ms /src/utils/syncService.js
+2026-03-16T09:28:26.577Z vite:cache [304] /src/components/Location.jsx
+2026-03-16T09:28:26.577Z vite:time 0.03ms /src/components/Location.jsx
+2026-03-16T09:28:26.578Z vite:cache [memory] /src/components/ModelMgmt.jsx
+2026-03-16T09:28:26.578Z vite:time 0.08ms /src/components/ModelMgmt.jsx
+2026-03-16T09:28:26.580Z vite:load 13.62ms [fs] /src/utils/galleryService.js
+2026-03-16T09:28:26.581Z vite:resolve 0.80ms ./syncService -> /Users/house/Pictures/안티그라피티/src/utils/syncService.js
+2026-03-16T09:28:26.581Z vite:cache [memory] /src/utils/syncService.js
+2026-03-16T09:28:26.581Z vite:import-analysis 1.55ms [4 imports rewritten] src/utils/galleryService.js
+2026-03-16T09:28:26.581Z vite:transform 1.71ms /src/utils/galleryService.js
+2026-03-16T09:28:26.582Z vite:time 3.29ms /src/utils/galleryService.js
+2026-03-16T09:28:26.583Z vite:load 70.98ms [fs] /src/utils/db.js
+2026-03-16T09:28:26.583Z vite:import-analysis 0.14ms [no imports] src/utils/db.js
+2026-03-16T09:28:26.583Z vite:transform 0.55ms /src/utils/db.js
+2026-03-16T09:28:26.583Z vite:load 17.33ms [fs] /src/components/Zone.css
+2026-03-16T09:28:26.584Z vite:hmr [self-accepts] src/components/Zone.css
+2026-03-16T09:28:26.584Z vite:import-analysis 0.07ms [0 imports rewritten] src/components/Zone.css
+2026-03-16T09:28:26.584Z vite:transform 0.28ms /src/components/Zone.css
+2026-03-16T09:28:26.584Z vite:load 72.11ms [fs] /src/utils/firebase.js
+2026-03-16T09:28:26.584Z vite:resolve 0.04ms firebase/app -> /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/firebase_app.js?v=ed915d34
+2026-03-16T09:28:26.584Z vite:resolve 0.06ms firebase/storage -> /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/firebase_storage.js?v=ed915d34
+2026-03-16T09:28:26.584Z vite:optimize-deps load /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/firebase_app.js
+2026-03-16T09:28:26.584Z vite:optimize-deps load /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/firebase_storage.js
+2026-03-16T09:28:26.584Z vite:import-analysis 0.46ms [3 imports rewritten] src/utils/firebase.js
+2026-03-16T09:28:26.584Z vite:transform 0.52ms /src/utils/firebase.js
+2026-03-16T09:28:26.584Z vite:load 18.26ms [fs] /src/components/Intro.css
+2026-03-16T09:28:26.584Z vite:hmr [self-accepts] src/components/Intro.css
+2026-03-16T09:28:26.584Z vite:import-analysis 0.06ms [0 imports rewritten] src/components/Intro.css
+2026-03-16T09:28:26.584Z vite:transform 0.15ms /src/components/Intro.css
+2026-03-16T09:28:26.585Z vite:cache [304] /src/components/Zone.css
+2026-03-16T09:28:26.586Z vite:time 0.92ms /src/components/Zone.css
+2026-03-16T09:28:26.586Z vite:load 14.47ms [fs] /src/components/FadeInSection.jsx
+2026-03-16T09:28:26.589Z vite:load 17.32ms [fs] /src/utils/reviewService.js
+2026-03-16T09:28:26.589Z vite:cache [memory] /src/utils/firebase.js
+2026-03-16T09:28:26.590Z vite:cache [memory] /src/utils/db.js
+2026-03-16T09:28:26.590Z vite:cache [memory] /src/utils/syncService.js
+2026-03-16T09:28:26.590Z vite:import-analysis 0.44ms [4 imports rewritten] src/utils/reviewService.js
+2026-03-16T09:28:26.590Z vite:transform 0.52ms /src/utils/reviewService.js
+2026-03-16T09:28:26.590Z vite:load 23.70ms [fs] /src/components/Hero.css
+2026-03-16T09:28:26.590Z vite:hmr [self-accepts] src/components/Hero.css
+2026-03-16T09:28:26.591Z vite:import-analysis 0.32ms [0 imports rewritten] src/components/Hero.css
+2026-03-16T09:28:26.591Z vite:transform 0.92ms /src/components/Hero.css
+2026-03-16T09:28:26.591Z vite:load 19.02ms [fs] /src/data/reviews_backup.json
+2026-03-16T09:28:26.593Z vite:import-analysis [skipped] src/data/reviews_backup.json
+2026-03-16T09:28:26.593Z vite:transform 2.41ms /src/data/reviews_backup.json
+2026-03-16T09:28:26.594Z vite:load 27.80ms [fs] /src/components/HM.css
+2026-03-16T09:28:26.594Z vite:hmr [self-accepts] src/components/HM.css
+2026-03-16T09:28:26.594Z vite:import-analysis 0.08ms [0 imports rewritten] src/components/HM.css
+2026-03-16T09:28:26.594Z vite:transform 0.19ms /src/components/HM.css
+2026-03-16T09:28:26.594Z vite:load 22.40ms [fs] /src/components/Location.css
+2026-03-16T09:28:26.595Z vite:hmr [self-accepts] src/components/Location.css
+2026-03-16T09:28:26.595Z vite:import-analysis 0.05ms [0 imports rewritten] src/components/Location.css
+2026-03-16T09:28:26.595Z vite:transform 0.91ms /src/components/Location.css
+2026-03-16T09:28:26.595Z vite:load 19.78ms [fs] /src/utils/dataService.js
+2026-03-16T09:28:26.595Z vite:cache [memory] /src/utils/firebase.js
+2026-03-16T09:28:26.595Z vite:cache [memory] /src/utils/db.js
+2026-03-16T09:28:26.595Z vite:cache [memory] /src/utils/syncService.js
+2026-03-16T09:28:26.595Z vite:import-analysis 0.34ms [4 imports rewritten] src/utils/dataService.js
+2026-03-16T09:28:26.595Z vite:transform 0.38ms /src/utils/dataService.js
+2026-03-16T09:28:26.595Z vite:load 23.77ms [fs] /src/components/ModelMgmt.css
+2026-03-16T09:28:26.596Z vite:hmr [self-accepts] src/components/ModelMgmt.css
+2026-03-16T09:28:26.596Z vite:import-analysis 0.04ms [0 imports rewritten] src/components/ModelMgmt.css
+2026-03-16T09:28:26.596Z vite:transform 0.12ms /src/components/ModelMgmt.css
+2026-03-16T09:28:26.596Z vite:load 23.92ms [fs] /src/pages/Reviews.css
+2026-03-16T09:28:26.596Z vite:hmr [self-accepts] src/pages/Reviews.css
+2026-03-16T09:28:26.596Z vite:import-analysis 0.05ms [0 imports rewritten] src/pages/Reviews.css
+2026-03-16T09:28:26.596Z vite:transform 0.24ms /src/pages/Reviews.css
+2026-03-16T09:28:26.596Z vite:load 20.68ms [fs] /src/components/ServicePrice.css
+2026-03-16T09:28:26.596Z vite:hmr [self-accepts] src/components/ServicePrice.css
+2026-03-16T09:28:26.596Z vite:import-analysis 0.04ms [0 imports rewritten] src/components/ServicePrice.css
+2026-03-16T09:28:26.596Z vite:transform 0.09ms /src/components/ServicePrice.css
+2026-03-16T09:28:26.596Z vite:load 20.78ms [fs] /src/components/Notice.css
+2026-03-16T09:28:26.596Z vite:hmr [self-accepts] src/components/Notice.css
+2026-03-16T09:28:26.596Z vite:import-analysis 0.03ms [0 imports rewritten] src/components/Notice.css
+2026-03-16T09:28:26.596Z vite:transform 0.07ms /src/components/Notice.css
+2026-03-16T09:28:26.596Z vite:load 84.59ms [plugin] /node_modules/.vite/deps/firebase_firestore.js?v=ed915d34
+2026-03-16T09:28:26.602Z vite:resolve 0.09ms ./chunk-NV6KWMW5.js -> /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/chunk-NV6KWMW5.js?v=ed915d34
+2026-03-16T09:28:26.602Z vite:cache [memory] /node_modules/.vite/deps/chunk-EQCVQC35.js?v=ed915d34
+2026-03-16T09:28:26.602Z vite:optimize-deps load /Users/house/Pictures/안티그라피티/node_modules/.vite/deps/chunk-NV6KWMW5.js
+2026-03-16T09:28:26.603Z vite:import-analysis 4.74ms [2 imports rewritten] node_modules/.vite/deps/firebase_firestore.js?v=ed915d34
+2026-03-16T09:28:26.603Z vite:transform 6.40ms /node_modules/.vite/deps/firebase_firestore.js?v=ed915d34
+2026-03-16T09:28:26.603Z vite:cache [304] /src/components/Intro.css
+2026-03-16T09:28:26.603Z vite:time 0.10ms /src/components/Intro.css
+2026-03-16T09:28:26.603Z vite:cache [304] /src/components/Hero.css
+2026-03-16T09:28:26.603Z vite:time 0.05ms /src/components/Hero.css
+2026-03-16T09:28:26.604Z vite:cache [304] /src/components/HM.css
+2026-03-16T09:28:26.604Z vite:time 0.09ms /src/components/HM.css
+2026-03-16T09:28:26.605Z vite:cache [memory] /@react-refresh
+2026-03-16T09:28:26.605Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.605Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T09:28:26.605Z vite:cache [memory] /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T09:28:26.605Z vite:cache [memory] /node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T09:28:26.605Z vite:hmr [self-accepts] src/components/FadeInSection.jsx
+2026-03-16T09:28:26.605Z vite:import-analysis 0.48ms [3 imports rewritten] src/components/FadeInSection.jsx
+2026-03-16T09:28:26.605Z vite:transform 19.09ms /src/components/FadeInSection.jsx
+2026-03-16T09:28:26.605Z vite:time 19.51ms /src/components/FadeInSection.jsx
+2026-03-16T09:28:26.606Z vite:cache [memory] /src/pages/Reviews.css
+2026-03-16T09:28:26.606Z vite:time 0.07ms /src/pages/Reviews.css
+2026-03-16T09:28:26.606Z vite:cache [memory] /src/data/reviews_backup.json
+2026-03-16T09:28:26.606Z vite:time 0.28ms /src/data/reviews_backup.json?import
+2026-03-16T09:28:26.607Z vite:cache [memory] /src/utils/dataService.js
+2026-03-16T09:28:26.608Z vite:time 1.05ms /src/utils/dataService.js
+2026-03-16T09:28:26.608Z vite:cache [memory] /src/utils/reviewService.js
+2026-03-16T09:28:26.609Z vite:time 1.49ms /src/utils/reviewService.js
+2026-03-16T09:28:26.610Z vite:load 32.58ms [fs] /src/components/FAQ.jsx
+6:28:26 PM [vite] Internal server error: /Users/house/Pictures/안티그라피티/src/components/FAQ.jsx: Unterminated template. (71:3)
+
+  69 |
+  70 | export default FAQ;
+> 71 | ```
+     |    ^
+  72 |
+  Plugin: vite:react-babel
+  File: /Users/house/Pictures/안티그라피티/src/components/FAQ.jsx:71:3
+  69 |  
+  70 |  export default FAQ;
+  71 |  ```
+     |     ^
+  72 |  
+      at constructor (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:365:19)
+      at JSXParserMixin.raise (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:6599:19)
+      at Object.unterminated (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5670:20)
+      at readStringContents (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5365:14)
+      at JSXParserMixin.readTemplateToken (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:6519:9)
+      at JSXParserMixin.getTokenFromCode (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:6227:14)
+      at JSXParserMixin.getTokenFromCode (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:4797:11)
+      at JSXParserMixin.nextToken (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5782:10)
+      at JSXParserMixin.next (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5692:10)
+      at JSXParserMixin.parseTemplateElement (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11785:10)
+      at JSXParserMixin.parseTemplate (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11792:23)
+      at JSXParserMixin.parseExprAtom (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11351:21)
+      at JSXParserMixin.parseExprAtom (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11081:23)
+      at JSXParserMixin.parseUpdate (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10899:61)
+      at JSXParserMixin.parseExprOps (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10831:21)
+      at JSXParserMixin.parseExpressionBase (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10784:23)
+      at /Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10780:39
+      at JSXParserMixin.allowInAnd (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12421:16)
+      at JSXParserMixin.parseExpression (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10780:17)
+      at JSXParserMixin.parseStatementContent (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12895:23)
+      at JSXParserMixin.parseStatementLike (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:13309:10)
+      at JSXParserMixin.parseProgram (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12612:25)
+      at JSXParserMixin.parse (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:14488:25)
+      at parse (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:14522:38)
+      at parser (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/parser/index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/transformation/index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:261:32)
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:223:11)
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:189:28
+      at /Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/gensync-utils/async.js:67:7
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:113:33
+      at step (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:287:14)
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:223:11)
+2026-03-16T09:28:26.613Z vite:time 36.20ms /src/components/FAQ.jsx
+2026-03-16T09:28:26.616Z vite:cache [304] /src/components/Location.css
+2026-03-16T09:28:26.616Z vite:time 0.17ms /src/components/Location.css
+2026-03-16T09:28:26.616Z vite:cache [304] /src/components/ServicePrice.css
+2026-03-16T09:28:26.616Z vite:time 0.24ms /src/components/ServicePrice.css
+2026-03-16T09:28:26.617Z vite:cache [304] /src/components/ModelMgmt.css
+2026-03-16T09:28:26.617Z vite:time 0.27ms /src/components/ModelMgmt.css
+2026-03-16T09:28:26.617Z vite:cache [memory] /src/utils/firebase.js
+2026-03-16T09:28:26.618Z vite:time 0.42ms /src/utils/firebase.js
+2026-03-16T09:28:26.618Z vite:cache [304] /src/components/Notice.css
+2026-03-16T09:28:26.618Z vite:time 0.15ms /src/components/Notice.css
+2026-03-16T09:28:26.619Z vite:cache [memory] /src/utils/db.js
+2026-03-16T09:28:26.619Z vite:time 0.48ms /src/utils/db.js
+2026-03-16T09:28:26.621Z vite:load 36.63ms [plugin] /node_modules/.vite/deps/firebase_app.js?v=ed915d34
+2026-03-16T09:28:26.622Z vite:cache [memory] /node_modules/.vite/deps/chunk-EQCVQC35.js?v=ed915d34
+2026-03-16T09:28:26.622Z vite:import-analysis 0.92ms [2 imports rewritten] node_modules/.vite/deps/firebase_app.js?v=ed915d34
+2026-03-16T09:28:26.622Z vite:transform 1.15ms /node_modules/.vite/deps/firebase_app.js?v=ed915d34
+2026-03-16T09:28:26.622Z vite:load 38.03ms [plugin] /node_modules/.vite/deps/firebase_storage.js?v=ed915d34
+2026-03-16T09:28:26.623Z vite:cache [memory] /node_modules/.vite/deps/chunk-EQCVQC35.js?v=ed915d34
+2026-03-16T09:28:26.623Z vite:import-analysis 0.64ms [2 imports rewritten] node_modules/.vite/deps/firebase_storage.js?v=ed915d34
+2026-03-16T09:28:26.623Z vite:transform 0.89ms /node_modules/.vite/deps/firebase_storage.js?v=ed915d34
+2026-03-16T09:28:26.623Z vite:load 20.66ms [plugin] /node_modules/.vite/deps/chunk-NV6KWMW5.js?v=ed915d34
+2026-03-16T09:28:26.624Z vite:import-analysis 0.37ms [no imports] node_modules/.vite/deps/chunk-NV6KWMW5.js?v=ed915d34
+2026-03-16T09:28:26.624Z vite:transform 0.61ms /node_modules/.vite/deps/chunk-NV6KWMW5.js?v=ed915d34
+2026-03-16T09:28:26.638Z vite:time 0.56ms /favicon.ico
+2026-03-16T09:28:34.563Z vite:html-fallback Rewriting HEAD / to /index.html
+2026-03-16T09:28:34.564Z vite:cache [memory] /src/main.jsx
+2026-03-16T09:28:34.566Z vite:time 3.11ms /index.html
+2026-03-16T09:28:46.794Z vite:html-fallback Rewriting GET / to /index.html
+2026-03-16T09:28:46.796Z vite:cache [memory] /src/main.jsx
+2026-03-16T09:28:46.796Z vite:time 2.18ms /index.html
+2026-03-16T09:28:46.806Z vite:cache [memory] /@vite/client
+2026-03-16T09:28:46.806Z vite:time 0.30ms /@vite/client
+2026-03-16T09:28:46.806Z vite:cache [304] /src/main.jsx
+2026-03-16T09:28:46.806Z vite:time 0.05ms /src/main.jsx
+2026-03-16T09:28:46.808Z vite:cache [304] /@react-refresh
+2026-03-16T09:28:46.808Z vite:time 0.12ms /@react-refresh
+2026-03-16T09:28:46.819Z vite:cache [304] /src/App.jsx
+2026-03-16T09:28:46.820Z vite:time 2.96ms /src/App.jsx
+2026-03-16T09:28:46.824Z vite:cache [304] /src/index.css
+2026-03-16T09:28:46.824Z vite:time 1.99ms /src/index.css
+2026-03-16T09:28:46.825Z vite:cache [304] /src/i18n/index.js
+2026-03-16T09:28:46.825Z vite:time 0.06ms /src/i18n/index.js
+2026-03-16T09:28:46.825Z vite:cache [304] /src/components/Hero.jsx
+2026-03-16T09:28:46.825Z vite:time 0.10ms /src/components/Hero.jsx
+2026-03-16T09:28:46.826Z vite:cache [304] /node_modules/vite/dist/client/env.mjs
+2026-03-16T09:28:46.826Z vite:time 0.05ms /node_modules/vite/dist/client/env.mjs
+2026-03-16T09:28:46.826Z vite:cache [304] /src/components/Intro.jsx
+2026-03-16T09:28:46.826Z vite:time 0.02ms /src/components/Intro.jsx
+2026-03-16T09:28:46.826Z vite:cache [304] /src/components/Zone.jsx
+2026-03-16T09:28:46.826Z vite:time 0.02ms /src/components/Zone.jsx
+2026-03-16T09:28:46.826Z vite:cache [304] /src/components/ServicePrice.jsx
+2026-03-16T09:28:46.826Z vite:time 0.02ms /src/components/ServicePrice.jsx
+2026-03-16T09:28:46.826Z vite:cache [304] /src/components/HM.jsx
+2026-03-16T09:28:46.827Z vite:time 0.65ms /src/components/HM.jsx
+2026-03-16T09:28:46.832Z vite:cache [304] /src/components/Location.jsx
+2026-03-16T09:28:46.832Z vite:time 0.15ms /src/components/Location.jsx
+2026-03-16T09:28:46.834Z vite:cache [304] /src/components/Notice.jsx
+2026-03-16T09:28:46.835Z vite:time 1.68ms /src/components/Notice.jsx
+2026-03-16T09:28:46.837Z vite:cache [304] /src/components/ModelMgmt.jsx
+2026-03-16T09:28:46.837Z vite:time 0.30ms /src/components/ModelMgmt.jsx
+2026-03-16T09:28:46.838Z vite:cache [304] /src/pages/Reviews.jsx
+2026-03-16T09:28:46.838Z vite:time 0.17ms /src/pages/Reviews.jsx
+2026-03-16T09:28:46.838Z vite:cache [304] /src/components/Hero.css
+2026-03-16T09:28:46.838Z vite:time 0.20ms /src/components/Hero.css
+2026-03-16T09:28:46.839Z vite:cache [304] /src/utils/syncService.js
+2026-03-16T09:28:46.839Z vite:time 0.26ms /src/utils/syncService.js
+2026-03-16T09:28:46.840Z vite:cache [memory] /src/i18n/locales/ko.json
+2026-03-16T09:28:46.840Z vite:time 0.36ms /src/i18n/locales/ko.json?import
+2026-03-16T09:28:46.841Z vite:cache [memory] /src/i18n/locales/ja.json
+2026-03-16T09:28:46.841Z vite:time 1.02ms /src/i18n/locales/ja.json?import
+2026-03-16T09:28:46.843Z vite:cache [memory] /src/i18n/locales/en.json
+2026-03-16T09:28:46.843Z vite:time 0.72ms /src/i18n/locales/en.json?import
+2026-03-16T09:28:46.844Z vite:cache [304] /src/components/Intro.css
+2026-03-16T09:28:46.845Z vite:time 0.37ms /src/components/Intro.css
+2026-03-16T09:28:46.845Z vite:cache [304] /src/components/ServicePrice.css
+2026-03-16T09:28:46.845Z vite:time 0.09ms /src/components/ServicePrice.css
+2026-03-16T09:28:46.845Z vite:cache [304] /src/components/Zone.css
+2026-03-16T09:28:46.845Z vite:time 0.40ms /src/components/Zone.css
+2026-03-16T09:28:46.846Z vite:cache [304] /src/utils/galleryService.js
+2026-03-16T09:28:46.846Z vite:time 0.14ms /src/utils/galleryService.js
+2026-03-16T09:28:46.846Z vite:cache [memory] /src/i18n/locales/zh.json
+2026-03-16T09:28:46.846Z vite:time 0.17ms /src/i18n/locales/zh.json?import
+2026-03-16T09:28:46.848Z vite:cache [304] /src/components/HM.css
+2026-03-16T09:28:46.848Z vite:time 0.37ms /src/components/HM.css
+2026-03-16T09:28:46.848Z vite:cache [304] /src/components/Location.css
+2026-03-16T09:28:46.849Z vite:time 0.32ms /src/components/Location.css
+2026-03-16T09:28:46.849Z vite:cache [304] /src/utils/dataService.js
+2026-03-16T09:28:46.849Z vite:time 0.03ms /src/utils/dataService.js
+2026-03-16T09:28:46.849Z vite:cache [304] /src/components/Notice.css
+2026-03-16T09:28:46.849Z vite:time 0.22ms /src/components/Notice.css
+2026-03-16T09:28:46.850Z vite:cache [304] /src/components/ModelMgmt.css
+2026-03-16T09:28:46.850Z vite:time 0.44ms /src/components/ModelMgmt.css
+2026-03-16T09:28:46.850Z vite:cache [304] /src/components/FadeInSection.jsx
+2026-03-16T09:28:46.850Z vite:time 0.07ms /src/components/FadeInSection.jsx
+2026-03-16T09:28:46.850Z vite:cache [304] /src/utils/reviewService.js
+2026-03-16T09:28:46.851Z vite:time 0.05ms /src/utils/reviewService.js
+2026-03-16T09:28:46.851Z vite:cache [memory] /src/data/reviews_backup.json
+2026-03-16T09:28:46.851Z vite:time 0.07ms /src/data/reviews_backup.json?import
+2026-03-16T09:28:46.851Z vite:cache [304] /src/pages/Reviews.css
+2026-03-16T09:28:46.851Z vite:time 0.04ms /src/pages/Reviews.css
+2026-03-16T09:28:46.851Z vite:cache [304] /src/utils/firebase.js
+2026-03-16T09:28:46.851Z vite:time 0.02ms /src/utils/firebase.js
+2026-03-16T09:28:46.851Z vite:load 14.81ms [fs] /src/components/FAQ.jsx
+6:28:46 PM [vite] Internal server error: /Users/house/Pictures/안티그라피티/src/components/FAQ.jsx: Unterminated template. (71:3)
+
+  69 |
+  70 | export default FAQ;
+> 71 | ```
+     |    ^
+  72 |
+  Plugin: vite:react-babel
+  File: /Users/house/Pictures/안티그라피티/src/components/FAQ.jsx:71:3
+  69 |  
+  70 |  export default FAQ;
+  71 |  ```
+     |     ^
+  72 |  
+      at constructor (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:365:19)
+      at JSXParserMixin.raise (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:6599:19)
+      at Object.unterminated (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5670:20)
+      at readStringContents (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5365:14)
+      at JSXParserMixin.readTemplateToken (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:6519:9)
+      at JSXParserMixin.getTokenFromCode (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:6227:14)
+      at JSXParserMixin.getTokenFromCode (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:4797:11)
+      at JSXParserMixin.nextToken (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5782:10)
+      at JSXParserMixin.next (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5692:10)
+      at JSXParserMixin.parseTemplateElement (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11785:10)
+      at JSXParserMixin.parseTemplate (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11792:23)
+      at JSXParserMixin.parseExprAtom (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11351:21)
+      at JSXParserMixin.parseExprAtom (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11081:23)
+      at JSXParserMixin.parseUpdate (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10899:61)
+      at JSXParserMixin.parseExprOps (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10831:21)
+      at JSXParserMixin.parseExpressionBase (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10784:23)
+      at /Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10780:39
+      at JSXParserMixin.allowInAnd (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12421:16)
+      at JSXParserMixin.parseExpression (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10780:17)
+      at JSXParserMixin.parseStatementContent (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12895:23)
+      at JSXParserMixin.parseStatementLike (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:13309:10)
+      at JSXParserMixin.parseProgram (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12612:25)
+      at JSXParserMixin.parse (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:14488:25)
+      at parse (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:14522:38)
+      at parser (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/parser/index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/transformation/index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:261:32)
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:223:11)
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:189:28
+      at /Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/gensync-utils/async.js:67:7
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:113:33
+      at step (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:287:14)
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:223:11)
+2026-03-16T09:28:46.856Z vite:time 19.92ms /src/components/FAQ.jsx
+2026-03-16T09:28:46.857Z vite:cache [304] /src/utils/db.js
+2026-03-16T09:28:46.857Z vite:time 0.07ms /src/utils/db.js
+2026-03-16T09:29:09.372Z vite:html-fallback Rewriting GET / to /index.html
+2026-03-16T09:29:09.373Z vite:cache [memory] /src/main.jsx
+2026-03-16T09:29:09.374Z vite:time 1.86ms /index.html
+2026-03-16T09:29:09.385Z vite:cache [memory] /@vite/client
+2026-03-16T09:29:09.388Z vite:time 3.35ms /@vite/client
+2026-03-16T09:29:09.389Z vite:cache [memory] /src/main.jsx
+2026-03-16T09:29:09.389Z vite:time 0.38ms /src/main.jsx
+2026-03-16T09:29:09.390Z vite:cache [304] /@react-refresh
+2026-03-16T09:29:09.390Z vite:time 0.12ms /@react-refresh
+2026-03-16T09:29:09.394Z vite:cache [memory] /src/App.jsx
+2026-03-16T09:29:09.394Z vite:time 0.70ms /src/App.jsx
+2026-03-16T09:29:09.397Z vite:cache [304] /src/index.css
+2026-03-16T09:29:09.397Z vite:time 1.30ms /src/index.css
+2026-03-16T09:29:09.400Z vite:cache [304] /src/i18n/index.js
+2026-03-16T09:29:09.400Z vite:time 0.15ms /src/i18n/index.js
+2026-03-16T09:29:09.401Z vite:cache [304] /src/components/Hero.jsx
+2026-03-16T09:29:09.401Z vite:time 0.19ms /src/components/Hero.jsx
+2026-03-16T09:29:09.403Z vite:cache [304] /src/components/Intro.jsx
+2026-03-16T09:29:09.403Z vite:time 1.22ms /src/components/Intro.jsx
+2026-03-16T09:29:09.404Z vite:cache [304] /node_modules/vite/dist/client/env.mjs
+2026-03-16T09:29:09.404Z vite:time 0.21ms /node_modules/vite/dist/client/env.mjs
+2026-03-16T09:29:09.404Z vite:cache [memory] /src/components/Notice.jsx
+2026-03-16T09:29:09.404Z vite:time 0.14ms /src/components/Notice.jsx
+2026-03-16T09:29:09.405Z vite:cache [304] /src/components/HM.jsx
+2026-03-16T09:29:09.405Z vite:time 0.13ms /src/components/HM.jsx
+2026-03-16T09:29:09.405Z vite:cache [memory] /src/components/Zone.jsx
+2026-03-16T09:29:09.405Z vite:time 0.46ms /src/components/Zone.jsx
+2026-03-16T09:29:09.407Z vite:cache [304] /src/components/Location.jsx
+2026-03-16T09:29:09.407Z vite:time 0.70ms /src/components/Location.jsx
+2026-03-16T09:29:09.408Z vite:cache [memory] /src/components/ModelMgmt.jsx
+2026-03-16T09:29:09.408Z vite:time 0.25ms /src/components/ModelMgmt.jsx
+2026-03-16T09:29:09.409Z vite:cache [304] /src/components/ServicePrice.jsx
+2026-03-16T09:29:09.409Z vite:time 0.13ms /src/components/ServicePrice.jsx
+2026-03-16T09:29:09.411Z vite:cache [memory] /src/i18n/locales/en.json
+2026-03-16T09:29:09.412Z vite:time 0.82ms /src/i18n/locales/en.json?import
+2026-03-16T09:29:09.412Z vite:cache [memory] /src/utils/syncService.js
+2026-03-16T09:29:09.413Z vite:time 0.88ms /src/utils/syncService.js
+2026-03-16T09:29:09.413Z vite:cache [304] /src/pages/Reviews.jsx
+2026-03-16T09:29:09.414Z vite:time 0.16ms /src/pages/Reviews.jsx
+2026-03-16T09:29:09.415Z vite:cache [memory] /src/i18n/locales/zh.json
+2026-03-16T09:29:09.415Z vite:time 0.47ms /src/i18n/locales/zh.json?import
+2026-03-16T09:29:09.415Z vite:cache [304] /src/components/Hero.css
+2026-03-16T09:29:09.415Z vite:time 0.36ms /src/components/Hero.css
+2026-03-16T09:29:09.416Z vite:cache [memory] /src/i18n/locales/ko.json
+2026-03-16T09:29:09.416Z vite:time 0.25ms /src/i18n/locales/ko.json?import
+2026-03-16T09:29:09.417Z vite:cache [memory] /src/i18n/locales/ja.json
+2026-03-16T09:29:09.417Z vite:time 0.34ms /src/i18n/locales/ja.json?import
+2026-03-16T09:29:09.419Z vite:cache [memory] /src/utils/dataService.js
+2026-03-16T09:29:09.419Z vite:time 0.87ms /src/utils/dataService.js
+2026-03-16T09:29:09.420Z vite:cache [304] /src/components/Notice.css
+2026-03-16T09:29:09.421Z vite:time 0.32ms /src/components/Notice.css
+2026-03-16T09:29:09.421Z vite:cache [memory] /src/utils/galleryService.js
+2026-03-16T09:29:09.421Z vite:time 0.43ms /src/utils/galleryService.js
+2026-03-16T09:29:09.421Z vite:cache [304] /src/components/Zone.css
+2026-03-16T09:29:09.421Z vite:time 0.14ms /src/components/Zone.css
+2026-03-16T09:29:09.422Z vite:cache [304] /src/components/Intro.css
+2026-03-16T09:29:09.422Z vite:time 0.11ms /src/components/Intro.css
+2026-03-16T09:29:09.422Z vite:cache [304] /src/components/HM.css
+2026-03-16T09:29:09.422Z vite:time 0.05ms /src/components/HM.css
+2026-03-16T09:29:09.422Z vite:cache [304] /src/components/Location.css
+2026-03-16T09:29:09.422Z vite:time 0.19ms /src/components/Location.css
+2026-03-16T09:29:09.423Z vite:cache [304] /src/components/ModelMgmt.css
+2026-03-16T09:29:09.423Z vite:time 0.15ms /src/components/ModelMgmt.css
+2026-03-16T09:29:09.424Z vite:cache [memory] /src/utils/db.js
+2026-03-16T09:29:09.424Z vite:time 0.42ms /src/utils/db.js
+2026-03-16T09:29:09.424Z vite:cache [304] /src/components/FadeInSection.jsx
+2026-03-16T09:29:09.424Z vite:time 0.07ms /src/components/FadeInSection.jsx
+2026-03-16T09:29:09.425Z vite:load 16.87ms [fs] /src/components/FAQ.jsx
+6:29:09 PM [vite] Internal server error: /Users/house/Pictures/안티그라피티/src/components/FAQ.jsx: Unterminated template. (71:3)
+
+  69 |
+  70 | export default FAQ;
+> 71 | ```
+     |    ^
+  72 |
+  Plugin: vite:react-babel
+  File: /Users/house/Pictures/안티그라피티/src/components/FAQ.jsx:71:3
+  69 |  
+  70 |  export default FAQ;
+  71 |  ```
+     |     ^
+  72 |  
+      at constructor (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:365:19)
+      at JSXParserMixin.raise (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:6599:19)
+      at Object.unterminated (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5670:20)
+      at readStringContents (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5365:14)
+      at JSXParserMixin.readTemplateToken (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:6519:9)
+      at JSXParserMixin.getTokenFromCode (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:6227:14)
+      at JSXParserMixin.getTokenFromCode (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:4797:11)
+      at JSXParserMixin.nextToken (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5782:10)
+      at JSXParserMixin.next (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5692:10)
+      at JSXParserMixin.parseTemplateElement (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11785:10)
+      at JSXParserMixin.parseTemplate (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11792:23)
+      at JSXParserMixin.parseExprAtom (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11351:21)
+      at JSXParserMixin.parseExprAtom (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11081:23)
+      at JSXParserMixin.parseUpdate (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10899:61)
+      at JSXParserMixin.parseExprOps (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10831:21)
+      at JSXParserMixin.parseExpressionBase (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10784:23)
+      at /Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10780:39
+      at JSXParserMixin.allowInAnd (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12421:16)
+      at JSXParserMixin.parseExpression (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10780:17)
+      at JSXParserMixin.parseStatementContent (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12895:23)
+      at JSXParserMixin.parseStatementLike (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:13309:10)
+      at JSXParserMixin.parseProgram (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12612:25)
+      at JSXParserMixin.parse (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:14488:25)
+      at parse (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:14522:38)
+      at parser (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/parser/index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/transformation/index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:261:32)
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:223:11)
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:189:28
+      at /Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/gensync-utils/async.js:67:7
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:113:33
+      at step (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:287:14)
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:223:11)
+2026-03-16T09:29:09.428Z vite:time 20.88ms /src/components/FAQ.jsx
+2026-03-16T09:29:09.429Z vite:cache [304] /src/components/ServicePrice.css
+2026-03-16T09:29:09.429Z vite:time 0.20ms /src/components/ServicePrice.css
+2026-03-16T09:29:09.429Z vite:cache [304] /src/utils/firebase.js
+2026-03-16T09:29:09.429Z vite:time 0.07ms /src/utils/firebase.js
+2026-03-16T09:29:09.430Z vite:cache [304] /src/pages/Reviews.css
+2026-03-16T09:29:09.430Z vite:time 0.08ms /src/pages/Reviews.css
+2026-03-16T09:29:09.430Z vite:cache [memory] /src/data/reviews_backup.json
+2026-03-16T09:29:09.430Z vite:time 0.06ms /src/data/reviews_backup.json?import
+2026-03-16T09:29:09.430Z vite:cache [memory] /src/utils/reviewService.js
+2026-03-16T09:29:09.431Z vite:time 1.03ms /src/utils/reviewService.js
+2026-03-16T09:29:09.445Z vite:time 0.23ms /favicon.ico
+2026-03-16T09:29:13.509Z vite:html-fallback Rewriting GET / to /index.html
+2026-03-16T09:29:13.511Z vite:cache [memory] /src/main.jsx
+2026-03-16T09:29:13.511Z vite:time 2.44ms /index.html
+2026-03-16T09:29:13.519Z vite:cache [memory] /@vite/client
+2026-03-16T09:29:13.519Z vite:time 0.44ms /@vite/client
+2026-03-16T09:29:13.519Z vite:cache [304] /src/main.jsx
+2026-03-16T09:29:13.519Z vite:time 0.06ms /src/main.jsx
+2026-03-16T09:29:13.520Z vite:cache [304] /@react-refresh
+2026-03-16T09:29:13.520Z vite:time 0.31ms /@react-refresh
+2026-03-16T09:29:13.526Z vite:cache [304] /src/App.jsx
+2026-03-16T09:29:13.526Z vite:time 0.86ms /src/App.jsx
+2026-03-16T09:29:13.543Z vite:cache [304] /src/index.css
+2026-03-16T09:29:13.543Z vite:time 0.12ms /src/index.css
+2026-03-16T09:29:13.544Z vite:cache [304] /src/i18n/index.js
+2026-03-16T09:29:13.544Z vite:time 0.13ms /src/i18n/index.js
+2026-03-16T09:29:13.545Z vite:cache [304] /src/components/Zone.jsx
+2026-03-16T09:29:13.545Z vite:time 0.31ms /src/components/Zone.jsx
+2026-03-16T09:29:13.547Z vite:cache [304] /node_modules/vite/dist/client/env.mjs
+2026-03-16T09:29:13.547Z vite:time 0.48ms /node_modules/vite/dist/client/env.mjs
+2026-03-16T09:29:13.547Z vite:cache [304] /src/components/HM.jsx
+2026-03-16T09:29:13.547Z vite:time 0.04ms /src/components/HM.jsx
+2026-03-16T09:29:13.547Z vite:cache [304] /src/components/ServicePrice.jsx
+2026-03-16T09:29:13.548Z vite:time 0.10ms /src/components/ServicePrice.jsx
+2026-03-16T09:29:13.548Z vite:cache [304] /src/components/Hero.jsx
+2026-03-16T09:29:13.548Z vite:time 0.12ms /src/components/Hero.jsx
+2026-03-16T09:29:13.549Z vite:cache [304] /src/components/Notice.jsx
+2026-03-16T09:29:13.549Z vite:time 0.16ms /src/components/Notice.jsx
+2026-03-16T09:29:13.549Z vite:cache [304] /src/components/Intro.jsx
+2026-03-16T09:29:13.550Z vite:time 0.13ms /src/components/Intro.jsx
+2026-03-16T09:29:13.550Z vite:cache [304] /src/components/ModelMgmt.jsx
+2026-03-16T09:29:13.550Z vite:time 0.04ms /src/components/ModelMgmt.jsx
+2026-03-16T09:29:13.550Z vite:cache [304] /src/components/Location.jsx
+2026-03-16T09:29:13.551Z vite:time 0.15ms /src/components/Location.jsx
+2026-03-16T09:29:13.552Z vite:load 8.57ms [fs] /src/components/FAQ.jsx
+6:29:13 PM [vite] Internal server error: /Users/house/Pictures/안티그라피티/src/components/FAQ.jsx: Unterminated template. (71:3)
+
+  69 |
+  70 | export default FAQ;
+> 71 | ```
+     |    ^
+  72 |
+  Plugin: vite:react-babel
+  File: /Users/house/Pictures/안티그라피티/src/components/FAQ.jsx:71:3
+  69 |  
+  70 |  export default FAQ;
+  71 |  ```
+     |     ^
+  72 |  
+      at constructor (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:365:19)
+      at JSXParserMixin.raise (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:6599:19)
+      at Object.unterminated (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5670:20)
+      at readStringContents (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5365:14)
+      at JSXParserMixin.readTemplateToken (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:6519:9)
+      at JSXParserMixin.getTokenFromCode (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:6227:14)
+      at JSXParserMixin.getTokenFromCode (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:4797:11)
+      at JSXParserMixin.nextToken (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5782:10)
+      at JSXParserMixin.next (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:5692:10)
+      at JSXParserMixin.parseTemplateElement (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11785:10)
+      at JSXParserMixin.parseTemplate (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11792:23)
+      at JSXParserMixin.parseExprAtom (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11351:21)
+      at JSXParserMixin.parseExprAtom (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:4764:20)
+      at JSXParserMixin.parseExprSubscripts (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11081:23)
+      at JSXParserMixin.parseUpdate (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11066:21)
+      at JSXParserMixin.parseMaybeUnary (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:11046:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10899:61)
+      at JSXParserMixin.parseExprOps (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10904:23)
+      at JSXParserMixin.parseMaybeConditional (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10881:23)
+      at JSXParserMixin.parseMaybeAssign (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10831:21)
+      at JSXParserMixin.parseExpressionBase (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10784:23)
+      at /Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10780:39
+      at JSXParserMixin.allowInAnd (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12421:16)
+      at JSXParserMixin.parseExpression (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:10780:17)
+      at JSXParserMixin.parseStatementContent (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12895:23)
+      at JSXParserMixin.parseStatementLike (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12767:17)
+      at JSXParserMixin.parseModuleItem (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12744:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:13316:36)
+      at JSXParserMixin.parseBlockBody (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:13309:10)
+      at JSXParserMixin.parseProgram (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12622:10)
+      at JSXParserMixin.parseTopLevel (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:12612:25)
+      at JSXParserMixin.parse (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:14488:25)
+      at parse (/Users/house/Pictures/안티그라피티/node_modules/@babel/parser/lib/index.js:14522:38)
+      at parser (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/parser/index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+      at normalizeFile.next (<anonymous>)
+      at run (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/transformation/index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (/Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:261:32)
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:223:11)
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:189:28
+      at /Users/house/Pictures/안티그라피티/node_modules/@babel/core/lib/gensync-utils/async.js:67:7
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:113:33
+      at step (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:287:14)
+      at /Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:273:13
+      at async.call.result.err.err (/Users/house/Pictures/안티그라피티/node_modules/gensync/index.js:223:11)
+2026-03-16T09:29:13.556Z vite:time 12.91ms /src/components/FAQ.jsx
+2026-03-16T09:29:13.557Z vite:cache [memory] /src/i18n/locales/en.json
+2026-03-16T09:29:13.557Z vite:time 0.31ms /src/i18n/locales/en.json?import
+2026-03-16T09:29:13.557Z vite:cache [memory] /src/i18n/locales/ja.json
+2026-03-16T09:29:13.557Z vite:time 0.08ms /src/i18n/locales/ja.json?import
+2026-03-16T09:29:13.557Z vite:cache [304] /src/pages/Reviews.jsx
+2026-03-16T09:29:13.557Z vite:time 0.02ms /src/pages/Reviews.jsx
+2026-03-16T09:29:13.557Z vite:cache [304] /src/utils/syncService.js
+2026-03-16T09:29:13.557Z vite:time 0.02ms /src/utils/syncService.js
+2026-03-16T09:29:13.557Z vite:cache [memory] /src/i18n/locales/ko.json
+2026-03-16T09:29:13.557Z vite:time 0.04ms /src/i18n/locales/ko.json?import
+2026-03-16T09:29:13.558Z vite:cache [memory] /src/i18n/locales/zh.json
+2026-03-16T09:29:13.558Z vite:time 0.09ms /src/i18n/locales/zh.json?import
+2026-03-16T09:29:13.561Z vite:cache [304] /src/utils/galleryService.js
+2026-03-16T09:29:13.561Z vite:time 0.59ms /src/utils/galleryService.js
+2026-03-16T09:29:13.561Z vite:cache [304] /src/components/Zone.css
+2026-03-16T09:29:13.562Z vite:time 0.22ms /src/components/Zone.css
+2026-03-16T09:29:13.562Z vite:cache [304] /src/components/HM.css
+2026-03-16T09:29:13.562Z vite:time 0.05ms /src/components/HM.css
+2026-03-16T09:29:13.562Z vite:cache [304] /src/utils/dataService.js
+2026-03-16T09:29:13.562Z vite:time 0.03ms /src/utils/dataService.js
+2026-03-16T09:29:13.562Z vite:cache [304] /src/components/Notice.css
+2026-03-16T09:29:13.562Z vite:time 0.07ms /src/components/Notice.css
+2026-03-16T09:29:13.562Z vite:cache [304] /src/components/Hero.css
+2026-03-16T09:29:13.563Z vite:time 0.16ms /src/components/Hero.css
+2026-03-16T09:29:13.563Z vite:cache [304] /src/components/ServicePrice.css
+2026-03-16T09:29:13.563Z vite:time 0.33ms /src/components/ServicePrice.css
+2026-03-16T09:29:13.563Z vite:cache [304] /src/components/Location.css
+2026-03-16T09:29:13.564Z vite:time 0.06ms /src/components/Location.css
+2026-03-16T09:29:13.564Z vite:cache [304] /src/components/Intro.css
+2026-03-16T09:29:13.564Z vite:time 0.12ms /src/components/Intro.css
+2026-03-16T09:29:13.564Z vite:cache [304] /src/components/ModelMgmt.css
+2026-03-16T09:29:13.564Z vite:time 0.25ms /src/components/ModelMgmt.css
+2026-03-16T09:29:46.343Z vite:hmr [file change] src/components/FAQ.jsx
+2026-03-16T09:29:46.343Z vite:hmr [propagate update] stop propagation because not analyzed: /Users/house/Pictures/안티그라피티/src/components/FAQ.jsx
+2026-03-16T09:29:46.343Z vite:hmr no update happened src/components/FAQ.jsx
+2026-03-16T09:30:19.459Z vite:html-fallback Rewriting HEAD / to /index.html
+2026-03-16T09:30:19.461Z vite:cache [memory-hmr] /src/main.jsx
+2026-03-16T09:30:19.461Z vite:cache [memory] /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T09:30:19.461Z vite:cache [memory] /node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T09:30:19.461Z vite:cache [memory] /node_modules/.vite/deps/react-dom_client.js?v=ed915d34
+2026-03-16T09:30:19.461Z vite:cache [memory] /node_modules/.vite/deps/react-router-dom.js?v=ed915d34
+2026-03-16T09:30:19.461Z vite:cache [memory] /src/index.css
+2026-03-16T09:30:19.461Z vite:cache [memory] /src/i18n/index.js
+2026-03-16T09:30:19.461Z vite:cache [memory-hmr] /src/App.jsx
+2026-03-16T09:30:19.461Z vite:cache [memory] /@react-refresh
+2026-03-16T09:30:19.461Z vite:cache [memory] /src/components/Hero.jsx
+2026-03-16T09:30:19.461Z vite:cache [memory] /src/components/Intro.jsx
+2026-03-16T09:30:19.461Z vite:cache [memory] /src/components/Zone.jsx
+2026-03-16T09:30:19.461Z vite:cache [memory] /src/components/ServicePrice.jsx
+2026-03-16T09:30:19.461Z vite:cache [memory] /src/components/HM.jsx
+2026-03-16T09:30:19.461Z vite:cache [memory] /src/components/Notice.jsx
+2026-03-16T09:30:19.461Z vite:cache [memory] /src/components/ModelMgmt.jsx
+2026-03-16T09:30:19.461Z vite:cache [memory] /src/components/Location.jsx
+2026-03-16T09:30:19.461Z vite:cache [memory] /src/pages/Reviews.jsx
+2026-03-16T09:30:19.461Z vite:cache [memory] /src/utils/syncService.js
+2026-03-16T09:30:19.461Z vite:time 2.09ms /index.html
+2026-03-16T09:30:19.462Z vite:load 0.59ms [fs] /src/components/FAQ.jsx
+2026-03-16T09:30:19.476Z vite:resolve 0.28ms ./FAQ.css -> /Users/house/Pictures/안티그라피티/src/components/FAQ.css
+2026-03-16T09:30:19.476Z vite:cache [memory] /@react-refresh
+2026-03-16T09:30:19.476Z vite:cache [memory] /src/utils/dataService.js
+2026-03-16T09:30:19.476Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T09:30:19.476Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T09:30:19.476Z vite:cache [memory] /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T09:30:19.476Z vite:cache [memory] /node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T09:30:19.476Z vite:hmr [self-accepts] src/components/FAQ.jsx
+2026-03-16T09:30:19.476Z vite:import-analysis 0.91ms [5 imports rewritten] src/components/FAQ.jsx
+2026-03-16T09:30:19.478Z vite:transform 15.46ms /src/components/FAQ.jsx
+2026-03-16T09:30:19.478Z vite:load 1.97ms [fs] /src/components/FAQ.css
+2026-03-16T09:30:19.478Z vite:hmr [self-accepts] src/components/FAQ.css
+2026-03-16T09:30:19.479Z vite:import-analysis 0.08ms [0 imports rewritten] src/components/FAQ.css
+2026-03-16T09:30:19.479Z vite:transform 0.24ms /src/components/FAQ.css
+2026-03-16T09:30:42.126Z vite:html-fallback Rewriting GET / to /index.html
+2026-03-16T09:30:42.128Z vite:cache [memory] /src/main.jsx
+2026-03-16T09:30:42.129Z vite:time 2.38ms /index.html
+2026-03-16T09:30:42.143Z vite:cache [memory] /src/main.jsx
+2026-03-16T09:30:42.143Z vite:time 0.46ms /src/main.jsx
+2026-03-16T09:30:42.146Z vite:cache [memory] /@vite/client
+2026-03-16T09:30:42.146Z vite:time 1.93ms /@vite/client
+2026-03-16T09:30:42.148Z vite:cache [304] /@react-refresh
+2026-03-16T09:30:42.148Z vite:time 0.22ms /@react-refresh
+2026-03-16T09:30:42.155Z vite:cache [memory] /src/App.jsx
+2026-03-16T09:30:42.156Z vite:time 2.26ms /src/App.jsx
+2026-03-16T09:30:42.157Z vite:cache [304] /src/index.css
+2026-03-16T09:30:42.157Z vite:time 0.29ms /src/index.css
+2026-03-16T09:30:42.160Z vite:cache [304] /src/i18n/index.js
+2026-03-16T09:30:42.160Z vite:time 0.27ms /src/i18n/index.js
+2026-03-16T09:30:42.162Z vite:cache [304] /node_modules/vite/dist/client/env.mjs
+2026-03-16T09:30:42.162Z vite:time 0.27ms /node_modules/vite/dist/client/env.mjs
+2026-03-16T09:30:42.164Z vite:cache [304] /src/components/ServicePrice.jsx
+2026-03-16T09:30:42.165Z vite:time 0.30ms /src/components/ServicePrice.jsx
+2026-03-16T09:30:42.167Z vite:cache [304] /src/components/HM.jsx
+2026-03-16T09:30:42.167Z vite:time 1.20ms /src/components/HM.jsx
+2026-03-16T09:30:42.167Z vite:cache [304] /src/components/Hero.jsx
+2026-03-16T09:30:42.167Z vite:time 0.14ms /src/components/Hero.jsx
+2026-03-16T09:30:42.168Z vite:cache [memory] /src/components/FAQ.jsx
+2026-03-16T09:30:42.168Z vite:time 0.84ms /src/components/FAQ.jsx
+2026-03-16T09:30:42.169Z vite:cache [304] /src/components/ModelMgmt.jsx
+2026-03-16T09:30:42.169Z vite:time 0.04ms /src/components/ModelMgmt.jsx
+2026-03-16T09:30:42.169Z vite:cache [304] /src/components/Notice.jsx
+2026-03-16T09:30:42.169Z vite:time 0.02ms /src/components/Notice.jsx
+2026-03-16T09:30:42.169Z vite:cache [304] /src/components/Intro.jsx
+2026-03-16T09:30:42.169Z vite:time 0.04ms /src/components/Intro.jsx
+2026-03-16T09:30:42.169Z vite:cache [304] /src/components/Location.jsx
+2026-03-16T09:30:42.169Z vite:time 0.02ms /src/components/Location.jsx
+2026-03-16T09:30:42.169Z vite:cache [304] /src/components/Zone.jsx
+2026-03-16T09:30:42.169Z vite:time 0.02ms /src/components/Zone.jsx
+2026-03-16T09:30:42.170Z vite:cache [304] /src/pages/Reviews.jsx
+2026-03-16T09:30:42.170Z vite:time 0.03ms /src/pages/Reviews.jsx
+2026-03-16T09:30:42.170Z vite:cache [304] /src/utils/syncService.js
+2026-03-16T09:30:42.170Z vite:time 0.03ms /src/utils/syncService.js
+2026-03-16T09:30:42.171Z vite:cache [memory] /src/i18n/locales/ko.json
+2026-03-16T09:30:42.171Z vite:time 0.14ms /src/i18n/locales/ko.json?import
+2026-03-16T09:30:42.173Z vite:cache [memory] /src/i18n/locales/en.json
+2026-03-16T09:30:42.173Z vite:time 0.35ms /src/i18n/locales/en.json?import
+2026-03-16T09:30:42.175Z vite:cache [memory] /src/i18n/locales/ja.json
+2026-03-16T09:30:42.175Z vite:time 1.27ms /src/i18n/locales/ja.json?import
+2026-03-16T09:30:42.176Z vite:cache [memory] /src/i18n/locales/zh.json
+2026-03-16T09:30:42.176Z vite:time 0.27ms /src/i18n/locales/zh.json?import
+2026-03-16T09:30:42.179Z vite:cache [304] /src/components/ServicePrice.css
+2026-03-16T09:30:42.179Z vite:time 0.88ms /src/components/ServicePrice.css
+2026-03-16T09:30:42.180Z vite:cache [304] /src/components/Intro.css
+2026-03-16T09:30:42.180Z vite:time 0.20ms /src/components/Intro.css
+2026-03-16T09:30:42.180Z vite:cache [304] /src/utils/galleryService.js
+2026-03-16T09:30:42.180Z vite:time 0.16ms /src/utils/galleryService.js
+2026-03-16T09:30:42.181Z vite:cache [304] /src/components/ModelMgmt.css
+2026-03-16T09:30:42.181Z vite:time 0.15ms /src/components/ModelMgmt.css
+2026-03-16T09:30:42.181Z vite:cache [304] /src/components/HM.css
+2026-03-16T09:30:42.181Z vite:time 0.07ms /src/components/HM.css
+2026-03-16T09:30:42.182Z vite:cache [304] /src/components/Hero.css
+2026-03-16T09:30:42.182Z vite:time 0.30ms /src/components/Hero.css
+2026-03-16T09:30:42.183Z vite:cache [304] /src/components/Notice.css
+2026-03-16T09:30:42.183Z vite:time 0.35ms /src/components/Notice.css
+2026-03-16T09:30:42.183Z vite:cache [304] /src/components/Zone.css
+2026-03-16T09:30:42.183Z vite:time 0.12ms /src/components/Zone.css
+2026-03-16T09:30:42.183Z vite:cache [304] /src/components/FAQ.css
+2026-03-16T09:30:42.184Z vite:time 0.07ms /src/components/FAQ.css
+2026-03-16T09:30:42.184Z vite:cache [304] /src/utils/firebase.js
+2026-03-16T09:30:42.184Z vite:time 0.05ms /src/utils/firebase.js
+2026-03-16T09:30:42.184Z vite:cache [304] /src/components/Location.css
+2026-03-16T09:30:42.184Z vite:time 0.05ms /src/components/Location.css
+2026-03-16T09:30:42.184Z vite:cache [304] /src/utils/dataService.js
+2026-03-16T09:30:42.184Z vite:time 0.02ms /src/utils/dataService.js
+2026-03-16T09:30:42.184Z vite:cache [304] /src/utils/db.js
+2026-03-16T09:30:42.184Z vite:time 0.11ms /src/utils/db.js
+2026-03-16T09:30:42.184Z vite:cache [304] /src/components/FadeInSection.jsx
+2026-03-16T09:30:42.184Z vite:time 0.02ms /src/components/FadeInSection.jsx
+2026-03-16T09:30:42.185Z vite:cache [304] /src/utils/reviewService.js
+2026-03-16T09:30:42.185Z vite:time 0.04ms /src/utils/reviewService.js
+2026-03-16T09:30:42.185Z vite:cache [memory] /src/data/reviews_backup.json
+2026-03-16T09:30:42.185Z vite:time 0.22ms /src/data/reviews_backup.json?import
+2026-03-16T09:30:42.186Z vite:cache [304] /src/pages/Reviews.css
+2026-03-16T09:30:42.186Z vite:time 0.20ms /src/pages/Reviews.css
+2026-03-16T09:30:42.224Z vite:time 0.80ms /images/kakao-channel.png
+2026-03-16T09:30:42.229Z vite:time 0.27ms /images/hero-bg2.jpg
+2026-03-16T09:30:42.229Z vite:time 0.08ms /images/hero-bg.jpg
+2026-03-16T09:38:46.142Z vite:hmr [file change] src/utils/syncService.js
+6:38:46 PM [vite] hmr update /src/App.jsx, /src/components/Zone.jsx, /src/components/ModelMgmt.jsx, /src/pages/Reviews.jsx, /src/components/Notice.jsx, /src/components/FAQ.jsx
+2026-03-16T09:38:46.152Z vite:html-fallback Rewriting GET / to /index.html
+2026-03-16T09:38:46.155Z vite:cache [memory-hmr] /src/main.jsx
+2026-03-16T09:38:46.155Z vite:cache [memory] /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T09:38:46.155Z vite:cache [memory] /node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T09:38:46.155Z vite:cache [memory] /node_modules/.vite/deps/react-dom_client.js?v=ed915d34
+2026-03-16T09:38:46.155Z vite:cache [memory] /node_modules/.vite/deps/react-router-dom.js?v=ed915d34
+2026-03-16T09:38:46.156Z vite:cache [memory] /src/index.css
+2026-03-16T09:38:46.156Z vite:cache [memory] /src/i18n/index.js
+2026-03-16T09:38:46.156Z vite:cache [memory-hmr] /src/App.jsx
+2026-03-16T09:38:46.156Z vite:cache [memory] /@react-refresh
+2026-03-16T09:38:46.156Z vite:cache [memory] /src/components/Hero.jsx
+2026-03-16T09:38:46.156Z vite:cache [memory] /src/components/Intro.jsx
+2026-03-16T09:38:46.156Z vite:cache [memory] /src/components/ServicePrice.jsx
+2026-03-16T09:38:46.156Z vite:cache [memory] /src/components/HM.jsx
+2026-03-16T09:38:46.156Z vite:cache [memory] /src/components/Location.jsx
+2026-03-16T09:38:46.157Z vite:cache [memory-hmr] /src/components/Zone.jsx
+2026-03-16T09:38:46.157Z vite:cache [memory-hmr] /src/components/Notice.jsx
+2026-03-16T09:38:46.157Z vite:cache [memory-hmr] /src/components/FAQ.jsx
+2026-03-16T09:38:46.157Z vite:cache [memory-hmr] /src/components/ModelMgmt.jsx
+2026-03-16T09:38:46.157Z vite:cache [memory-hmr] /src/pages/Reviews.jsx
+2026-03-16T09:38:46.157Z vite:time 4.81ms /index.html
+2026-03-16T09:38:46.157Z vite:cache [memory] /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T09:38:46.157Z vite:cache [memory] /node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T09:38:46.157Z vite:cache [memory] /src/components/Zone.css
+2026-03-16T09:38:46.157Z vite:cache [memory] /src/components/Notice.css
+2026-03-16T09:38:46.157Z vite:cache [memory] /src/components/FAQ.css
+2026-03-16T09:38:46.157Z vite:cache [memory] /src/components/ModelMgmt.css
+2026-03-16T09:38:46.157Z vite:cache [memory] /node_modules/.vite/deps/react-i18next.js?v=ed915d34
+2026-03-16T09:38:46.157Z vite:cache [memory] /src/components/FadeInSection.jsx
+2026-03-16T09:38:46.157Z vite:cache [memory] /src/data/reviews_backup.json
+2026-03-16T09:38:46.157Z vite:cache [memory] /src/pages/Reviews.css
+2026-03-16T09:38:46.157Z vite:cache [memory-hmr] /src/utils/galleryService.js
+2026-03-16T09:38:46.157Z vite:cache [memory-hmr] /src/utils/dataService.js
+2026-03-16T09:38:46.157Z vite:cache [memory-hmr] /src/utils/reviewService.js
+2026-03-16T09:38:46.157Z vite:cache [memory] /src/utils/firebase.js
+2026-03-16T09:38:46.157Z vite:cache [memory] /node_modules/.vite/deps/firebase_firestore.js?v=ed915d34
+2026-03-16T09:38:46.157Z vite:cache [memory] /src/utils/db.js
+2026-03-16T09:38:46.159Z vite:cache [memory] /src/components/FAQ.jsx
+2026-03-16T09:38:46.160Z vite:time 0.71ms /src/components/FAQ.jsx
+2026-03-16T09:38:46.162Z vite:cache [memory] /src/App.jsx
+2026-03-16T09:38:46.162Z vite:time 0.29ms /src/App.jsx
+2026-03-16T09:38:46.164Z vite:html-fallback Rewriting GET / to /index.html
+2026-03-16T09:38:46.164Z vite:cache [memory] /src/components/Zone.jsx
+2026-03-16T09:38:46.164Z vite:time 0.27ms /src/components/Zone.jsx
+2026-03-16T09:38:46.165Z vite:load 7.32ms [fs] /src/utils/syncService.js
+2026-03-16T09:38:46.166Z vite:cache [memory] /src/utils/firebase.js
+2026-03-16T09:38:46.166Z vite:cache [memory] /src/utils/db.js
+2026-03-16T09:38:46.166Z vite:cache [memory] /node_modules/.vite/deps/firebase_firestore.js?v=ed915d34
+2026-03-16T09:38:46.166Z vite:import-analysis 1.12ms [3 imports rewritten] src/utils/syncService.js
+2026-03-16T09:38:46.166Z vite:transform 1.26ms /src/utils/syncService.js
+2026-03-16T09:38:46.166Z vite:cache [memory] /src/main.jsx
+2026-03-16T09:38:46.166Z vite:time 0.12ms /src/main.jsx
+2026-03-16T09:38:46.167Z vite:cache [memory] /src/components/ModelMgmt.jsx
+2026-03-16T09:38:46.167Z vite:time 0.17ms /src/components/ModelMgmt.jsx
+2026-03-16T09:38:46.168Z vite:cache [memory] /@vite/client
+2026-03-16T09:38:46.168Z vite:time 0.75ms /@vite/client
+2026-03-16T09:38:46.170Z vite:cache [memory] /src/pages/Reviews.jsx
+2026-03-16T09:38:46.171Z vite:time 1.09ms /src/pages/Reviews.jsx
+2026-03-16T09:38:46.172Z vite:cache [memory] /src/utils/syncService.js
+2026-03-16T09:38:46.174Z vite:time 1.80ms /src/utils/syncService.js
+2026-03-16T09:38:46.174Z vite:cache [304] /@react-refresh
+2026-03-16T09:38:46.174Z vite:time 0.16ms /@react-refresh
+2026-03-16T09:38:46.175Z vite:cache [memory] /src/utils/dataService.js
+2026-03-16T09:38:46.176Z vite:time 1.58ms /src/utils/dataService.js
+2026-03-16T09:38:46.177Z vite:cache [memory] /src/components/Notice.jsx
+2026-03-16T09:38:46.178Z vite:time 0.90ms /src/components/Notice.jsx
+2026-03-16T09:38:46.178Z vite:cache [memory] /src/App.jsx
+2026-03-16T09:38:46.178Z vite:time 0.17ms /src/App.jsx
+2026-03-16T09:38:46.179Z vite:cache [memory] /src/utils/reviewService.js
+2026-03-16T09:38:46.181Z vite:time 2.06ms /src/utils/reviewService.js
+2026-03-16T09:38:46.181Z vite:cache [304] /src/index.css
+2026-03-16T09:38:46.181Z vite:time 0.08ms /src/index.css
+2026-03-16T09:38:46.181Z vite:cache [memory] /src/utils/galleryService.js
+2026-03-16T09:38:46.182Z vite:time 0.86ms /src/utils/galleryService.js
+2026-03-16T09:38:46.183Z vite:cache [memory] /src/main.jsx
+2026-03-16T09:38:46.183Z vite:time 19.25ms /index.html
+2026-03-16T09:38:46.184Z vite:cache [304] /node_modules/vite/dist/client/env.mjs
+2026-03-16T09:38:46.184Z vite:time 0.09ms /node_modules/vite/dist/client/env.mjs
+2026-03-16T09:38:46.188Z vite:cache [304] /src/components/Hero.jsx
+2026-03-16T09:38:46.188Z vite:time 0.14ms /src/components/Hero.jsx
+2026-03-16T09:38:46.189Z vite:cache [304] /src/i18n/index.js
+2026-03-16T09:38:46.189Z vite:time 0.27ms /src/i18n/index.js
+2026-03-16T09:38:46.190Z vite:cache [memory] /@vite/client
+2026-03-16T09:38:46.191Z vite:time 0.66ms /@vite/client
+2026-03-16T09:38:46.192Z vite:cache [304] /src/components/Intro.jsx
+2026-03-16T09:38:46.192Z vite:time 0.25ms /src/components/Intro.jsx
+2026-03-16T09:38:46.194Z vite:cache [304] /@react-refresh
+2026-03-16T09:38:46.194Z vite:time 0.26ms /@react-refresh
+2026-03-16T09:38:46.195Z vite:cache [memory] /src/components/Zone.jsx
+2026-03-16T09:38:46.195Z vite:time 0.27ms /src/components/Zone.jsx
+2026-03-16T09:38:46.195Z vite:cache [memory] /src/main.jsx
+2026-03-16T09:38:46.195Z vite:time 0.18ms /src/main.jsx
+2026-03-16T09:38:46.196Z vite:cache [304] /src/components/ServicePrice.jsx
+2026-03-16T09:38:46.196Z vite:time 0.11ms /src/components/ServicePrice.jsx
+2026-03-16T09:38:46.196Z vite:cache [304] /node_modules/vite/dist/client/env.mjs
+2026-03-16T09:38:46.196Z vite:time 0.10ms /node_modules/vite/dist/client/env.mjs
+2026-03-16T09:38:46.197Z vite:cache [304] /src/components/HM.jsx
+2026-03-16T09:38:46.197Z vite:time 0.10ms /src/components/HM.jsx
+2026-03-16T09:38:46.198Z vite:cache [memory] /src/components/Notice.jsx
+2026-03-16T09:38:46.198Z vite:time 0.14ms /src/components/Notice.jsx
+2026-03-16T09:38:46.198Z vite:cache [memory] /src/components/FAQ.jsx
+2026-03-16T09:38:46.198Z vite:time 0.25ms /src/components/FAQ.jsx
+2026-03-16T09:38:46.198Z vite:cache [memory] /src/components/ModelMgmt.jsx
+2026-03-16T09:38:46.198Z vite:time 0.23ms /src/components/ModelMgmt.jsx
+2026-03-16T09:38:46.199Z vite:cache [304] /src/components/Location.jsx
+2026-03-16T09:38:46.200Z vite:time 0.24ms /src/components/Location.jsx
+2026-03-16T09:38:46.201Z vite:cache [304] /src/index.css
+2026-03-16T09:38:46.201Z vite:time 0.39ms /src/index.css
+2026-03-16T09:38:46.204Z vite:cache [memory] /src/App.jsx
+2026-03-16T09:38:46.205Z vite:time 0.59ms /src/App.jsx
+2026-03-16T09:38:46.206Z vite:cache [memory] /src/utils/syncService.js
+2026-03-16T09:38:46.206Z vite:time 0.15ms /src/utils/syncService.js
+2026-03-16T09:38:46.207Z vite:cache [memory] /src/pages/Reviews.jsx
+2026-03-16T09:38:46.207Z vite:time 0.20ms /src/pages/Reviews.jsx
+2026-03-16T09:38:46.207Z vite:cache [304] /src/components/Hero.css
+2026-03-16T09:38:46.208Z vite:time 0.30ms /src/components/Hero.css
+2026-03-16T09:38:46.209Z vite:cache [304] /src/i18n/index.js
+2026-03-16T09:38:46.209Z vite:time 0.53ms /src/i18n/index.js
+2026-03-16T09:38:46.211Z vite:cache [304] /src/components/Hero.jsx
+2026-03-16T09:38:46.211Z vite:time 0.09ms /src/components/Hero.jsx
+2026-03-16T09:38:46.212Z vite:cache [304] /src/components/Intro.jsx
+2026-03-16T09:38:46.212Z vite:time 0.07ms /src/components/Intro.jsx
+2026-03-16T09:38:46.213Z vite:cache [memory] /src/components/Zone.jsx
+2026-03-16T09:38:46.213Z vite:time 0.63ms /src/components/Zone.jsx
+2026-03-16T09:38:46.214Z vite:cache [memory] /src/i18n/locales/ko.json
+2026-03-16T09:38:46.214Z vite:time 0.37ms /src/i18n/locales/ko.json?import
+2026-03-16T09:38:46.214Z vite:cache [memory] /src/i18n/locales/en.json
+2026-03-16T09:38:46.214Z vite:time 0.09ms /src/i18n/locales/en.json?import
+2026-03-16T09:38:46.215Z vite:cache [304] /src/components/ServicePrice.jsx
+2026-03-16T09:38:46.215Z vite:time 0.10ms /src/components/ServicePrice.jsx
+2026-03-16T09:38:46.215Z vite:cache [memory] /src/components/Notice.jsx
+2026-03-16T09:38:46.215Z vite:time 0.09ms /src/components/Notice.jsx
+2026-03-16T09:38:46.215Z vite:cache [304] /src/components/HM.jsx
+2026-03-16T09:38:46.215Z vite:time 0.03ms /src/components/HM.jsx
+2026-03-16T09:38:46.217Z vite:cache [memory] /src/components/FAQ.jsx
+2026-03-16T09:38:46.217Z vite:time 0.12ms /src/components/FAQ.jsx
+2026-03-16T09:38:46.217Z vite:cache [memory] /src/components/ModelMgmt.jsx
+2026-03-16T09:38:46.217Z vite:time 0.18ms /src/components/ModelMgmt.jsx
+2026-03-16T09:38:46.220Z vite:cache [304] /src/components/Location.jsx
+2026-03-16T09:38:46.220Z vite:time 0.16ms /src/components/Location.jsx
+2026-03-16T09:38:46.220Z vite:cache [memory] /src/pages/Reviews.jsx
+2026-03-16T09:38:46.220Z vite:time 0.31ms /src/pages/Reviews.jsx
+2026-03-16T09:38:46.221Z vite:cache [memory] /src/i18n/locales/ja.json
+2026-03-16T09:38:46.221Z vite:time 0.40ms /src/i18n/locales/ja.json?import
+2026-03-16T09:38:46.222Z vite:cache [304] /src/components/Intro.css
+2026-03-16T09:38:46.222Z vite:time 0.52ms /src/components/Intro.css
+2026-03-16T09:38:46.223Z vite:cache [memory] /src/i18n/locales/zh.json
+2026-03-16T09:38:46.223Z vite:time 0.31ms /src/i18n/locales/zh.json?import
+2026-03-16T09:38:46.223Z vite:cache [memory] /src/utils/syncService.js
+2026-03-16T09:38:46.223Z vite:time 0.22ms /src/utils/syncService.js
+2026-03-16T09:38:46.224Z vite:cache [memory] /src/utils/galleryService.js
+2026-03-16T09:38:46.224Z vite:time 0.46ms /src/utils/galleryService.js
+2026-03-16T09:38:46.225Z vite:cache [memory] /src/i18n/locales/ko.json
+2026-03-16T09:38:46.225Z vite:time 0.48ms /src/i18n/locales/ko.json?import
+2026-03-16T09:38:46.226Z vite:cache [memory] /src/i18n/locales/en.json
+2026-03-16T09:38:46.226Z vite:time 0.10ms /src/i18n/locales/en.json?import
+2026-03-16T09:38:46.226Z vite:cache [304] /src/components/Zone.css
+2026-03-16T09:38:46.226Z vite:time 0.04ms /src/components/Zone.css
+2026-03-16T09:38:46.227Z vite:cache [304] /src/components/ServicePrice.css
+2026-03-16T09:38:46.227Z vite:time 0.24ms /src/components/ServicePrice.css
+2026-03-16T09:38:46.227Z vite:cache [304] /src/components/HM.css
+2026-03-16T09:38:46.228Z vite:time 0.41ms /src/components/HM.css
+2026-03-16T09:38:46.229Z vite:cache [memory] /src/i18n/locales/ja.json
+2026-03-16T09:38:46.229Z vite:time 0.37ms /src/i18n/locales/ja.json?import
+2026-03-16T09:38:46.229Z vite:cache [memory] /src/utils/dataService.js
+2026-03-16T09:38:46.229Z vite:time 0.09ms /src/utils/dataService.js
+2026-03-16T09:38:46.230Z vite:cache [304] /src/components/Notice.css
+2026-03-16T09:38:46.230Z vite:time 0.05ms /src/components/Notice.css
+2026-03-16T09:38:46.231Z vite:cache [304] /src/components/FAQ.css
+2026-03-16T09:38:46.231Z vite:time 0.75ms /src/components/FAQ.css
+2026-03-16T09:38:46.231Z vite:cache [memory] /src/i18n/locales/zh.json
+2026-03-16T09:38:46.232Z vite:time 0.23ms /src/i18n/locales/zh.json?import
+2026-03-16T09:38:46.232Z vite:cache [304] /src/components/Hero.css
+2026-03-16T09:38:46.232Z vite:time 0.29ms /src/components/Hero.css
+2026-03-16T09:38:46.233Z vite:cache [304] /src/components/ModelMgmt.css
+2026-03-16T09:38:46.233Z vite:time 0.08ms /src/components/ModelMgmt.css
+2026-03-16T09:38:46.233Z vite:cache [304] /src/components/Intro.css
+2026-03-16T09:38:46.233Z vite:time 0.04ms /src/components/Intro.css
+2026-03-16T09:38:46.233Z vite:cache [304] /src/components/Location.css
+2026-03-16T09:38:46.234Z vite:time 0.22ms /src/components/Location.css
+2026-03-16T09:38:46.236Z vite:cache [304] /src/components/FadeInSection.jsx
+2026-03-16T09:38:46.236Z vite:time 0.52ms /src/components/FadeInSection.jsx
+2026-03-16T09:38:46.236Z vite:cache [memory] /src/utils/galleryService.js
+2026-03-16T09:38:46.236Z vite:time 0.27ms /src/utils/galleryService.js
+2026-03-16T09:38:46.237Z vite:cache [304] /src/components/Zone.css
+2026-03-16T09:38:46.237Z vite:time 0.16ms /src/components/Zone.css
+2026-03-16T09:38:46.237Z vite:cache [memory] /src/data/reviews_backup.json
+2026-03-16T09:38:46.237Z vite:time 0.24ms /src/data/reviews_backup.json?import
+2026-03-16T09:38:46.238Z vite:cache [304] /src/components/ServicePrice.css
+2026-03-16T09:38:46.238Z vite:time 0.16ms /src/components/ServicePrice.css
+2026-03-16T09:38:46.238Z vite:cache [memory] /src/utils/reviewService.js
+2026-03-16T09:38:46.238Z vite:time 0.16ms /src/utils/reviewService.js
+2026-03-16T09:38:46.239Z vite:cache [memory] /src/utils/dataService.js
+2026-03-16T09:38:46.239Z vite:time 0.22ms /src/utils/dataService.js
+2026-03-16T09:38:46.239Z vite:cache [304] /src/pages/Reviews.css
+2026-03-16T09:38:46.239Z vite:time 0.29ms /src/pages/Reviews.css
+2026-03-16T09:38:46.240Z vite:cache [304] /src/components/HM.css
+2026-03-16T09:38:46.240Z vite:time 0.20ms /src/components/HM.css
+2026-03-16T09:38:46.240Z vite:cache [304] /src/utils/firebase.js
+2026-03-16T09:38:46.240Z vite:time 0.03ms /src/utils/firebase.js
+2026-03-16T09:38:46.240Z vite:cache [304] /src/components/FAQ.css
+2026-03-16T09:38:46.241Z vite:time 0.13ms /src/components/FAQ.css
+2026-03-16T09:38:46.241Z vite:cache [304] /src/components/Notice.css
+2026-03-16T09:38:46.241Z vite:time 0.04ms /src/components/Notice.css
+2026-03-16T09:38:46.241Z vite:cache [304] /src/utils/db.js
+2026-03-16T09:38:46.241Z vite:time 0.05ms /src/utils/db.js
+2026-03-16T09:38:46.242Z vite:cache [304] /src/components/ModelMgmt.css
+2026-03-16T09:38:46.242Z vite:time 1.00ms /src/components/ModelMgmt.css
+2026-03-16T09:38:46.243Z vite:cache [304] /src/components/Location.css
+2026-03-16T09:38:46.243Z vite:time 0.26ms /src/components/Location.css
+2026-03-16T09:38:46.244Z vite:cache [304] /src/components/FadeInSection.jsx
+2026-03-16T09:38:46.244Z vite:time 0.04ms /src/components/FadeInSection.jsx
+2026-03-16T09:38:46.244Z vite:cache [memory] /src/utils/reviewService.js
+2026-03-16T09:38:46.244Z vite:time 0.07ms /src/utils/reviewService.js
+2026-03-16T09:38:46.246Z vite:cache [memory] /src/data/reviews_backup.json
+2026-03-16T09:38:46.246Z vite:time 0.34ms /src/data/reviews_backup.json?import
+2026-03-16T09:38:46.247Z vite:cache [304] /src/pages/Reviews.css
+2026-03-16T09:38:46.247Z vite:time 0.36ms /src/pages/Reviews.css
+2026-03-16T09:38:46.247Z vite:cache [304] /src/utils/firebase.js
+2026-03-16T09:38:46.247Z vite:time 0.05ms /src/utils/firebase.js
+2026-03-16T09:38:46.248Z vite:cache [304] /src/utils/db.js
+2026-03-16T09:38:46.248Z vite:time 0.04ms /src/utils/db.js
+2026-03-16T09:38:46.276Z vite:time 1.79ms /images/hero-bg.jpg
+2026-03-16T09:38:46.281Z vite:time 0.56ms /images/kakao-channel.png
+2026-03-16T09:38:46.285Z vite:time 0.76ms /images/hero-bg2.jpg
+2026-03-16T09:38:46.286Z vite:time 0.15ms /images/kakao-channel.png
+2026-03-16T09:38:46.288Z vite:time 0.23ms /images/hero-bg.jpg
+2026-03-16T09:38:46.288Z vite:time 0.31ms /images/hero-bg2.jpg
+2026-03-16T09:38:48.061Z vite:hmr [file change] src/styles/theme.css
+6:38:48 PM [vite] hmr update /src/index.css
+2026-03-16T09:38:48.064Z vite:load 0.27ms [fs] /src/index.css
+2026-03-16T09:38:48.066Z vite:hmr [self-accepts] src/index.css
+2026-03-16T09:38:48.066Z vite:import-analysis 0.08ms [0 imports rewritten] src/index.css
+2026-03-16T09:38:48.066Z vite:transform 1.63ms /src/index.css
+2026-03-16T09:38:48.066Z vite:time 2.11ms /src/index.css
+2026-03-16T09:38:48.067Z vite:cache [304] /src/index.css
+2026-03-16T09:38:48.067Z vite:time 0.05ms /src/index.css
+2026-03-16T09:38:48.069Z vite:cache [304] /src/index.css
+2026-03-16T09:38:48.069Z vite:time 0.03ms /src/index.css
+2026-03-16T09:50:35.796Z vite:hmr [file change] src/index.css
+6:50:35 PM [vite] hmr update /src/index.css
+2026-03-16T09:50:35.802Z vite:load 0.32ms [fs] /src/index.css
+2026-03-16T09:50:35.804Z vite:hmr [self-accepts] src/index.css
+2026-03-16T09:50:35.804Z vite:import-analysis 0.23ms [0 imports rewritten] src/index.css
+2026-03-16T09:50:35.804Z vite:transform 2.60ms /src/index.css
+2026-03-16T09:50:35.804Z vite:time 3.63ms /src/index.css
+2026-03-16T09:50:35.805Z vite:cache [304] /src/index.css
+2026-03-16T09:50:35.805Z vite:time 0.08ms /src/index.css
+2026-03-16T09:50:35.806Z vite:cache [304] /src/index.css
+2026-03-16T09:50:35.806Z vite:time 0.06ms /src/index.css
+2026-03-16T10:06:49.701Z vite:hmr [file change] src/styles/theme.css
+7:06:49 PM [vite] hmr update /src/index.css
+2026-03-16T10:06:51.314Z vite:hmr [file change] src/index.css
+7:06:51 PM [vite] hmr update /src/index.css
+2026-03-16T10:07:31.285Z vite:hmr [file change] src/components/Hero.jsx
+7:07:31 PM [vite] hmr update /src/components/Hero.jsx
+2026-03-16T10:07:32.799Z vite:hmr [file change] src/components/Hero.css
+7:07:32 PM [vite] hmr update /src/components/Hero.css
+2026-03-16T10:07:51.672Z vite:hmr [file change] src/components/Intro.jsx
+7:07:51 PM [vite] hmr update /src/components/Intro.jsx
+2026-03-16T10:07:53.715Z vite:hmr [file change] src/components/Intro.css
+7:07:53 PM [vite] hmr update /src/components/Intro.css
+2026-03-16T10:08:17.053Z vite:hmr [file change] src/components/Zone.jsx
+7:08:17 PM [vite] hmr update /src/components/Zone.jsx
+2026-03-16T10:08:18.575Z vite:hmr [file change] src/components/Zone.css
+7:08:18 PM [vite] hmr update /src/components/Zone.css
+2026-03-16T10:08:42.746Z vite:hmr [file change] src/components/ServicePrice.jsx
+7:08:42 PM [vite] hmr update /src/components/ServicePrice.jsx
+2026-03-16T10:08:44.270Z vite:hmr [file change] src/components/ServicePrice.css
+7:08:44 PM [vite] hmr update /src/components/ServicePrice.css
+2026-03-16T10:09:07.406Z vite:hmr [file change] src/components/HM.jsx
+7:09:07 PM [vite] hmr update /src/components/HM.jsx
+2026-03-16T10:09:09.229Z vite:hmr [file change] src/components/HM.css
+7:09:09 PM [vite] hmr update /src/components/HM.css
+2026-03-16T10:10:15.746Z vite:hmr [file change] src/pages/Reviews.jsx
+7:10:15 PM [vite] hmr update /src/pages/Reviews.jsx
+2026-03-16T10:10:17.670Z vite:hmr [file change] src/pages/Reviews.css
+7:10:17 PM [vite] hmr update /src/pages/Reviews.css
+2026-03-16T10:17:59.110Z vite:hmr [file change] src/utils/db.js
+7:17:59 PM [vite] hmr update /src/App.jsx, /src/components/Zone.jsx, /src/components/ModelMgmt.jsx, /src/pages/Reviews.jsx, /src/components/Notice.jsx, /src/components/FAQ.jsx
+2026-03-16T10:18:00.922Z vite:hmr [file change] src/utils/syncService.js
+7:18:00 PM [vite] hmr update /src/App.jsx, /src/components/Zone.jsx, /src/components/ModelMgmt.jsx, /src/pages/Reviews.jsx, /src/components/Notice.jsx, /src/components/FAQ.jsx
+2026-03-16T10:18:03.047Z vite:hmr [file change] src/styles/theme.css
+7:18:03 PM [vite] hmr update /src/index.css
+2026-03-16T10:18:12.660Z vite:hmr [file change] src/components/Hero.jsx
+7:18:12 PM [vite] hmr update /src/components/Hero.jsx
+2026-03-16T10:18:24.428Z vite:hmr [file change] tmp/test_firebase.mjs
+2026-03-16T10:18:24.429Z vite:hmr [no modules matched] tmp/test_firebase.mjs
+2026-03-16T10:18:45.409Z vite:hmr [file change] tmp/test_firebase.mjs
+2026-03-16T10:18:45.409Z vite:hmr [no modules matched] tmp/test_firebase.mjs
+2026-03-16T10:19:04.472Z vite:hmr [file change] tmp/search_prod_js.mjs
+2026-03-16T10:19:04.472Z vite:hmr [no modules matched] tmp/search_prod_js.mjs
+2026-03-16T10:19:21.329Z vite:hmr [file change] tmp/search_prod_js.mjs
+2026-03-16T10:19:21.329Z vite:hmr [no modules matched] tmp/search_prod_js.mjs
+2026-03-16T10:20:12.024Z vite:hmr [file change] tmp/search_prod_js.mjs
+2026-03-16T10:20:12.024Z vite:hmr [no modules matched] tmp/search_prod_js.mjs
+2026-03-16T10:20:45.107Z vite:hmr [file change] tmp/test_firebase_v3.mjs
+2026-03-16T10:20:45.107Z vite:hmr [no modules matched] tmp/test_firebase_v3.mjs
+2026-03-16T10:21:28.346Z vite:hmr [file change] src/utils/db.js
+7:21:28 PM [vite] hmr update /src/App.jsx, /src/components/Zone.jsx, /src/components/ModelMgmt.jsx, /src/pages/Reviews.jsx, /src/components/Notice.jsx, /src/components/FAQ.jsx
+2026-03-16T10:21:30.346Z vite:hmr [file change] src/components/Hero.jsx
+7:21:30 PM [vite] hmr update /src/components/Hero.jsx
+2026-03-16T10:21:45.827Z vite:hmr [file change] tmp/check_categories.mjs
+2026-03-16T10:21:45.827Z vite:hmr [no modules matched] tmp/check_categories.mjs
+2026-03-16T10:22:57.632Z vite:hmr [file change] tmp/search_categories_logic.mjs
+2026-03-16T10:22:57.632Z vite:hmr [no modules matched] tmp/search_categories_logic.mjs
+2026-03-16T10:23:19.571Z vite:hmr [file change] tmp/inspect_gallery_docs.mjs
+2026-03-16T10:23:19.571Z vite:hmr [no modules matched] tmp/inspect_gallery_docs.mjs
+2026-03-16T10:29:46.356Z vite:hmr [file change] tmp/search_zone_logic.mjs
+2026-03-16T10:29:46.356Z vite:hmr [no modules matched] tmp/search_zone_logic.mjs
+2026-03-16T10:30:55.033Z vite:hmr [file change] tmp/test_lookbook.mjs
+2026-03-16T10:30:55.033Z vite:hmr [no modules matched] tmp/test_lookbook.mjs
+2026-03-16T10:35:39.676Z vite:hmr [file change] src/utils/db.js
+7:35:39 PM [vite] hmr update /src/App.jsx, /src/components/Zone.jsx, /src/components/ModelMgmt.jsx, /src/pages/Reviews.jsx, /src/components/Notice.jsx, /src/components/FAQ.jsx
+2026-03-16T10:35:42.638Z vite:hmr [file change] src/utils/syncService.js
+7:35:42 PM [vite] hmr update /src/App.jsx, /src/components/Zone.jsx, /src/components/ModelMgmt.jsx, /src/pages/Reviews.jsx, /src/components/Notice.jsx, /src/components/FAQ.jsx
+2026-03-16T10:35:44.668Z vite:hmr [file change] src/utils/galleryService.js
+7:35:44 PM [vite] hmr update /src/components/Zone.jsx, /src/components/ModelMgmt.jsx
+2026-03-16T10:35:53.067Z vite:hmr [file change] src/components/Zone.jsx
+7:35:53 PM [vite] hmr update /src/components/Zone.jsx
+2026-03-16T10:36:01.241Z vite:hmr [file change] tmp/search_video.mjs
+2026-03-16T10:36:01.242Z vite:hmr [no modules matched] tmp/search_video.mjs
+2026-03-16T10:37:02.852Z vite:hmr [file change] tmp/search_collections_exhaustive.mjs
+2026-03-16T10:37:02.852Z vite:hmr [no modules matched] tmp/search_collections_exhaustive.mjs
+2026-03-16T10:37:02.852Z vite:hmr [file change] public/images/intro-bg.mp4
+2026-03-16T10:37:02.852Z vite:hmr [no modules matched] public/images/intro-bg.mp4
+2026-03-16T10:37:02.853Z vite:hmr [file change] public/images/intro-bg.mp4
+2026-03-16T10:37:02.853Z vite:hmr [no modules matched] public/images/intro-bg.mp4
+2026-03-16T10:37:03.142Z vite:hmr [file change] public/images/intro-bg.mp4
+2026-03-16T10:37:03.142Z vite:hmr [no modules matched] public/images/intro-bg.mp4
+2026-03-16T10:37:52.052Z vite:hmr [file change] src/components/Intro.jsx
+7:37:52 PM [vite] hmr update /src/components/Intro.jsx
+2026-03-16T10:38:04.157Z vite:hmr [file change] tmp/search_constants.mjs
+2026-03-16T10:38:04.157Z vite:hmr [no modules matched] tmp/search_constants.mjs
+2026-03-16T10:39:18.974Z vite:hmr [file change] tmp/search_all_collections.mjs
+2026-03-16T10:39:18.975Z vite:hmr [no modules matched] tmp/search_all_collections.mjs
+2026-03-16T10:40:03.419Z vite:hmr [file change] tmp/test_events.mjs
+2026-03-16T10:40:03.419Z vite:hmr [no modules matched] tmp/test_events.mjs
+2026-03-16T10:51:56.196Z vite:hmr [file change] tmp/search_review_counts.mjs
+2026-03-16T10:51:56.197Z vite:hmr [no modules matched] tmp/search_review_counts.mjs
+2026-03-16T10:52:19.728Z vite:hmr [file change] src/styles/theme.css
+7:52:19 PM [vite] hmr update /src/index.css
+2026-03-16T10:52:29.751Z vite:hmr [file change] src/utils/db.js
+7:52:29 PM [vite] hmr update /src/App.jsx, /src/components/Zone.jsx, /src/components/ModelMgmt.jsx, /src/pages/Reviews.jsx, /src/components/Notice.jsx, /src/components/FAQ.jsx
+2026-03-16T10:55:19.410Z vite:hmr [file change] tmp/test_remaining.mjs
+2026-03-16T10:55:19.411Z vite:hmr [no modules matched] tmp/test_remaining.mjs
+2026-03-16T10:58:35.757Z vite:hmr [file change] src/components/Location.jsx
+7:58:35 PM [vite] hmr update /src/components/Location.jsx
+2026-03-16T10:58:39.450Z vite:hmr [file change] src/components/ServicePrice.jsx
+7:58:39 PM [vite] hmr update /src/components/ServicePrice.jsx
+2026-03-16T10:58:41.490Z vite:hmr [file change] src/components/FAQ.jsx
+7:58:41 PM [vite] hmr update /src/components/FAQ.jsx
+2026-03-16T10:58:49.992Z vite:hmr [file change] src/pages/Reviews.jsx
+7:58:49 PM [vite] hmr update /src/pages/Reviews.jsx
+2026-03-16T10:59:00.276Z vite:hmr [file change] src/components/FAQ.jsx
+7:59:00 PM [vite] hmr update /src/components/FAQ.jsx
+2026-03-16T11:01:38.323Z vite:hmr [file change] public/images/logo.png
+2026-03-16T11:01:38.324Z vite:hmr [no modules matched] public/images/logo.png
+2026-03-16T11:01:38.325Z vite:hmr [file change] public/images/logo.png
+2026-03-16T11:01:38.325Z vite:hmr [no modules matched] public/images/logo.png
+2026-03-16T11:01:42.710Z vite:hmr [file change] tmp/search_styles.mjs
+2026-03-16T11:01:42.710Z vite:hmr [no modules matched] tmp/search_styles.mjs
+2026-03-16T11:01:57.004Z vite:hmr [file change] tmp/search_lang_buttons.mjs
+2026-03-16T11:01:57.005Z vite:hmr [no modules matched] tmp/search_lang_buttons.mjs
+2026-03-16T11:02:10.645Z vite:hmr [file change] tmp/search_header_styles.mjs
+2026-03-16T11:02:10.645Z vite:hmr [no modules matched] tmp/search_header_styles.mjs
+2026-03-16T11:02:30.561Z vite:hmr [file change] tmp/search_header_component.mjs
+2026-03-16T11:02:30.561Z vite:hmr [no modules matched] tmp/search_header_component.mjs
+2026-03-16T11:03:00.436Z vite:hmr [file change] src/components/Header.jsx
+2026-03-16T11:03:00.436Z vite:hmr [no modules matched] src/components/Header.jsx
+2026-03-16T11:03:02.387Z vite:hmr [file change] src/components/Header.css
+2026-03-16T11:03:02.387Z vite:hmr [no modules matched] src/components/Header.css
+2026-03-16T11:03:04.375Z vite:hmr [file change] src/App.jsx
+8:03:04 PM [vite] hmr update /src/App.jsx
+2026-03-16T11:03:16.359Z vite:hmr [file change] src/components/Hero.jsx
+8:03:16 PM [vite] hmr update /src/components/Hero.jsx
+2026-03-16T11:03:25.321Z vite:hmr [file change] src/components/ServicePrice.jsx
+8:03:25 PM [vite] hmr update /src/components/ServicePrice.jsx
+2026-03-16T11:03:27.354Z vite:hmr [file change] src/components/Location.jsx
+8:03:27 PM [vite] hmr update /src/components/Location.jsx
+2026-03-16T11:03:29.356Z vite:hmr [file change] src/components/FAQ.jsx
+8:03:29 PM [vite] hmr update /src/components/FAQ.jsx
+2026-03-16T11:06:08.297Z vite:html-fallback Rewriting GET / to /index.html
+2026-03-16T11:06:08.299Z vite:cache [memory-hmr] /src/main.jsx
+2026-03-16T11:06:08.300Z vite:cache [memory] /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T11:06:08.300Z vite:cache [memory] /node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T11:06:08.300Z vite:cache [memory] /node_modules/.vite/deps/react-dom_client.js?v=ed915d34
+2026-03-16T11:06:08.300Z vite:cache [memory] /node_modules/.vite/deps/react-router-dom.js?v=ed915d34
+2026-03-16T11:06:08.300Z vite:cache [memory] /src/i18n/index.js
+2026-03-16T11:06:08.300Z vite:time 2.58ms /index.html
+2026-03-16T11:06:08.300Z vite:load 0.50ms [fs] /src/index.css
+2026-03-16T11:06:08.302Z vite:load 1.76ms [fs] /src/App.jsx
+2026-03-16T11:06:08.316Z vite:hmr [self-accepts] src/index.css
+2026-03-16T11:06:08.317Z vite:import-analysis 0.17ms [0 imports rewritten] src/index.css
+2026-03-16T11:06:08.317Z vite:transform 16.18ms /src/index.css
+2026-03-16T11:06:08.320Z vite:resolve 2.15ms ./components/Header -> /Users/house/Pictures/안티그라피티/src/components/Header.jsx
+2026-03-16T11:06:08.320Z vite:cache [memory] /@react-refresh
+2026-03-16T11:06:08.324Z vite:cache [memory] /src/index.css
+2026-03-16T11:06:08.324Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.324Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.324Z vite:cache [memory-hmr] /src/components/Notice.jsx
+2026-03-16T11:06:08.324Z vite:cache [memory-hmr] /src/components/ModelMgmt.jsx
+2026-03-16T11:06:08.324Z vite:cache [memory] /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T11:06:08.324Z vite:cache [memory] /@react-refresh
+2026-03-16T11:06:08.324Z vite:cache [memory] /node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T11:06:08.324Z vite:cache [memory] /src/components/Notice.css
+2026-03-16T11:06:08.324Z vite:cache [memory] /src/components/ModelMgmt.css
+2026-03-16T11:06:08.324Z vite:cache [memory] /node_modules/.vite/deps/react-router-dom.js?v=ed915d34
+2026-03-16T11:06:08.324Z vite:hmr [self-accepts] src/App.jsx
+2026-03-16T11:06:08.325Z vite:cache [memory-hmr] /src/utils/dataService.js
+2026-03-16T11:06:08.325Z vite:cache [memory] /src/utils/firebase.js
+2026-03-16T11:06:08.325Z vite:cache [memory] /node_modules/.vite/deps/firebase_firestore.js?v=ed915d34
+2026-03-16T11:06:08.325Z vite:hmr [dispose] /Users/house/Pictures/안티그라피티/src/pages/Reviews.jsx
+2026-03-16T11:06:08.325Z vite:import-analysis 7.28ms [16 imports rewritten] src/App.jsx
+2026-03-16T11:06:08.326Z vite:transform 24.35ms /src/App.jsx
+2026-03-16T11:06:08.328Z vite:load 2.97ms [fs] /src/components/ServicePrice.jsx
+2026-03-16T11:06:08.337Z vite:load 12.56ms [fs] /src/components/HM.jsx
+2026-03-16T11:06:08.343Z vite:load 18.28ms [fs] /src/components/Intro.jsx
+2026-03-16T11:06:08.345Z vite:load 20.71ms [fs] /src/components/Hero.jsx
+2026-03-16T11:06:08.351Z vite:load 26.33ms [fs] /src/components/Location.jsx
+2026-03-16T11:06:08.356Z vite:load 30.88ms [fs] /src/components/FAQ.jsx
+2026-03-16T11:06:08.362Z vite:load 37.21ms [fs] /src/components/Zone.jsx
+2026-03-16T11:06:08.367Z vite:load 42.39ms [fs] /src/utils/syncService.js
+2026-03-16T11:06:08.368Z vite:cache [memory] /src/utils/firebase.js
+2026-03-16T11:06:08.368Z vite:cache [memory] /node_modules/.vite/deps/firebase_firestore.js?v=ed915d34
+2026-03-16T11:06:08.368Z vite:import-analysis 0.46ms [3 imports rewritten] src/utils/syncService.js
+2026-03-16T11:06:08.368Z vite:transform 0.54ms /src/utils/syncService.js
+2026-03-16T11:06:08.368Z vite:load 43.12ms [fs] /src/utils/galleryService.js
+2026-03-16T11:06:08.368Z vite:cache [memory] /src/utils/firebase.js
+2026-03-16T11:06:08.368Z vite:cache [memory] /src/utils/syncService.js
+2026-03-16T11:06:08.368Z vite:cache [memory] /node_modules/.vite/deps/firebase_firestore.js?v=ed915d34
+2026-03-16T11:06:08.368Z vite:import-analysis 0.25ms [4 imports rewritten] src/utils/galleryService.js
+2026-03-16T11:06:08.368Z vite:transform 0.31ms /src/utils/galleryService.js
+2026-03-16T11:06:08.368Z vite:load 43.47ms [fs] /src/components/Header.jsx
+2026-03-16T11:06:08.375Z vite:resolve 0.32ms ../utils/db -> /Users/house/Pictures/안티그라피티/src/utils/db.js
+2026-03-16T11:06:08.375Z vite:cache [memory] /@react-refresh
+2026-03-16T11:06:08.375Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.375Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.375Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.375Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.375Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.375Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.375Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.375Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.375Z vite:cache [memory] /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T11:06:08.375Z vite:cache [memory] /node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T11:06:08.375Z vite:hmr [self-accepts] src/components/ServicePrice.jsx
+2026-03-16T11:06:08.375Z vite:hmr [self-accepts] src/components/HM.jsx
+2026-03-16T11:06:08.375Z vite:hmr [self-accepts] src/components/Intro.jsx
+2026-03-16T11:06:08.375Z vite:hmr [self-accepts] src/components/Hero.jsx
+2026-03-16T11:06:08.376Z vite:import-analysis 1.22ms [4 imports rewritten] src/components/ServicePrice.jsx
+2026-03-16T11:06:08.376Z vite:import-analysis 1.23ms [4 imports rewritten] src/components/HM.jsx
+2026-03-16T11:06:08.376Z vite:import-analysis 1.24ms [4 imports rewritten] src/components/Intro.jsx
+2026-03-16T11:06:08.376Z vite:import-analysis 1.25ms [5 imports rewritten] src/components/Hero.jsx
+2026-03-16T11:06:08.379Z vite:transform 50.98ms /src/components/ServicePrice.jsx
+2026-03-16T11:06:08.379Z vite:transform 41.47ms /src/components/HM.jsx
+2026-03-16T11:06:08.379Z vite:transform 35.78ms /src/components/Intro.jsx
+2026-03-16T11:06:08.379Z vite:transform 33.37ms /src/components/Hero.jsx
+2026-03-16T11:06:08.380Z vite:resolve 0.27ms ./Header.css -> /Users/house/Pictures/안티그라피티/src/components/Header.css
+2026-03-16T11:06:08.380Z vite:cache [memory] /@react-refresh
+2026-03-16T11:06:08.380Z vite:cache [memory] /src/components/Location.css
+2026-03-16T11:06:08.380Z vite:cache [memory] /src/components/FAQ.css
+2026-03-16T11:06:08.380Z vite:cache [memory] /src/utils/galleryService.js
+2026-03-16T11:06:08.380Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.380Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.380Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.380Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.380Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.380Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.380Z vite:import-analysis /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.380Z vite:import-analysis /node_modules/.vite/deps/react.js?v=ed915d34 needs interop
+2026-03-16T11:06:08.380Z vite:cache [memory] /node_modules/.vite/deps/react_jsx-dev-runtime.js?v=ed915d34
+2026-03-16T11:06:08.380Z vite:cache [memory] /node_modules/.vite/deps/react.js?v=ed915d34
+2026-03-16T11:06:08.380Z vite:hmr [self-accepts] src/components/Location.jsx
+2026-03-16T11:06:08.380Z vite:hmr [self-accepts] src/components/FAQ.jsx
+2026-03-16T11:06:08.380Z vite:hmr [self-accepts] src/components/Zone.jsx
+2026-03-16T11:06:08.380Z vite:cache [memory] /node_modules/.vite/deps/react-i18next.js?v=ed915d34
+2026-03-16T11:06:08.380Z vite:cache [memory] /node_modules/.vite/deps/react-router-dom.js?v=ed915d34
+2026-03-16T11:06:08.380Z vite:hmr [self-accepts] src/components/Header.jsx
+2026-03-16T11:06:08.381Z vite:import-analysis 1.15ms [4 imports rewritten] src/components/Location.jsx
+2026-03-16T11:06:08.381Z vite:import-analysis 1.17ms [4 imports rewritten] src/components/FAQ.jsx
+2026-03-16T11:06:08.381Z vite:import-analysis 1.18ms [5 imports rewritten] src/components/Zone.jsx
+2026-03-16T11:06:08.381Z vite:import-analysis 1.19ms [6 imports rewritten] src/components/Header.jsx
+2026-03-16T11:06:08.383Z vite:transform 32.08ms /src/components/Location.jsx
+2026-03-16T11:06:08.383Z vite:transform 27.60ms /src/components/FAQ.jsx
+2026-03-16T11:06:08.383Z vite:transform 21.32ms /src/components/Zone.jsx
+2026-03-16T11:06:08.383Z vite:transform 15.05ms /src/components/Header.jsx
+2026-03-16T11:06:08.383Z vite:load 58.77ms [fs] /src/utils/syncService.js
+2026-03-16T11:06:08.384Z vite:cache [memory] /src/utils/firebase.js
+2026-03-16T11:06:08.384Z vite:cache [memory] /node_modules/.vite/deps/firebase_firestore.js?v=ed915d34
+2026-03-16T11:06:08.384Z vite:import-analysis 0.30ms [3 imports rewritten] src/utils/syncService.js
+2026-03-16T11:06:08.384Z vite:transform 0.36ms /src/utils/syncService.js
+2026-03-16T11:06:08.384Z vite:load 59.19ms [fs] /src/utils/db.js
+2026-03-16T11:06:08.384Z vite:import-analysis 0.02ms [no imports] src/utils/db.js
+2026-03-16T11:06:08.384Z vite:transform 0.06ms /src/utils/db.js
+2026-03-16T11:06:08.385Z vite:load 9.66ms [fs] /src/components/Hero.css
+2026-03-16T11:06:08.386Z vite:hmr [self-accepts] src/components/Hero.css
+2026-03-16T11:06:08.386Z vite:import-analysis 0.18ms [0 imports rewritten] src/components/Hero.css
+2026-03-16T11:06:08.386Z vite:transform 0.46ms /src/components/Hero.css
+2026-03-16T11:06:08.386Z vite:load 18.23ms [fs] /src/utils/db.js
+2026-03-16T11:06:08.386Z vite:import-analysis 0.04ms [no imports] src/utils/db.js
+2026-03-16T11:06:08.386Z vite:transform 0.15ms /src/utils/db.js
+2026-03-16T11:06:08.386Z vite:load 10.68ms [fs] /src/components/HM.css
+2026-03-16T11:06:08.386Z vite:hmr [self-accepts] src/components/HM.css
+2026-03-16T11:06:08.386Z vite:import-analysis 0.11ms [0 imports rewritten] src/components/HM.css
+2026-03-16T11:06:08.386Z vite:transform 0.27ms /src/components/HM.css
+2026-03-16T11:06:08.387Z vite:load 6.04ms [fs] /src/components/Header.css
+2026-03-16T11:06:08.387Z vite:hmr [self-accepts] src/components/Header.css
+2026-03-16T11:06:08.387Z vite:import-analysis 0.11ms [0 imports rewritten] src/components/Header.css
+2026-03-16T11:06:08.387Z vite:transform 0.27ms /src/components/Header.css
+2026-03-16T11:06:08.387Z vite:load 11.48ms [fs] /src/components/ServicePrice.css
+2026-03-16T11:06:08.387Z vite:hmr [self-accepts] src/components/ServicePrice.css
+2026-03-16T11:06:08.387Z vite:import-analysis 0.12ms [0 imports rewritten] src/components/ServicePrice.css
+2026-03-16T11:06:08.387Z vite:transform 0.32ms /src/components/ServicePrice.css
+2026-03-16T11:06:08.387Z vite:load 6.92ms [fs] /src/components/Zone.css
+2026-03-16T11:06:08.388Z vite:hmr [self-accepts] src/components/Zone.css
+2026-03-16T11:06:08.388Z vite:import-analysis 0.12ms [0 imports rewritten] src/components/Zone.css
+2026-03-16T11:06:08.388Z vite:transform 0.29ms /src/components/Zone.css
+2026-03-16T11:06:08.388Z vite:load 12.37ms [fs] /src/components/Intro.css
+2026-03-16T11:06:08.388Z vite:hmr [self-accepts] src/components/Intro.css
+2026-03-16T11:06:08.388Z vite:import-analysis 0.10ms [0 imports rewritten] src/components/Intro.css
+2026-03-16T11:06:08.388Z vite:transform 0.24ms /src/components/Intro.css
+2026-03-16T11:06:42.700Z vite:hmr [file change] tmp/test_assets.mjs
+2026-03-16T11:06:42.700Z vite:hmr [no modules matched] tmp/test_assets.mjs
+2026-03-16T11:07:21.701Z vite:hmr [file change] scripts/backup_firestore.mjs
+2026-03-16T11:07:21.701Z vite:hmr [no modules matched] scripts/backup_firestore.mjs
+2026-03-16T11:07:27.297Z vite:hmr [file change] backups/backup_2026-03-16T11-07-27-115Z/hero_slides.json
+2026-03-16T11:07:27.297Z vite:hmr [no modules matched] backups/backup_2026-03-16T11-07-27-115Z/hero_slides.json
+2026-03-16T11:07:27.464Z vite:hmr [file change] backups/backup_2026-03-16T11-07-27-115Z/gallery.json
+2026-03-16T11:07:27.464Z vite:hmr [no modules matched] backups/backup_2026-03-16T11-07-27-115Z/gallery.json
+2026-03-16T11:07:27.565Z vite:hmr [file change] backups/backup_2026-03-16T11-07-27-115Z/lookbook.json
+2026-03-16T11:07:27.565Z vite:hmr [no modules matched] backups/backup_2026-03-16T11-07-27-115Z/lookbook.json
+2026-03-16T11:07:27.565Z vite:hmr [file change] backups/backup_2026-03-16T11-07-27-115Z/events.json
+2026-03-16T11:07:27.565Z vite:hmr [no modules matched] backups/backup_2026-03-16T11-07-27-115Z/events.json
+2026-03-16T11:07:27.665Z vite:hmr [file change] backups/backup_2026-03-16T11-07-27-115Z/notices.json
+2026-03-16T11:07:27.665Z vite:hmr [no modules matched] backups/backup_2026-03-16T11-07-27-115Z/notices.json
+2026-03-16T11:07:27.665Z vite:hmr [file change] backups/backup_2026-03-16T11-07-27-115Z/reviews.json
+2026-03-16T11:07:27.665Z vite:hmr [no modules matched] backups/backup_2026-03-16T11-07-27-115Z/reviews.json
+2026-03-16T11:07:27.665Z vite:hmr [file change] backups/backup_2026-03-16T11-07-27-115Z/faq.json
+2026-03-16T11:07:27.665Z vite:hmr [no modules matched] backups/backup_2026-03-16T11-07-27-115Z/faq.json
+2026-03-16T11:08:52.626Z vite:hmr [file change] src/App.jsx
+8:08:52 PM [vite] hmr update /src/App.jsx
+2026-03-16T11:10:07.127Z vite:hmr [file change] src/App.jsx
+8:10:07 PM [vite] hmr update /src/App.jsx
+2026-03-16T11:12:00.739Z vite:hmr [file change] build_error.txt
+2026-03-16T11:12:00.739Z vite:hmr [no modules matched] build_error.txt
+2026-03-16T11:12:01.601Z vite:hmr [file change] build_error.txt
+2026-03-16T11:12:01.601Z vite:hmr [no modules matched] build_error.txt
+2026-03-16T11:12:23.130Z vite:hmr [file change] src/utils/db.js
+8:12:23 PM [vite] hmr update /src/App.jsx, /src/components/Zone.jsx, /src/components/ModelMgmt.jsx, /src/pages/Reviews.jsx, /src/components/Notice.jsx, /src/components/Hero.jsx

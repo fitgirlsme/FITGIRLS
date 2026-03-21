@@ -1,66 +1,103 @@
-const DB_NAME = 'FitgirlsDB';
+const DB_NAME = 'FitgirlsLiveDB';
 const DB_VERSION = 1;
-const STORE_NAME = 'gallery';
 
-// 데이터베이스 초기화 및 연결
+// 컬렉션 명칭을 라이브 사이트와 1:1 매칭
+export const STORES = {
+    NOTICES: 'events',
+    REVIEWS: 'reviews',
+    PROGRAMS: 'programs',
+    STUDIOS: 'studios',
+    GALLERY: 'gallery',
+    FAQ: 'faq',
+    HERO_SLIDES: 'hero_slides',
+    HOME_SECTIONS: 'home_sections',
+    LOOKBOOK: 'lookbook'
+};
+
 export const initDB = () => {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open(DB_NAME, DB_VERSION);
 
         request.onerror = () => reject(request.error);
-
         request.onsuccess = () => resolve(request.result);
 
-        // 첫 방문 시 혹은 버전 업그레이드 시 저장소(Table) 생성
         request.onupgradeneeded = (e) => {
             const db = e.target.result;
-            if (!db.objectStoreNames.contains(STORE_NAME)) {
-                db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
-            }
+            // 모든 필요 저장소 생성
+            Object.values(STORES).forEach(storeName => {
+                if (!db.objectStoreNames.contains(storeName)) {
+                    db.createObjectStore(storeName, { keyPath: 'id' });
+                }
+            });
         };
     });
 };
 
-// 갤러리에 새 이미지 객체 저장
-export const addGalleryItem = async (item) => {
+// 범용 CRUD 헬퍼
+export const saveData = async (storeName, items) => {
+    const db = await initDB();
+    const transaction = db.transaction(storeName, 'readwrite');
+    const store = transaction.objectStore(storeName);
+    items.forEach(item => store.put(item));
+    return new Promise((resolve) => {
+        transaction.oncomplete = () => resolve();
+    });
+};
+
+export const getData = async (storeName) => {
     const db = await initDB();
     return new Promise((resolve, reject) => {
-        const transaction = db.transaction(STORE_NAME, 'readwrite');
-        const store = transaction.objectStore(STORE_NAME);
-        // 저장 시간 타임스탬프 추가
-        const itemWithTime = { ...item, createdAt: Date.now() };
-        const request = store.add(itemWithTime);
-
+        const transaction = db.transaction(storeName, 'readonly');
+        const store = transaction.objectStore(storeName);
+        const request = store.getAll();
         request.onsuccess = () => resolve(request.result);
         request.onerror = () => reject(request.error);
     });
 };
 
-// 저장된 갤러리 아이템 삭제
-export const deleteGalleryItem = async (id) => {
+export const addItem = async (storeName, item) => {
     const db = await initDB();
     return new Promise((resolve, reject) => {
-        const transaction = db.transaction(STORE_NAME, 'readwrite');
-        const store = transaction.objectStore(STORE_NAME);
-        const request = store.delete(id);
+        const transaction = db.transaction(storeName, 'readwrite');
+        const store = transaction.objectStore(storeName);
+        if (!item.id) item.id = Date.now().toString();
+        const request = store.add(item);
+        request.onsuccess = () => resolve(item.id);
+        request.onerror = () => reject(request.error);
+    });
+};
 
+export const deleteItem = async (storeName, id) => {
+    const db = await initDB();
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(storeName, 'readwrite');
+        const store = transaction.objectStore(storeName);
+        const request = store.delete(id);
         request.onsuccess = () => resolve();
         request.onerror = () => reject(request.error);
     });
 };
 
-// 저장된 모든 갤러리 아이템 불러오기 (최신순 정렬)
-export const getGalleryItems = async () => {
+export const updateItem = async (storeName, id, updates) => {
     const db = await initDB();
     return new Promise((resolve, reject) => {
-        const transaction = db.transaction(STORE_NAME, 'readonly');
-        const store = transaction.objectStore(STORE_NAME);
-        const request = store.getAll();
-
-        request.onsuccess = () => {
-            const sortedItems = request.result.sort((a, b) => b.createdAt - a.createdAt);
-            resolve(sortedItems);
+        const transaction = db.transaction(storeName, 'readwrite');
+        const store = transaction.objectStore(storeName);
+        const getRequest = store.get(id);
+        
+        getRequest.onsuccess = () => {
+            const data = { ...getRequest.result, ...updates };
+            const putRequest = store.put(data);
+            putRequest.onsuccess = () => resolve();
+            putRequest.onerror = () => reject(putRequest.error);
         };
-        request.onerror = () => reject(request.error);
+        getRequest.onerror = () => reject(getRequest.error);
     });
 };
+
+// Gallery 특정 래퍼 (Gallery.jsx 호환성용)
+export const getGalleryItems = () => getData(STORES.GALLERY);
+export const addGalleryItem = (item) => addItem(STORES.GALLERY, item);
+export const deleteGalleryItem = (id) => deleteItem(STORES.GALLERY, id);
+export const updateGalleryItem = (id, updates) => updateItem(STORES.GALLERY, id, updates);
+
