@@ -50,9 +50,6 @@ const ReviewCard = ({ review }) => {
                 <div className="interaction-count">
                     <span className="emoji">😎</span> 1명 &gt;
                 </div>
-                <div className="review-date-meta">
-                    {review.date || '25.11.24.월'} · 1번째 방문 · 예약
-                </div>
             </div>
         </div>
     );
