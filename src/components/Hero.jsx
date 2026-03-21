@@ -14,7 +14,8 @@ const Hero = () => {
             try {
                 const data = await getData(STORES.HERO_SLIDES);
                 if (data && data.length > 0) {
-                    setSlides(data);
+                    const sorted = [...data].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+                    setSlides(sorted);
                 }
             } catch (error) {
                 console.error('Failed to fetch hero slides:', error);

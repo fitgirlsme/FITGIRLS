@@ -11,7 +11,9 @@ export const STORES = {
     FAQ: 'faq',
     HERO_SLIDES: 'hero_slides',
     HOME_SECTIONS: 'home_sections',
-    LOOKBOOK: 'lookbook'
+    LOOKBOOK: 'lookbook',
+    MODELS: 'models',
+    APPLICATIONS: 'applications'
 };
 
 export const initDB = () => {

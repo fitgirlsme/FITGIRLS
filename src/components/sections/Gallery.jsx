@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
+import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { ref, deleteObject } from 'firebase/storage';
+import { db as fireDb, storage } from '../../utils/firebase';
 import FadeInSection from '../FadeInSection';
 import { getGalleryItems, addGalleryItem, deleteGalleryItem, updateGalleryItem } from '../../utils/db';
 import { getGalleries } from '../../utils/galleryService';
@@ -33,9 +36,19 @@ const GallerySection = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin') === 'true');
     const [deleteTarget, setDeleteTarget] = useState(null);
-    const [moveTarget, setMoveTarget] = useState(null);
+    const [editTarget, setEditTarget] = useState(null);
+    const [editTags, setEditTags] = useState('');
+    const [editMainCat, setEditMainCat] = useState('fitorialist');
+    const [editType, setEditType] = useState('women');
+    const [savedTags, setSavedTags] = useState(() => {
+        const saved = localStorage.getItem('adminHashtags');
+        return saved ? JSON.parse(saved) : ['#바디프로필', '#이너핏'];
+    });
+    const [allTagsCloud, setAllTagsCloud] = useState([]);
     const [visibleCount, setVisibleCount] = useState(24);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [isGalleryVisible, setIsGalleryVisible] = useState(false);
+    const galleryRef = useRef(null);
 
     // URL query param으로 카테고리 자동 선택
     useEffect(() => {
@@ -101,6 +114,51 @@ const GallerySection = () => {
         };
         loadItems();
     }, []);
+
+    // allItems 로드 후 태그 클라우드 구축
+    useEffect(() => {
+        const tagSet = new Set();
+        allItems.forEach(item => {
+            if (item.tags) item.tags.forEach(tag => tagSet.add(tag));
+        });
+        setAllTagsCloud(Array.from(tagSet));
+    }, [allItems]);
+
+    // 자동완성 태그 풀 (localStorage 저장 태그 + Firebase 태그 병합)
+    const mergedTagPool = Array.from(new Set([...savedTags, ...allTagsCloud]));
+
+    // 현재 입력 중인 마지막 토큰 기준 자동완성 후보
+    const editTokens = editTags.split(/,\s*|\s+/);
+    const currentToken = editTokens[editTokens.length - 1];
+    const currentTokenNorm = currentToken.trim().toLowerCase();
+    const tagSuggestions = (currentTokenNorm && currentTokenNorm !== '#')
+        ? mergedTagPool.filter(tag => {
+            const tagNorm = tag.replace('#', '').toLowerCase();
+            const inputNorm = currentTokenNorm.replace('#', '').toLowerCase();
+            return tagNorm.includes(inputNorm) && tag !== currentToken.trim();
+        }).slice(0, 10)
+        : [];
+
+    // 자동완성 선택 핸들러
+    const handleTagSuggestionClick = (suggestion) => {
+        const tokens = [...editTokens];
+        tokens[tokens.length - 1] = suggestion;
+        let result = tokens.join(', ');
+        if (!result.endsWith(', ')) result += ', ';
+        setEditTags(result);
+    };
+
+    // 갤러리 영역이 화면에 보이는지 추적 (FAB 표시 용도)
+    useEffect(() => {
+        const el = galleryRef.current;
+        if (!el) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => setIsGalleryVisible(entry.isIntersecting),
+            { threshold: 0.1 }
+        );
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, [viewMode]);
 
     // 필터 변경 시 표시 개수 리셋
     useEffect(() => {
@@ -200,17 +258,17 @@ const GallerySection = () => {
                 /* ===== DETAIL VIEW: 갤러리 그리드 ===== */
                 <>
                     <div className="gallery-header-wrapper">
-                        {/* 검색 바 */}
-                        <div className="gallery-search-bar-container" style={{ marginBottom: '32px' }}>
+                        {/* 검색 바 (전체 너비) */}
+                        <div className="gallery-search-bar-container">
                             <div className="gallery-search-bar">
-                                <svg className="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 18, height: 18 }}>
+                                <svg className="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 20, height: 20 }}>
                                     <circle cx="11" cy="11" r="8" />
                                     <line x1="21" y1="21" x2="16.65" y2="16.65" />
                                 </svg>
                                 <input
                                     type="text"
                                     className="gallery-search-input"
-                                    placeholder={`#${t('gallery.hashtags.ALL', { defaultValue: '태그' })} 검색...`}
+                                    placeholder="검색"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
@@ -237,7 +295,6 @@ const GallerySection = () => {
                         {!searchQuery && (
                             <div className="tier1-tabs sub-category-tabs">
                                 {visibleSubCategories.map(sc => {
-                                    // NEW badge: 48시간 이내 업로드된 이미지가 있는지
                                     const hasNew = allItems.some(item => {
                                         const age = item.createdAt || 0;
                                         const isRecent = Date.now() - age < 48 * 60 * 60 * 1000;
@@ -251,8 +308,8 @@ const GallerySection = () => {
                                             onClick={() => { setSubCategory(sc.id); setActiveTag('ALL'); }}
                                         >
                                             <span className="tab-label-wrapper">
-                                                {t(sc.labelKey)}
                                                 {hasNew && <span className="tab-new-badge">NEW</span>}
+                                                {t(sc.labelKey)}
                                             </span>
                                         </button>
                                     );
@@ -260,19 +317,39 @@ const GallerySection = () => {
                             </div>
                         )}
 
-                        {/* Tag filter chips */}
-                        {!searchQuery && (
-                            <div className="tier2-tags-scroll">
-                                {dynamicTags.map((tag, idx) => {
-                                    const displayTag = tag === 'ALL' ? '전체' : tag;
+                        {/* 태그 원형 썸네일 필터 */}
+                        {!searchQuery && dynamicTags.length > 1 && (
+                            <div className="tag-circles-scroll">
+                                {/* ALL 버튼 */}
+                                <div
+                                    className={`tag-circle-item ${activeTag === 'ALL' ? 'active' : ''}`}
+                                    onClick={() => setActiveTag('ALL')}
+                                >
+                                    <div className="tag-circle-img-wrap tag-circle-all">
+                                        <span>ALL</span>
+                                    </div>
+                                    <span className="tag-circle-label">{t('gallery.hashtags.ALL', '전체')}</span>
+                                </div>
+                                {dynamicTags.filter(tag => tag !== 'ALL').map((tag, idx) => {
+                                    const displayTag = tag;
+                                    const repItem = categoryFiltered.find(item =>
+                                        item.tags && item.tags.some(t => t.replace('#', '').toUpperCase() === tag.toUpperCase())
+                                    );
                                     return (
-                                        <button
+                                        <div
                                             key={idx}
-                                            className={`tier2-chip ${activeTag === tag ? 'active' : ''}`}
-                                            onClick={() => setActiveTag(tag)}
+                                            className={`tag-circle-item ${activeTag === tag ? 'active' : ''}`}
+                                            onClick={() => setActiveTag(activeTag === tag ? 'ALL' : tag)}
                                         >
-                                            {tag === 'ALL' ? displayTag : `#${displayTag}`}
-                                        </button>
+                                            <div className="tag-circle-img-wrap">
+                                                {repItem ? (
+                                                    <img src={repItem.img} alt={displayTag} loading="lazy" />
+                                                ) : (
+                                                    <div className="tag-circle-placeholder" />
+                                                )}
+                                            </div>
+                                            <span className="tag-circle-label">{displayTag}</span>
+                                        </div>
                                     );
                                 })}
                             </div>
@@ -280,17 +357,7 @@ const GallerySection = () => {
                     </div>
 
                     {/* Gallery Grid */}
-                    <div className="gallery-masonry-wrapper">
-                        {/* 어드민 전용 업로드 FAB */}
-                        {isAdmin && (
-                            <button
-                                className="gallery-fab-upload"
-                                onClick={() => document.getElementById('gallery-quick-upload').click()}
-                                title="사진 추가"
-                            >
-                                +
-                            </button>
-                        )}
+                    <div className="gallery-masonry-wrapper" ref={galleryRef}>
 
                         <input
                             id="gallery-quick-upload"
@@ -328,6 +395,17 @@ const GallerySection = () => {
                             }}
                         />
 
+                        {/* 어드민 전용 업로드 FAB (갤러리 영역이 보일 때만) */}
+                        {isAdmin && isGalleryVisible && (
+                            <button
+                                className="gallery-fab-upload"
+                                onClick={() => document.getElementById('gallery-quick-upload').click()}
+                                title="사진 추가"
+                            >
+                                +
+                            </button>
+                        )}
+
                         <div className="gallery-masonry-grid">
                             {visibleItems.map((item, index) => (
                                 <div
@@ -352,15 +430,17 @@ const GallerySection = () => {
                                     {isAdmin && !String(item.id).startsWith('m') && (
                                         <div className="masonry-admin-tools">
                                             <button
-                                                className="masonry-move-btn"
-                                                title="카테고리 이동"
+                                                className="masonry-edit-btn"
+                                                title="정보 수정"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    const rect = e.currentTarget.getBoundingClientRect();
-                                                    setMoveTarget({ id: item.id, rect });
+                                                    setEditTarget(item);
+                                                    setEditTags((item.tags || []).join(', '));
+                                                    setEditMainCat(item.mainCategory || 'fitorialist');
+                                                    setEditType(item.type || 'women');
                                                 }}
                                             >
-                                                📂
+                                                EDIT
                                             </button>
                                             <button
                                                 className="masonry-delete-btn"
@@ -370,7 +450,7 @@ const GallerySection = () => {
                                                     setDeleteTarget(item);
                                                 }}
                                             >
-                                                ×
+                                                DEL
                                             </button>
                                         </div>
                                     )}
@@ -405,8 +485,18 @@ const GallerySection = () => {
                         <div className="delete-confirm-btns">
                             <button className="delete-btn-cancel" onClick={() => setDeleteTarget(null)}>취소</button>
                             <button className="delete-btn-ok" onClick={async () => {
-                                await deleteGalleryItem(deleteTarget.id);
-                                setAllItems(prev => prev.filter(i => i.id !== deleteTarget.id));
+                                try {
+                                    if (deleteTarget.id) {
+                                        await deleteDoc(doc(fireDb, 'gallery', deleteTarget.id));
+                                    }
+                                    if (deleteTarget.storagePath) {
+                                        const storageRef = ref(storage, deleteTarget.storagePath);
+                                        await deleteObject(storageRef);
+                                    }
+                                    setAllItems(prev => prev.filter(i => i.id !== deleteTarget.id));
+                                } catch (err) {
+                                    console.error('Error deleting gallery item:', err);
+                                }
                                 setDeleteTarget(null);
                             }}>삭제</button>
                         </div>
@@ -414,34 +504,82 @@ const GallerySection = () => {
                 </div>
             )}
 
-            {/* 카테고리 이동 팝업 */}
-            {moveTarget && (
-                <div className="move-menu-overlay" onClick={() => setMoveTarget(null)}>
-                    <div
-                        className="move-menu-box"
-                        style={{
-                            top: moveTarget.rect.top + window.scrollY,
-                            left: moveTarget.rect.left + window.scrollX - 120
-                        }}
-                        onClick={e => e.stopPropagation()}
-                    >
-                        <p className="move-menu-title">이동할 카테고리 선택</p>
-                        <div className="move-menu-list">
-                            {MAIN_CATEGORIES.map(cat => (
-                                <button
-                                    key={cat.id}
-                                    className="move-menu-item"
-                                    onClick={async () => {
-                                        await updateGalleryItem(moveTarget.id, { mainCategory: cat.id });
-                                        setAllItems(prev => prev.map(i =>
-                                            i.id === moveTarget.id ? { ...i, mainCategory: cat.id } : i
-                                        ));
-                                        setMoveTarget(null);
-                                    }}
-                                >
-                                    {t(cat.labelKey)}
-                                </button>
-                            ))}
+            {/* 수정 모달 */}
+            {editTarget && (
+                <div className="delete-confirm-overlay" onClick={() => setEditTarget(null)}>
+                    <div className="delete-confirm-box" style={{ minWidth: 320, textAlign: 'left' }} onClick={e => e.stopPropagation()}>
+                        <p className="delete-confirm-title">Update Info</p>
+
+                        <div className="edit-field">
+                            <label className="edit-label">대분류 영역</label>
+                            <select className="edit-select" value={editMainCat} onChange={e => setEditMainCat(e.target.value)}>
+                                <option value="fitorialist">FITORIALIST</option>
+                                <option value="artist">ARTIST</option>
+                                <option value="fashion">FASHION & BEAUTY</option>
+                                <option value="portrait">PORTRAIT</option>
+                            </select>
+                        </div>
+
+                        <div className="edit-field">
+                            <label className="edit-label">중분류 타겟</label>
+                            <select className="edit-select" value={editType} onChange={e => setEditType(e.target.value)}>
+                                <option value="women">여자 (Women)</option>
+                                <option value="men">남자 (Men)</option>
+                                <option value="couple">우정&커플 (Couple)</option>
+                                <option value="outdoor">발리프로젝트 (Bali Project)</option>
+                            </select>
+                        </div>
+
+                        <div className="edit-field">
+                            <label className="edit-label">해시태그 (최대 3개)</label>
+                            <input
+                                type="text"
+                                className="edit-input"
+                                value={editTags}
+                                onChange={e => setEditTags(e.target.value)}
+                                placeholder="#바디프로필, #이너핏"
+                                onKeyDown={e => { if (e.key === 'Enter') e.preventDefault(); }}
+                            />
+                            {tagSuggestions.length > 0 && (
+                                <div className="tag-autocomplete-dropdown">
+                                    {tagSuggestions.map((tag, idx) => (
+                                        <div
+                                            key={idx}
+                                            className="tag-autocomplete-item"
+                                            onClick={() => handleTagSuggestionClick(tag)}
+                                        >
+                                            {tag}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="delete-confirm-btns" style={{ marginTop: 20 }}>
+                            <button className="delete-btn-cancel" onClick={() => setEditTarget(null)}>취소</button>
+                            <button className="delete-btn-ok" style={{ background: '#3a7bd5' }} onClick={async () => {
+                                const parsedTags = editTags.split(/[\s,]+/).map(t => t.trim()).filter(Boolean);
+                                try {
+                                    await updateDoc(doc(fireDb, 'gallery', editTarget.id), {
+                                        tags: parsedTags,
+                                        mainCategory: editMainCat,
+                                        type: editType
+                                    });
+                                    setAllItems(prev => prev.map(i =>
+                                        i.id === editTarget.id
+                                            ? { ...i, tags: parsedTags, mainCategory: editMainCat, type: editType }
+                                            : i
+                                    ));
+                                    // 새 태그를 localStorage에 저장 (자동완성 풀 확장)
+                                    const merged = Array.from(new Set([...savedTags, ...parsedTags]));
+                                    setSavedTags(merged);
+                                    localStorage.setItem('adminHashtags', JSON.stringify(merged));
+                                } catch (err) {
+                                    alert('수정 중 오류가 발생했습니다.');
+                                    console.error(err);
+                                }
+                                setEditTarget(null);
+                            }}>저장</button>
                         </div>
                     </div>
                 </div>
