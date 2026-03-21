@@ -66,9 +66,7 @@ const Hero = () => {
             <FadeInSection className="hero-content flex-center">
                 <h1 className="hero-title">{t('hero.title')}</h1>
                 <p className="hero-subtitle">{t('hero.subtitle')}</p>
-                {t('hero.fitorialist_desc', '') && (
-                    <p className="hero-fitorialist-desc" dangerouslySetInnerHTML={{ __html: t('hero.fitorialist_desc') }} />
-                )}
+
             </FadeInSection>
         </div>
     );

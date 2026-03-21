@@ -51,26 +51,15 @@ const SUB_CATEGORIES = [
 
 const MODEL_CATEGORIES = ['WOMEN', 'MEN', 'ARTIST', 'FASHION', 'PORTRAIT'];
 
-// ===== Image Compression Helper =====
-const compressImage = async (file, opts = {}) => {
-    const { maxSizeMB = 1, maxWidthOrHeight = 1500, initialQuality = 0.8 } = opts;
-    try {
-        const mod = await import('browser-image-compression');
-        const imageCompression = mod.default;
-        return await imageCompression(file, { maxSizeMB, maxWidthOrHeight, initialQuality, useWebWorker: true });
-    } catch {
-        console.warn('Image compression unavailable, using original file');
-        return file;
-    }
-};
+import { uploadOptimizedImage } from '../utils/uploadService';
 
 // ===== Upload to Firebase Storage =====
 const uploadToStorage = async (file, folder = 'galleries') => {
-    const compressed = await compressImage(file, folder === 'hero_slides' || folder === 'events' ? { maxSizeMB: 2, maxWidthOrHeight: 1920 } : {});
-    const storageRef = ref(storage, `${folder}/${Date.now()}_${file.name}`);
-    const result = await uploadBytes(storageRef, compressed);
-    const url = await getDownloadURL(result.ref);
-    return { url, path: result.ref.fullPath };
+    // hero_slides나 events 폴더 등 고화질 렌더링이 필요한 경우 옵션 조정
+    const customOpts = folder === 'hero_slides' || folder === 'events' 
+        ? { maxSizeMB: 2, maxWidthOrHeight: 1920 } 
+        : {};
+    return await uploadOptimizedImage(file, folder, customOpts);
 };
 
 // ===== Main Admin Component =====
