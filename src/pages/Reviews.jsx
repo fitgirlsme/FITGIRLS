@@ -4,6 +4,60 @@ import { getReviews, getTotalReviewCount } from '../utils/reviewService';
 import reviewsBackup from '../data/reviews_backup.json';
 import './Reviews.css';
 
+const ReviewCard = ({ review }) => {
+    const [isExpanded, setIsExpanded] = useState(false);
+    const content = review.text || review.content || '';
+    const shouldShowMore = content.length > 120;
+
+    return (
+        <div className="review-card">
+            <div className="card-header">
+                <div className="user-profile-group">
+                    <div className="naver-avatar">
+                        {review.author?.[0] || 'U'}
+                    </div>
+                    <div className="user-info">
+                        <div className="user-name">{review.author}</div>
+                        <div className="user-meta">리뷰 {Math.floor(Math.random() * 20) + 1} · 사진 {Math.floor(Math.random() * 10) + 1}</div>
+                    </div>
+                </div>
+            </div>
+
+            {(review.img || review.imageUrl) && (
+                <div className="review-image-wrapper">
+                    <img src={review.img || review.imageUrl} alt="Review" />
+                </div>
+            )}
+
+            <div className="review-content-body">
+                <h4 className="review-item-title">핏걸즈&이너핏 스튜디오 예약</h4>
+                <div className="review-text-wrapper">
+                    <p className={`review-text-content ${isExpanded ? 'expanded' : ''}`}>
+                        {content}
+                    </p>
+                    {shouldShowMore && !isExpanded && (
+                        <button className="btn-show-more" onClick={() => setIsExpanded(true)}>더보기</button>
+                    )}
+                </div>
+            </div>
+
+            <div className="review-tags">
+                <span className="naver-tag">💖 친절해요</span>
+                <span className="naver-tag-more">+4</span>
+            </div>
+
+            <div className="review-footer">
+                <div className="interaction-count">
+                    <span className="emoji">😎</span> 1명 &gt;
+                </div>
+                <div className="review-date-meta">
+                    {review.date || '25.11.24.월'} · 1번째 방문 · 예약
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const Reviews = () => {
     const { t, i18n } = useTranslation();
     const [reviews, setReviews] = useState([]);
@@ -95,46 +149,7 @@ const Reviews = () => {
                             </div>
                         ) : (
                             reviews.map((review) => (
-                                <div key={review.id} className="review-card">
-                                    <div className="card-header">
-                                        <div className="user-profile-group">
-                                            <div className="naver-avatar">
-                                                {review.author?.[0] || 'U'}
-                                            </div>
-                                            <div className="user-info">
-                                                <div className="user-name">{review.author}</div>
-                                                <div className="user-meta">리뷰 {Math.floor(Math.random() * 20) + 1} · 사진 {Math.floor(Math.random() * 10) + 1}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {(review.img || review.imageUrl) && (
-                                        <div className="review-image-wrapper">
-                                            <img src={review.img || review.imageUrl} alt="Review" />
-                                        </div>
-                                    )}
-
-                                    <div className="review-content-body">
-                                        <h4 className="review-item-title">핏걸즈&이너핏 스튜디오 예약</h4>
-                                        <p className="review-text-content">
-                                            {review.text || review.content}
-                                        </p>
-                                    </div>
-
-                                    <div className="review-tags">
-                                        <span className="naver-tag">💖 친절해요</span>
-                                        <span className="naver-tag-more">+4</span>
-                                    </div>
-
-                                    <div className="review-footer">
-                                        <div className="interaction-count">
-                                            <span className="emoji">😎</span> 1명 &gt;
-                                        </div>
-                                        <div className="review-date-meta">
-                                            {review.date || '25.11.24.월'} · 1번째 방문 · 예약
-                                        </div>
-                                    </div>
-                                </div>
+                                <ReviewCard key={review.id} review={review} />
                             ))
                         )}
                         
@@ -171,5 +186,6 @@ const Reviews = () => {
         </div>
     );
 };
+
 
 export default Reviews;

@@ -180,6 +180,10 @@
   margin-bottom: 8px;
 }
 
+.review-text-wrapper {
+  position: relative;
+}
+
 .review-text-content {
   font-size: 0.95rem;
   line-height: 1.6;
@@ -188,6 +192,29 @@
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.review-text-content.expanded {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.btn-show-more {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 0.9rem;
+  padding: 4px 0;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.btn-show-more:hover {
+  color: #333;
 }
 
 .review-tags {
