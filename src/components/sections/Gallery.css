@@ -181,30 +181,27 @@
     position: relative;
 }
 
-.tier1-tab.active,
-.tier1-tab:hover {
-    color: #111;
+.tier1-tab.active {
+    color: #000;
+    font-weight: 900;
 }
 
 .tier1-tab.active::after {
     content: '';
     position: absolute;
     bottom: -13px;
-    left: 0;
-    width: 100%;
+    left: 10%;
+    width: 80%;
     height: 3px;
     background-color: var(--color-primary, #e53e3e);
 }
 
-.tab-label-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-}
-
 .tab-new-badge {
-    font-size: 0.55rem;
+    position: absolute;
+    top: 0;
+    right: -8px;
+    transform: translate(100%, -40%);
+    font-size: 0.5rem;
     font-weight: 800;
     color: var(--color-primary, #e53e3e);
     letter-spacing: 0.05em;
@@ -212,7 +209,11 @@
 }
 
 .tier1-tab.has-new {
-    color: #111;
+    color: #666;
+}
+
+.tier1-tab.active.has-new {
+    color: #000;
 }
 
 /* ===== Tag Circle Thumbnails ===== */
@@ -360,50 +361,44 @@
     transform: scale(1.1);
 }
 
-/* ===== Masonry Grid (columns layout for natural heights) ===== */
+/* ===== Masonry Grid (Flex layout for natural heights horizontal flow) ===== */
 .gallery-masonry-grid {
-    column-count: 2;
-    column-gap: 2px;
+    gap: 2px;
     width: 100%;
     padding: 0 2px;
 }
 
 @media (min-width: 768px) {
     .gallery-masonry-grid {
-        column-count: 3;
-        column-gap: 4px;
+        gap: 4px;
         padding: 0 4px;
     }
 }
 
 @media (min-width: 1024px) {
     .gallery-masonry-grid {
-        column-count: 4;
-        column-gap: 6px;
+        gap: 6px;
         padding: 0 6px;
     }
 }
 
 @media (min-width: 1440px) {
     .gallery-masonry-grid {
-        column-count: 5;
-        column-gap: 8px;
+        gap: 8px;
         padding: 0 8px;
     }
 }
 
 @media (min-width: 1920px) {
     .gallery-masonry-grid {
-        column-count: 6;
-        column-gap: 8px;
+        gap: 8px;
         padding: 0 8px;
     }
 }
 
 @media (min-width: 2560px) {
     .gallery-masonry-grid {
-        column-count: 8;
-        column-gap: 10px;
+        gap: 10px;
         padding: 0 10px;
     }
 }
@@ -416,6 +411,7 @@
     overflow: hidden;
     break-inside: avoid;
     margin-bottom: 2px;
+    aspect-ratio: 4 / 5; /* 한눈에 들어오는 4:5 비율 고정 (인물 사진 최적) */
 }
 
 @media (min-width: 768px) {
@@ -432,8 +428,8 @@
 
 .masonry-item img {
     width: 100%;
-    height: auto;
-    object-fit: cover;
+    height: 100%; /* 고정 비율을 채우기 위해 100% 설정 */
+    object-fit: cover; /* 잘림 방지 대신 비율을 유지하며 꽉 채움 */
     display: block;
     opacity: 0.9;
     transition: opacity 0.3s;
@@ -812,4 +808,55 @@
     .tier1-tabs {
         gap: 20px;
     }
+}
+
+/* ===== Mobile Swipe Guide ===== */
+.swipe-guide-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 2000;
+    opacity: 0;
+    animation: fadeInOut 2.4s ease forwards;
+}
+
+.swipe-guide-overlay p {
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-top: 20px;
+    opacity: 0.8;
+}
+
+.swipe-finger-icon {
+    width: 80px;
+    height: 80px;
+}
+
+.finger-anim {
+    animation: swipeHand 1.2s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes swipeHand {
+    0% { transform: translateX(30px); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateX(-30px); opacity: 0; }
+}
+
+@media (min-width: 1024px) {
+    .swipe-guide-overlay { display: none; }
 }

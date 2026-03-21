@@ -40,6 +40,7 @@ export const saveData = async (storeName, items) => {
     const db = await initDB();
     const transaction = db.transaction(storeName, 'readwrite');
     const store = transaction.objectStore(storeName);
+    store.clear();
     items.forEach(item => store.put(item));
     return new Promise((resolve) => {
         transaction.oncomplete = () => resolve();

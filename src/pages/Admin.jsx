@@ -111,7 +111,17 @@ const Admin = () => {
             <div className="admin-container">
                 <header className="admin-header">
                     <div className="admin-header-left">
-                        <h2>Dashboard</h2>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <h2 style={{ margin: 0 }}>Dashboard</h2>
+                            <span style={{ 
+                                background: '#f1c40f', 
+                                color: '#000', 
+                                padding: '2px 8px', 
+                                borderRadius: '4px', 
+                                fontSize: '0.7rem', 
+                                fontWeight: 'bold' 
+                            }}>v7_JPEG_Fixed</span>
+                        </div>
                         <nav className="admin-tabs">
                             {tabs.map(tab => (
                                 <button

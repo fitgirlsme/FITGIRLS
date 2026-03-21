@@ -6,6 +6,7 @@ import { db as fireDb } from '../../utils/firebase';
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { getStorage, ref, deleteObject } from 'firebase/storage';
 import { collection, addDoc } from 'firebase/firestore';
+import { uploadOptimizedImage } from '../../utils/uploadService';
 import './Zone.css';
 
 const ZONE_DATA = [
@@ -119,24 +120,20 @@ const Zone = () => {
         if (!file) return;
         e.target.value = '';
         try {
-            const { getStorage: gs, ref: sRef, uploadBytes, getDownloadURL } = await import('firebase/storage');
-            const storage = gs();
-            const storagePath = `lookbook/${Date.now()}_${file.name}`;
-            const storageRef = sRef(storage, storagePath);
-            await uploadBytes(storageRef, file);
-            const url = await getDownloadURL(storageRef);
+            // 공통 최적화 서비스 사용 (리사이징, WebP 변환, 메타데이터 삭제 자동 적용)
+            const { url, path } = await uploadOptimizedImage(file, 'lookbook');
 
             const newDoc = await addDoc(collection(fireDb, 'lookbook'), {
                 img: url,
                 outfitName: '',
                 outfitSize: '',
-                storagePath,
+                storagePath: path,
                 createdAt: Date.now(),
             });
 
-            setLookbookItems(prev => [{ id: newDoc.id, img: url, outfitName: '', outfitSize: '', storagePath, createdAt: Date.now() }, ...prev]);
+            setLookbookItems(prev => [{ id: newDoc.id, img: url, outfitName: '', outfitSize: '', storagePath: path, createdAt: Date.now() }, ...prev]);
         } catch (err) {
-            alert('업로드 중 오류가 발생했습니다.');
+            alert(`업로드 실패: ${err.message}`);
             console.error(err);
         }
     };

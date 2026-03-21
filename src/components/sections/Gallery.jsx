@@ -45,9 +45,11 @@ const GallerySection = () => {
         return saved ? JSON.parse(saved) : ['#바디프로필', '#이너핏'];
     });
     const [allTagsCloud, setAllTagsCloud] = useState([]);
-    const [visibleCount, setVisibleCount] = useState(24);
+    const [visibleCount, setVisibleCount] = useState(30);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [isGalleryVisible, setIsGalleryVisible] = useState(false);
+    const [showSwipeGuide, setShowSwipeGuide] = useState(false);
+    const touchStart = useRef(null);
     const galleryRef = useRef(null);
 
     // URL query param으로 카테고리 자동 선택
@@ -60,6 +62,15 @@ const GallerySection = () => {
             setActiveTag('ALL');
         }
     }, [searchParams]);
+
+    // 모바일 스와이프 안내 표시 (라이트박스 열 때 처음 1회성 브리핑)
+    useEffect(() => {
+        if (lightboxIndex !== null && window.innerWidth < 1024) {
+            setShowSwipeGuide(true);
+            const timer = setTimeout(() => setShowSwipeGuide(false), 2400);
+            return () => clearTimeout(timer);
+        }
+    }, [lightboxIndex]);
 
     // Lock body scroll when lightbox is open
     useEffect(() => {
@@ -80,16 +91,25 @@ const GallerySection = () => {
         const loadItems = async () => {
             try {
                 const firebaseItems = await getGalleries();
-                const mapped = firebaseItems.map(item => ({
-                    id: item.id,
-                    mainCategory: (item.mainCategory || 'fitorialist').toLowerCase(),
-                    type: (item.type || 'women').toLowerCase(),
-                    tags: item.tags || [],
-                    img: item.imageUrl || item.img || item.url || '',
-                    name: item.name || '',
-                    seoTags: item.seoTags || '',
-                    createdAt: item.createdAt || item.order || 0,
-                }));
+                const mapped = firebaseItems.map(item => {
+                    let ts = item.order || 0;
+                    if (item.createdAt) {
+                        if (item.createdAt.toMillis) ts = item.createdAt.toMillis();
+                        else if (item.createdAt.seconds) ts = item.createdAt.seconds * 1000;
+                        else if (typeof item.createdAt === 'number') ts = item.createdAt;
+                        else if (typeof item.createdAt === 'string') ts = new Date(item.createdAt).getTime();
+                    }
+                    return {
+                        id: item.id,
+                        mainCategory: (item.mainCategory || 'fitorialist').toLowerCase(),
+                        type: (item.type || 'women').toLowerCase(),
+                        tags: item.tags || [],
+                        img: item.imageUrl || item.img || item.url || '',
+                        name: item.name || '',
+                        seoTags: item.seoTags || '',
+                        createdAt: ts || 0,
+                    };
+                });
 
                 setAllItems(mapped);
             } catch (err) {
@@ -156,7 +176,7 @@ const GallerySection = () => {
 
     // 필터 변경 시 표시 개수 리셋
     useEffect(() => {
-        setVisibleCount(18);
+        setVisibleCount(30);
     }, [mainCategory, subCategory, activeTag, searchQuery]);
 
     // 현재 mainCategory에 실제 존재하는 subCategory만 필터
@@ -202,6 +222,28 @@ const GallerySection = () => {
     const visibleItems = filteredGallery.slice(0, visibleCount);
     const hasMore = visibleCount < filteredGallery.length;
 
+    // JS Masonry chunking (가로(좌->우) 정렬을 위한 라운드로빈 분배)
+    const [cols, setCols] = useState(2);
+    useEffect(() => {
+        const updateCols = () => {
+            const w = window.innerWidth;
+            if (w >= 2560) setCols(8);
+            else if (w >= 1920) setCols(6);
+            else if (w >= 1440) setCols(5);
+            else if (w >= 1024) setCols(4);
+            else if (w >= 768) setCols(3);
+            else setCols(2);
+        };
+        updateCols();
+        window.addEventListener('resize', updateCols);
+        return () => window.removeEventListener('resize', updateCols);
+    }, []);
+
+    const columnsArray = Array.from({ length: cols }, () => []);
+    visibleItems.forEach((item, originalIndex) => {
+        columnsArray[originalIndex % cols].push({ item, originalIndex });
+    });
+
     const handleLoadMore = () => {
         if (hasMore && !isLoadingMore) {
             setIsLoadingMore(true);
@@ -210,6 +252,18 @@ const GallerySection = () => {
                 setIsLoadingMore(false);
             }, 300);
         }
+    };
+
+    const handleTouchStart = (e) => { touchStart.current = e.touches[0].clientX; };
+    const handleTouchEnd = (e) => {
+        if (!touchStart.current) return;
+        const touchEnd = e.changedTouches[0].clientX;
+        const diff = touchStart.current - touchEnd;
+        if (Math.abs(diff) > 50) { // 50px 이상 스와이프 시 동작
+            if (diff > 0) showNext(e);
+            else showPrev(e);
+        }
+        touchStart.current = null;
     };
 
     const openLightbox = (index) => setLightboxIndex(index);
@@ -301,10 +355,8 @@ const GallerySection = () => {
                                             className={`tier1-tab ${subCategory === sc.id ? 'active' : ''} ${hasNew ? 'has-new' : ''}`}
                                             onClick={() => { setSubCategory(sc.id); setActiveTag('ALL'); }}
                                         >
-                                            <span className="tab-label-wrapper">
-                                                {hasNew && <span className="tab-new-badge">NEW</span>}
-                                                {t(sc.labelKey)}
-                                            </span>
+                                            {t(sc.labelKey)}
+                                            {hasNew && <span className="tab-new-badge">NEW</span>}
                                         </button>
                                     );
                                 })}
@@ -353,101 +405,60 @@ const GallerySection = () => {
                     {/* Gallery Grid */}
                     <div className="gallery-masonry-wrapper" ref={galleryRef}>
 
-                        <input
-                            id="gallery-quick-upload"
-                            type="file"
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                            onChange={async (e) => {
-                                const f = e.target.files[0];
-                                if (!f) return;
-                                const reader = new FileReader();
-                                reader.onloadend = async () => {
-                                    try {
-                                        const newItem = await addGalleryItem({
-                                            mainCategory: mainCategory,
-                                            type: subCategory,
-                                            tags: [],
-                                            img: reader.result,
-                                            name: f.name,
-                                            size: f.size,
-                                        });
-                                        setAllItems(prev => [{
-                                            id: newItem,
-                                            mainCategory: mainCategory,
-                                            type: subCategory,
-                                            tags: [],
-                                            img: reader.result,
-                                            name: f.name,
-                                            size: f.size,
-                                            createdAt: Date.now()
-                                        }, ...prev]);
-                                    } catch (err) { console.error(err); }
-                                };
-                                reader.readAsDataURL(f);
-                                e.target.value = '';
-                            }}
-                        />
+                        {/* 갤러리 업로드는 Admin 대시보드나 멀티 업로더를 공식적으로 사용합니다. 제거됨 */}
 
-                        {/* 어드민 전용 업로드 FAB (갤러리 영역이 보일 때만) */}
-                        {isAdmin && isGalleryVisible && (
-                            <button
-                                className="gallery-fab-upload"
-                                onClick={() => document.getElementById('gallery-quick-upload').click()}
-                                title="사진 추가"
-                            >
-                                +
-                            </button>
-                        )}
-
-                        <div className="gallery-masonry-grid">
-                            {visibleItems.map((item, index) => (
-                                <div
-                                    key={item.id}
-                                    className="masonry-item"
-                                    onClick={() => openLightbox(index)}
-                                >
-                                    <img src={item.img} alt={item.seoTags || 'Gallery'} loading="lazy" />
-                                    <div className="masonry-hover-overlay">
-                                        <span className="masonry-plus">+</span>
-                                        {item.tags && item.tags.length > 0 && (
-                                            <div className="masonry-tags">
-                                                {item.tags.map((tag, ti) => (
-                                                    <span key={ti} className="masonry-tag-chip">
-                                                        {tag.startsWith('#') ? tag : `#${tag}`}
-                                                    </span>
-                                                ))}
+                        <div className="gallery-masonry-grid" style={{ display: 'flex' }}>
+                            {columnsArray.map((colItems, colIdx) => (
+                                <div key={colIdx} style={{ flex: 1, display: 'flex', flexDirection: 'column' }} className="masonry-column-wrapper">
+                                    {colItems.map(({ item, originalIndex }) => (
+                                        <div
+                                            key={item.id}
+                                            className="masonry-item"
+                                            onClick={() => openLightbox(originalIndex)}
+                                        >
+                                            <img src={item.img} alt={item.seoTags || 'Gallery'} loading="lazy" />
+                                            <div className="masonry-hover-overlay">
+                                                <span className="masonry-plus">+</span>
+                                                {item.tags && item.tags.length > 0 && (
+                                                    <div className="masonry-tags">
+                                                        {item.tags.map((tag, ti) => (
+                                                            <span key={ti} className="masonry-tag-chip">
+                                                                {tag.startsWith('#') ? tag : `#${tag}`}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                )}
                                             </div>
-                                        )}
-                                    </div>
-                                    {/* 관리자 도구 */}
-                                    {isAdmin && !String(item.id).startsWith('m') && (
-                                        <div className="masonry-admin-tools">
-                                            <button
-                                                className="masonry-edit-btn"
-                                                title="정보 수정"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setEditTarget(item);
-                                                    setEditTags((item.tags || []).join(', '));
-                                                    setEditMainCat(item.mainCategory || 'fitorialist');
-                                                    setEditType(item.type || 'women');
-                                                }}
-                                            >
-                                                EDIT
-                                            </button>
-                                            <button
-                                                className="masonry-delete-btn"
-                                                title="사진 삭제"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setDeleteTarget(item);
-                                                }}
-                                            >
-                                                DEL
-                                            </button>
+                                            {/* 관리자 도구 */}
+                                            {isAdmin && !String(item.id).startsWith('m') && (
+                                                <div className="masonry-admin-tools">
+                                                    <button
+                                                        className="masonry-edit-btn"
+                                                        title="정보 수정"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setEditTarget(item);
+                                                            setEditTags((item.tags || []).join(', '));
+                                                            setEditMainCat(item.mainCategory || 'fitorialist');
+                                                            setEditType(item.type || 'women');
+                                                        }}
+                                                    >
+                                                        EDIT
+                                                    </button>
+                                                    <button
+                                                        className="masonry-delete-btn"
+                                                        title="사진 삭제"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setDeleteTarget(item);
+                                                        }}
+                                                    >
+                                                        DEL
+                                                    </button>
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
+                                    ))}
                                 </div>
                             ))}
                         </div>
@@ -482,6 +493,7 @@ const GallerySection = () => {
                                 try {
                                     if (deleteTarget.id) {
                                         await deleteDoc(doc(fireDb, 'gallery', deleteTarget.id));
+                                        await deleteGalleryItem(deleteTarget.id);
                                     }
                                     if (deleteTarget.storagePath) {
                                         const storageRef = ref(storage, deleteTarget.storagePath);
@@ -554,11 +566,20 @@ const GallerySection = () => {
                             <button className="delete-btn-ok" style={{ background: '#3a7bd5' }} onClick={async () => {
                                 const parsedTags = editTags.split(/[\s,]+/).map(t => t.trim()).filter(Boolean);
                                 try {
-                                    await updateDoc(doc(fireDb, 'gallery', editTarget.id), {
+                                    const docRef = doc(fireDb, 'gallery', String(editTarget.id));
+                                    await updateDoc(docRef, {
                                         tags: parsedTags,
                                         mainCategory: editMainCat,
                                         type: editType
                                     });
+                                    if (typeof updateGalleryItem === 'function') {
+                                        await updateGalleryItem(editTarget.id, {
+                                            ...editTarget,
+                                            tags: parsedTags,
+                                            mainCategory: editMainCat,
+                                            type: editType
+                                        });
+                                    }
                                     setAllItems(prev => prev.map(i =>
                                         i.id === editTarget.id
                                             ? { ...i, tags: parsedTags, mainCategory: editMainCat, type: editType }
@@ -569,8 +590,12 @@ const GallerySection = () => {
                                     setSavedTags(merged);
                                     localStorage.setItem('adminHashtags', JSON.stringify(merged));
                                 } catch (err) {
-                                    alert('수정 중 오류가 발생했습니다.');
-                                    console.error(err);
+                                    if (err.message && err.message.includes("No document to update")) {
+                                        alert("이 사진은 '새 사진 업로드 완료' 버튼을 통하지 않은 임시 프리뷰(Base64)입니다. F5를 눌러 지우시고 제대로 업로드 후 수정해주세요!");
+                                    } else {
+                                        alert(`수정 중 오류가 발생했습니다: ${err.message}`);
+                                    }
+                                    console.error('Edit Error:', err);
                                 }
                                 setEditTarget(null);
                             }}>저장</button>
@@ -581,7 +606,12 @@ const GallerySection = () => {
 
             {/* Lightbox Modal */}
             {lightboxIndex !== null && (
-                <div className="lightbox-overlay" onClick={closeLightbox}>
+                <div 
+                    className="lightbox-overlay" 
+                    onClick={closeLightbox}
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={handleTouchEnd}
+                >
                     <div className="lightbox-header">
                         <div className="lightbox-counter">
                             {lightboxIndex + 1} / {filteredGallery.length}
@@ -593,6 +623,19 @@ const GallerySection = () => {
                         <img src={filteredGallery[lightboxIndex].img} alt="Lightbox Detail" />
                     </div>
                     <button className="lightbox-nav-btn next-btn" onClick={showNext}>⟩</button>
+
+                    {/* 모바일 스와이프 가이드 (처음 등장 시 잠깐 표시) */}
+                    {showSwipeGuide && (
+                        <div className="swipe-guide-overlay">
+                            <div className="swipe-finger-icon">
+                                <svg viewBox="0 0 100 100">
+                                    <path d="M50,80 C30,80 20,60 20,40 C20,20 35,10 50,10 C65,10 80,20 80,40 C80,60 70,80 50,80 Z" fill="none" stroke="white" strokeWidth="2" opacity="0.3" />
+                                    <circle cx="50" cy="50" r="8" fill="white" className="finger-anim" />
+                                </svg>
+                            </div>
+                            <p>SWIPE TO BROWSE</p>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
