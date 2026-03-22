@@ -1,58 +1,92 @@
 .hairmakeup-container {
-  padding-top: 60px;
-  padding-bottom: 80px;
-  background-color: var(--color-bg);
+  padding: 100px 0;
+  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.hairmakeup-inner {
+  max-width: 900px !important;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.hairmakeup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1.5px solid #333;
+  padding-bottom: 12px;
+  margin-bottom: 40px;
+}
+
+.hairmakeup-title {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #000;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.hairmakeup-subtitle {
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 600;
 }
 
 .hairmakeup-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 20px;
-  padding: 32px;
+  background: #121212;
+  border-radius: 35px;
+  padding: 50px 45px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+  color: #fff;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 35px;
 }
 
 .hairmakeup-shop-name {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--color-text);
+  margin: 0;
 }
 
 .hairmakeup-desc {
   font-size: 0.95rem;
-  color: var(--color-text-secondary);
-  line-height: 1.7;
+  line-height: 1.65;
+  color: #a0a0a0;
   margin: 0;
-  white-space: pre-line;
 }
 
 .hairmakeup-price-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  background: var(--color-bg);
-  border-radius: 12px;
-  padding: 20px;
-  border: 1px solid var(--color-border);
+  background: #000000;
+  border-radius: 20px;
+  padding: 25px 30px;
 }
 
 .hairmakeup-price-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1rem;
+  padding: 12px 0;
+  font-size: 1.1rem;
   font-weight: 600;
-  color: var(--color-text);
+}
+
+.hairmakeup-price-row:not(:last-child) {
+  border-bottom: 1px solid #222;
+}
+
+.hairmakeup-price-row .price {
+  color: #fff;
 }
 
 .hairmakeup-price-row small {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+  color: #666;
   font-weight: 400;
-  color: var(--color-text-secondary);
-  margin-left: 4px;
+  margin-left: 6px;
 }
 
 .hairmakeup-info {
@@ -63,70 +97,91 @@
 
 .hairmakeup-info-row {
   display: flex;
-  gap: 16px;
-  font-size: 0.9rem;
-  color: var(--color-text-secondary);
-  align-items: flex-start;
+  gap: 12px;
+  font-size: 1.05rem;
 }
 
-.hairmakeup-info-row strong {
-  color: var(--color-primary);
-  font-weight: 700;
-  flex-shrink: 0;
-  min-width: 50px;
+.hairmakeup-info-row .info-label {
+  font-weight: 900;
+  color: #ff3b30;
+  min-width: 45px;
+}
+
+.hairmakeup-info-row .info-value {
+  color: #999;
+  text-decoration: none;
+  font-weight: 500;
 }
 
 .hairmakeup-buttons {
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 8px;
+  gap: 20px;
+  margin-top: 10px;
 }
 
 .hairmakeup-btn {
   flex: 1;
-  min-width: 140px;
-  padding: 14px;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  font-weight: 700;
+  padding: 20px;
+  border-radius: 18px;
   text-align: center;
+  font-weight: 800;
+  font-size: 1.05rem;
   text-decoration: none;
-  transition: all 0.2s var(--ease-smooth);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .hairmakeup-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  filter: brightness(1.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .hairmakeup-btn.kakao {
   background: #fee500;
-  color: #3a1d1d;
+  color: #000;
 }
 
 .hairmakeup-btn.insta {
-  background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
   color: #fff;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .hairmakeup-container {
-    padding-top: 30px;
-    padding-bottom: 40px;
+    padding: 60px 0;
   }
+  
+  .hairmakeup-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .hairmakeup-title {
+    font-size: 1.6rem;
+  }
+  
+  .hairmakeup-subtitle {
+    font-size: 0.9rem;
+  }
+  
   .hairmakeup-card {
-    padding: 20px;
-    gap: 16px;
+    padding: 35px 25px;
+    margin: 20px;
+    border-radius: 25px;
+    gap: 25px;
   }
+  
   .hairmakeup-shop-name {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
   }
-  .hairmakeup-desc {
-    font-size: 0.85rem;
+  
+  .hairmakeup-buttons {
+    flex-direction: column;
+    gap: 12px;
   }
+  
   .hairmakeup-btn {
-    padding: 12px;
-    font-size: 0.8rem;
+    padding: 16px;
   }
 }

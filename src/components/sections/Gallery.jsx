@@ -368,24 +368,11 @@ const GallerySection = () => {
                             </div>
                         </div>
 
-                        {/* 현재 카테고리 표시 + BACK 버튼 */}
+                        {/* 현재 카테고리 표시 */}
                         <div className="gallery-detail-header">
                             <h3 className="gallery-current-category">
                                 {t(MAIN_CATEGORIES.find(c => c.id === mainCategory)?.labelKey)}
                             </h3>
-                            <button
-                                className="back-to-main-btn"
-                                onClick={() => {
-                                    setViewMode('main');
-                                    setSearchQuery('');
-                                }}
-                            >
-                                <svg className="back-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                                    <polyline points="9 22 9 12 15 12 15 22" />
-                                </svg>
-                                <span>HOME</span>
-                            </button>
                         </div>
 
                         {/* Sub-category tabs (women/men/couple/outdoor) */}
