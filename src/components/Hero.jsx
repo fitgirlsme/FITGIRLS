@@ -37,13 +37,30 @@ const Hero = () => {
         <div className="hero-container">
             <div className="hero-slideshow">
                 {slides.length > 0 ? (
-                    slides.map((slide, index) => (
-                        <div
-                            key={slide.id || index}
-                            className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
-                            style={{ backgroundImage: `url(${slide.src})` }}
-                        ></div>
-                    ))
+                    slides.map((slide, index) => {
+                        const isActive = index === currentSlide;
+                        if (slide.type === 'video') {
+                            return (
+                                <div key={slide.id || index} className={`hero-slide ${isActive ? 'active' : ''}`}>
+                                    <iframe
+                                        className="hero-video-bg"
+                                        src={`https://www.youtube.com/embed/${slide.src}?autoplay=1&mute=1&controls=0&loop=1&playlist=${slide.src}&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1`}
+                                        frameBorder="0"
+                                        allow="autoplay; encrypted-media"
+                                        allowFullScreen
+                                        title="Hero Video"
+                                    ></iframe>
+                                </div>
+                            );
+                        }
+                        return (
+                            <div
+                                key={slide.id || index}
+                                className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
+                                style={{ backgroundImage: `url(${slide.src})` }}
+                            ></div>
+                        );
+                    })
                 ) : (
                     <div className="hero-slide active" style={{ backgroundImage: 'url(/images/hero-bg.jpg)' }}></div>
                 )}
