@@ -214,6 +214,8 @@
         "instaPlaceholder": "@ユーザー名",
         "location": "地域",
         "locationPlaceholder": "お住まいの地域",
+        "job": "職業",
+        "jobPlaceholder": "例: 学生、フリーランス、会社員など",
         "phone": "連絡先",
         "phonePlaceholder": "010-0000-0000",
         "keywords": "私を表現する3つのスタイルキーワード",
