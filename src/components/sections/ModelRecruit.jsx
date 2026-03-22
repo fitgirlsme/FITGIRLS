@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { addItem, getData, deleteItem, STORES } from '../../utils/db';
 import { db } from '../../utils/firebase';
 import { collection, addDoc, serverTimestamp, doc, updateDoc } from 'firebase/firestore';
+import { syncCollection } from '../../utils/syncService';
 import './ModelRecruit.css';
 
 const ModelRecruit = () => {
@@ -15,7 +16,14 @@ const ModelRecruit = () => {
 
     useEffect(() => {
         if (isAdmin) {
-            getData(STORES.APPLICATIONS).then(setApplications).catch(console.error);
+            syncCollection(STORES.APPLICATIONS).then(data => {
+                const sorted = data.sort((a,b) => {
+                    const timeA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : new Date(a.createdAt).getTime();
+                    const timeB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : new Date(b.createdAt).getTime();
+                    return timeB - timeA;
+                });
+                setApplications(sorted);
+            }).catch(console.error);
         }
     }, [isAdmin]);
 
@@ -41,8 +49,13 @@ const ModelRecruit = () => {
             setStatus('success');
             setForm({ name: '', insta: '', location: '', job: '', phone: '', keywords: '' });
             if (isAdmin) {
-                const list = await getData(STORES.APPLICATIONS);
-                setApplications(list);
+                const list = await syncCollection(STORES.APPLICATIONS);
+                const sorted = list.sort((a,b) => {
+                    const timeA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : new Date(a.createdAt).getTime();
+                    const timeB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : new Date(b.createdAt).getTime();
+                    return timeB - timeA;
+                });
+                setApplications(sorted);
             }
         } catch {
             setStatus('error');
