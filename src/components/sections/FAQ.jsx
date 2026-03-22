@@ -110,6 +110,20 @@ const FAQ = () => {
 
     const renderLinkBtn = (link, idx) => {
         const typeClass = link.type || 'link';
+        const isInternal = link.url.startsWith('/');
+        
+        if (isInternal) {
+            return (
+                <button
+                    key={idx}
+                    onClick={(e) => { e.stopPropagation(); navigate(link.url); }}
+                    className={`faq-action-btn ${typeClass}`}
+                >
+                    {link.label}
+                </button>
+            );
+        }
+
         return (
             <a
                 key={idx}
@@ -117,6 +131,7 @@ const FAQ = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`faq-action-btn ${typeClass}`}
+                onClick={(e) => e.stopPropagation()}
             >
                 {link.label}
             </a>

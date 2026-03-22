@@ -271,7 +271,7 @@
                 "links": [
                     {
                         "label": "핏걸즈 룩북 보기",
-                        "url": "#zone",
+                        "url": "/zone?tab=lookbook",
                         "type": "link"
                     }
                 ]
