@@ -111,6 +111,16 @@
     transform: translateY(0);
 }
 
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent;
+    z-index: 999;
+}
+
 /* === NAV LINKS === */
 .nav-links {
     display: flex;

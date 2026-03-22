@@ -118,6 +118,14 @@ const Header = ({ isScrolled, isOnHero, changeLanguage, currentLang }) => {
                         })}
                     </div>
                 </nav>
+
+                {menuOpen && (
+                    <div 
+                        className="menu-overlay" 
+                        onClick={() => setMenuOpen(false)}
+                        aria-hidden="true"
+                    />
+                )}
             </div>
 
             <div className="lang-switcher">
