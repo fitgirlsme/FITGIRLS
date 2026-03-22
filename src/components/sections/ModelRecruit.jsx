@@ -267,7 +267,7 @@ const ModelRecruit = () => {
                                 <div key={app.id} className="admin-apply-comment">
                                     <div className="admin-apply-avatar">
                                         <div className="avatar-placeholder">
-                                            {app.name.charAt(0)}
+                                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                                         </div>
                                     </div>
                                     <div className="admin-apply-content">
