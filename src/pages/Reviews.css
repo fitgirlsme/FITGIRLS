@@ -336,10 +336,22 @@
 }
 
 @media (max-width: 768px) {
+  .review-slider-container {
+    padding: 0 16px;
+  }
   .review-card {
-    min-width: 320px;
-    width: 320px;
-    padding: 20px;
+    min-width: 85vw;
+    width: 85vw;
+    padding: 24px 20px;
+  }
+  .review-text-content {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: #222;
+  }
+  .review-item-title {
+    font-size: 1.15rem;
+    color: #111;
   }
   .slider-arrow {
     display: none;
