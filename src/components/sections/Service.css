@@ -37,36 +37,37 @@
 .service-tabs {
   display: flex;
   justify-content: center;
-  gap: 0;
-  margin-bottom: 24px;
+  gap: 4px;
+  margin-bottom: 28px;
   flex-wrap: wrap;
-  border-bottom: 2px solid var(--color-border);
 }
 
 .service-tab-btn {
-  padding: 12px 20px;
+  padding: 10px 16px;
   border-radius: 0;
   border: none;
-  border-bottom: 3px solid transparent;
   background: transparent;
   color: var(--color-text-secondary);
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-size: 0.78rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  margin-bottom: -2px;
+  opacity: 0.5;
 }
 
 .service-tab-btn:hover {
+  opacity: 0.8;
   color: var(--color-text);
 }
 
 .service-tab-btn.active {
   color: var(--color-primary);
-  border-bottom: 3px solid var(--color-primary);
-  font-weight: 800;
+  font-size: 0.88rem;
+  font-weight: 900;
+  opacity: 1;
+  letter-spacing: 0.08em;
 }
 
 .service-sub-tabs {
