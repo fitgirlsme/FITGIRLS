@@ -7,7 +7,7 @@ import './ModelRecruit.css';
 
 const ModelRecruit = () => {
     const { t } = useTranslation();
-    const [form, setForm] = useState({ name: '', insta: '', location: '', phone: '' });
+    const [form, setForm] = useState({ name: '', insta: '', location: '', phone: '', keywords: '' });
     const [status, setStatus] = useState(null); // 'success' | 'error'
     const [submitting, setSubmitting] = useState(false);
     const [applications, setApplications] = useState([]);
@@ -39,7 +39,7 @@ const ModelRecruit = () => {
                 createdAt: new Date().toISOString()
             });
             setStatus('success');
-            setForm({ name: '', insta: '', location: '', phone: '' });
+            setForm({ name: '', insta: '', location: '', phone: '', keywords: '' });
             if (isAdmin) {
                 const list = await getData(STORES.APPLICATIONS);
                 setApplications(list);
@@ -191,6 +191,17 @@ const ModelRecruit = () => {
                                 placeholder={t('modelApply.phonePlaceholder', '010-0000-0000')}
                             />
                         </div>
+                        <div className="apply-form-group full-width">
+                            <label>{t('modelApply.keywords', '나를 표현하는 스타일 키워드 3가지')}</label>
+                            <input
+                                type="text"
+                                name="keywords"
+                                value={form.keywords}
+                                onChange={handleChange}
+                                required
+                                placeholder={t('modelApply.keywordsPlaceholder', '(예: #에디토리얼 #Y2K #에너지)')}
+                            />
+                        </div>
                     </div>
                     <button
                         type="submit"
@@ -244,6 +255,11 @@ const ModelRecruit = () => {
                                             <span className="info-tag">📍 {app.location}</span>
                                             <span className="info-tag">📞 {app.phone}</span>
                                         </div>
+                                        {app.keywords && (
+                                            <div className="admin-apply-keywords">
+                                                {app.keywords}
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="admin-apply-actions">
                                         <button

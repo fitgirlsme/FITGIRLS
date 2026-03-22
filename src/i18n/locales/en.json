@@ -216,6 +216,8 @@
         "locationPlaceholder": "Your area",
         "phone": "Phone",
         "phonePlaceholder": "010-0000-0000",
+        "keywords": "3 Style Keywords that Express Me",
+        "keywordsPlaceholder": "(e.g. #Editorial #Y2K #Energy)",
         "submit": "Apply Now",
         "submitting": "Submitting...",
         "successMsg": "Your application has been submitted. Thank you!",

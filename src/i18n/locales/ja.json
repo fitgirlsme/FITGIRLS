@@ -216,6 +216,8 @@
         "locationPlaceholder": "お住まいの地域",
         "phone": "連絡先",
         "phonePlaceholder": "010-0000-0000",
+        "keywords": "私を表現する3つのスタイルキーワード",
+        "keywordsPlaceholder": "(例: #エディトリアル #Y2K #エネルギー)",
         "submit": "応募する",
         "submitting": "送信中...",
         "successMsg": "応募が完了しました。ありがとうございます！",

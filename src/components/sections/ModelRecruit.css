@@ -50,6 +50,10 @@
     gap: 8px;
 }
 
+.apply-form-group.full-width {
+    grid-column: 1 / -1;
+}
+
 .apply-form-group label {
     font-size: 0.85rem;
     font-weight: 700;
@@ -250,6 +254,16 @@
 
 .selected-admin-item {
     background: rgba(255, 215, 0, 0.03);
+}
+
+.admin-apply-keywords {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    background: rgba(0,0,0,0.03);
+    padding: 6px 10px;
+    border-radius: 6px;
+    display: inline-block;
 }
 
 @media (max-width: 768px) {

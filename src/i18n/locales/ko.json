@@ -215,6 +215,8 @@
         "locationPlaceholder": "거주 지역",
         "phone": "연락처",
         "phonePlaceholder": "010-0000-0000",
+        "keywords": "나를 표현하는 스타일 키워드 3가지",
+        "keywordsPlaceholder": "(예: #에디토리얼 #Y2K #에너지)",
         "submit": "지원하기",
         "submitting": "제출 중...",
         "successMsg": "지원이 완료되었습니다. 감사합니다!",
