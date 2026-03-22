@@ -225,6 +225,7 @@
             "intro": "Beyond just being a model, we are looking for the **'2026 Fitorialist'** who will complete Fitgirls & Inafit's unique visual archive with us.",
             "benefits": {
                 "title": "🎁 AMBASSADOR BENEFITS",
+                "badge": "Benefits",
                 "subtitle": "Fitgirls fully supports the continuous visual growth and personal branding of our ambassadors.",
                 "items": [
                     { "title": "Premium Editorial Shooting (Twice a year)", "desc": "Support for a '2-Concept Full Package' shoot every 6 months to capture your brightest moments." },
@@ -235,6 +236,7 @@
             },
             "role": {
                 "title": "🤝 AMBASSADOR'S ROLE",
+                "badge": "Role",
                 "subtitle": "We are **'Creative Partners'** who connect our influence to create greater value.",
                 "items": [
                     { "title": "Instagram Collaborator", "desc": "When posting shoot results on your feed, you must designate 'Fitgirls & Inafit (@fitgirlsme)' as a collaborator." },

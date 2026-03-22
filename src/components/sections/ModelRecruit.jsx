@@ -114,6 +114,7 @@ const ModelRecruit = () => {
                 <div className="model-program-details">
                     <div className="program-card benefits">
                         <h3 className="program-card-title">{t('modelApply.ambassadorDetail.benefits.title', '🎁 BENEFITS')}</h3>
+                        <div className="program-card-badge">{t('modelApply.ambassadorDetail.benefits.badge', '지원 혜택')}</div>
                         <p className="program-card-subtitle">{t('modelApply.ambassadorDetail.benefits.subtitle', '')}</p>
                         <ul className="program-list">
                             {t('modelApply.ambassadorDetail.benefits.items', { returnObjects: true })?.map((item, i) => (
@@ -130,6 +131,7 @@ const ModelRecruit = () => {
 
                     <div className="program-card roles">
                         <h3 className="program-card-title">{t('modelApply.ambassadorDetail.role.title', '🤝 ROLES')}</h3>
+                        <div className="program-card-badge">{t('modelApply.ambassadorDetail.role.badge', '엠버서더의 역할')}</div>
                         <p className="program-card-subtitle">{t('modelApply.ambassadorDetail.role.subtitle', '')}</p>
                         <ul className="program-list">
                             {t('modelApply.ambassadorDetail.role.items', { returnObjects: true })?.map((item, i) => (

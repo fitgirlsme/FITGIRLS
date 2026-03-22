@@ -223,7 +223,8 @@
             "mainTitle": "2026 FITORIAL AMBASSADOR : THE CO-CREATOR",
             "intro": "단순히 찍히는 모델을 넘어, 핏걸즈&이너핏의 독보적인 비주얼 아카이브를 함께 완성할 **'2026 핏토리얼리스트(Fitorialist)'**를 찾습니다.",
             "benefits": {
-                "title": "🎁 AMBASSADOR BENEFITS (지원 혜택)",
+                "title": "🎁 AMBASSADOR BENEFITS",
+                "badge": "지원 혜택",
                 "subtitle": "핏걸즈는 엠버서더의 지속적인 비주얼 성장과 퍼스널 브랜딩을 전폭 지원합니다.",
                 "items": [
                     { "title": "Premium Editorial Shooting (연 2회)", "desc": "6개월마다 한 번씩, 본인의 가장 빛나는 순간을 담는 '2컨셉 풀 패키지' 촬영 지원." },
@@ -233,7 +234,8 @@
                 ]
             },
             "role": {
-                "title": "🤝 AMBASSADOR'S ROLE (엠버서더의 역할)",
+                "title": "🤝 AMBASSADOR'S ROLE",
+                "badge": "엠버서더의 역할",
                 "subtitle": "우리는 서로의 영향력을 연결하여 더 큰 가치를 만드는 **'크리에이티브 파트너'**입니다.",
                 "items": [
                     { "title": "Instagram Collaborator", "desc": "촬영 결과물을 본인 피드에 게시할 때, 반드시 '핏걸즈&이너핏(@fitgirlsme)'를 공동 작업자로 지정하여 업로드합니다." },

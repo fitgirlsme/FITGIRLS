@@ -224,7 +224,8 @@
             "mainTitle": "2026 FITORIAL AMBASSADOR : THE CO-CREATOR",
             "intro": "単なる被写体を超えて、Fitgirls＆Inafitの独創的なビジュアルアーカイブを共に完成させる **「2026 Fitorialist」** を探しています。",
             "benefits": {
-                "title": "🎁 AMBASSADOR BENEFITS (アンバサダー特典)",
+                "title": "🎁 AMBASSADOR BENEFITS",
+                "badge": "アンバサダー特典",
                 "subtitle": "Fitgirlsは、アンバサダーの継続的なビジュアルの成長とパーソナルブランディングを全面的にサポートします。",
                 "items": [
                     { "title": "Premium Editorial Shooting (年2回)", "desc": "6ヶ月に1回、あなたの最も輝く瞬間を収める「2コンセプトフルパッケージ」撮影を支援します。" },
@@ -234,7 +235,8 @@
                 ]
             },
             "role": {
-                "title": "🤝 AMBASSADOR'S ROLE (アンバサダーの役割)",
+                "title": "🤝 AMBASSADOR'S ROLE",
+                "badge": "アンバサダーの役割",
                 "subtitle": "私たちはお互いの影響力をつなぎ、より大きな価値を創造する**「クリエイティブパートナー」**です。",
                 "items": [
                     { "title": "Instagram Collaborator", "desc": "撮影結果をご自身のフィードに投稿する際、必ず「Fitgirls＆Inafit (@fitgirlsme)」を共同投稿者に指定してアップロードします。" },
