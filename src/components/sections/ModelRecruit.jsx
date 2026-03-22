@@ -108,7 +108,41 @@ const ModelRecruit = () => {
 
                 <div className="model-apply-header">
                     <h2>{t('modelApply.title', '2026 FITORIAL 엠버서더 지원')}</h2>
-                    <p>{t('modelApply.subtitle', '핏걸즈와 함께 컨텐츠를 만들며 성장을 꿈꾸는 엠버서더를 찾습니다.')}</p>
+                    <p className="model-apply-intro">{t('modelApply.ambassadorDetail.intro', '')}</p>
+                </div>
+
+                <div className="model-program-details">
+                    <div className="program-card benefits">
+                        <h3 className="program-card-title">{t('modelApply.ambassadorDetail.benefits.title', '🎁 BENEFITS')}</h3>
+                        <p className="program-card-subtitle">{t('modelApply.ambassadorDetail.benefits.subtitle', '')}</p>
+                        <ul className="program-list">
+                            {t('modelApply.ambassadorDetail.benefits.items', { returnObjects: true })?.map((item, i) => (
+                                <li key={i} className="program-list-item">
+                                    <span className="item-dot"></span>
+                                    <div className="item-content">
+                                        <div className="item-title">{item.title}</div>
+                                        <div className="item-desc">{item.desc}</div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className="program-card roles">
+                        <h3 className="program-card-title">{t('modelApply.ambassadorDetail.role.title', '🤝 ROLES')}</h3>
+                        <p className="program-card-subtitle">{t('modelApply.ambassadorDetail.role.subtitle', '')}</p>
+                        <ul className="program-list">
+                            {t('modelApply.ambassadorDetail.role.items', { returnObjects: true })?.map((item, i) => (
+                                <li key={i} className="program-list-item">
+                                    <span className="item-dot"></span>
+                                    <div className="item-content">
+                                        <div className="item-title">{item.title}</div>
+                                        <div className="item-desc">{item.desc}</div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
 
                 <form className="model-apply-form" onSubmit={handleSubmit}>
