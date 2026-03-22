@@ -16,13 +16,11 @@ const Intro = () => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    video.muted = false;
                     video.play().catch((err) => {
-                        console.warn('Autoplay with sound blocked:', err);
+                        console.warn('Autoplay failed:', err);
                     });
                 } else {
                     video.pause();
-                    video.muted = true;
                 }
             },
             { root: snapContainer, threshold: 0.2 }
@@ -43,7 +41,7 @@ const Intro = () => {
                 className="hero-intro-video"
                 autoPlay
                 loop
-                muted={false}
+                muted
                 playsInline
                 src="/images/intro-bg.mp4"
             />
