@@ -65,7 +65,7 @@ const ModelRecruit = () => {
             <div className="model-apply-container">
                 <div className="model-apply-header">
                     <h2>{t('modelApply.title', '2026 FITORIAL 엠버서더 지원')}</h2>
-                    <p>{t('modelApply.subtitle', '핏걸즈와 함께 성장을 꿈꾸는 모델을 찾습니다.')}</p>
+                    <p>{t('modelApply.subtitle', '핏걸즈와 함께 성장을 꿈꾸는 엠버서더를 찾습니다.')}</p>
                 </div>
 
                 <form className="model-apply-form" onSubmit={handleSubmit}>
