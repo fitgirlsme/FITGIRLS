@@ -219,7 +219,31 @@
         "submit": "応募する",
         "submitting": "送信中...",
         "successMsg": "応募が完了しました。ありがとうございます！",
-        "errorMsg": "エラーが発生しました。もう一度お試しください。"
+        "errorMsg": "エラーが発生しました。もう一度お試しください。",
+        "ambassadorDetail": {
+            "mainTitle": "2026 FITORIAL AMBASSADOR : THE CO-CREATOR",
+            "intro": "単なる被写体を超えて、Fitgirls＆Inafitの独創的なビジュアルアーカイブを共に完成させる **「2026 Fitorialist」** を探しています。",
+            "benefits": {
+                "title": "🎁 AMBASSADOR BENEFITS (アンバサダー特典)",
+                "subtitle": "Fitgirlsは、アンバサダーの継続的なビジュアルの成長とパーソナルブランディングを全面的にサポートします。",
+                "items": [
+                    { "title": "Premium Editorial Shooting (年2回)", "desc": "6ヶ月に1回、あなたの最も輝く瞬間を収める「2コンセプトフルパッケージ」撮影を支援します。" },
+                    { "title": "Private Self-Studio Pass (年2回)", "desc": "大切な人と自由に記録を残せる「2名用セルフ撮影券」を提供します。" },
+                    { "title": "Visual Branding Directing", "desc": "MaxQ雑誌(紙面)のモデルオファー。" },
+                    { "title": "Official Muse Debut", "desc": "Fitgirls公式ホームページおよびSNSチャンネルのメインモデルとしての活動とプロモーション支援。" }
+                ]
+            },
+            "role": {
+                "title": "🤝 AMBASSADOR'S ROLE (アンバサダーの役割)",
+                "subtitle": "私たちはお互いの影響力をつなぎ、より大きな価値を創造する**「クリエイティブパートナー」**です。",
+                "items": [
+                    { "title": "Instagram Collaborator", "desc": "撮影結果をご自身のフィードに投稿する際、必ず「Fitgirls＆Inafit (@fitgirlsme)」を共同投稿者に指定してアップロードします。" },
+                    { "title": "Essential Tagging", "desc": "投稿のキャプションに必須ハッシュタグ #Fitgirls #Inafit #Fitorial を含め、ブランドの価値を広めます。" },
+                    { "title": "Monthly Visual Archive", "desc": "撮影の舞台裏やスタジオの雰囲気など、現場のリアルな様子をInstagramのストーリーでシェアします。" },
+                    { "title": "Creative Growth", "desc": "1年間Fitgirlsと緊密にコミュニケーションをとりながら、あなた独自のセンスでブランドのムードを共有し、リードします。" }
+                ]
+            }
+        }
     },
     "faq": {
         "search_placeholder": "ご質問を入力してください。",

@@ -219,7 +219,31 @@
         "submit": "Apply Now",
         "submitting": "Submitting...",
         "successMsg": "Your application has been submitted. Thank you!",
-        "errorMsg": "An error occurred. Please try again."
+        "errorMsg": "An error occurred. Please try again.",
+        "ambassadorDetail": {
+            "mainTitle": "2026 FITORIAL AMBASSADOR : THE CO-CREATOR",
+            "intro": "Beyond just being a model, we are looking for the **'2026 Fitorialist'** who will complete Fitgirls & Inafit's unique visual archive with us.",
+            "benefits": {
+                "title": "🎁 AMBASSADOR BENEFITS",
+                "subtitle": "Fitgirls fully supports the continuous visual growth and personal branding of our ambassadors.",
+                "items": [
+                    { "title": "Premium Editorial Shooting (Twice a year)", "desc": "Support for a '2-Concept Full Package' shoot every 6 months to capture your brightest moments." },
+                    { "title": "Private Self-Studio Pass (Twice a year)", "desc": "Provide a '2-Person Self-Shoot Pass' to freely record memories with your loved ones." },
+                    { "title": "Visual Branding Directing", "desc": "Offer to model in the MaxQ print magazine." },
+                    { "title": "Official Muse Debut", "desc": "Main model activities and promotional support on the official Fitgirls website and SNS channels." }
+                ]
+            },
+            "role": {
+                "title": "🤝 AMBASSADOR'S ROLE",
+                "subtitle": "We are **'Creative Partners'** who connect our influence to create greater value.",
+                "items": [
+                    { "title": "Instagram Collaborator", "desc": "When posting shoot results on your feed, you must designate 'Fitgirls & Inafit (@fitgirlsme)' as a collaborator." },
+                    { "title": "Essential Tagging", "desc": "Spread the brand's value by including essential hashtags #Fitgirls #Inafit #Fitorial in your post captions." },
+                    { "title": "Monthly Visual Archive", "desc": "Share the vivid atmosphere of the set, such as behind-the-scenes shoots and studio sketches, via Instagram Stories." },
+                    { "title": "Creative Growth", "desc": "Communicate closely with Fitgirls for a year and lead the brand's mood together with your own sense." }
+                ]
+            }
+        }
     },
     "faq": {
         "search_placeholder": "Please ask your question here.",
