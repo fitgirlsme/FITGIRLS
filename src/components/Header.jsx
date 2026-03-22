@@ -41,7 +41,7 @@ const Header = ({ isScrolled, isOnHero, changeLanguage, currentLang }) => {
         { id: 'reservation', label: t('nav.reservation', 'Reservation'), path: '/reservation', isRed: true },
         { id: 'reviews', label: t('nav.review', 'Review'), path: '/reviews' },
         { id: 'social', label: 'SOCIAL WALL', path: '/social' },
-        { id: 'apply', label: t('nav.ambassador', 'Ambassador'), path: '/' },
+        { id: 'amber', label: t('nav.ambassador', 'Ambassador'), path: '/amber' },
     ];
 
     const handleNavClick = (path, sectionId) => {

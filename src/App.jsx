@@ -80,7 +80,7 @@ const Home = ({ changeLanguage, currentLang }) => {
         <section className="snap-section" id="reviews"><Reviews /></section>
         <section className="snap-section" id="social"><SocialWall /></section>
 
-        <section className="snap-section" id="apply"><ModelRecruit /></section>
+        <section className="snap-section" id="amber"><ModelRecruit /></section>
         <footer className={`site-footer ${isGalleryVisible ? 'footer-hidden' : ''}`}>
           <div className="site-footer-inner">
             <span className="site-footer-logo">FITGIRLS &amp; INAFIT</span>
