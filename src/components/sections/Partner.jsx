@@ -31,14 +31,6 @@ const Partner = () => {
                 <p className="section-subtitle">{subtitle}</p>
             </FadeInSection>
 
-            <FadeInSection delay={0.2}>
-                {/* 필수 안내 배너 */}
-                <div className="partner-alert">
-                    <span className="partner-alert-icon">📌</span>
-                    <span className="partner-alert-text" dangerouslySetInnerHTML={{ __html: t('partners.alert') }} />
-                </div>
-            </FadeInSection>
-
             <FadeInSection delay={0.4}>
                 <div className="partner-card">
                     {/* 상단: 샵 이름 + 가격 */}
@@ -104,6 +96,12 @@ const Partner = () => {
                                 Instagram
                             </a>
                         )}
+                    </div>
+
+                    {/* 이동된 필수 안내 */}
+                    <div className="partner-alert bottom">
+                        <span className="partner-alert-icon">📌</span>
+                        <span className="partner-alert-text" dangerouslySetInnerHTML={{ __html: t('partners.alert') }} />
                     </div>
                 </div>
             </FadeInSection>
