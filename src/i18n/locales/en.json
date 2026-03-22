@@ -18,7 +18,8 @@
         "mgmt": "Model Mgmt",
         "program": "Program",
         "info": "Info",
-        "event": "Event"
+        "event": "Event",
+        "ambassador": "Ambassador"
     },
     "event": {
         "title": "EVENT & NOTICE",
@@ -205,7 +206,7 @@
         "parking_warning": "Parking lot closes at 20:00. Please exit before closing time."
     },
     "modelApply": {
-        "title": "Apply for Model (MODEL RECRUIT)",
+        "title": "2026 FITORIAL Ambassador Application",
         "subtitle": "We are looking for models who dream of growing with Fitgirls.",
         "name": "Name",
         "namePlaceholder": "Enter your name",

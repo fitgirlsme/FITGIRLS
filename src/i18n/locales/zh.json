@@ -18,7 +18,8 @@
         "mgmt": "模特管理",
         "program": "拍摄方案",
         "info": "信息",
-        "event": "活动"
+        "event": "活动",
+        "ambassador": "大使招募"
     },
     "event": {
         "title": "EVENT & NOTICE",
@@ -206,7 +207,7 @@
         "parking_warning": "停车场营业截止时间为20:00，请在关闭前驶出。"
     },
     "modelApply": {
-        "title": "模特申请 (MODEL RECRUIT)",
+        "title": "2026 FITORIAL 大使招募",
         "subtitle": "我们正在寻找与Fitgirls一起成长的模特。",
         "name": "姓名",
         "namePlaceholder": "请输入姓名",

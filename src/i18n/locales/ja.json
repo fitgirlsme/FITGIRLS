@@ -18,7 +18,8 @@
         "mgmt": "モデルマネジメント",
         "program": "プログラム",
         "info": "情報",
-        "event": "イベント"
+        "event": "イベント",
+        "ambassador": "アンバサダー"
     },
     "event": {
         "title": "EVENT & NOTICE",
@@ -205,7 +206,7 @@
         "parking_warning": "駐車場の営業終了時間は20:00です。終了前に出庫してください。"
     },
     "modelApply": {
-        "title": "モデル応募 (MODEL RECRUIT)",
+        "title": "2026 FITORIAL アンバサダー募集",
         "subtitle": "フィットガールズと共に成長を夢見るモデルを募集しています。",
         "name": "名前",
         "namePlaceholder": "お名前を入力してください",

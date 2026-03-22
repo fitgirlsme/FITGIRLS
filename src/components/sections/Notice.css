@@ -130,3 +130,152 @@
         display: block;
     }
 }
+/* Admin Buttons */
+.notice-admin-btns {
+    display: flex;
+    gap: 8px;
+    margin-right: 15px;
+}
+
+.notice-edit-btn,
+.notice-del-btn {
+    background: #444;
+    border: none;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+}
+
+.notice-edit-btn:hover { background: #3a7bd5; }
+.notice-del-btn:hover { background: #d32f2f; }
+
+@media (max-width: 768px) {
+    .notice-admin-btns {
+        margin-right: 8px;
+    }
+    .notice-edit-btn,
+    .notice-del-btn {
+        padding: 4px 8px;
+        font-size: 0.65rem;
+    }
+}
+
+/* Modal UI (Shared-like styles) */
+.delete-confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+}
+
+.delete-confirm-box {
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 32px 28px;
+    text-align: center;
+    max-width: 320px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.delete-confirm-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 8px;
+}
+
+.delete-confirm-sub {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.45);
+    margin: 0 0 24px;
+}
+
+.delete-confirm-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.delete-btn-cancel,
+.delete-btn-ok {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.delete-btn-cancel {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.7);
+}
+.delete-btn-cancel:hover { background: rgba(255, 255, 255, 0.12); }
+
+.delete-btn-ok {
+    border: none;
+    background: #d32f2f;
+    color: #fff;
+}
+.delete-btn-ok:hover { background: #f44336; }
+
+/* Edit Fields */
+.edit-field {
+    margin-bottom: 16px;
+}
+
+.edit-label {
+    display: block;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.edit-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+}
+
+.edit-input:focus {
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.edit-photo-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.edit-photo-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #3a7bd5;
+}

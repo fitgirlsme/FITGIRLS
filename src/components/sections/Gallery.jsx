@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
-import { ref, deleteObject } from 'firebase/storage';
+import { ref, deleteObject, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db as fireDb, storage } from '../../utils/firebase';
 import FadeInSection from '../FadeInSection';
 import { getGalleryItems, addGalleryItem, deleteGalleryItem, updateGalleryItem } from '../../utils/db';
@@ -40,6 +40,9 @@ const GallerySection = () => {
     const [editTags, setEditTags] = useState('');
     const [editMainCat, setEditMainCat] = useState('fitorialist');
     const [editType, setEditType] = useState('women');
+    const [editFile, setEditFile] = useState(null);
+    const [editPreview, setEditPreview] = useState(null);
+    const [isSaving, setIsSaving] = useState(false);
     const [savedTags, setSavedTags] = useState(() => {
         const saved = localStorage.getItem('adminHashtags');
         return saved ? JSON.parse(saved) : ['#바디프로필', '#이너핏'];
@@ -110,6 +113,7 @@ const GallerySection = () => {
                         type: (item.type || 'women').toLowerCase(),
                         tags: item.tags || [],
                         img: item.imageUrl || item.img || item.url || '',
+                        storagePath: item.storagePath || '',
                         name: item.name || '',
                         seoTags: item.seoTags || '',
                         createdAt: ts || 0,
@@ -458,6 +462,8 @@ const GallerySection = () => {
                                                             setEditTags((item.tags || []).join(', '));
                                                             setEditMainCat(item.mainCategory || 'fitorialist');
                                                             setEditType(item.type || 'women');
+                                                            setEditFile(null);
+                                                            setEditPreview(null);
                                                         }}
                                                     >
                                                         EDIT
@@ -529,9 +535,32 @@ const GallerySection = () => {
 
             {/* 수정 모달 */}
             {editTarget && (
-                <div className="delete-confirm-overlay" onClick={() => setEditTarget(null)}>
+                <div className="delete-confirm-overlay" onClick={() => { if (!isSaving) setEditTarget(null); }}>
                     <div className="delete-confirm-box" style={{ minWidth: 320, textAlign: 'left' }} onClick={e => e.stopPropagation()}>
-                        <p className="delete-confirm-title">Update Info</p>
+                        <p className="delete-confirm-title">Update Info {isSaving && '(Saving...)'}</p>
+
+                        <div className="edit-field" style={{ marginBottom: 20 }}>
+                            <label className="edit-label">사진 교체</label>
+                            <div className="edit-photo-preview-wrap">
+                                <img src={editPreview || editTarget.img} alt="Preview" className="edit-photo-preview" />
+                                <input
+                                    type="file"
+                                    id="edit-file-input"
+                                    style={{ display: 'none' }}
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                        const file = e.target.files[0];
+                                        if (file) {
+                                            setEditFile(file);
+                                            setEditPreview(URL.createObjectURL(file));
+                                        }
+                                    }}
+                                />
+                                <label htmlFor="edit-file-input" className="edit-photo-btn">
+                                    사진 선택
+                                </label>
+                            </div>
+                        </div>
 
                         <div className="edit-field">
                             <label className="edit-label">대분류 영역</label>
@@ -579,33 +608,64 @@ const GallerySection = () => {
                         </div>
 
                         <div className="delete-confirm-btns" style={{ marginTop: 20 }}>
-                            <button className="delete-btn-cancel" onClick={() => setEditTarget(null)}>취소</button>
-                            <button className="delete-btn-ok" style={{ background: '#3a7bd5' }} onClick={async () => {
+                            <button className="delete-btn-cancel" disabled={isSaving} onClick={() => setEditTarget(null)}>취소</button>
+                            <button className="delete-btn-ok" style={{ background: '#3a7bd5' }} disabled={isSaving} onClick={async () => {
+                                setIsSaving(true);
                                 const parsedTags = editTags.split(/[\s,]+/).map(t => t.trim()).filter(Boolean);
                                 try {
+                                    let newUrl = editTarget.img;
+                                    let newStoragePath = editTarget.storagePath || '';
+
+                                    // 1. If new file selected, upload it
+                                    if (editFile) {
+                                        const path = `gallery/${Date.now()}_${editFile.name}`;
+                                        const storageRef = ref(storage, path);
+                                        await uploadBytes(storageRef, editFile);
+                                        newUrl = await getDownloadURL(storageRef);
+                                        
+                                        // 2. Delete old image if it exists
+                                        if (editTarget.storagePath) {
+                                            try {
+                                                const oldRef = ref(storage, editTarget.storagePath);
+                                                await deleteObject(oldRef);
+                                            } catch (err) {
+                                                console.warn('Failed to delete old image:', err);
+                                            }
+                                        }
+                                        newStoragePath = path;
+                                    }
+
                                     const docRef = doc(fireDb, 'gallery', String(editTarget.id));
-                                    await updateDoc(docRef, {
+                                    const updateData = {
                                         tags: parsedTags,
                                         mainCategory: editMainCat,
-                                        type: editType
-                                    });
+                                        type: editType,
+                                        imageUrl: newUrl,
+                                        storagePath: newStoragePath
+                                    };
+
+                                    await updateDoc(docRef, updateData);
+                                    
                                     if (typeof updateGalleryItem === 'function') {
                                         await updateGalleryItem(editTarget.id, {
                                             ...editTarget,
-                                            tags: parsedTags,
-                                            mainCategory: editMainCat,
-                                            type: editType
+                                            ...updateData,
+                                            img: newUrl // Map for local state consistency
                                         });
                                     }
+
                                     setAllItems(prev => prev.map(i =>
                                         i.id === editTarget.id
-                                            ? { ...i, tags: parsedTags, mainCategory: editMainCat, type: editType }
+                                            ? { ...i, ...updateData, img: newUrl }
                                             : i
                                     ));
-                                    // 새 태그를 localStorage에 저장 (자동완성 풀 확장)
+
+                                    // Update local tag cloud suggestions
                                     const merged = Array.from(new Set([...savedTags, ...parsedTags]));
                                     setSavedTags(merged);
                                     localStorage.setItem('adminHashtags', JSON.stringify(merged));
+                                    
+                                    setEditTarget(null);
                                 } catch (err) {
                                     if (err.message && err.message.includes("No document to update")) {
                                         alert("이 사진은 '새 사진 업로드 완료' 버튼을 통하지 않은 임시 프리뷰(Base64)입니다. F5를 눌러 지우시고 제대로 업로드 후 수정해주세요!");
@@ -613,9 +673,10 @@ const GallerySection = () => {
                                         alert(`수정 중 오류가 발생했습니다: ${err.message}`);
                                     }
                                     console.error('Edit Error:', err);
+                                } finally {
+                                    setIsSaving(false);
                                 }
-                                setEditTarget(null);
-                            }}>저장</button>
+                            }}>{isSaving ? '보내는 중...' : '저장'}</button>
                         </div>
                     </div>
                 </div>
