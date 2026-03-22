@@ -612,8 +612,11 @@
                 }
             ],
             "notices": [
-                "Additional person: 22,000 KRW | Additional background & time (15min): 33,000 KRW | Additional outfit: 11,000 KRW",
-                "High-res detail retouching: 33,000 KRW/photo | Full high-res source files: 55,000 KRW"
+                "Additional person: 22,000 KRW",
+                "Additional background & time (15min): 33,000 KRW",
+                "Additional outfit: 11,000 KRW",
+                "High-res detail retouching: 33,000 KRW/photo",
+                "Full high-res source files: 55,000 KRW"
             ]
         },
         "notices": [
