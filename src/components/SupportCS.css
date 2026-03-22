@@ -1,6 +1,6 @@
 .cs-container {
     position: fixed;
-    bottom: 100px;
+    bottom: 30px;
     right: 0;
     /* 우측 끝에 붙임 */
     z-index: 999;
