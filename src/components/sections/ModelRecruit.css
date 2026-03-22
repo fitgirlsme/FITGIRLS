@@ -125,75 +125,153 @@
     color: #ff3b30;
 }
 
-/* Admin application list */
+/* Admin application list - Instagram Comment Style */
 .admin-apply-list {
-    margin-top: 40px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 24px;
-    padding: 32px;
+    margin-top: 60px;
+    background: #fff;
+    border: 1px solid #efefef;
+    border-radius: 12px;
+    padding: 0;
+    overflow: hidden;
 }
 
 .admin-list-title {
-    font-size: 1.1rem;
+    padding: 16px 20px;
+    font-size: 0.95rem;
     font-weight: 700;
-    margin-bottom: 20px;
-    color: var(--color-text);
+    margin: 0;
+    border-bottom: 1px solid #efefef;
+    background: #fafafa;
+    color: #262626;
 }
 
-.admin-apply-item {
+.admin-apply-feed {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.admin-apply-comment {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--color-border);
+    padding: 16px 20px;
+    gap: 12px;
+    border-bottom: 1px solid #fafafa;
+    position: relative;
+    transition: background 0.2s;
 }
 
-.admin-apply-item:last-child {
+.admin-apply-comment:hover {
+    background: #fcfcfc;
+}
+
+.admin-apply-comment:last-child {
     border-bottom: none;
 }
 
-.admin-apply-info {
+.admin-apply-avatar {
+    flex-shrink: 0;
+}
+
+.avatar-placeholder {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: #fff;
     display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    font-size: 0.9rem;
-}
-
-.admin-apply-name {
+    align-items: center;
+    justify-content: center;
     font-weight: 700;
-    color: var(--color-text);
+    font-size: 0.8rem;
+    text-transform: uppercase;
 }
 
-.admin-apply-detail {
-    color: var(--color-text-secondary);
+.admin-apply-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.admin-apply-insta {
-    color: #E1306C;
+.admin-apply-main-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.admin-apply-user-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     text-decoration: none;
-    font-weight: 600;
+    color: inherit;
 }
 
-.admin-apply-insta:hover {
+.admin-apply-user-link:hover .admin-apply-username {
     text-decoration: underline;
 }
 
-.admin-apply-delete {
-    background: none;
-    border: none;
-    color: var(--color-text-secondary);
-    font-size: 1rem;
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 8px;
-    transition: background 0.2s, color 0.2s;
+.admin-apply-username {
+    font-weight: 700;
+    color: #262626;
+    font-size: 0.9rem;
 }
 
-.admin-apply-delete:hover {
-    background: rgba(255, 59, 48, 0.1);
+.admin-apply-handle {
+    color: #00376b;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.admin-apply-time {
+    color: #8e8e8e;
+    font-size: 0.75rem;
+}
+
+.admin-apply-info-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.info-tag {
+    font-size: 0.8rem;
+    color: #8e8e8e;
+}
+
+.admin-apply-delete-icon {
+    position: absolute;
+    top: 16px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #ccc;
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 4px;
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s;
+}
+
+.admin-apply-comment:hover .admin-apply-delete-icon {
+    opacity: 1;
+}
+
+.admin-apply-delete-icon:hover {
     color: #ff3b30;
 }
+
+@media (max-width: 768px) {
+    .admin-apply-list {
+        margin-top: 40px;
+    }
+
+    .admin-apply-main-row {
+        flex-direction: column;
+        gap: 2px;
+    }
+}
+
 
 @media (max-width: 768px) {
     .model-apply-section {

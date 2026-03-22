@@ -137,30 +137,43 @@ const ModelRecruit = () => {
 
                 {isAdmin && applications.length > 0 && (
                     <div className="admin-apply-list">
-                        <h3 className="admin-list-title">지원 목록 ({applications.length})</h3>
-                        {applications.map(app => (
-                            <div key={app.id} className="admin-apply-item">
-                                <div className="admin-apply-info">
-                                    <span className="admin-apply-name">{app.name}</span>
-                                    {app.insta ? (
-                                        <a
-                                            href={`https://instagram.com/${app.insta.replace('@', '')}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="admin-apply-insta"
-                                        >{app.insta}</a>
-                                    ) : (
-                                        <span className="admin-apply-detail">-</span>
-                                    )}
-                                    <span className="admin-apply-detail">{app.location}</span>
-                                    <span className="admin-apply-detail">{app.phone}</span>
+                        <h3 className="admin-list-title">지원 현황 ({applications.length})</h3>
+                        <div className="admin-apply-feed">
+                            {applications.map(app => (
+                                <div key={app.id} className="admin-apply-comment">
+                                    <div className="admin-apply-avatar">
+                                        <div className="avatar-placeholder">
+                                            {app.name.charAt(0)}
+                                        </div>
+                                    </div>
+                                    <div className="admin-apply-content">
+                                        <div className="admin-apply-main-row">
+                                            <a
+                                                href={app.insta ? `https://instagram.com/${app.insta.replace('@', '')}` : '#'}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="admin-apply-user-link"
+                                            >
+                                                <span className="admin-apply-username">{app.name}</span>
+                                                {app.insta && <span className="admin-apply-handle">{app.insta}</span>}
+                                            </a>
+                                            <span className="admin-apply-time">
+                                                {app.createdAt?.toDate ? new Date(app.createdAt.toDate()).toLocaleDateString() : 'New'}
+                                            </span>
+                                        </div>
+                                        <div className="admin-apply-info-row">
+                                            <span className="info-tag">📍 {app.location}</span>
+                                            <span className="info-tag">📞 {app.phone}</span>
+                                        </div>
+                                    </div>
+                                    <button
+                                        className="admin-apply-delete-icon"
+                                        onClick={() => handleDelete(app.id)}
+                                        title="삭제"
+                                    >✕</button>
                                 </div>
-                                <button
-                                    className="admin-apply-delete"
-                                    onClick={() => handleDelete(app.id)}
-                                >✕</button>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 )}
             </div>
