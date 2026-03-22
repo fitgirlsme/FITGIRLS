@@ -196,6 +196,17 @@
     background-color: var(--color-primary, #e53e3e);
 }
 
+.tab-new-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    font-size: 0.4rem;
+    font-weight: 800;
+    color: var(--color-primary, #e53e3e);
+    letter-spacing: 0.01em;
+    line-height: 1;
+}
+
 .tier1-tab.has-new {
     color: #999;
 }
