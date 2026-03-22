@@ -58,8 +58,8 @@ const FAQ = () => {
                 const answer = item.answer.toLowerCase();
 
                 searchTerms.forEach(term => {
-                    if (question.includes(term)) score += 10;
-                    if (answer.includes(term)) score += 2;
+                    if (question.includes(term)) score += 20;
+                    if (answer.includes(term)) score += 10;
                 });
 
                 if (score > maxScore) {
@@ -68,7 +68,7 @@ const FAQ = () => {
                 }
             });
 
-            if (maxScore > 5) {
+            if (maxScore >= 10) {
                 setAiResponse(bestMatch);
             } else {
                 setAiResponse({ no_results: true });
