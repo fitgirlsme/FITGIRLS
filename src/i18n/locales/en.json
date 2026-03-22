@@ -232,8 +232,9 @@
                 "items": [
                     { "title": "Premium Editorial Shooting (Twice a year)", "desc": "Support for a '2-Concept Full Package' shoot every 6 months to capture your brightest moments." },
                     { "title": "Private Self-Studio Pass (Twice a year)", "desc": "Provide a '2-Person Self-Shoot Pass' to freely record memories with your loved ones." },
-                    { "title": "Visual Branding Directing", "desc": "Offer to model in the MaxQ print magazine." },
-                    { "title": "Official Muse Debut", "desc": "Main model activities and promotional support on the official Fitgirls website and SNS channels. Information on participating in various fashion & beauty events will also be provided." }
+                    { "title": "[Special] 2027 FITORIAL Calendar Project", "desc": "Participation as a main model and production collaborator in the '2027 Fitorial Calendar' project, scheduled for release at the end of the year." },
+                    { "title": "Media & Career Opportunity (MaxQ)", "desc": "Recommendation and opportunity to debut as a print model in Korea's top health & fitness magazine, 'MAXQ'." },
+                    { "title": "Official Muse Debut & Networking", "desc": "Main model activities on the official website and SNS. Provide information on participating in various fashion & beauty events and networking opportunities." }
                 ]
             },
             "role": {
