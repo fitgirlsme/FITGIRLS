@@ -120,7 +120,7 @@ const Admin = () => {
                                 borderRadius: '4px', 
                                 fontSize: '0.7rem', 
                                 fontWeight: 'bold' 
-                            }}>v7_JPEG_Fixed</span>
+                            }}>v8.0_UI_Perfect</span>
                         </div>
                         <nav className="admin-tabs">
                             {tabs.map(tab => (
