@@ -289,27 +289,45 @@ const GallerySection = () => {
             </div>
 
             {viewMode === 'main' ? (
-                /* ===== MAIN VIEW: 카테고리 선택 카드 ===== */
-                <div className="main-selection-grid" style={{ gridTemplateColumns: '1fr', display: 'grid' }}>
-                    {MAIN_CATEGORIES.map(cat => (
-                        <div
-                            key={cat.id}
-                            className="main-selection-card"
-                            onClick={() => {
-                                setMainCategory(cat.id);
-                                setViewMode('detail');
-                                setSubCategory('women');
-                                setActiveTag('ALL');
-                                const el = document.getElementById('gallery');
-                                if (el) el.scrollTop = 0;
-                            }}
-                        >
-                            <div className="card-inner">
-                                <span className="card-label">{t(cat.labelKey)}</span>
-                                <span className="card-arrow">VIEW ARCHIVE →</span>
+                /* ===== MAIN VIEW: 2x2 Category Selection Grid ===== */
+                <div className="main-selection-grid">
+                    {MAIN_CATEGORIES.map(cat => {
+                        // Find the newest item for this category to use as representative image
+                        const repItem = allItems
+                            .filter(i => i.mainCategory === cat.id || (!i.mainCategory && cat.id === 'fitorialist'))
+                            .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))[0];
+
+                        return (
+                            <div
+                                key={cat.id}
+                                className="main-selection-card"
+                                onClick={() => {
+                                    setMainCategory(cat.id);
+                                    setViewMode('detail');
+                                    setSubCategory('women');
+                                    setActiveTag('ALL');
+                                    const el = document.getElementById('gallery');
+                                    if (el) el.scrollTop = 0;
+                                }}
+                            >
+                                <div 
+                                    className="card-image-bg" 
+                                    style={{ backgroundImage: repItem ? `url(${repItem.img})` : 'none' }}
+                                >
+                                    <div className="card-overlay"></div>
+                                </div>
+                                <div className="card-inner">
+                                    <div className="card-info">
+                                        <span className="card-label">{t(cat.labelKey)}</span>
+                                        <span className="card-count">
+                                            {allItems.filter(i => i.mainCategory === cat.id || (!i.mainCategory && cat.id === 'fitorialist')).length} photos
+                                        </span>
+                                    </div>
+                                    <span className="card-arrow">VIEW →</span>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             ) : (
                 /* ===== DETAIL VIEW: 갤러리 그리드 ===== */
