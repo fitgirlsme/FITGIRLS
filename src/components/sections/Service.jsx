@@ -28,10 +28,6 @@ const Service = () => {
 
     return (
         <div className="container-inner service-container">
-            <div className="service-header-top">
-                <h2 className="service-main-title">{headerTitle}</h2>
-                <h3 className="service-main-subtitle">{headerSubtitle}</h3>
-            </div>
 
             {/* Main Tabs */}
             <nav className="service-tabs">
