@@ -13,7 +13,6 @@ import Notice from './components/sections/Notice';
 import Location from './components/sections/Location';
 import ReservationForm from './components/sections/ReservationForm';
 import ModelRecruit from './components/sections/ModelRecruit';
-import SocialWall from './components/sections/SocialWall';
 
 import SupportCS from './components/SupportCS';
 import Reviews from './pages/Reviews';
@@ -78,7 +77,6 @@ const Home = ({ changeLanguage, currentLang }) => {
         <section className="snap-section" id="location"><Location /></section>
         <section className="snap-section" id="reservation"><ReservationForm /></section>
         <section className="snap-section" id="reviews"><Reviews /></section>
-        <section className="snap-section" id="social"><SocialWall /></section>
 
         <section className="snap-section" id="amber"><ModelRecruit /></section>
         <footer className={`site-footer ${isGalleryVisible ? 'footer-hidden' : ''}`}>
@@ -113,7 +111,6 @@ function App() {
           <Route path="/:section" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/report" element={<BrandReport />} />
-          <Route path="/social" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
 
         </Routes>
       </React.Suspense>
