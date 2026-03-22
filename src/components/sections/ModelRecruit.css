@@ -125,152 +125,152 @@
     color: #ff3b30;
 }
 
-/* Admin application list - Instagram Comment Style */
-.admin-apply-list {
-    margin-top: 60px;
-    background: #fff;
-    border: 1px solid #efefef;
-    border-radius: 12px;
-    padding: 0;
-    overflow: hidden;
+/* Selected Ambassadors Showcase */
+.selected-ambassadors-section {
+    margin-bottom: 60px;
+    text-align: center;
 }
 
-.admin-list-title {
-    padding: 16px 20px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin: 0;
-    border-bottom: 1px solid #efefef;
-    background: #fafafa;
-    color: #262626;
+.selected-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: var(--color-text-secondary);
+    margin-bottom: 30px;
+    opacity: 0.8;
 }
 
-.admin-apply-feed {
-    max-height: 500px;
-    overflow-y: auto;
-}
-
-.admin-apply-comment {
+.selected-list-scroll {
     display: flex;
-    padding: 16px 20px;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+
+.selected-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 12px;
-    border-bottom: 1px solid #fafafa;
     position: relative;
-    transition: background 0.2s;
+    width: 80px;
+    transition: transform 0.3s;
 }
 
-.admin-apply-comment:hover {
-    background: #fcfcfc;
+.selected-item:hover {
+    transform: translateY(-5px);
 }
 
-.admin-apply-comment:last-child {
-    border-bottom: none;
-}
-
-.admin-apply-avatar {
-    flex-shrink: 0;
-}
-
-.avatar-placeholder {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+.selected-avatar-glow {
+    position: relative;
+    padding: 3px;
     background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-    color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(220, 39, 67, 0.3);
+}
+
+.selected-avatar {
+    width: 60px;
+    height: 60px;
+    background: #fff;
+    border-radius: 50%;
+    color: #262626;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 0.8rem;
+    font-weight: 800;
+    font-size: 1.5rem;
     text-transform: uppercase;
+    border: 2px solid #fff;
 }
 
-.admin-apply-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+.selected-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text);
 }
 
-.admin-apply-main-row {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.admin-apply-user-link {
+.selected-insta-icon {
+    position: absolute;
+    bottom: 32px;
+    right: 0px;
+    background: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    padding: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    color: #E1306C;
     display: flex;
     align-items: center;
-    gap: 6px;
-    text-decoration: none;
-    color: inherit;
+    justify-content: center;
 }
 
-.admin-apply-user-link:hover .admin-apply-username {
-    text-decoration: underline;
+.selected-insta-icon svg {
+    width: 14px;
+    height: 14px;
 }
 
-.admin-apply-username {
-    font-weight: 700;
-    color: #262626;
-    font-size: 0.9rem;
-}
-
-.admin-apply-handle {
-    color: #00376b;
-    font-size: 0.85rem;
-    font-weight: 500;
-}
-
-.admin-apply-time {
-    color: #8e8e8e;
-    font-size: 0.75rem;
-}
-
-.admin-apply-info-row {
+/* Admin Selection Tools */
+.admin-apply-actions {
     display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.info-tag {
-    font-size: 0.8rem;
-    color: #8e8e8e;
-}
-
-.admin-apply-delete-icon {
+    align-items: center;
+    gap: 8px;
     position: absolute;
     top: 16px;
     right: 12px;
-    background: none;
-    border: none;
-    color: #ccc;
-    font-size: 0.8rem;
-    cursor: pointer;
-    padding: 4px;
     opacity: 0;
-    transition: opacity 0.2s, color 0.2s;
+    transition: opacity 0.2s;
 }
 
-.admin-apply-comment:hover .admin-apply-delete-icon {
+.admin-apply-comment:hover .admin-apply-actions {
     opacity: 1;
 }
 
-.admin-apply-delete-icon:hover {
-    color: #ff3b30;
+.admin-apply-select-btn {
+    background: none;
+    border: none;
+    padding: 4px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.admin-apply-select-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.admin-apply-select-btn.active {
+    color: #FFD700;
+    filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
+}
+
+.admin-apply-select-btn:hover {
+    transform: scale(1.1);
+}
+
+.selected-admin-item {
+    background: rgba(255, 215, 0, 0.03);
 }
 
 @media (max-width: 768px) {
-    .admin-apply-list {
-        margin-top: 40px;
+    .selected-list-scroll {
+        gap: 20px;
     }
-
-    .admin-apply-main-row {
-        flex-direction: column;
-        gap: 2px;
+    
+    .selected-item {
+        width: 70px;
+    }
+    
+    .selected-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
     }
 }
+
 
 
 @media (max-width: 768px) {

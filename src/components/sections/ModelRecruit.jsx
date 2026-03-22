@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { addItem, getData, deleteItem, STORES } from '../../utils/db';
 import { db } from '../../utils/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, doc, updateDoc } from 'firebase/firestore';
 import './ModelRecruit.css';
 
 const ModelRecruit = () => {
@@ -60,9 +60,52 @@ const ModelRecruit = () => {
         }
     };
 
+    const handleToggleSelect = async (id, currentStatus) => {
+        try {
+            const docRef = doc(db, 'applications', id);
+            await updateDoc(docRef, { isSelected: !currentStatus });
+            setApplications(prev => prev.map(app => 
+                app.id === id ? { ...app, isSelected: !currentStatus } : app
+            ));
+        } catch (err) {
+            console.error('Error toggling select:', err);
+        }
+    };
+
+    const selectedApps = applications.filter(app => app.isSelected);
+
     return (
         <section className="model-apply-section">
             <div className="model-apply-container">
+                {/* Selected Ambassadors Showcase */}
+                {selectedApps.length > 0 && (
+                    <div className="selected-ambassadors-section">
+                        <h3 className="selected-title">SELECTED AMBASSADORS</h3>
+                        <div className="selected-list-scroll">
+                            {selectedApps.map(app => (
+                                <div key={app.id} className="selected-item">
+                                    <div className="selected-avatar-glow">
+                                        <div className="selected-avatar">
+                                            {app.name.charAt(0)}
+                                        </div>
+                                    </div>
+                                    <span className="selected-name">{app.name}</span>
+                                    {app.insta && (
+                                        <a 
+                                            href={`https://instagram.com/${app.insta.replace('@', '')}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="selected-insta-icon"
+                                        >
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                                        </a>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
                 <div className="model-apply-header">
                     <h2>{t('modelApply.title', '2026 FITORIAL 엠버서더 지원')}</h2>
                     <p>{t('modelApply.subtitle', '핏걸즈와 함께 성장을 꿈꾸는 엠버서더를 찾습니다.')}</p>
@@ -166,11 +209,20 @@ const ModelRecruit = () => {
                                             <span className="info-tag">📞 {app.phone}</span>
                                         </div>
                                     </div>
-                                    <button
-                                        className="admin-apply-delete-icon"
-                                        onClick={() => handleDelete(app.id)}
-                                        title="삭제"
-                                    >✕</button>
+                                    <div className="admin-apply-actions">
+                                        <button
+                                            className={`admin-apply-select-btn ${app.isSelected ? 'active' : ''}`}
+                                            onClick={() => handleToggleSelect(app.id, app.isSelected)}
+                                            title={app.isSelected ? "선정 취소" : "선정하기"}
+                                        >
+                                            <svg viewBox="0 0 24 24" fill={app.isSelected ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                        </button>
+                                        <button
+                                            className="admin-apply-delete-icon"
+                                            onClick={() => handleDelete(app.id)}
+                                            title="삭제"
+                                        >✕</button>
+                                    </div>
                                 </div>
                             ))}
                         </div>
