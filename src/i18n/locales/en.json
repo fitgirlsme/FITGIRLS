@@ -259,7 +259,7 @@
             {
                 "question": "Where can I find information about rental outfits?",
                 "answer": "You can check FITGIRLS' various background concepts and rental outfit lineup in advance on the website's Lookbook tab.",
-                "links": [{ "label": "View FITGIRLS Lookbook", "url": "#zone", "type": "link" }]
+                "links": [{ "label": "View FITGIRLS Lookbook", "url": "/zone?tab=lookbook", "type": "link" }]
             },
             {
                 "question": "By when do I need to submit my shoot concept draft?",

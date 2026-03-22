@@ -260,7 +260,7 @@
             {
                 "question": "在哪里可以查看可租赁的服装信息？",
                 "answer": "您可以在网站的 Lookbook 选项卡中提前查看 FITGIRLS 的各种背景概念和可租赁服装系列。",
-                "links": [{ "label": "查看 FITGIRLS Lookbook", "url": "#zone", "type": "link" }]
+                "links": [{ "label": "查看 FITGIRLS Lookbook", "url": "/zone?tab=lookbook", "type": "link" }]
             },
             {
                 "question": "拍摄概念参考图必须在何时提交？",

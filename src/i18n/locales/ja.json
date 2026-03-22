@@ -259,7 +259,7 @@
             {
                 "question": "レンタル可能な衣装の情報はどこで確認できますか？",
                 "answer": "FITGIRLSの多様な背景コンセプトやレンタル可能な衣装のラインナップは、ウェブサイトのルックブック（Lookbook）タブで事前にご確認いただけます。",
-                "links": [{ "label": "FITGIRLSルックブックを見る", "url": "#zone", "type": "link" }]
+                "links": [{ "label": "FITGIRLSルックブックを見る", "url": "/zone?tab=lookbook", "type": "link" }]
             },
             {
                 "question": "撮影コンセプトの案はいつまでに提出する必要がありますか？",
