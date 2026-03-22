@@ -25,7 +25,7 @@ const SocialWall = () => {
                     <div className="social-avatar-container">
                         <div className="social-avatar-gradient">
                             <img
-                                src="/fitgirls_favicon_red_sq_1774150982445.png"
+                                src="/fitgirls_social_profile.jpg"
                                 alt="profile"
                                 className="social-avatar-img"
                                 onError={(e) => { e.target.src = 'https://instagram.com/favicon.ico'; }}
