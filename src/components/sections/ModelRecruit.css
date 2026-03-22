@@ -29,6 +29,29 @@
     line-height: 1.6;
 }
 
+.model-apply-quote {
+    text-align: center;
+    margin: 60px auto 30px;
+    padding: 0 20px;
+}
+
+.model-apply-quote .quote-main {
+    font-size: 1.25rem;
+    font-weight: 800;
+    font-style: italic;
+    color: var(--color-text);
+    line-height: 1.4;
+    margin-bottom: 10px;
+    letter-spacing: 0.02em;
+}
+
+.model-apply-quote .quote-sub {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    line-height: 1.5;
+}
+
 .model-apply-form {
     background: var(--color-surface);
     border: 1px solid var(--color-border);

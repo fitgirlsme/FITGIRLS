@@ -147,6 +147,13 @@ const ModelRecruit = () => {
                     </div>
                 </div>
 
+                <div className="model-apply-quote">
+                    <p className="quote-main">"Age is just a number, Nationality is just a background.<br/>Your 'Fit' is everything."</p>
+                    {t('modelApply.quoteSub', '') && (
+                        <p className="quote-sub">{t('modelApply.quoteSub', "나이는 숫자일 뿐, 국적은 배경일 뿐입니다. 당신의 '핏'이 전부입니다.")}</p>
+                    )}
+                </div>
+
                 <form className="model-apply-form" onSubmit={handleSubmit}>
                     <div className="apply-form-grid">
                         <div className="apply-form-group">
