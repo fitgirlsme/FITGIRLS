@@ -235,6 +235,10 @@ const ModelRecruit = () => {
                     )}
                 </form>
 
+                <div className="model-apply-footer-note">
+                    {t('modelApply.footerNote', '핏걸즈&이너핏은 전 세계 모든 열정과 아름다움을 존중합니다. 국적 및 연령에 제한 없이, 자신만의 독보적인 무드를 가진 분이라면 누구나 2026 핏토리얼리스트가 될 수 있습니다.')}
+                </div>
+
                 {isAdmin && applications.length > 0 && (
                     <div className="admin-apply-list">
                         <h3 className="admin-list-title">지원 현황 ({applications.length})</h3>
