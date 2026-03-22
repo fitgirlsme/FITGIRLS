@@ -221,6 +221,10 @@
         "errorMsg": "An error occurred. Please try again."
     },
     "faq": {
+        "search_placeholder": "Please ask your question here.",
+        "ai_badge": "AI SMART ANSWER",
+        "no_results": "Could not find a relevant answer. Please try a different keyword.",
+        "ai_thinking": "AI is analyzing the answer...",
         "title": "FAQ",
         "subtitle": "Frequently Asked Questions",
         "tabs": ["Before Booking", "Before Shoot", "After Shoot"],

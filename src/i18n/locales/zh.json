@@ -222,6 +222,10 @@
         "errorMsg": "发生错误，请重试。"
     },
     "faq": {
+        "search_placeholder": "请输入您想问的问题。",
+        "ai_badge": "AI SMART ANSWER",
+        "no_results": "未找到相关回答。请尝试使用其他关键词进行搜索。",
+        "ai_thinking": "AI 正在分析回答...",
         "title": "FAQ",
         "subtitle": "常见问题",
         "tabs": ["预约前", "拍摄前", "拍摄后"],

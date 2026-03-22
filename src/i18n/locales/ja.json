@@ -221,6 +221,10 @@
         "errorMsg": "エラーが発生しました。もう一度お試しください。"
     },
     "faq": {
+        "search_placeholder": "ご質問を入力してください。",
+        "ai_badge": "AI SMART ANSWER",
+        "no_results": "関連する回答が見つかりませんでした。別のキーワードでお試しください。",
+        "ai_thinking": "AIが回答を分析中です...",
         "title": "FAQ",
         "subtitle": "よくある質問",
         "tabs": ["予約前", "撮影前", "撮影後"],

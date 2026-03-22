@@ -220,6 +220,10 @@
         "errorMsg": "오류가 발생했습니다. 다시 시도해주세요."
     },
     "faq": {
+        "search_placeholder": "원하시는 질문을 해주세요.",
+        "ai_badge": "AI SMART ANSWER",
+        "no_results": "관련된 답변을 찾지 못했습니다. 다른 키워드로 검색해 보세요.",
+        "ai_thinking": "AI가 답변을 분석 중입니다...",
         "title": "FAQ",
         "subtitle": "자주 묻는 질문",
         "tabs": [
