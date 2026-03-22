@@ -1,10 +1,7 @@
 .model-apply-section {
     padding: 100px 20px;
     background: var(--color-bg);
-    min-height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: 100vh;
 }
 
 .model-apply-container {

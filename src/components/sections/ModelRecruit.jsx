@@ -111,6 +111,40 @@ const ModelRecruit = () => {
                     <p className="model-apply-intro">{t('modelApply.ambassadorDetail.intro', '')}</p>
                 </div>
 
+                <div className="model-program-details">
+                    <div className="program-card benefits">
+                        <h3 className="program-card-title">{t('modelApply.ambassadorDetail.benefits.title', '🎁 BENEFITS')}</h3>
+                        <p className="program-card-subtitle">{t('modelApply.ambassadorDetail.benefits.subtitle', '')}</p>
+                        <ul className="program-list">
+                            {t('modelApply.ambassadorDetail.benefits.items', { returnObjects: true })?.map((item, i) => (
+                                <li key={i} className="program-list-item">
+                                    <span className="item-dot"></span>
+                                    <div className="item-content">
+                                        <div className="item-title">{item.title}</div>
+                                        <div className="item-desc">{item.desc}</div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className="program-card roles">
+                        <h3 className="program-card-title">{t('modelApply.ambassadorDetail.role.title', '🤝 ROLES')}</h3>
+                        <p className="program-card-subtitle">{t('modelApply.ambassadorDetail.role.subtitle', '')}</p>
+                        <ul className="program-list">
+                            {t('modelApply.ambassadorDetail.role.items', { returnObjects: true })?.map((item, i) => (
+                                <li key={i} className="program-list-item">
+                                    <span className="item-dot"></span>
+                                    <div className="item-content">
+                                        <div className="item-title">{item.title}</div>
+                                        <div className="item-desc">{item.desc}</div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+
                 <form className="model-apply-form" onSubmit={handleSubmit}>
                     <div className="apply-form-grid">
                         <div className="apply-form-group">
@@ -177,40 +211,6 @@ const ModelRecruit = () => {
                         </div>
                     )}
                 </form>
-
-                <div className="model-program-details">
-                    <div className="program-card benefits">
-                        <h3 className="program-card-title">{t('modelApply.ambassadorDetail.benefits.title', '🎁 BENEFITS')}</h3>
-                        <p className="program-card-subtitle">{t('modelApply.ambassadorDetail.benefits.subtitle', '')}</p>
-                        <ul className="program-list">
-                            {t('modelApply.ambassadorDetail.benefits.items', { returnObjects: true })?.map((item, i) => (
-                                <li key={i} className="program-list-item">
-                                    <span className="item-dot"></span>
-                                    <div className="item-content">
-                                        <div className="item-title">{item.title}</div>
-                                        <div className="item-desc">{item.desc}</div>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div className="program-card roles">
-                        <h3 className="program-card-title">{t('modelApply.ambassadorDetail.role.title', '🤝 ROLES')}</h3>
-                        <p className="program-card-subtitle">{t('modelApply.ambassadorDetail.role.subtitle', '')}</p>
-                        <ul className="program-list">
-                            {t('modelApply.ambassadorDetail.role.items', { returnObjects: true })?.map((item, i) => (
-                                <li key={i} className="program-list-item">
-                                    <span className="item-dot"></span>
-                                    <div className="item-content">
-                                        <div className="item-title">{item.title}</div>
-                                        <div className="item-desc">{item.desc}</div>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
 
                 {isAdmin && applications.length > 0 && (
                     <div className="admin-apply-list">
