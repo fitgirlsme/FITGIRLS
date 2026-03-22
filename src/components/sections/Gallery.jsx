@@ -375,10 +375,14 @@ const GallerySection = () => {
                                 <div
                                     className={`tag-circle-item ${activeTag === 'ALL' ? 'active' : ''}`}
                                     onClick={() => setActiveTag('ALL')}
+                                    style={{ position: 'relative' }}
                                 >
                                     <div className="tag-circle-img-wrap tag-circle-all">
                                         <span>ALL</span>
                                     </div>
+                                    {categoryFiltered.some(item => (Date.now() - (item.createdAt || 0)) < 48 * 60 * 60 * 1000) && (
+                                        <span className="tag-new-dot" />
+                                    )}
                                     <span className="tag-circle-label">{t('gallery.hashtags.ALL', '전체')}</span>
                                 </div>
                                 {dynamicTags.filter(tag => tag !== 'ALL').map((tag, idx) => {
@@ -397,15 +401,16 @@ const GallerySection = () => {
                                             key={idx}
                                             className={`tag-circle-item ${activeTag === tag ? 'active' : ''}`}
                                             onClick={() => setActiveTag(activeTag === tag ? 'ALL' : tag)}
+                                            style={{ position: 'relative' }}
                                         >
-                                            <div className="tag-circle-img-wrap" style={{ position: 'relative' }}>
+                                            <div className="tag-circle-img-wrap">
                                                 {repItem ? (
                                                     <img src={repItem.img} alt={displayTag} loading="lazy" />
                                                 ) : (
                                                     <div className="tag-circle-placeholder" />
                                                 )}
-                                                {tagHasNew && <span className="tag-new-dot" />}
                                             </div>
+                                            {tagHasNew && <span className="tag-new-dot" />}
                                             <span className="tag-circle-label">{displayTag}</span>
                                         </div>
                                     );
