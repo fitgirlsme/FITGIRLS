@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import FadeInSection from '../FadeInSection';
 import './FAQ.css';
 
 const FAQ = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState(0);
     const [openIndex, setOpenIndex] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
