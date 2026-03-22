@@ -75,24 +75,39 @@ const GallerySection = () => {
         }
     }, [lightboxIndex]);
 
-    // Lock body scroll when lightbox is open
+    // Lock body scroll and hide SupportCS when any modal is open or in detail view
     useEffect(() => {
-        if (lightboxIndex !== null) {
+        const isAnyModalOpen = lightboxIndex !== null || editTarget !== null || deleteTarget !== null;
+        const shouldHideCS = isAnyModalOpen || viewMode === 'detail';
+        
+        if (isAnyModalOpen) {
             document.body.style.overflow = 'hidden';
-            document.body.classList.add('hide-support-cs');
-            document.body.classList.add('lightbox-active');
+            if (lightboxIndex !== null) {
+                document.body.classList.add('lightbox-active');
+            }
         } else {
             document.body.style.overflow = 'auto';
             document.body.classList.remove('lightbox-active');
-            if (viewMode !== 'detail') {
-                document.body.classList.remove('hide-support-cs');
-            }
         }
+
+        if (shouldHideCS) {
+            document.body.classList.add('hide-support-cs');
+        } else {
+            document.body.classList.remove('hide-support-cs');
+        }
+        
+        // Direct manipulation as a fallback
+        const csBtn = document.querySelector('.cs-container');
+        if (csBtn) {
+            csBtn.style.display = shouldHideCS ? 'none' : 'block';
+        }
+
         return () => { 
             document.body.classList.remove('hide-support-cs'); 
             document.body.classList.remove('lightbox-active');
+            if (csBtn) csBtn.style.display = 'block';
         };
-    }, [lightboxIndex, viewMode]);
+    }, [lightboxIndex, editTarget, deleteTarget, viewMode]);
 
     // Firebase + IndexedDB에서 갤러리 데이터 로드
     useEffect(() => {
@@ -323,7 +338,6 @@ const GallerySection = () => {
                                             {allItems.filter(i => i.mainCategory === cat.id || (!i.mainCategory && cat.id === 'fitorialist')).length} photos
                                         </span>
                                     </div>
-                                    <span className="card-arrow">VIEW →</span>
                                 </div>
                             </div>
                         );

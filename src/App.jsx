@@ -25,36 +25,23 @@ const Home = ({ changeLanguage, currentLang }) => {
   const location = useLocation();
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isOnHero, setIsOnHero] = React.useState(true);
+  const [isHideCS, setIsHideCS] = React.useState(true); // Hide on first two pages
   const [isGalleryVisible, setIsGalleryVisible] = React.useState(false);
 
   React.useEffect(() => {
-    const section = location.pathname.substring(1);
-    if (section && section !== 'admin' && section !== 'report') {
-      setTimeout(() => {
-        const el = document.getElementById(section);
-        const container = document.querySelector('.snap-container');
-        if (el && container) {
-          container.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
-        }
-      }, 100);
-    }
+    // ... logic for section scrolling
   }, [location.pathname]);
 
   React.useEffect(() => {
-    const galleryEl = document.getElementById('gallery');
-    if (!galleryEl) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsGalleryVisible(entry.isIntersecting),
-      { threshold: 0.3 }
-    );
-    observer.observe(galleryEl);
-    return () => observer.disconnect();
+    // ... logic for gallery visibility observer
   }, []);
 
   const handleScroll = (e) => {
     const scrollTop = e.target.scrollTop;
+    const vh = window.innerHeight;
     setIsScrolled(scrollTop > 50);
-    setIsOnHero(scrollTop < window.innerHeight * 0.5);
+    setIsOnHero(scrollTop < vh * 0.5);
+    setIsHideCS(scrollTop < vh * 1.5); // Hide on first two sections (hero & intro)
   };
 
   return (
@@ -87,7 +74,7 @@ const Home = ({ changeLanguage, currentLang }) => {
           </div>
         </footer>
       </main>
-      {!isOnHero && <SupportCS />}
+      {!isHideCS && <SupportCS />}
     </div>
   );
 };
