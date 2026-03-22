@@ -265,22 +265,69 @@
   margin-bottom: 12px;
 }
 
-/* Responsive */
+/* ── Responsive ────────────────────────────────────── */
 @media (max-width: 1024px) {
-  .service-main-title { font-size: 2rem; }
   .service-card { padding: 32px; }
 }
 
 @media (max-width: 768px) {
-  .service-main-title { font-size: 1.8rem; }
-  .service-tabs { gap: 8px; }
-  .service-tab-btn { padding: 10px 16px; font-size: 0.82rem; }
-  .service-cards { grid-template-columns: 1fr; }
+  .service-container { padding-top: 32px; padding-bottom: 48px; }
+
+  /* Tabs – scrollable single row */
+  .service-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0;
+    padding-bottom: 0;
+  }
+  .service-tabs::-webkit-scrollbar { display: none; }
+  .service-tab-btn {
+    padding: 10px 18px;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Sub tabs */
+  .service-sub-tabs {
+    gap: 4px;
+    padding: 4px;
+    margin-bottom: 24px;
+  }
+  .service-sub-tab-btn { padding: 7px 14px; font-size: 0.78rem; }
+
+  /* Cards – single column, compact */
+  .service-cards { grid-template-columns: 1fr; gap: 16px; }
+  .service-card {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+  .service-header { margin-bottom: 16px; }
+  .service-name { font-size: 1.05rem; }
+  .service-price { font-size: 1.3rem; }
+  .service-details { gap: 8px; }
+  .service-details li { font-size: 0.84rem; }
+
+  /* Options card – compact */
+  .service-specific-card { padding: 20px 16px; border-radius: 14px; }
+  .service-specific-card .service-name { font-size: 0.8rem; }
+  .service-specific-card .service-details li { font-size: 0.82rem; margin-bottom: 6px; }
+
+  /* Bottom notice */
+  .service-notice { margin-top: 36px; padding: 24px 0; }
+  .service-notice-highlight { font-size: 0.9rem; }
+  .service-main-desc { font-size: 0.84rem; }
+  .service-notice ul li { font-size: 0.82rem; }
 }
 
 @media (max-width: 480px) {
-  .service-container { padding-top: 40px; }
-  .service-main-title { font-size: 1.5rem; }
-  .service-main-subtitle { font-size: 0.75rem; }
-  .service-tab-btn { flex: 1; min-width: 40%; }
+  .service-container { padding-top: 24px; }
+  .service-tab-btn { padding: 9px 14px; font-size: 0.75rem; }
+  .service-card { padding: 18px 16px; }
+  .service-name { font-size: 0.95rem; }
+  .service-price { font-size: 1.2rem; }
+  .service-notice { padding: 20px 0; }
 }
