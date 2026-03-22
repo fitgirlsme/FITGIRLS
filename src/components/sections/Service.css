@@ -1,9 +1,14 @@
 .service-container {
-  padding-top: 60px;
+  padding-top: 0;
   padding-bottom: 80px;
   background-color: var(--color-bg);
   height: auto;
   overflow: visible;
+}
+
+.service-header-spacer {
+  height: 80px;
+  flex-shrink: 0;
 }
 
 .service-header-top {
@@ -271,7 +276,8 @@
 }
 
 @media (max-width: 768px) {
-  .service-container { padding-top: 110px; padding-bottom: 48px; }
+  .service-container { padding-top: 0; padding-bottom: 48px; }
+  .service-header-spacer { height: 70px; }
 
   /* Tabs – scrollable pill row */
   .service-tabs {
@@ -341,7 +347,8 @@
 }
 
 @media (max-width: 480px) {
-  .service-container { padding-top: 110px; }
+  .service-container { padding-top: 0; }
+  .service-header-spacer { height: 70px; }
   .service-tab-btn { padding: 9px 14px; font-size: 0.75rem; }
   .service-card { padding: 18px 16px; }
   .service-name { font-size: 0.95rem; }

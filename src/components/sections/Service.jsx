@@ -28,8 +28,10 @@ const Service = () => {
 
     return (
         <div className="container-inner service-container">
+            {/* Header spacer – clears the fixed nav */}
+            <div className="service-header-spacer" />
 
-            {/* Main Tabs */}
+            {/* Main Tabs – sticky below header */}
             <nav className="service-tabs">
                 {Object.entries(tabs).map(([key, label]) => (
                     <button
