@@ -7,7 +7,7 @@ import './ModelRecruit.css';
 
 const ModelRecruit = () => {
     const { t } = useTranslation();
-    const [form, setForm] = useState({ name: '', insta: '', location: '', phone: '', keywords: '' });
+    const [form, setForm] = useState({ name: '', insta: '', location: '', job: '', phone: '', keywords: '' });
     const [status, setStatus] = useState(null); // 'success' | 'error'
     const [submitting, setSubmitting] = useState(false);
     const [applications, setApplications] = useState([]);
@@ -39,7 +39,7 @@ const ModelRecruit = () => {
                 createdAt: new Date().toISOString()
             });
             setStatus('success');
-            setForm({ name: '', insta: '', location: '', phone: '', keywords: '' });
+            setForm({ name: '', insta: '', location: '', job: '', phone: '', keywords: '' });
             if (isAdmin) {
                 const list = await getData(STORES.APPLICATIONS);
                 setApplications(list);
@@ -181,6 +181,16 @@ const ModelRecruit = () => {
                             />
                         </div>
                         <div className="apply-form-group">
+                            <label>{t('modelApply.job', '직업')}</label>
+                            <input
+                                type="text"
+                                name="job"
+                                value={form.job}
+                                onChange={handleChange}
+                                placeholder={t('modelApply.jobPlaceholder', '예: 학생, 프리랜서 등')}
+                            />
+                        </div>
+                        <div className="apply-form-group">
                             <label>{t('modelApply.phone', '연락처')}</label>
                             <input
                                 type="tel"
@@ -253,6 +263,7 @@ const ModelRecruit = () => {
                                         </div>
                                         <div className="admin-apply-info-row">
                                             <span className="info-tag">📍 {app.location}</span>
+                                            {app.job && <span className="info-tag">💼 {app.job}</span>}
                                             <span className="info-tag">📞 {app.phone}</span>
                                         </div>
                                         {app.keywords && (

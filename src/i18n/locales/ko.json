@@ -213,6 +213,8 @@
         "instaPlaceholder": "@아이디",
         "location": "지역",
         "locationPlaceholder": "거주 지역",
+        "job": "직업",
+        "jobPlaceholder": "예: 학생, 프리랜서, 회사원 등",
         "phone": "연락처",
         "phonePlaceholder": "010-0000-0000",
         "keywords": "나를 표현하는 스타일 키워드 3가지",
