@@ -89,7 +89,8 @@ ul, li {
 #location,
 #reviews,
 #social,
-#event-board {
+#event-board,
+#amber {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
