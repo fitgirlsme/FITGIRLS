@@ -656,6 +656,7 @@ const EventsTab = () => {
     const [titleZh, setTitleZh] = useState(''); const [contentZh, setContentZh] = useState('');
     const [showMulti, setShowMulti] = useState(false);
     const [images, setImages] = useState([]);
+    const [existingImages, setExistingImages] = useState([]);
     const [editId, setEditId] = useState(null);
     const [showSuccess, setShowSuccess] = useState(false);
 
@@ -690,7 +691,7 @@ const EventsTab = () => {
     const handleSave = async () => {
         if (!title) { alert('이벤트 제목을 입력하세요.'); return; }
         try {
-            let imageUrls = editId ? events.find(e => e.id === editId)?.images || [] : [];
+            let imageUrls = [...existingImages];
             for (const f of images) {
                 const { url } = await uploadToStorage(f, 'events');
                 imageUrls.push(url);
@@ -703,7 +704,7 @@ const EventsTab = () => {
             else { await addDoc(collection(db, 'events'), data); }
             setShowSuccess(true); setTimeout(() => setShowSuccess(false), 3000);
             setTitle(''); setContent(''); setTitleEn(''); setContentEn(''); setTitleJa(''); setContentJa(''); setTitleZh(''); setContentZh('');
-            setImages([]); setEditId(null); setShowMulti(false);
+            setImages([]); setExistingImages([]); setEditId(null); setShowMulti(false);
             loadEvents();
         } catch (err) { alert('저장 오류: ' + err.message); }
     };
@@ -716,7 +717,7 @@ const EventsTab = () => {
     return (
         <div className="upload-section">
             {showSuccess && <Toast message="저장 완료!" onClose={() => setShowSuccess(false)} />}
-            <h3>이벤트 및 공지사항 관리</h3>
+            <h3>EVENT & NOTICE Management</h3>
             <div className="admin-form">
                 <div className="form-group">
                     <label>이벤트 제목</label>
@@ -750,8 +751,20 @@ const EventsTab = () => {
                     <input type="file" accept="image/*" multiple onChange={e => setImages(Array.from(e.target.files))} />
                 </div>
 
+                {existingImages.length > 0 && (
+                    <div className="existing-images-preview" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
+                        {existingImages.map((img, idx) => (
+                            <div key={idx} style={{ position: 'relative' }}>
+                                <img src={img} alt="existing" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '4px' }} />
+                                <button type="button" onClick={() => setExistingImages(prev => prev.filter((_, i) => i !== idx))}
+                                    style={{ position: 'absolute', top: -5, right: -5, background: 'rgba(255,0,0,0.8)', color: '#fff', border: 'none', borderRadius: '50%', width: '20px', height: '20px', fontSize: '12px', cursor: 'pointer' }}>×</button>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
                 <button className="submit-btn" onClick={handleSave}>{editId ? '수정 완료' : '이벤트 등록'}</button>
-                {editId && <button className="secondary-btn" onClick={() => { setEditId(null); setTitle(''); setContent(''); }}>취소</button>}
+                {editId && <button className="secondary-btn" onClick={() => { setEditId(null); setTitle(''); setContent(''); setExistingImages([]); setImages([]); }}>취소</button>}
             </div>
 
             <div className="admin-item-list" style={{ marginTop: 24 }}>
@@ -769,6 +782,7 @@ const EventsTab = () => {
                                 setTitleEn(ev.titleEn || ''); setContentEn(ev.contentEn || '');
                                 setTitleJa(ev.titleJa || ''); setContentJa(ev.contentJa || '');
                                 setTitleZh(ev.titleZh || ''); setContentZh(ev.contentZh || '');
+                                setExistingImages(ev.images || []);
                                 if (ev.titleEn || ev.titleJa || ev.titleZh) setShowMulti(true);
                             }}>Edit</button>
                             <button onClick={() => handleDelete(ev.id)} className="delete">Delete</button>

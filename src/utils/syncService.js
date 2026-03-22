@@ -27,10 +27,8 @@ export const syncCollection = async (storeName, collectionName = storeName) => {
             };
         });
 
-        if (data.length > 0) {
-            await saveData(storeName, data);
-            console.log(`Successfully synced ${data.length} items for ${storeName}`);
-        }
+        await saveData(storeName, data);
+        console.log(`Successfully synced ${data.length} items for ${storeName}`);
         return data;
     } catch (error) {
         console.error(`Sync error for ${collectionName}:`, error);
