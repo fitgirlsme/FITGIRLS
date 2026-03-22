@@ -87,7 +87,7 @@ const Home = ({ changeLanguage, currentLang }) => {
           </div>
         </footer>
       </main>
-      <SupportCS />
+      {!isOnHero && <SupportCS />}
     </div>
   );
 };

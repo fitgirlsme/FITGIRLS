@@ -66,8 +66,12 @@ const Hero = () => {
             <FadeInSection className="hero-content flex-center">
                 <h1 className="hero-title">{t('hero.title')}</h1>
                 <p className="hero-subtitle">{t('hero.subtitle')}</p>
-
             </FadeInSection>
+
+            <div className="scroll-hint">
+                <span className="scroll-text">SCROLL</span>
+                <div className="scroll-line"></div>
+            </div>
         </div>
     );
 };
