@@ -38,6 +38,11 @@ const Service = () => {
                         key={key}
                         className={`service-tab-btn ${mainTab === key ? 'active' : ''}`}
                         onClick={() => handleMainTabChange(key)}
+                        style={{
+                            color: mainTab === key ? '#fff' : '#111',
+                            background: mainTab === key ? '#111' : '#f0f0f0',
+                            borderColor: mainTab === key ? '#111' : '#ccc',
+                        }}
                     >
                         {label}
                     </button>
