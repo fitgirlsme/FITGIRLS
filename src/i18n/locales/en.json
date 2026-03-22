@@ -464,8 +464,69 @@
             ]
         },
         "artist": {
-            "menu1": { "title": "ARTIST PORTRAIT", "category": "ARTIST" },
-            "list1": []
+            "menu1": {
+                "title": "BASIC",
+                "category": "ARTIST PROFILE BASIC"
+            },
+            "list1": [
+                {
+                    "title": "1 Concept",
+                    "price": "220,000 KRW",
+                    "details": [
+                        "1 outfit per concept, 1 background, 2 poses",
+                        "2 retouched photos · 1 print · all web source files · 15min session"
+                    ]
+                },
+                {
+                    "title": "2 Concepts",
+                    "price": "330,000 KRW",
+                    "details": [
+                        "1 outfit per concept, 1 background, 2 poses",
+                        "4 retouched photos · 2 prints · all web source files · 30min session"
+                    ]
+                },
+                {
+                    "title": "3 Concepts",
+                    "price": "440,000 KRW",
+                    "details": [
+                        "1 outfit per concept, 1 background, 2 poses",
+                        "6 retouched photos · 3 prints · high-res source files · 40min session"
+                    ]
+                }
+            ],
+            "menu2": {
+                "title": "GROUP PACKAGE",
+                "category": "ARTIST GROUP PACKAGE"
+            },
+            "list2": [
+                {
+                    "title": "1 Concept",
+                    "price": "285,000 KRW",
+                    "details": [
+                        "For 2~3 people (50,000 KRW per additional person from 4th)",
+                        "1 outfit each per group concept, 1 background",
+                        "2 retouched photos · 1 print each · web source files · 15min session"
+                    ]
+                },
+                {
+                    "title": "GROUP PACKAGE 1",
+                    "price": "550,000 KRW",
+                    "details": [
+                        "For 2~3 people",
+                        "2 people with 1 individual concept each + 1 group concept",
+                        "Total 6 retouched photos / 45min session"
+                    ]
+                },
+                {
+                    "title": "GROUP PACKAGE 2",
+                    "price": "770,000 KRW",
+                    "details": [
+                        "For 2~3 people",
+                        "2 people with 2 individual concepts each + 1 group concept",
+                        "Total 10 retouched photos"
+                    ]
+                }
+            ]
         },
         "expert": {
             "menu1": {
