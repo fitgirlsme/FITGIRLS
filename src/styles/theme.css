@@ -94,3 +94,8 @@ ul, li {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
+/* Push service section content below fixed header */
+#service {
+  padding-top: 70px;
+  box-sizing: border-box;
+}
