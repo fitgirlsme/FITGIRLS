@@ -241,6 +241,30 @@
   font-weight: bold;
 }
 
+.service-specific-notices {
+  background: var(--color-primary-light);
+  padding: 24px !important;
+  border-radius: 16px;
+  border: 1px solid var(--color-primary);
+  list-style: none !important;
+}
+
+.service-specific-notices li {
+  color: var(--color-text) !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  padding-left: 0 !important;
+  margin-bottom: 8px;
+}
+
+.service-specific-notices li:last-child {
+  margin-bottom: 0;
+}
+
+.service-specific-notices li:before {
+  display: none !important;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .service-main-title { font-size: 2rem; }

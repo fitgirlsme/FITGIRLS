@@ -594,8 +594,28 @@
             ]
         },
         "self": {
-            "menu1": { "title": "SELF STUDIO", "category": "SELF STUDIO" },
-            "list1": []
+            "menu1": {
+                "title": "SELF SERVICE",
+                "category": "MOOZ SELF STUDIO"
+            },
+            "list1": [
+                {
+                    "title": "SERVICE",
+                    "price": "99,000 KRW",
+                    "details": [
+                        "30min session / 10min prep time",
+                        "No outfit limit (unlimited)",
+                        "All web source files (1200px) provided",
+                        "One 5x7 inch print provided",
+                        "Approx. 200 shots"
+                    ]
+                }
+            ],
+            "notices": [
+                "Additional person: 22,000 KRW | Additional background & time (15min): 33,000 KRW | Additional outfit: 11,000 KRW",
+                "High-res detail retouching: 33,000 KRW/photo | Full high-res source files: 55,000 KRW",
+                "Self Studio Location: B1, 508-4 Sinsa-dong, Gangnam-gu, Seoul (MOOZ.SELF)"
+            ]
         },
         "notices": [
             "Retouching period: 1 photo edited on result selection day, remaining photos within 4 weeks (Request for additional revision available)",

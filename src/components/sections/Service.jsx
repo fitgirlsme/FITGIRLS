@@ -103,6 +103,17 @@ const Service = () => {
                         {samePrice}
                     </p>
                 )}
+
+                {/* Tab Specific Notices */}
+                {Array.isArray(serviceData.notices) && (
+                    <ul className="service-specific-notices" style={{ marginBottom: '24px' }}>
+                        {serviceData.notices.map((notice, idx) => (
+                            <li key={`spec-${idx}`} className="highlight-notice">{notice}</li>
+                        ))}
+                    </ul>
+                )}
+
+                {/* Global Notices */}
                 <ul>
                     {Array.isArray(notices) && notices.map((notice, idx) => (
                         <li key={idx}>{notice}</li>
