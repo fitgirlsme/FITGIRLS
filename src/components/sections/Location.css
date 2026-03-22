@@ -140,10 +140,14 @@
     }
 
     .location-card-title {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+    }
+
+    .location-address {
+        font-size: 0.82rem;
     }
 
     .location-parking-name {
-        font-size: 1.05rem;
+        font-size: 0.95rem;
     }
 }

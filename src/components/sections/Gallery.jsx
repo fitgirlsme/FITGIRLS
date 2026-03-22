@@ -301,7 +301,7 @@ const GallerySection = () => {
 
     return (
         <div className="gallery-full-container">
-            <div style={{ padding: '0 24px' }}>
+            <div className="gallery-title-header-wrap">
                 <FadeInSection className="section-header">
                     <h2 className="section-title">STUDIOS</h2>
                 </FadeInSection>
@@ -368,11 +368,17 @@ const GallerySection = () => {
                             </div>
                         </div>
 
-                        {/* 현재 카테고리 표시 */}
+                        {/* 현재 카테고리 표시 (좌측) + BACK 버튼 (우측) */}
                         <div className="gallery-detail-header">
                             <h3 className="gallery-current-category">
                                 {t(MAIN_CATEGORIES.find(c => c.id === mainCategory)?.labelKey)}
                             </h3>
+                            <button className="back-to-main-btn" onClick={() => setViewMode('main')}>
+                                <span className="back-btn-text">LIST</span>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M9 18l6-6-6-6" />
+                                </svg>
+                            </button>
                         </div>
 
                         {/* Sub-category tabs (women/men/couple/outdoor) */}

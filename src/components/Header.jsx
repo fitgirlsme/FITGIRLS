@@ -27,12 +27,12 @@ const Header = ({ isScrolled, isOnHero, changeLanguage, currentLang }) => {
                 { id: 'service', label: t('nav.service', 'Service'), path: '/service' },
                 { id: 'zone', label: t('nav.zone', 'Zone'), path: '/zone' },
                 { id: 'zone', label: 'LOOKBOOK', path: '/zone?tab=lookbook' },
-                { id: 'hair-makeup', label: t('nav.hairmakeup', 'Hair & Makeup'), path: '/hair-makeup' },
             ]
         },
         {
             category: t('nav.info', 'Info'),
             items: [
+                { id: 'hair-makeup', label: t('nav.hairmakeup', 'Hair & Makeup'), path: '/hair-makeup' },
                 { id: 'event-board', label: t('nav.event', 'Event'), path: '/event-board' },
                 { id: 'faq', label: t('nav.faq', 'FAQ'), path: '/faq' },
                 { id: 'location', label: t('nav.location', 'Location'), path: '/location' },

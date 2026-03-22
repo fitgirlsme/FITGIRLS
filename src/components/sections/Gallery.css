@@ -1,25 +1,66 @@
 .gallery-full-container {
     width: 100%;
     margin: 0;
-    padding: 50px 0 40px;
+    padding: 50px 16px 40px;
     display: flex;
     flex-direction: column;
-    background: #fff;
-    color: #111;
+    background: #ffffff;
+    color: #111111;
     min-height: 100%;
 }
 
+.gallery-title-header-wrap {
+    padding: 0 16px;
+}
+
+@media (min-width: 768px) {
+    .gallery-full-container {
+        padding: 50px 10vw 40px;
+    }
+    .gallery-title-header-wrap {
+        padding: 0 10vw;
+    }
+}
+
 .gallery-full-container .section-title {
-    color: #111 !important;
+    color: #111111 !important;
     font-size: 2rem;
     font-weight: 800;
     letter-spacing: -0.03em;
 }
 
-.gallery-full-container .section-header {
-    border-bottom-color: rgba(0, 0, 0, 0.1) !important;
-    text-align: center;
-    margin-bottom: 24px;
+
+
+.gallery-current-category {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #000;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.back-to-main-btn {
+    background: #000;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.back-to-main-btn:hover {
+    transform: translateX(4px);
+    background: #222;
+}
+
+.back-btn-text {
+    letter-spacing: 0.05em;
 }
 
 /* ===== Main Selection Grid ===== */
@@ -131,7 +172,7 @@
 
 @media (max-width: 480px) {
     .main-selection-grid {
-        padding: 0 12px;
+        padding: 0;
         gap: 8px;
     }
     .card-label {
@@ -141,27 +182,51 @@
 
 /* ===== Detail View Header ===== */
 .gallery-header-wrapper {
-    padding: 0 24px;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: stretch;
     margin-bottom: 24px;
 }
 
+.gallery-full-container .section-header {
+    border-bottom: none !important;
+    margin-bottom: 1rem;
+}
+
 .gallery-detail-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 20px 0;
+    margin: 0;
+    border-bottom: none;
+    margin-bottom: 16px;
     width: 100%;
-    margin-bottom: 28px;
 }
 
 .gallery-current-category {
     font-size: 1.8rem;
-    font-weight: 800;
-    color: #111;
-    letter-spacing: -0.02em;
+    font-weight: 900;
+    color: #000;
     margin: 0;
+    text-transform: uppercase;
+    padding-left: 10px; /* Keep some space for the title on the left */
+}
+
+.back-to-main-btn {
+    margin: 0 !important; /* Allow flex alignment */
+    background: #ff2d2d !important; /* User requested Red */
+    border-color: #ff2d2d !important;
+    color: #fff !important;
+}
+
+.back-to-main-btn .back-btn-text {
+    color: #fff !important;
+}
+
+.back-to-main-btn svg {
+    stroke: #fff !important;
 }
 
 

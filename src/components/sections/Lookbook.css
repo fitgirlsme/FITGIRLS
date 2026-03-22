@@ -2,6 +2,13 @@
 .lookbook-section {
     background-color: #000;
     color: #fff;
+    padding: 80px 24px;
+}
+
+@media (min-width: 768px) {
+    .lookbook-section {
+        padding: 80px 10vw;
+    }
 }
 
 .lookbook-header {

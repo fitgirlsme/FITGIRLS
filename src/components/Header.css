@@ -89,7 +89,7 @@
     border: 1px solid rgba(0, 0, 0, 0.05);
     border-radius: 12px;
     padding: 16px 0;
-    min-width: 180px;
+    min-width: 220px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     opacity: 0;
     visibility: hidden;
@@ -125,15 +125,15 @@
 .nav-links {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 2px;
     align-items: flex-start;
 }
 
 .nav-link-btn {
     width: 100%;
     text-align: left;
-    padding: 12px 24px;
-    font-size: 14px;
+    padding: 14px 28px;
+    font-size: 16px;
     font-weight: 500;
     color: #4a4a4a;
     border-radius: 0;
@@ -165,7 +165,7 @@
     width: 100%;
     background: transparent;
     border: none;
-    padding: 12px 24px 8px;
+    padding: 14px 28px 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -178,10 +178,10 @@
 }
 
 .nav-category-label {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     color: #888;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
     user-select: none;
     text-transform: uppercase;
 }
@@ -208,9 +208,9 @@
 }
 
 .nav-sub-item {
-    font-size: 13.5px;
+    font-size: 15px;
     color: #6a6a6a;
-    padding-left: 32px !important;
+    padding-left: 42px !important;
 }
 
 /* === LANG SWITCHER === */
@@ -261,27 +261,27 @@
     }
 
     .dropdown-menu {
-        top: 40px;
+        top: 45px;
         left: -5px;
-        min-width: 160px;
+        min-width: 200px;
     }
 
     .dropdown-menu .nav-link-btn {
-        padding: 10px 20px;
-        font-size: 13px;
+        padding: 14px 24px;
+        font-size: 15px;
     }
 
     .dropdown-menu .nav-category-header {
-        padding: 10px 20px 4px;
+        padding: 14px 24px 6px;
     }
 
     .dropdown-menu .nav-category-label {
-        font-size: 10px;
+        font-size: 11px;
     }
 
     .dropdown-menu .nav-sub-item {
-        padding-left: 28px !important;
-        font-size: 12.5px;
+        padding-left: 36px !important;
+        font-size: 14px;
     }
 
     .lang-switcher {

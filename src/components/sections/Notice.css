@@ -1,281 +1,349 @@
 /* src/components/sections/Notice.css */
 .notice-section {
-    background-color: #f9f9f9;
+    background-color: #fff;
     color: #000;
+    padding: 8vw 0;
 }
 
 .notice-header {
-    text-align: center;
-    margin-bottom: 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #000;
+    padding-bottom: 20px;
+    margin-bottom: 60px;
 }
 
 .notice-header .section-title {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     font-weight: 900;
-    margin-bottom: 1rem;
-    letter-spacing: -0.05em;
-}
-
-.notice-header .section-subtitle {
-    color: #666;
-    font-size: 1rem;
-    letter-spacing: 0.1em;
-}
-
-.notice-list {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    border-top: 1px solid #ddd;
-}
-
-.notice-item {
-    display: flex;
-    flex-direction: column;
-    padding: 2.5rem 1rem;
-    border-bottom: 1px solid #ddd;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.notice-item:hover {
-    background-color: #f0f0f0;
-}
-
-.notice-date {
-    font-size: 0.85rem;
-    color: #888;
-    width: 120px;
-    font-weight: 500;
-}
-
-.notice-title {
-    flex: 1;
-    font-size: 1.15rem;
-    font-weight: 700;
-    text-transform: none;
+    color: #000;
+    margin: 0;
     letter-spacing: -0.02em;
+    text-transform: uppercase;
 }
 
-.notice-arrow {
-    font-size: 1.5rem;
-    color: #ccc;
-    transition: transform 0.2s, color 0.2s;
-}
-
-.notice-item:hover .notice-arrow {
-    color: var(--color-primary);
-}
-
-.notice-item--open {
-    background-color: #f5f5f5;
-}
-
-.notice-item-row {
-    display: flex;
-    align-items: center;
-    width: 100%;
-}
-
-.notice-detail {
-    width: 100%;
-    padding: 1.5rem 0 0.5rem;
-    border-top: 1px solid #e5e5e5;
-    margin-top: 1rem;
-}
-
-.notice-content {
-    font-size: 0.95rem;
-    line-height: 1.8;
-    color: #444;
-    white-space: pre-line;
-    margin: 0 0 1rem;
-}
-
-.notice-images {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1rem;
-}
-
-.notice-image {
-    width: 100%;
-    max-width: 480px;
-    border-radius: 8px;
-    object-fit: cover;
-}
-
-.notice-empty {
-    padding: 3rem 0;
-    text-align: center;
-    color: #999;
-    font-size: 0.95rem;
-}
-
-@media (max-width: 768px) {
-    .notice-header .section-title {
-        font-size: 2rem;
-    }
-    .notice-item {
-        padding: 2rem 0;
-    }
-    .notice-item-row {
-        gap: 0.75rem;
-    }
-    .notice-date {
-        width: auto;
-    }
-    .notice-arrow {
-        display: block;
-    }
-}
-/* Admin Buttons */
-.notice-admin-btns {
-    display: flex;
-    gap: 8px;
-    margin-right: 15px;
-}
-
-.notice-edit-btn,
-.notice-del-btn {
-    background: #444;
+.notice-write-btn {
+    background: #000;
     border: none;
     color: #fff;
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 5px 10px;
-    border-radius: 4px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 1.5rem;
     cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.05em;
-}
-
-.notice-edit-btn:hover { background: #3a7bd5; }
-.notice-del-btn:hover { background: #d32f2f; }
-
-@media (max-width: 768px) {
-    .notice-admin-btns {
-        margin-right: 8px;
-    }
-    .notice-edit-btn,
-    .notice-del-btn {
-        padding: 4px 8px;
-        font-size: 0.65rem;
-    }
-}
-
-/* Modal UI (Shared-like styles) */
-.delete-confirm-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
-    backdrop-filter: blur(4px);
+}
+
+.notice-write-btn:hover {
+    background: var(--color-primary, #00c35b);
+    transform: rotate(90deg);
+}
+
+/* Slider UI */
+.event-slider-wrapper {
+    position: relative;
+    width: 100%;
+    padding: 20px 0;
+}
+
+.event-slider-container {
+    overflow: hidden;
+    width: 100%;
+}
+
+.event-slider-track {
+    display: flex;
+    gap: 30px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 10px 0 40px;
+}
+
+.event-slider-track::-webkit-scrollbar {
+    display: none;
+}
+
+.event-slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+}
+
+.event-slider-arrow:hover {
+    background: #000;
+    color: #fff;
+}
+
+.event-slider-arrow.left { left: -25px; }
+.event-slider-arrow.right { right: -25px; }
+
+/* Event Card */
+.event-card {
+    flex: 0 0 400px;
+    height: 500px;
+    border-radius: 35px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    scroll-snap-align: start;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.event-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 30px 70px rgba(0,0,0,0.15);
+}
+
+.event-card-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-color: #f5f5f5;
+}
+
+.event-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.8));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 40px;
+    color: #fff;
+}
+
+.event-card-date {
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.8;
+    margin-bottom: 10px;
+}
+
+.event-card-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+}
+
+.event-card-more {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+}
+
+.event-card:hover .event-card-more {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Admin Tools in Card */
+.event-admin-tools {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 8px;
+    z-index: 5;
+}
+
+.event-admin-btn {
+    padding: 6px 12px;
+    border-radius: 60px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    backdrop-filter: blur(5px);
+}
+
+.event-admin-btn.edit { background: rgba(255,255,255,0.8); color: #000; }
+.event-admin-btn.del { background: rgba(211,47,47,0.8); color: #fff; }
+
+/* Detail Modal */
+.event-detail-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    backdrop-filter: blur(10px);
+}
+
+.event-detail-modal {
+    background: #fff;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    border-radius: 40px;
+    overflow-y: auto;
+    position: relative;
+    padding: 60px;
+}
+
+.event-modal-close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: #f5f5f5;
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.event-modal-close:hover { background: #eee; transform: rotate(90deg); }
+
+.event-modal-header {
+    margin-bottom: 40px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 30px;
+}
+
+.event-modal-date {
+    display: block;
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.event-modal-title {
+    font-size: 2.4rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+.event-modal-content {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #444;
+    white-space: pre-line;
+    margin-bottom: 40px;
+}
+
+.event-modal-images {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.event-modal-images img {
+    width: 100%;
+    border-radius: 25px;
+    display: block;
+}
+
+/* Shared Admin Modals (Create/Edit/Del) */
+.delete-confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 11000;
+    backdrop-filter: blur(5px);
 }
 
 .delete-confirm-box {
     background: #1a1a1a;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 16px;
-    padding: 32px 28px;
-    text-align: center;
-    max-width: 320px;
+    border-radius: 30px;
+    padding: 40px;
     width: 90%;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-}
-
-.delete-confirm-title {
-    font-size: 1.1rem;
-    font-weight: 700;
+    max-width: 450px;
     color: #fff;
-    margin: 0 0 8px;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.5);
 }
 
-.delete-confirm-sub {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.45);
-    margin: 0 0 24px;
-}
-
-.delete-confirm-btns {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-}
-
-.delete-btn-cancel,
-.delete-btn-ok {
-    flex: 1;
-    padding: 12px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 600;
-    transition: all 0.2s;
-}
-
-.delete-btn-cancel {
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, 0.06);
-    color: rgba(255, 255, 255, 0.7);
-}
-.delete-btn-cancel:hover { background: rgba(255, 255, 255, 0.12); }
-
-.delete-btn-ok {
-    border: none;
-    background: #d32f2f;
-    color: #fff;
-}
-.delete-btn-ok:hover { background: #f44336; }
-
-/* Edit Fields */
-.edit-field {
-    margin-bottom: 16px;
-}
-
-.edit-label {
-    display: block;
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 6px;
-    font-weight: 600;
-}
-
+.edit-field { margin-bottom: 25px; }
+.edit-label { display: block; font-size: 0.8rem; color: #888; margin-bottom: 8px; font-weight: 700; }
 .edit-input {
     width: 100%;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, 0.08);
+    background: #222;
+    border: 1px solid #333;
+    padding: 15px;
+    border-radius: 12px;
     color: #fff;
-    font-size: 0.9rem;
+    font-size: 1rem;
     outline: none;
-    transition: border-color 0.2s;
-    font-family: inherit;
 }
+.edit-input:focus { border-color: #666; }
 
-.edit-input:focus {
-    border-color: rgba(255, 255, 255, 0.4);
-}
-
-.edit-photo-btn {
-    display: inline-block;
-    padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #fff;
+.auto-trans-btn {
+    background: #333;
+    border: none;
+    color: #aaa;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s;
 }
 
-.edit-photo-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: #3a7bd5;
+.auto-trans-btn:hover { background: var(--color-primary, #00c35b); color: #fff; }
+
+.delete-confirm-btns { display: flex; gap: 15px; margin-top: 30px; }
+.delete-btn-cancel, .delete-btn-ok {
+    flex: 1;
+    padding: 15px;
+    border-radius: 15px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.delete-btn-cancel { background: #333; color: #fff; border: none; }
+.delete-btn-ok { background: #d32f2f; color: #fff; border: none; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .event-card { flex: 0 0 320px; height: 420px; }
+    .event-slider-arrow { display: none; }
+    .event-detail-modal { padding: 40px; }
+    .event-modal-title { font-size: 1.8rem; }
+}
+
+@media (max-width: 768px) {
+    .notice-header { margin-bottom: 40px; }
+    .notice-header .section-title { font-size: 2rem; }
+    .event-card { flex: 0 0 280px; height: 380px; border-radius: 25px; }
+    .event-card-overlay { padding: 25px; }
+    .event-card-title { font-size: 1.3rem; }
+    .event-detail-modal { padding: 30px; border-radius: 30px; }
+    .event-modal-title { font-size: 1.5rem; }
+    .event-modal-content { font-size: 1rem; }
 }

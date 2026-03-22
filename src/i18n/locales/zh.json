@@ -67,7 +67,6 @@
             "zone6": "基础鲜艳",
             "zone7": "蓝白色",
             "zone8": "厨房",
-            "zone9": "自行车",
             "zone10": "冰箱",
             "zone11": "红色沙发",
             "zone12": "黄色柜子",
@@ -98,34 +97,40 @@
     },
     "lookbook": {
         "title": "LOOKBOOK",
-        "subtitle": "通过多种概念和服装完成属于您的风格",
-        "fitorialist": "以时尚摄影师的视角打造身体写真风格",
-        "artist": "大胆且艺术地表现肌肉与线条",
-        "fashion": "如杂志大片般时髦且具有设计感的氛围",
-        "portrait": "聚焦于最自然、最美丽的本真瞬间"
+        "subtitle": "以多种概念和服装完成的专属风格",
+        "fitorialist": "以时尚摄影师的视角捕捉身体概况的风格",
+        "artist": "肌肉与线条的大胆艺术表达",
+        "fashion": "如杂志画报般流行时尚的氛围",
+        "portrait": "专注于最自然、最美丽的本来时刻"
     },
     "hm": {
-        "title": "HAIR & MAKEUP",
-        "subtitle": "为更完美的海报提供的专业合作服务",
-        "partner": "Mabelle Boutique",
-        "price_women": "女性 88,000韩元",
-        "price_men": "男性 66,000韩元",
-        "vat": "含增值税",
-        "notice": "须直接预约（不提供驻场服务），出示Naver预约记录可享优惠价",
-        "location": "首尔江南区鹤洞路47街5 1楼（江南区厅站附近）",
-        "tel": "0507-1359-1859"
+        "subtitle": "合作发型与化妆指南",
+        "shop_name": "Mabelle Boutique",
+        "desc1": "在 Mabelle Boutique 可享受合作优惠价。",
+        "desc2": "*由于化妆预约较快售罄，建议您在预约 Fitgirls & Inafit 拍摄的同时进行化妆预约。",
+        "desc3": "*预约时请告知 Fitgirls & Inafit 的 Naver 预约详情，即可享受合作价格。",
+        "direct_booking": "必须直接预约",
+        "outcall_notice": "(关于上门服务请直接联系店铺。)",
+        "female": "女性",
+        "male": "男性",
+        "price_female": "88,000 韩元",
+        "price_male": "66,000 韩元",
+        "vat_included": "(包含附加税)",
+        "address_label": "地址.",
+        "address_value": "首尔江南区鹤洞路47街5号1楼 (江南区厅站步行5分钟)",
+        "kakao": "KakaoTalk 频道",
+        "insta": "Instagram"
     },
     "notice": {
         "title": "NOTICE",
-        "subtitle": "查看 FITGIRLS & INAFIT 的最新消息",
         "items": [
             {
-                "date": "2026.03.04",
-                "title": "2026 FITGIRLS & INAFIT 健身中心合作优惠与招募"
+                "title": "2026 Fitgirls & Inafit 合作健身中心优惠及招聘",
+                "date": "2026.03.04"
             },
             {
-                "date": "2026.03.04",
-                "title": "4月粉色房间开放公告"
+                "title": "4月 粉色房开放",
+                "date": "2026.03.04"
             }
         ]
     },
@@ -142,10 +147,10 @@
         "portrait": "PORTRAIT",
         "women": "女性",
         "men": "男性",
-        "couple": "友情与情侣",
+        "couple": "友情&情侣",
         "outdoor": "巴厘岛项目",
-        "fashion": "时尚与美容",
-        "dancer": "舞者与DJ",
+        "fashion": "时尚&美容",
+        "dancer": "舞者&DJ",
         "self": "自助",
         "hashtags": {
             "ALL": "全部",
@@ -154,7 +159,7 @@
             "WHITE": "白色",
             "COLOR": "彩色",
             "MONO": "黑白",
-            "CLEAN": "纯净",
+            "CLEAN": "干净",
             "CONCEPT": "概念"
         }
     },
@@ -162,159 +167,152 @@
         "title": "FITORIALIST",
         "subtitle": "PHOTOGRAPHED BY ANGELO SHIN.",
         "fitorialist_desc": "",
-        "cta": "通过Naver预约"
+        "cta": "在Naver预约"
     },
     "cs": {
-        "label": "联系我们",
-        "link_text": "WeChat: fitgirlsme",
-        "wechat_qr_desc": "请扫描上方二维码，在此添加微信。"
+        "label": "咨询",
+        "link_text": "通过KakaoTalk频道咨询"
     },
     "reservation": {
         "title": "RESERVATION",
         "subtitle": "预约流程指南",
-        "button": "在Naver上申请",
+        "button": "申请Naver预约",
         "link": "https://naver.me/GWeuhE37",
+        "guidebook_title": "Fitgirls & Inafit 官方指南",
         "steps": {
-            "step1_title": "KakaoTalk/LINE 咨询预约",
-            "step1_desc": "请先通过 Kakao 频道或 LINE 官方账号确认您理想的拍摄日期是否有空档。",
-            "step2_title": "Naver 预约申请",
-            "step2_desc": "确认日期后，请点击引导链接完成 Naver 预约申请。",
-            "step3_title": "支付定金并确定",
-            "step3_desc": "在 Naver 预约后，请支付定金 (90,000 韩元) 以最终确定预约并在随后收到准则指南。"
+            "step1_title": "Naver预约申请",
+            "step1_desc": "为核对日程，请先在Fitgirls Kakao频道咨询，之后开放Naver日程。",
+            "step2_title": "支付定金",
+            "step2_desc": "Naver预约后，收到KakaoTalk上的“Toss Order”通知后，支付90,000韩元定金即完成最终预约。",
+            "account_info": "转账：友利银行 010-4696-1434 (Fitgirls)"
         },
-        "final_notice": "✅ 预约确认后，我们将为您发送详细的拍摄准备指南。💖✨",
-        "return_discount": "* 再次预约优惠: 第2次享8折, 第3次起享7折 — 请通过KakaoTalk FITGIRLS频道咨询"
+        "final_notice": "预约确定后，我们将发送有关拍摄准备的详细指南。",
+        "return_discount": "* 再次预约时可享：第2次8折，第3次及以上7折 — 请咨询Kakao频道 Fitgirls"
     },
     "location": {
         "title": "LOCATION",
-        "subtitle": "如何找到我们",
-        "studio_name": "FITGIRLS & INAFIT",
-        "address": "首尔市江南区江南大路160街18 (Atium大厦), B1\n(地番: 首尔市江南区新沙洞508-4番地 地下)",
-        "address_copy": "首尔市江南区江南大路160街18 Atium大厦 B1",
+        "subtitle": "位置指南",
+        "studio_name": "Fitgirls & Inafit",
+        "address": "首尔特别市江南区江南大道160街18 (Atium大厦), B1\n(地号：首尔市江南区新沙洞508-4号地下面)",
+        "address_copy": "首尔特别市江南区江南大道160街18 Atium大厦 B1",
         "links": {
-            "studio_map": "https://map.naver.com/v5/search/%ED%95%8F%EA%B1%B8%EC%A6%88%EC%8A%A4%ED%84%B0%EB%94%94%EC%98%A4/place/1976065694"
+            "studio_map": "https://map.naver.com/p/search/%ED%95%8F%EA%B1%B8%EC%A6%88%EC%8A%A4%ED%8A%9C%EB%94%94%EC%98%A4/place/1976065694",
+            "parking_map": "https://map.naver.com/p/search/두원빌딩%20주차장/place/667509448"
         },
         "btn_studio": "Naver导航",
+        "btn_parking": "查看停车场位置",
         "parking_title": "停车指南",
         "parking_notices": [
-            "本工作室大楼不提供停车。",
-            "自驾前来时，请使用附近的收费/公共停车场！"
+            "本摄影棚大厦不可停车。",
+            "自驾前来时请利用附近的收费/公共停车场。"
         ],
-        "parking_name": "斗元大厦 收费停车场 (地下停车场)",
-        "parking_address": "首尔特别市江南区江南大路636 斗元大厦",
-        "parking_distance": "步行至工作室2分钟 143m",
-        "parking_price": "60分钟 3,000韩元 / 120分钟 6,000韩元 / 240分钟 9,000韩元",
-        "parking_warning": "停车场营业截止时间为20:00，请在关闭前驶出。"
+        "parking_name": "Doowon大厦收费停车场（地下）",
+        "parking_address": "首尔特别市江南区江南大道636 Doowon大厦",
+        "parking_distance": "步行2分钟 143m至摄影棚",
+        "parking_price": "60分钟 3,000韩元 / 120分钟 6,000韩元",
+        "parking_warning": "停车场运营结束时间为20:00，请在结束前驶离。"
     },
     "modelApply": {
         "title": "2026 FITORIAL 大使招募",
-        "subtitle": "我们正在寻找与Fitgirls一起成长的大使。",
+        "subtitle": "寻找梦想与Fitgirls共同成长并创作内容的的大使。",
         "name": "姓名",
         "namePlaceholder": "请输入姓名",
         "insta": "Instagram ID",
-        "instaPlaceholder": "@用户名",
+        "instaPlaceholder": "@账号",
         "location": "地区",
         "locationPlaceholder": "居住地区",
+        "job": "职业",
+        "jobPlaceholder": "如：学生、自由职业者、上班族等",
         "phone": "联系方式",
         "phonePlaceholder": "010-0000-0000",
-        "submit": "申请",
+        "keywords": "表达自我的3个风格关键词",
+        "keywordsPlaceholder": "（如：#社论 #Y2K #能量）",
+        "quoteSub": "年龄只是数字，国籍只是背景。你的“Fit”就是一切。",
+        "submit": "提交申请",
         "submitting": "提交中...",
-        "successMsg": "申请已完成。谢谢！",
-        "errorMsg": "发生错误，请重试。"
+        "successMsg": "申请已提交，谢谢！",
+        "errorMsg": "发生错误。请重试。",
+        "footerNote": "Fitgirls & Inafit尊重全世界所有的热忱与美丽。不分国籍及年龄，只要是拥有独特氛围的人，谁都可以成为2026 Fitorialist。",
+        "ambassadorDetail": {
+            "mainTitle": "2026 FITORIAL AMBASSADOR : THE CO-CREATOR",
+            "intro": "不仅是作为模特，我们正在寻找能共同完成Fitgirls & Inafit独特视觉档案的**“2026 Fitorialist”**。",
+            "benefits": {
+                "title": "🎁 AMBASSADOR BENEFITS",
+                "badge": "奖项福利",
+                "subtitle": "Fitgirls全力支持大使的持续视觉成长及个人品牌建设。",
+                "items": [
+                    { "title": "Premium Editorial Shooting (每年2次)", "desc": "每六个月一次，支持拍摄完美记录本人最闪耀时刻的“2概念全套餐”。" },
+                    { "title": "Private Self-Studio Pass (每年2次)", "desc": "提供可与珍爱之人自由记录的“2人自助拍摄券”。" },
+                    { "title": "[Special] 2027 FITORIAL Calendar Project", "desc": "参与计划年底发售的“2027 Fitorial日历”制作项目，担任主模特及制作协作。" },
+                    { "title": "Media & Career Opportunity (MaxQ)", "desc": "推荐并提供在韩国顶尖健康健身杂志《MAXQ》版面或在线策划内容中模特出道的机会。" },
+                    { "title": "Official Muse Debut & Networking", "desc": "官方网站及SNS主模特活动。提供参加各种时尚与美容活动的资讯及交流机会。" }
+                ]
+            },
+            "role": {
+                "title": "🤝 AMBASSADOR'S ROLE",
+                "badge": "大使职责",
+                "subtitle": "我们是连接彼此影响力以创造更大价值的**“创意合作伙伴”**。",
+                "items": [
+                    { "title": "Instagram Collaborator", "desc": "在本人账号发布拍摄成果时，必须将“Fitgirls & Inafit (@fitgirlsme)”设为共同作者并上传。" },
+                    { "title": "Essential Tagging", "desc": "在帖子摘要中包含必选标签 #fitgirls #inafit #fitorial 以传播品牌价值。" },
+                    { "title": "Monthly Visual Archive", "desc": "通过Instagram快拍分享拍摄花絮、摄影棚侧拍等现场生动氛围。" },
+                    { "title": "Creative Growth", "desc": "一年内与Fitgirls紧密沟通，并以个人感悟共同引领品牌氛围。" }
+                ]
+            }
+        }
     },
     "faq": {
-        "search_placeholder": "请输入您想问的问题。",
+        "search_placeholder": "请进行提问。",
         "ai_badge": "AI SMART ANSWER",
-        "no_results": "未找到相关回答。请尝试使用其他关键词进行搜索。",
-        "ai_thinking": "AI 正在分析回答...",
+        "no_results": "未找到相关回答。请输入其他关键词搜索。",
+        "ai_thinking": "AI正在分析回答...",
         "title": "FAQ",
         "subtitle": "常见问题",
-        "tabs": ["预约前", "拍摄前", "拍摄后"],
+        "tabs": [
+            "预约前",
+            "拍摄前",
+            "拍摄后"
+        ],
         "before_booking": [
             {
-                "question": "如何预约？",
-                "answer": "咨询预约时，请提供姓名、联系方式、期望日期及时间、拍摄概念数量。\n\n咨询后，请通过我们提供的预约系统进行申请，并在接到KakaoTalk Toss通知后4小时内支付9万韩元定金，预约方可最终确认。"
+                "question": "预约流程是怎样的？",
+                "answer": "咨询时请填写姓名、联系方式、希望日期及时间、拍摄概念数量。\n\n咨询后请通过告知的预约系统申请，并在4小时内通过KakaoTalk收到的Toss通知支付9万韩元定金，即可最终确定预约。"
             },
             {
-                "question": "我想了解拍摄价格。",
-                "answer": "各套餐的详细价格可在Naver Smart Place或KakaoTalk咨询频道菜单中直接确认。详情请参考 FITORIAL 套餐说明。",
-                "links": [{ "label": "查看 FITORIAL 套餐", "url": "https://naver.me/GWeuhE37", "type": "naver" }]
+                "question": "我想知道拍摄价格。",
+                "answer": "您可以在Naver Smart Place或KakaoTalk咨询频道的菜单中直接查看各套餐的详细单价。",
+                "links": [
+                    {
+                        "label": "查看FITORIAL套餐",
+                        "url": "https://naver.me/GWeuhE37",
+                        "type": "naver"
+                    }
+                ]
             },
             {
-                "question": "可以排队候选预约吗？",
-                "answer": "我们目前不提供候补预约服务。由于预约情况随时可能变动，请直接通过预约系统查看可预约日期。"
-            },
-            {
-                "question": "取消及退款规定是什么？",
-                "answer": "拍摄日50天前取消时，定金可全额退还。\n\n拍摄日前49天至当天取消将产生违约金（90,000韩元）且无法退款，如取消2次以上，今后的拍摄可能会受到限制。"
-            },
-            {
-                "question": "我想更改预约日期或时间。",
-                "answer": "拍摄日50天前，仅限更改1次。\n\n如在距离拍摄日50天以内预约，则无论因何事由，绝对无法更改日期及全额退款，敬请慎重预约。"
-            },
-            {
-                "question": "如果汇款人姓名与预约人姓名不同怎么办？",
-                "answer": "如果汇款人姓名与预约信息或实际拍摄者的信息不一致，请务必通过咨询频道告知我们汇款时间和汇款人姓名，以免确认遗漏。"
-            }
-        ],
-        "before_shoot": [
-            {
-                "question": "在哪里可以查看可租赁的服装信息？",
-                "answer": "您可以在网站的 Lookbook 选项卡中提前查看 FITGIRLS 的各种背景概念和可租赁服装系列。",
-                "links": [{ "label": "查看 FITGIRLS Lookbook", "url": "/zone?tab=lookbook", "type": "link" }]
-            },
-            {
-                "question": "拍摄概念参考图必须在何时提交？",
-                "answer": "请务必在拍摄前1周上传您想要的风格参考图（图片、是否租赁服装等）。\n文件名示例：姓名_拍摄日期（例如：张三_1025）",
-                "links": [{ "label": "上传参考图文件", "url": "https://www.dropbox.com/request/dLsnN9aUQwOOauBCODY4", "type": "dropbox" }]
-            },
-            {
-                "question": "拍摄当天应在几点前到达？",
-                "answer": "原则上需在预约时间前30分钟到达。\n\n到达后进行换装、充血热身、准备婴儿油及凡士林等准备工作，然后准时开始拍摄。"
-            },
-            {
-                "question": "工作室备有道具或运动器材吗？",
-                "answer": "教室内备有婴儿油和凡士林，您无需另外准备。\n\n您可以自由使用各种重量的哑铃（Dumbbell）、弹力带、垫子等充血热身器材，以及 FITGIRLS SNS 上出现的各种道具。\n\n也随时欢迎您带上具有特殊意义的个人专属道具。"
-            },
-            {
-                "question": "可以停车吗？",
-                "answer": "请使用工作室前方的收费代客泊车服务（2小时10,000韩元）或附近大楼的收费停车场。",
-                "links": [{ "label": "斗元大厦停车场", "url": "https://naver.me/xSomeMap", "type": "map" }]
+                "question": "取消及退款规定是怎样的？",
+                "answer": "拍摄日前50天取消可退还100%定金。49天起不可退款。"
             }
         ],
         "after_shoot": [
             {
-                "question": "原图什么时候能够通过何种方式收到？",
-                "answer": "拍摄当天，我们将通过电子邮件和 Airdrop（隔空投送）发送全部原图。"
+                "question": "什么时候以什么方式接收原片？",
+                "answer": "拍摄当天通过邮件和AirDrop发送全部原片。"
             },
             {
-                "question": "如何挑选用于精修的照片？",
-                "answer": "请在收到的原图中亲自挑选您想要精修的照片，并回复至 inafit@daum.net。\n\n为了防止操作失误，请绝对不要更改附件的文件名编号，务必以回复邮件的形式发送。\n\n原图文件请在拍摄后20日内完成挑选，逾期文件可能被删除。",
-                "links": [{ "label": "inafit@daum.net", "url": "mailto:inafit@daum.net", "type": "email" }]
-            },
-            {
-                "question": "精修需要多长时间？",
-                "answer": "从您回复挑选照片的日期算起，我们将会在当天或次日对1张照片进行初步修整并通过回复邮件发送给您。\n\n剩余照片的最终精修版本将会在大约4周后发送给您。"
-            },
-            {
-                "question": "精修的具体程度是怎样的？",
-                "answer": "在保留自然魅力的基础上，我们将最大限度地突显肌肤纹理、身材线条以及画报般的氛围。\n\n第一次修整完成后，您可以查看结果，并且仅限1次申请重新修改。\n\n精修完成后，我们还会为您制作并发送充满 FITGIRLS & INAFIT 独特风格的画报封面影像。"
-            },
-            {
-                "question": "有什么方法可以获得额外的精修照片吗？",
-                "answer": "如果您在Naver填写访客评价，我们将赠送1张精修；如果您同意将照片上传至Instagram，我们将再赠送1张精修。\n\n您也可以通过FITGIRLS智能商店付费购买额外精修（每张33,000韩元）。",
-                "links": [{ "label": "FITGIRLS 智能商店", "url": "https://smartstore.naver.com/imfitgirl", "type": "naver" }]
+                "question": "如何选片？",
+                "answer": "在接收到的原片中选择希望精修的照片并回复至 inafit@daum.net。"
             }
         ]
     },
     "services": {
-        "desc_1concept": "1:1 指导, 3张精修图, 提供全部原片",
-        "desc_2concepts": "1:1 指导, 6张精修图, 提供全部原片",
-        "desc_3concepts": "1:1 指导, 9张精修图, 提供全部原片",
+        "desc_1concept": "1:1 指导, 3张精修, 提供全部原片数据",
+        "desc_2concepts": "1:1 指导, 6张精修, 提供全部原片数据",
+        "desc_3concepts": "1:1 指导, 9张精修, 提供全部原片数据",
         "header_title": "FITGIRLS & INAFIT",
         "header_subtitle": "PORTRAIT SERVICE 2026",
-        "header_desc": "OPEN YEAR ROUND · 预约制工作室 · 所有费用均含增值税 / 可开具收据",
-        "same_price": "FITGIRLS工作室平日和周末价格完全一致。",
+        "header_desc": "OPEN YEAR ROUND · 预约制摄影棚 · 所有金额均包含增值税 / 可开具银行卡及现金收据",
+        "same_price": "Fitgirls摄影棚平日和周末价格一致。",
         "menu1": {
             "title": "PORTRAIT MENU",
             "subtitle": "FITGIRLS & INAFIT SIGNATURE SESSIONS & PACKAGES",
@@ -325,16 +323,16 @@
                 "title": "1 CONCEPT",
                 "price": "275,000 韩元",
                 "details": [
-                    "每个概念1套服装、2种背景",
-                    "精修2张 · 5x7打印1张 · 提供网页用原片 · 30分钟拍摄"
+                    "每个概念1套服装, 2种背景",
+                    "精修2张 · 5x7照片1张 · 提供网页用原片文件 · 拍摄30分钟"
                 ]
             },
             {
                 "title": "2 CONCEPTS",
                 "price": "440,000 韩元",
                 "details": [
-                    "每个概念1套服装、背景无限 · 姿势无限",
-                    "精修4张 · 5x7打印2张 · 提供网页用原片 · 90分钟拍摄"
+                    "每个概念1套服装, 背景不限 · 姿势不限",
+                    "精修4张 · 5x7照片2张 · 提供网页用原片文件 · 拍摄90分钟"
                 ]
             },
             {
@@ -342,131 +340,109 @@
                 "price": "550,000 韩元",
                 "details": [
                     "服装 · 背景 · 姿势均不限",
-                    "精修6张 · 5x7打印3张 · 提供网页用原片 · 120分钟拍摄"
+                    "精修6张 · 5x7照片3张 · 提供网页用原片文件 · 拍摄120分钟"
                 ]
             }
         ],
         "menu2": {
             "title": "FRIENDS & COUPLE",
-            "category": "友情与情侣套餐"
+            "category": "友情 & 情侣套餐"
         },
         "list2": [
             {
                 "title": "友情/情侣 1概念",
                 "price": "330,000 韩元",
                 "details": [
-                    "2~3人基准 (第4人起每人加收50,000韩元)",
-                    "每人一套服装 · 1个背景 · 2~3种姿势",
-                    "精修2张 · 每人一张5x7打印 · 30分钟拍摄"
+                    "以2~3人为基准 (从第4人起每增加1人加收50,000韩元)",
+                    "每人1套服装 · 1种背景 · 2~3个姿势",
+                    "精修2张 · 每人5x7照片1张 · 拍摄30分钟"
                 ]
             },
             {
                 "title": "PACKAGE 1",
                 "price": "770,000 韩元",
                 "details": [
-                    "个人1概念×2人 + 友情1概念",
-                    "共6张精修"
+                    "个人1概念x 2人 + 友情1概念",
+                    "总精修 6张"
                 ]
             },
             {
                 "title": "PACKAGE 2",
                 "price": "1,100,000 韩元",
                 "details": [
-                    "个人2概念×2人 + 友情1概念",
-                    "共10张精修"
+                    "个人2概念x 2人 + 友情1概念",
+                    "总精修 10张"
                 ]
             }
         ],
         "notices": [
-            "精修周期：选择照片当天提供1张精修，其余照片在4周内完成初稿（可申请追加修改）。",
-            "原片以网页级尺寸（约2000px）提供。",
-            "每加一张精修需支付33,000韩元额外费用。",
-            "停车请使用Doowon大厦付费停车场。",
-            "提交Naver评价可获赠1张精修，同意SNS上传可再获赠1张精修。"
+            "精修期：选片当天精修1张，其余照片在约4周内完成初次精修（可请求再次修改）",
+            "提供网页用约为2000px的原片文件。",
+            "额外精修每张收收费33,000韩元。",
+            "填写Naver评价赠送1张精修服务, 同意上传SNS赠送1张精修服务。"
         ]
-    },
-    "partners": {
-        "title": "HAIR&MAKEUP",
-        "subtitle": "FITGIRLS & INAFIT 合作妆造服务指南",
-        "shop_name": "Mabelle Boutique",
-        "price_women": "88,000韩元",
-        "price_men": "66,000韩元",
-        "notices": [
-            "客户必须直接预约 (不提供驻场服务)",
-            "建议通过KakaoTalk或LINE进行预约咨询。"
-        ],
-        "contact": {
-            "tel": "0507-1359-1859",
-            "address": "首尔江南区鹤洞路47街5 1楼 (距江南区厅站步行5分钟)",
-            "kakao_channel": "https://pf.kakao.com/_QPjsxb",
-            "instagram": "https://www.instagram.com/mabelle_korea_"
-        },
-        "women": "女性",
-        "men": "男性",
-        "vat_included": "含增值税",
-        "alert": "预约妆造时，<strong>必须附上FITGIRLS预约单</strong>"
     },
     "how_to_book": {
         "title": "HOW TO BOOK",
-        "subtitle": "预约指南",
+        "subtitle": "预约方式指南",
         "steps": [
             {
                 "step": "STEP 1",
-                "title": "Naver 预约",
-                "highlight": "选择日期与选项\n并进行预约",
-                "desc": "请访问 Naver 预约页面，选择您理想的日期和拍摄选项来完成预约。"
+                "title": "Naver预约",
+                "highlight": "选择日期 / 选项\n进行预约",
+                "desc": "请在Naver预约网站选择您希望的日期及选项（拍摄商品）进行预约。"
             },
             {
                 "step": "STEP 2",
-                "title": "支付定금",
-                "highlight": "支付 90,000 韩元\n定金",
-                "desc": "请在预约后4小时内支付定金。未支付的预约将自动取消。"
+                "title": "支付定金",
+                "highlight": "定金 90,000韩元",
+                "desc": "预约后请在4小时内支付定金。逾期未支付将自动取消。"
             },
             {
                 "step": "STEP 3",
-                "title": "预约确认！",
-                "highlight": "通过 Naver '我的预约'\n查看内容",
-                "desc": "当 Naver 预约账户与付款账户一致时，预约即告确认。"
+                "title": "预约确定!",
+                "highlight": "通过Naver“我的预约”\n核对内容",
+                "desc": "预约人与付款人姓名一致时确定预约。若不一致请告知kakaotalk频道。"
             }
         ]
     },
     "reviews": {
         "title": "REAL REVIEWS",
-        "subtitle": "客户公认的 FITGIRLS 顶级品质",
+        "subtitle": "真实客户认可的压倒性品质",
         "stats": {
-            "total": "评价总数",
-            "ranking": "No.1 身体写真工作室",
+            "total": "总评价",
+            "ranking": "No.1 身体档案摄影棚",
             "rating": "平均评分",
-            "years": "从业经验",
+            "years": "资历",
             "shooting": "拍摄次数"
         },
         "ai_summary": {
             "badge": "AI SUMMARY",
-            "title": "AI 综述",
-            "desc": "分析了 {{count}} 条评价",
-            "bullet1": "专业指导，即使是初学者也能拍出自然的姿势",
-            "bullet2": "细腻的后期处理和高质量的结果让客户极度满意",
-            "bullet3": "多种概念可选，租赁服装品质优良"
+            "title": "AI 总结",
+            "desc": "分析了{{count}}条评价",
+            "bullet1": "让初学者自然摆拍的专业指导",
+            "bullet2": "对细腻精修和高品质结果的压倒性满意度",
+            "bullet3": "多样的概念选择和高质量的可租赁服装"
         },
-        "write": "撰写评价",
-        "writeNaver": "撰写Naver评价",
-        "writeGoogle": "撰写Google评价",
-        "empty": "暂无评价。",
+        "write": "写评价",
+        "writeNaver": "Naver评价",
+        "writeGoogle": "Google评价",
+        "empty": "尚无评价。",
         "tags": {
             "all": "全部",
-            "photo": "摄影精湛",
-            "kind": "服务亲切",
-            "config": "套餐丰富",
-            "mood": "氛围感十足"
+            "photo": "摄影专家",
+            "kind": "亲切",
+            "config": "配置很好",
+            "mood": "氛围大师"
         },
         "samples": {
             "review1": {
-                "author": "jm47",
-                "text": "这是我第一次拍摄身体写真，摄影师名不虚传。我在服装、姿势或概念上还没有准备充分，但当摄影师看到我时，他给出了完美的指导。我非常满意！我计划在打造更好的身材后再次光临！他捕捉到了每一个生动的细节，所以我一定会回来的！"
+                "author": "金哲民",
+                "text": "这是我第一次拍摄身体概况，果然名不虚传。摄影师完美引导了我。捕捉到了人生照片。"
             },
             "review2": {
-                "author": "Jaehihi43",
-                "text": "最重要的是，摄影师真的太好了！！摄影前我非常紧张，但他引导得非常亲切，捕捉到了惊人的角度和构图。结果非常漂亮。我在拍摄过程中感到非常自在、有趣，感觉就像在朋友家里玩一样。强烈推荐！"
+                "author": "李智惠",
+                "text": "摄影师非常亲切！拍摄氛围很轻松，构图和色调非常漂亮。强烈推荐！"
             }
         }
     }

@@ -12,65 +12,88 @@ const VIDEO_IDS = {
 
 const ReservationForm = () => {
     const { t, i18n } = useTranslation();
-    const stepsData = t('reservation.steps', { returnObjects: true });
     const [playing, setPlaying] = useState(false);
-
-    const stepKeys = [1, 2, 3];
 
     const lang = i18n.language?.slice(0, 2);
     const videoId = VIDEO_IDS[lang] || VIDEO_IDS.ko;
-    const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+    const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
     const embedSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&playsinline=1&rel=0${videoId === 'xqBJ8Ep4Ux4' ? '&start=6' : ''}`;
 
     return (
-        <div className="container-inner reservation-container">
-            <FadeInSection className="section-header">
-                <h2 className="section-title">{t('reservation.title')}</h2>
-                <p className="section-subtitle">{t('reservation.subtitle')}</p>
-            </FadeInSection>
+        <div className="reservation-section-wrapper">
+            <div className="container-inner reservation-container">
+                <FadeInSection className="reservation-header">
+                    <div className="header-left">
+                        <h2 className="reservation-title">{t('reservation.title')}</h2>
+                    </div>
+                    <div className="header-right">
+                        <span className="reservation-subtitle">{t('reservation.subtitle')}</span>
+                    </div>
+                </FadeInSection>
 
-            <FadeInSection delay={0.2} className="reservation-cta-card">
-                <div className="reservation-steps">
-                    {stepKeys.map((num) => (
-                        <div key={num} className="res-step">
-                            <div className="step-number">{num}</div>
-                            <div className="step-content">
-                                <h3>{stepsData[`step${num}_title`]}</h3>
-                                <p style={{ whiteSpace: 'pre-line' }}>{stepsData[`step${num}_desc`]}</p>
-                                {num === 2 && (
+                <FadeInSection delay={0.2} className="reservation-main-card">
+                    <div className="reservation-steps-list">
+                        {/* Step 1 */}
+                        <div className="reservation-step-item">
+                            <div className="step-circle">1</div>
+                            <div className="step-body">
+                                <h3 className="step-title">{t('reservation.steps.step1_title')}</h3>
+                                <p className="step-desc">{t('reservation.steps.step1_desc')}</p>
+                                <div className="step-action">
                                     <a
                                         href={t('reservation.link')}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="naver-booking-btn"
+                                        className="res-naver-btn"
                                     >
-                                        📅 {t('reservation.button')}
+                                        {t('reservation.button')}
                                     </a>
-                                )}
+                                </div>
                             </div>
                         </div>
-                    ))}
-                </div>
 
-                <div className="reservation-notice">
-                    <p>{t('reservation.final_notice')}</p>
-                </div>
-
-                <div className="reservation-video-wrapper">
-                    {playing ? (
-                        <iframe
-                            src={embedSrc}
-                            title="FITGIRLS Guide Video"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-                        />
-                    ) : (
-                        <div className="reservation-video-thumb" onClick={() => setPlaying(true)}>
-                            <img src={thumbnail} alt="FITGIRLS Guide Video" />
-                            <div className="reservation-video-play">▶</div>
+                        {/* Step 2 */}
+                        <div className="reservation-step-item">
+                            <div className="step-circle">2</div>
+                            <div className="step-body">
+                                <h3 className="step-title">{t('reservation.steps.step2_title')}</h3>
+                                <p className="step-desc">{t('reservation.steps.step2_desc')}</p>
+                                <p className="step-account">{t('reservation.steps.account_info')}</p>
+                            </div>
                         </div>
-                    )}
-                </div>
-            </FadeInSection>
+                    </div>
+
+                    <div className="reservation-info-box">
+                        <p className="primary-notice">{t('reservation.final_notice')}</p>
+                        <p className="secondary-notice">{t('reservation.return_discount')}</p>
+                    </div>
+
+                    <div className="reservation-guidebook-section">
+                        {playing ? (
+                            <div className="video-iframe-container">
+                                <iframe
+                                    src={embedSrc}
+                                    title="FITGIRLS Guide Video"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                                />
+                            </div>
+                        ) : (
+                            <div className="guidebook-thumb" onClick={() => setPlaying(true)}>
+                                <img src={thumbnail} alt="FITGIRLS Guidebook" />
+                                <div className="guidebook-overlay">
+                                    <div className="guidebook-text">
+                                        <h3>{t('reservation.guidebook_title')}</h3>
+                                        <div className="play-button-circle">
+                                            <div className="play-icon"></div>
+                                        </div>
+                                        <div className="brand-logo-mini">Fitgirls</div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </FadeInSection>
+            </div>
         </div>
     );
 };

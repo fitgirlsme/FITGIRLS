@@ -415,13 +415,19 @@
 }
 
 @media (max-width: 480px) {
+    .faq-question h4 {
+        font-size: 0.9rem;
+    }
+    .faq-answer-content p {
+        font-size: 0.82rem;
+    }
     .ai-response-card {
         padding: 18px;
     }
     .ai-matched-q {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
     .ai-matched-a {
-        font-size: 0.9rem;
+        font-size: 0.82rem;
     }
 }

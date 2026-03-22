@@ -4,65 +4,102 @@ import './Service.css';
 
 const Service = () => {
     const { t } = useTranslation();
-    const [activeTab, setActiveTab] = useState(0);
+    const [mainTab, setMainTab] = useState('fitorialist');
+    const [subTab, setSubTab] = useState('menu1');
 
+    const headerTitle = t('services.header_title');
+    const headerSubtitle = t('services.header_subtitle');
     const headerDesc = t('services.header_desc');
-    const samePrice = t('services.same_price', { defaultValue: '' });
-    const returnDiscount = t('reservation.return_discount', { defaultValue: '' });
-    const menu1 = t('services.menu1', { returnObjects: true }) || {};
-    const list1 = t('services.list1', { returnObjects: true }) || [];
-    const menu2 = t('services.menu2', { returnObjects: true }) || {};
-    const list2 = t('services.list2', { returnObjects: true }) || [];
+    const samePrice = t('services.same_price');
+    const returnDiscount = t('services.return_discount');
     const notices = t('services.notices', { returnObjects: true }) || [];
 
-    const items = activeTab === 0 ? list1 : list2;
+    const tabs = t('services.tabs', { returnObjects: true }) || {};
+    const serviceData = t(`services.${mainTab}`, { returnObjects: true }) || {};
+
+    const hasSubTabs = serviceData.menu2;
+    const items = subTab === 'menu1' ? (serviceData.list1 || []) : (serviceData.list2 || []);
+    const currentMenu = subTab === 'menu1' ? (serviceData.menu1 || {}) : (serviceData.menu2 || {});
+
+    const handleMainTabChange = (key) => {
+        setMainTab(key);
+        setSubTab('menu1'); // Reset subTab when main category changes
+    };
 
     return (
         <div className="container-inner service-container">
+            <div className="service-header-top">
+                <h2 className="service-main-title">{headerTitle}</h2>
+                <h3 className="service-main-subtitle">{headerSubtitle}</h3>
+            </div>
+
+            {/* Main Tabs */}
             <nav className="service-tabs">
-                <button
-                    className={`service-tab-btn ${activeTab === 0 ? 'active' : ''}`}
-                    onClick={() => setActiveTab(0)}
-                >
-                    {menu1.title || 'PORTRAIT MENU'}
-                </button>
-                <button
-                    className={`service-tab-btn ${activeTab === 1 ? 'active' : ''}`}
-                    onClick={() => setActiveTab(1)}
-                >
-                    {menu2.title || 'FRIENDS & COUPLE'}
-                </button>
+                {Object.entries(tabs).map(([key, label]) => (
+                    <button
+                        key={key}
+                        className={`service-tab-btn ${mainTab === key ? 'active' : ''}`}
+                        onClick={() => handleMainTabChange(key)}
+                    >
+                        {label}
+                    </button>
+                ))}
             </nav>
 
+            {/* Sub Tabs (Only if category has menu2) */}
+            {hasSubTabs && (
+                <nav className="service-sub-tabs">
+                    <button
+                        className={`service-sub-tab-btn ${subTab === 'menu1' ? 'active' : ''}`}
+                        onClick={() => setSubTab('menu1')}
+                    >
+                        {serviceData.menu1?.title || 'PORTRAIT'}
+                    </button>
+                    <button
+                        className={`service-sub-tab-btn ${subTab === 'menu2' ? 'active' : ''}`}
+                        onClick={() => setSubTab('menu2')}
+                    >
+                        {serviceData.menu2?.title || 'FRIENDS & COUPLE'}
+                    </button>
+                </nav>
+            )}
+
             <div className="service-category">
+                {currentMenu.category && (
+                    <div className="service-category-tag">{currentMenu.category}</div>
+                )}
                 <div className="service-cards">
-                    {Array.isArray(items) && items.map((item, idx) => (
-                        <div key={idx} className="service-card full-details">
-                            <div className="service-header">
-                                <h4 className="service-name">{item.title}</h4>
-                                <div className="service-price">{item.price}</div>
+                    {Array.isArray(items) && items.length > 0 ? (
+                        items.map((item, idx) => (
+                            <div key={idx} className="service-card full-details">
+                                <div className="service-header">
+                                    <h4 className="service-name">{item.title}</h4>
+                                    <div className="service-price">{item.price}</div>
+                                </div>
+                                <ul className="service-details">
+                                    {Array.isArray(item.details) && item.details.map((detail, i) => (
+                                        <li key={i}>{detail}</li>
+                                    ))}
+                                </ul>
                             </div>
-                            <ul className="service-details">
-                                {Array.isArray(item.details) && item.details.map((detail, i) => (
-                                    <li key={i}>{detail}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))}
+                        ))
+                    ) : (
+                        <div className="service-empty">COMMING SOON</div>
+                    )}
                 </div>
             </div>
 
             <div className="service-notice">
                 {returnDiscount && (
-                    <p className="service-main-desc" style={{ marginBottom: '12px', fontWeight: 600, color: 'var(--color-primary)' }}>
+                    <p className="service-notice-highlight">
                         {returnDiscount}
                     </p>
                 )}
-                <p className="service-main-desc" style={{ marginBottom: '12px' }}>
+                <p className="service-main-desc">
                     {headerDesc}
                 </p>
                 {samePrice && (
-                    <p className="service-main-desc" style={{ marginBottom: '12px', fontWeight: 600, color: 'var(--color-text)' }}>
+                    <p className="service-notice-highlight secondary">
                         {samePrice}
                     </p>
                 )}

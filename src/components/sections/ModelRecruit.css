@@ -476,8 +476,24 @@
     .program-card {
         padding: 24px;
     }
+
+    .program-card-title {
+        font-size: 1.1rem;
+    }
     
     .model-apply-intro {
-        font-size: 1rem !important;
+        font-size: 0.9rem !important;
+    }
+
+    .model-apply-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .item-title {
+        font-size: 0.85rem;
+    }
+
+    .item-desc {
+        font-size: 0.75rem;
     }
 }

@@ -1,149 +1,297 @@
+.reservation-section-wrapper {
+    background-color: #ffffff;
+    padding: 100px 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
 .reservation-container {
-    padding-top: 40px;
-    padding-bottom: 80px;
+    max-width: 900px !important;
+    width: 100%;
 }
 
-.reservation-cta-card {
-    background: var(--color-surface);
-    padding: 40px 32px;
-    border-radius: 16px;
-    border: 1px solid var(--color-border);
+.reservation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid #000;
+    padding-bottom: 12px;
+    margin-bottom: 40px;
+}
+
+.reservation-title {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #000;
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+.reservation-subtitle {
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.reservation-main-card {
+    background: #ffffff;
+    border: 1px solid #eeeeee;
+    border-radius: 35px;
+    padding: 50px 45px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 40px;
 }
 
-.reservation-steps {
+.reservation-steps-list {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 35px;
 }
 
-.res-step {
+.reservation-step-item {
     display: flex;
-    gap: 16px;
-    align-items: flex-start;
+    gap: 20px;
 }
 
-.step-number {
-    background: var(--color-primary);
+.step-circle {
+    background: #ff3b30;
     color: #fff;
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 900;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     flex-shrink: 0;
-    margin-top: 2px;
 }
 
-.step-content {
+.step-body {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
 }
 
-.step-content h3 {
-    margin: 0;
-    font-size: 1.15rem;
+.step-title {
+    font-size: 1.25rem;
     font-weight: 800;
-    color: var(--color-text);
-    line-height: 1.4;
-}
-
-.step-content p {
+    color: #000;
     margin: 0;
-    font-size: 0.95rem;
-    color: var(--color-text-secondary);
-    line-height: 1.6;
 }
 
-.naver-booking-btn {
-    background: #03C75A;
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    padding: 14px 24px;
+.step-desc {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+    margin: 0;
+}
+
+.step-account {
+    color: #ff3b30;
     font-weight: 800;
     font-size: 1rem;
-    text-decoration: none;
-    cursor: pointer;
-    transition: opacity 0.2s, transform 0.2s;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    max-width: fit-content;
+    margin: 8px 0 0;
 }
 
-.naver-booking-btn:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
-}
-
-.reservation-video-wrapper {
-    width: 100%;
-    aspect-ratio: 16 / 9;
+.res-naver-btn {
+    display: inline-block;
+    background: #00c35b;
+    color: #fff;
+    padding: 14px 28px;
     border-radius: 12px;
-    overflow: hidden;
-    background: #000;
+    font-weight: 800;
+    font-size: 1.1rem;
+    text-decoration: none;
+    margin-top: 10px;
 }
 
-.reservation-video-wrapper iframe {
+.reservation-info-box {
+    border: 1.5px dashed #000;
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    background: #fafafa;
+}
+
+.primary-notice {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #000;
+    margin: 0 0 8px;
+}
+
+.secondary-notice {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+}
+
+.reservation-guidebook-section {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 25px;
+    overflow: hidden;
+    position: relative;
+    background: #eee;
+}
+
+.video-iframe-container, 
+.video-iframe-container iframe {
     width: 100%;
     height: 100%;
     border: none;
-    display: block;
 }
 
-.reservation-video-thumb {
-    position: relative;
+.guidebook-thumb {
     width: 100%;
     height: 100%;
+    position: relative;
     cursor: pointer;
 }
 
-.reservation-video-thumb img {
+.guidebook-thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
 }
 
-.reservation-video-play {
+.guidebook-overlay {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 64px;
-    height: 64px;
-    background: rgba(0, 0, 0, 0.7);
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+}
+
+.guidebook-text h3 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.play-button-circle {
+    width: 70px;
+    height: 70px;
+    background: #ff3b30;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    color: #fff;
-    transition: background 0.2s, transform 0.2s;
+    margin: 0 auto 20px;
+    box-shadow: 0 10px 20px rgba(255, 59, 48, 0.4);
 }
 
-.reservation-video-thumb:hover .reservation-video-play {
-    background: var(--color-primary);
-    transform: translate(-50%, -50%) scale(1.08);
+.play-icon {
+    width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 20px solid #fff;
+    margin-left: 5px;
 }
 
-.reservation-notice {
-    background: var(--color-bg);
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px dashed var(--color-border);
-    color: var(--color-text);
-    font-weight: 700;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    text-align: center;
-    word-break: keep-all;
+.brand-logo-mini {
+    background: #ff3b30;
+    display: inline-block;
+    padding: 4px 8px;
+    font-weight: 900;
+    font-size: 0.7rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+    .reservation-section-wrapper {
+        padding: 60px 8px;
+    }
+    
+    .reservation-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        margin: 0 8px 25px;
+        padding-bottom: 8px;
+    }
+
+    .reservation-title {
+        font-size: 1.8rem;
+    }
+
+    .reservation-subtitle {
+        font-size: 1rem;
+    }
+    
+    .reservation-main-card {
+        padding: 30px 16px;
+        margin: 0;
+        border-radius: 25px;
+        gap: 40px;
+    }
+
+    .reservation-steps-list {
+        gap: 45px;
+    }
+
+    .step-circle {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+    }
+
+    .step-title {
+        font-size: 1.1rem;
+    }
+
+    .step-desc,
+    .step-account {
+        font-size: 0.85rem;
+    }
+
+    .res-naver-btn {
+        padding: 12px 24px;
+        font-size: 0.95rem;
+    }
+
+    .reservation-info-box {
+        padding: 20px 15px;
+    }
+
+    .primary-notice {
+        font-size: 0.95rem;
+    }
+
+    .secondary-notice {
+        font-size: 0.8rem;
+    }
+    
+    .guidebook-text h3 {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
+
+    .play-button-circle {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 12px;
+    }
+
+    .play-icon {
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 14px solid #fff;
+    }
+}
+
+@media (min-width: 1024px) {
+    .reservation-section-wrapper {
+        padding: 100px 10vw;
+    }
 }
