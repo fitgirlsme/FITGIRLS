@@ -86,6 +86,20 @@ const Service = () => {
                     ) : (
                         <div className="service-empty">COMMING SOON</div>
                     )}
+
+                    {/* Tab Specific Notices as a Card */}
+                    {Array.isArray(serviceData.notices) && (
+                        <div className="service-card service-specific-card">
+                            <div className="service-header">
+                                <h4 className="service-name">ADDITIONAL OPTIONS / INFO</h4>
+                            </div>
+                            <ul className="service-details notice-list">
+                                {serviceData.notices.map((notice, idx) => (
+                                    <li key={`spec-${idx}`}>{notice}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -102,15 +116,6 @@ const Service = () => {
                     <p className="service-notice-highlight secondary">
                         {samePrice}
                     </p>
-                )}
-
-                {/* Tab Specific Notices */}
-                {Array.isArray(serviceData.notices) && (
-                    <ul className="service-specific-notices" style={{ marginBottom: '24px' }}>
-                        {serviceData.notices.map((notice, idx) => (
-                            <li key={`spec-${idx}`} className="highlight-notice">{notice}</li>
-                        ))}
-                    </ul>
                 )}
 
                 {/* Global Notices */}

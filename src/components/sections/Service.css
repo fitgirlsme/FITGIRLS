@@ -241,28 +241,21 @@
   font-weight: bold;
 }
 
-.service-specific-notices {
-  background: var(--color-primary-light);
-  padding: 24px !important;
-  border-radius: 16px;
-  border: 1px solid var(--color-primary);
-  list-style: none !important;
+.service-specific-card {
+  border: 1px solid var(--color-primary) !important;
+  background: rgba(var(--color-primary-rgb), 0.03) !important;
 }
 
-.service-specific-notices li {
-  color: var(--color-text) !important;
-  font-weight: 700 !important;
-  font-size: 0.95rem !important;
-  padding-left: 0 !important;
-  margin-bottom: 8px;
+.service-specific-card .service-name {
+  color: var(--color-primary) !important;
+  font-size: 0.9rem !important;
+  letter-spacing: 1px;
 }
 
-.service-specific-notices li:last-child {
-  margin-bottom: 0;
-}
-
-.service-specific-notices li:before {
-  display: none !important;
+.service-specific-card .service-details li {
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 12px;
 }
 
 /* Responsive */
