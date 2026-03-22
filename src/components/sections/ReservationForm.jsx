@@ -55,21 +55,21 @@ const ReservationForm = () => {
                 <div className="reservation-notice">
                     <p>{t('reservation.final_notice')}</p>
                 </div>
-            </FadeInSection>
 
-            <FadeInSection delay={0.3} className="reservation-video-wrapper">
-                {playing ? (
-                    <iframe
-                        src={embedSrc}
-                        title="FITGIRLS Guide Video"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-                    />
-                ) : (
-                    <div className="reservation-video-thumb" onClick={() => setPlaying(true)}>
-                        <img src={thumbnail} alt="FITGIRLS Guide Video" />
-                        <div className="reservation-video-play">▶</div>
-                    </div>
-                )}
+                <div className="reservation-video-wrapper">
+                    {playing ? (
+                        <iframe
+                            src={embedSrc}
+                            title="FITGIRLS Guide Video"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                        />
+                    ) : (
+                        <div className="reservation-video-thumb" onClick={() => setPlaying(true)}>
+                            <img src={thumbnail} alt="FITGIRLS Guide Video" />
+                            <div className="reservation-video-play">▶</div>
+                        </div>
+                    )}
+                </div>
             </FadeInSection>
         </div>
     );

@@ -87,10 +87,9 @@
 .reservation-video-wrapper {
     width: 100%;
     aspect-ratio: 16 / 9;
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
     background: #000;
-    margin-bottom: 8px;
 }
 
 .reservation-video-wrapper iframe {
