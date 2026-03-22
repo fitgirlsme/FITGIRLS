@@ -457,63 +457,62 @@ const GallerySection = () => {
 
                     {/* Gallery Grid */}
                     <div className="gallery-masonry-wrapper" ref={galleryRef}>
-
-                        {/* 갤러리 업로드는 Admin 대시보드나 멀티 업로더를 공식적으로 사용합니다. 제거됨 */}
-
-                        <div className="gallery-masonry-grid" style={{ display: 'flex' }}>
-                            {columnsArray.map((colItems, colIdx) => (
-                                <div key={colIdx} style={{ flex: 1, display: 'flex', flexDirection: 'column' }} className="masonry-column-wrapper">
-                                    {colItems.map(({ item, originalIndex }) => (
-                                        <div
-                                            key={item.id}
-                                            className="masonry-item"
-                                            onClick={() => openLightbox(originalIndex)}
-                                        >
-                                            <img src={item.img} alt={item.seoTags || 'Gallery'} loading="lazy" />
-                                            <div className="masonry-hover-overlay">
-                                                <span className="masonry-plus">+</span>
-                                                {item.tags && item.tags.length > 0 && (
-                                                    <div className="masonry-tags">
-                                                        {item.tags.map((tag, ti) => (
-                                                            <span key={ti} className="masonry-tag-chip">
-                                                                {tag.startsWith('#') ? tag : `#${tag}`}
-                                                            </span>
-                                                        ))}
-                                                    </div>
-                                                )}
+                        <div 
+                            className="gallery-masonry-grid" 
+                            style={{ 
+                                display: 'grid',
+                                '--cols': cols
+                            }}
+                        >
+                            {visibleItems.map((item, originalIndex) => (
+                                <div
+                                    key={item.id}
+                                    className="masonry-item"
+                                    onClick={() => openLightbox(originalIndex)}
+                                >
+                                    <img src={item.img} alt={item.seoTags || 'Gallery'} loading="lazy" />
+                                    <div className="masonry-hover-overlay">
+                                        <span className="masonry-plus">+</span>
+                                        {item.tags && item.tags.length > 0 && (
+                                            <div className="masonry-tags">
+                                                {item.tags.map((tag, ti) => (
+                                                    <span key={ti} className="masonry-tag-chip">
+                                                        {tag.startsWith('#') ? tag : `#${tag}`}
+                                                    </span>
+                                                ))}
                                             </div>
-                                            {/* 관리자 도구 */}
-                                            {isAdmin && !String(item.id).startsWith('m') && (
-                                                <div className="masonry-admin-tools">
-                                                    <button
-                                                        className="masonry-edit-btn"
-                                                        title="정보 수정"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            setEditTarget(item);
-                                                            setEditTags((item.tags || []).join(', '));
-                                                            setEditMainCat(item.mainCategory || 'fitorialist');
-                                                            setEditType(item.type || 'women');
-                                                            setEditFile(null);
-                                                            setEditPreview(null);
-                                                        }}
-                                                    >
-                                                        EDIT
-                                                    </button>
-                                                    <button
-                                                        className="masonry-delete-btn"
-                                                        title="사진 삭제"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            setDeleteTarget(item);
-                                                        }}
-                                                    >
-                                                        DEL
-                                                    </button>
-                                                </div>
-                                            )}
+                                        )}
+                                    </div>
+                                    {/* 관리자 도구 */}
+                                    {isAdmin && !String(item.id).startsWith('m') && (
+                                        <div className="masonry-admin-tools">
+                                            <button
+                                                className="masonry-edit-btn"
+                                                title="정보 수정"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setEditTarget(item);
+                                                    setEditTags((item.tags || []).join(', '));
+                                                    setEditMainCat(item.mainCategory || 'fitorialist');
+                                                    setEditType(item.type || 'women');
+                                                    setEditFile(null);
+                                                    setEditPreview(null);
+                                                }}
+                                            >
+                                                EDIT
+                                            </button>
+                                            <button
+                                                className="masonry-delete-btn"
+                                                title="사진 삭제"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setDeleteTarget(item);
+                                                }}
+                                            >
+                                                DEL
+                                            </button>
                                         </div>
-                                    ))}
+                                    )}
                                 </div>
                             ))}
                         </div>
