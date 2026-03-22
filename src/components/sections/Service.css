@@ -37,26 +37,23 @@
 .service-tabs {
   display: flex;
   justify-content: center;
-  gap: 0;
-  margin-bottom: 36px;
+  gap: 8px;
+  margin-bottom: 24px;
   flex-wrap: wrap;
-  border-bottom: 1.5px solid var(--color-border);
 }
 
 .service-tab-btn {
-  padding: 12px 28px;
-  border-radius: 0;
+  padding: 10px 22px;
+  border-radius: 999px;
   border: none;
-  border-bottom: 3px solid transparent;
   background: transparent;
   color: var(--color-text-secondary);
   font-size: 0.85rem;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.25s ease;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  margin-bottom: -1.5px;
 }
 
 .service-tab-btn:hover {
@@ -64,11 +61,8 @@
 }
 
 .service-tab-btn.active {
-  color: var(--color-primary);
-  border-bottom: 3px solid var(--color-primary);
-  background: transparent;
-  transform: none;
-  box-shadow: none;
+  color: #fff;
+  background: var(--color-primary);
 }
 
 .service-sub-tabs {
