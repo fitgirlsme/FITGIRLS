@@ -28,7 +28,6 @@ const Partner = () => {
         <div className="container-inner partner-container">
             <FadeInSection className="section-header">
                 <h2 className="section-title">{title}</h2>
-                <p className="section-subtitle">{subtitle}</p>
             </FadeInSection>
 
             <FadeInSection delay={0.4}>
@@ -36,7 +35,6 @@ const Partner = () => {
                     {/* 상단: 샵 이름 + 가격 */}
                     <div className="partner-top">
                         <div className="partner-shop-info">
-                            <div className="partner-badge">BEAUTY PARTNER</div>
                             <h3 className="partner-shop-name">{shopName}</h3>
                         </div>
                         <div className="partner-price-box">
