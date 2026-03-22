@@ -81,6 +81,21 @@ const Location = () => {
                     <div className="location-parking-warning">
                         <p>* {loc.parking_warning}</p>
                     </div>
+                    {loc.links?.parking_map && (
+                        <a
+                            href={loc.links.parking_map}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="location-naver-btn"
+                            style={{ marginTop: '20px' }}
+                        >
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="1" y="3" width="22" height="18" rx="2" ry="2"/>
+                                <path d="M7 7h10M7 12h10M7 17h10"/>
+                            </svg>
+                            {loc.btn_parking || 'Parking Map'}
+                        </a>
+                    )}
                 </div>
             </FadeInSection>
         </div>

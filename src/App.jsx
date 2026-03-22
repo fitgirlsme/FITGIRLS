@@ -18,6 +18,7 @@ import SupportCS from './components/SupportCS';
 import Reviews from './pages/Reviews';
 import BrandReport from './pages/BrandReport';
 import Admin from './pages/Admin';
+import Ambassador from './pages/Ambassador';
 import { syncAll } from './utils/syncService';
 import './index.css';
 
@@ -29,11 +30,27 @@ const Home = ({ changeLanguage, currentLang }) => {
   const [isGalleryVisible, setIsGalleryVisible] = React.useState(false);
 
   React.useEffect(() => {
-    // ... logic for section scrolling
+    const section = location.pathname.substring(1);
+    if (section && section !== 'admin' && section !== 'report' && section !== 'amber') {
+      setTimeout(() => {
+        const el = document.getElementById(section);
+        const container = document.querySelector('.snap-container');
+        if (el && container) {
+          container.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
+        }
+      }, 100);
+    }
   }, [location.pathname]);
 
   React.useEffect(() => {
-    // ... logic for gallery visibility observer
+    const galleryEl = document.getElementById('gallery');
+    if (!galleryEl) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsGalleryVisible(entry.isIntersecting),
+      { threshold: 0.3 }
+    );
+    observer.observe(galleryEl);
+    return () => observer.disconnect();
   }, []);
 
   const handleScroll = (e) => {
@@ -58,14 +75,13 @@ const Home = ({ changeLanguage, currentLang }) => {
         <section className="snap-section" id="gallery"><Gallery /></section>
         <section className="snap-section" id="service"><Service /></section>
         <section className="snap-section" id="zone"><Zone /></section>
-        <section className="snap-section" id="hair-makeup"><Partner /></section>
+        <section className="snap-section" id="partner"><Partner /></section>
         <section className="snap-section" id="faq"><FAQ /></section>
-        <section className="snap-section" id="event-board"><Notice /></section>
+        <section className="snap-section" id="notice"><Notice /></section>
         <section className="snap-section" id="location"><Location /></section>
         <section className="snap-section" id="reservation"><ReservationForm /></section>
         <section className="snap-section" id="reviews"><Reviews /></section>
 
-        <section className="snap-section" id="amber"><ModelRecruit /></section>
         <footer className={`site-footer ${isGalleryVisible ? 'footer-hidden' : ''}`}>
           <div className="site-footer-inner">
             <span className="site-footer-logo">FITGIRLS &amp; INAFIT</span>
@@ -95,10 +111,11 @@ function App() {
       <React.Suspense fallback={<div className="loading">Loading...</div>}>
         <Routes>
           <Route path="/" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
-          <Route path="/:section" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/report" element={<BrandReport />} />
-
+          <Route path="/amber" element={<Ambassador />} />
+          <Route path="/ambassador" element={<Ambassador />} />
+          <Route path="/:section" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
         </Routes>
       </React.Suspense>
     </div>

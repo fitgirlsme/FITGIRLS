@@ -164,30 +164,13 @@
     margin: 0;
 }
 
-/* ===== BACK Button (red/primary border) ===== */
-.back-to-main-btn {
-    background: transparent;
-    border: 2px solid var(--color-primary, #e53e3e);
-    color: var(--color-primary, #e53e3e);
-    padding: 10px 24px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.02em;
-}
-
-.back-to-main-btn:hover {
-    background: var(--color-primary, #e53e3e);
-    color: #fff;
-}
 
 /* ===== Search Bar (full-width) ===== */
 .gallery-search-bar-container {
     width: 100%;
     margin-bottom: 32px;
 }
+
 
 .gallery-search-bar {
     display: flex;

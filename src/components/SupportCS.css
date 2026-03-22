@@ -6,6 +6,11 @@
     z-index: 999;
 }
 
+/* Hide when gallery modal is active */
+body.hide-support-cs .cs-container {
+    display: none !important;
+}
+
 .cs-button {
     display: flex;
     align-items: center;

@@ -90,12 +90,47 @@
   height: 100%;
 }
 
-/* App container */
-.app-container {
-  min-height: 100dvh;
-  width: 100%;
-  position: relative;
-  background-color: var(--color-bg);
+/* ===== Global Premium UI: HOME Button ===== */
+.back-to-main-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #111;
+    padding: 10px 22px;
+    border-radius: 40px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.1em;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    text-decoration: none; /* For link-based buttons */
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.back-btn-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+}
+
+.back-to-main-btn:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.back-to-main-btn:hover .back-btn-icon {
+    transform: scale(1.1);
+}
+
+.back-to-main-btn:active {
+    transform: translateY(0);
 }
 
 /* Site footer */

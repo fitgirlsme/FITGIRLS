@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { addItem, getData, deleteItem, updateItem, STORES } from '../utils/db';
 import { db, storage } from '../utils/firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
@@ -68,6 +68,7 @@ const Admin = () => {
     const [password, setPassword] = useState('');
     const [activeTab, setActiveTab] = useState('gallery');
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (searchParams.get('editModel')) setActiveTab('models');
@@ -352,7 +353,7 @@ const GalleryTab = () => {
                     disabled={files.length === 0 || parsedTags.length > 3 || uploading}>
                     {uploading ? `업로드 중... ${uploadCount}장 서버 전송 중` : `새 사진 ${files.length}장 업로드 완료`}
                 </button>
-                <button type="button" className="secondary-btn" onClick={() => window.location.href = '#/'}>📸 갤러리로 이동</button>
+                <button type="button" className="secondary-btn" onClick={() => navigate('/gallery')}>📸 갤러리로 이동</button>
             </div>
         </div>
     );

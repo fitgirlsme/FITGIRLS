@@ -191,9 +191,11 @@
         "address": "B1, 18, Gangnam-daero 160-gil, Gangnam-gu, Seoul (Atium Building)\n(Lot: 508-4, Sinsa-dong, Gangnam-gu, Seoul, Basement)",
         "address_copy": "B1, 18, Gangnam-daero 160-gil, Gangnam-gu, Seoul, Atium Building",
         "links": {
-            "studio_map": "https://map.naver.com/v5/search/%ED%95%8F%EA%B1%B8%EC%A6%88%EC%8A%A4%ED%84%B0%EB%94%94%EC%98%A4/place/1976065694"
+            "studio_map": "https://map.naver.com/p/search/%ED%95%8F%EA%B1%B8%EC%A6%88%EC%8A%A4%ED%8A%9C%EB%94%94%EC%98%A4/place/1976065694?c=15.00,0,0,0,dh&placePath=/home?bk_query=%ED%95%8F%EA%B1%B8%EC%A6%88%EC%8A%A4%ED%8A%9C%EB%94%94%EC%98%A4&entry=bmp&from=map&fromPanelNum=2&timestamp=202603212003&locale=ko&svcName=map_pcv5&searchText=%ED%95%8F%EA%B1%B8%EC%A6%88%EC%8A%A4%ED%8A%9C%EB%94%94%EC%98%A4",
+            "parking_map": "https://map.naver.com/p/search/%EB%91%90%EC%9B%90%EB%B9%8C%EB%94%A9%20%EC%A3%BC%EC%B0%A8%EC%9E%A5/place/667509448?placePath=%3Fbk_query%3D%25EB%2591%2590%25EC%259B%2590%25EB%25B9%258C%25EB%2594%25A9%2520%25EC%25A3%25BC%25EC%B0%25A8%25EC%259E%25A5%26entry%3Dpll%26from%3Dnx%26fromNxList%3Dtrue&placeSearchOption=bk_query%3D%25EB%2591%2590%25EC%259B%2590%25EB%25B9%258C%25EB%2594%25A9%2520%25EC%25A3%25BC%25EC%25B0%25A8%25EC%259E%25A5%26entry%3Dpll%26fromNxList%3Dtrue%26x%3D127.022781%26y%3D37.524010&searchType=place"
         },
-        "btn_studio": "Naver Directions",
+        "btn_studio": "Naver Maps",
+        "btn_parking": "View Parking Map",
         "parking_title": "Parking Info",
         "parking_notices": [
             "Parking is not available in this building.",
@@ -311,7 +313,7 @@
             {
                 "question": "Is parking available?",
                 "answer": "Please use the paid valet service in front of the studio (10,000 KRW for 2 hours) or paid parking lots in nearby buildings.",
-                "links": [{ "label": "Doowon Building Parking", "url": "https://naver.me/xSomeMap", "type": "map" }]
+                "links": [{ "label": "Doowon Building Parking", "url": "https://map.naver.com/p/search/두원빌딩%20주차장/place/667509448?placePath=%3Fbk_query%3D%25EB%2591%2590%25EC%259B%2590%25EB%25B9%258C%25EB%2594%25A9%2520%25EC%25A3%25BC%25EC%25B0%25A8%25EC%259E%25A5%26entry%3Dpll%26from%3Dnx%26fromNxList%3Dtrue&placeSearchOption=bk_query%3D%25EB%2591%2590%25EC%259B%2590%25EB%25B9%258C%25EB%2594%25A9%2520%25EC%25A3%25BC%25EC%25B0%25A8%25EC%259E%25A5%26entry%3Dpll%26fromNxList%3Dtrue%26x%3D127.022781%26y%3D37.524010&searchType=place", "type": "map" }]
             }
         ],
         "after_shoot": [

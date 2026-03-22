@@ -46,13 +46,17 @@ const Header = ({ isScrolled, isOnHero, changeLanguage, currentLang }) => {
     const handleNavClick = (path, sectionId) => {
         setMenuOpen(false);
         navigate(path);
-        requestAnimationFrame(() => {
-            const el = document.getElementById(sectionId);
-            const container = document.querySelector('.snap-container');
-            if (el && container) {
-                container.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
-            }
-        });
+        
+        // Only attempt to scroll if we are on the home page (or path is /)
+        if (path === '/' || !path.startsWith('/')) {
+            requestAnimationFrame(() => {
+                const el = document.getElementById(sectionId);
+                const container = document.querySelector('.snap-container');
+                if (el && container) {
+                    container.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
+                }
+            });
+        }
     };
 
     const toggleCategory = (categoryName, event) => {

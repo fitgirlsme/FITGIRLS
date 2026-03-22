@@ -242,10 +242,6 @@ const GallerySection = () => {
         return matchMain && matchSub && matchTag;
     }).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
-    // 페이지네이션: 보이는 항목만 슬라이스
-    const visibleItems = filteredGallery.slice(0, visibleCount);
-    const hasMore = visibleCount < filteredGallery.length;
-
     // JS Masonry chunking (가로(좌->우) 정렬을 위한 라운드로빈 분배)
     const [cols, setCols] = useState(2);
     useEffect(() => {
@@ -263,10 +259,18 @@ const GallerySection = () => {
         return () => window.removeEventListener('resize', updateCols);
     }, []);
 
-    const columnsArray = Array.from({ length: cols }, () => []);
-    visibleItems.forEach((item, originalIndex) => {
-        columnsArray[originalIndex % cols].push({ item, originalIndex });
-    });
+    // 페이지네이션: 보이는 항목만 슬라이스
+    // '더 보기' 버튼이 있는 경우, 우측 하단 빈칸을 방지하기 위해 
+    // 현재 줄(cols) 수의 배수로 내림하여 보여줍니다.
+    const displayLimit = (visibleCount < filteredGallery.length) 
+        ? Math.max(cols, Math.floor(visibleCount / cols) * cols) 
+        : visibleCount;
+        
+    const visibleItems = filteredGallery.slice(0, displayLimit);
+    const hasMore = displayLimit < filteredGallery.length;
+
+    // displayLimit와 hasMore가 계산된 후의 logic
+
 
     const handleLoadMore = () => {
         if (hasMore && !isLoadingMore) {
@@ -376,7 +380,11 @@ const GallerySection = () => {
                                     setSearchQuery('');
                                 }}
                             >
-                                ← BACK
+                                <svg className="back-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                    <polyline points="9 22 9 12 15 12 15 22" />
+                                </svg>
+                                <span>HOME</span>
                             </button>
                         </div>
 

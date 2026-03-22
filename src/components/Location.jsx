@@ -54,7 +54,7 @@ const Location = () => {
 
             <div className="location-actions">
               <button className="btn-find-studio" onClick={() => window.open('https://naver.me/GWeuhE37')}>📍 스튜디오 길찾기</button>
-              <button className="btn-find-parking" onClick={() => window.open('https://map.naver.com/v5/search/두원빌딩%20주차장')}>🏎️ 주차장 위치보기</button>
+              <button className="btn-find-parking" onClick={() => window.open('https://map.naver.com/p/search/두원빌딩%20주차장/place/667509448?placePath=%3Fbk_query%3D%25EB%2591%2590%25EC%259B%2590%25EB%25B9%258C%25EB%2594%25A9%2520%25EC%25A3%25BC%25EC%25B0%25A8%25EC%259E%25A5%26entry%3Dpll%26from%3Dnx%26fromNxList%3Dtrue&placeSearchOption=bk_query%3D%25EB%2591%2590%25EC%259B%2590%25EB%25B9%258C%25EB%2594%25A9%2520%25EC%25A3%25BC%25EC%25B0%25A8%25EC%259E%25A5%26entry%3Dpll%26fromNxList%3Dtrue%26x%3D127.022781%26y%3D37.524010&searchType=place')}>🏎️ 주차장 위치보기</button>
             </div>
           </div>
         </div>
