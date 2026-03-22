@@ -383,21 +383,28 @@ const GallerySection = () => {
                                 </div>
                                 {dynamicTags.filter(tag => tag !== 'ALL').map((tag, idx) => {
                                     const displayTag = tag;
-                                    const repItem = categoryFiltered
-                                        .filter(item => item.tags && item.tags.some(t => t.replace('#', '').toUpperCase() === tag.toUpperCase()))
-                                        .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))[0];
+                                    const repItems = categoryFiltered
+                                        .filter(item => item.tags && item.tags.some(t => t.replace('#', '').toUpperCase() === tag.toUpperCase()));
+                                    const repItem = [...repItems].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))[0];
+                                    
+                                    const tagHasNew = repItems.some(item => {
+                                        const age = item.createdAt || 0;
+                                        return Date.now() - age < 48 * 60 * 60 * 1000;
+                                    });
+
                                     return (
                                         <div
                                             key={idx}
                                             className={`tag-circle-item ${activeTag === tag ? 'active' : ''}`}
                                             onClick={() => setActiveTag(activeTag === tag ? 'ALL' : tag)}
                                         >
-                                            <div className="tag-circle-img-wrap">
+                                            <div className="tag-circle-img-wrap" style={{ position: 'relative' }}>
                                                 {repItem ? (
                                                     <img src={repItem.img} alt={displayTag} loading="lazy" />
                                                 ) : (
                                                     <div className="tag-circle-placeholder" />
                                                 )}
+                                                {tagHasNew && <span className="tag-new-dot" />}
                                             </div>
                                             <span className="tag-circle-label">{displayTag}</span>
                                         </div>
