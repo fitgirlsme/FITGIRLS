@@ -287,7 +287,7 @@ const ModelRecruit = () => {
                                                 )}
                                             </div>
                                             <span className="admin-apply-time">
-                                                {app.createdAt?.toDate ? new Date(app.createdAt.toDate()).toLocaleDateString() : 'New'}
+                                                {app.createdAt ? new Date(app.createdAt.toDate ? app.createdAt.toDate() : app.createdAt).toLocaleDateString() : ''}
                                             </span>
                                         </div>
                                         <div className="admin-apply-info-row">
