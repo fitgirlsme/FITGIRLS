@@ -1,14 +1,16 @@
 .service-container {
-  padding-top: 0;
-  padding-bottom: 80px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 24px 80px;
   background-color: var(--color-bg);
-  height: auto;
-  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 .service-header-spacer {
-  height: 80px;
-  flex-shrink: 0;
+  display: none; /* no longer needed, section padding handles it */
 }
 
 .service-header-top {

@@ -27,7 +27,7 @@ const Service = () => {
     };
 
     return (
-        <div className="container-inner service-container">
+        <div className="service-container">
             {/* Header spacer – clears the fixed nav */}
             <div className="service-header-spacer" />
 
