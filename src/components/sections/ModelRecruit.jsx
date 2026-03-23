@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { addItem, getData, deleteItem, STORES } from '../../utils/db';
+import { addItem, STORES } from '../../utils/db';
 import { db } from '../../utils/firebase';
-import { collection, addDoc, serverTimestamp, doc, updateDoc } from 'firebase/firestore';
-import { syncCollection } from '../../utils/syncService';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import './ModelRecruit.css';
 
 const ModelRecruit = () => {
@@ -11,21 +10,6 @@ const ModelRecruit = () => {
     const [form, setForm] = useState({ name: '', insta: '', location: '', job: '', phone: '', keywords: '' });
     const [status, setStatus] = useState(null); // 'success' | 'error'
     const [submitting, setSubmitting] = useState(false);
-    const [applications, setApplications] = useState([]);
-    const isAdmin = localStorage.getItem('isAdmin') === 'true';
-
-    useEffect(() => {
-        if (isAdmin) {
-            syncCollection(STORES.APPLICATIONS).then(data => {
-                const sorted = data.sort((a,b) => {
-                    const timeA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : new Date(a.createdAt).getTime();
-                    const timeB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : new Date(b.createdAt).getTime();
-                    return timeB - timeA;
-                });
-                setApplications(sorted);
-            }).catch(console.error);
-        }
-    }, [isAdmin]);
 
     const handleChange = (e) => {
         setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -48,15 +32,6 @@ const ModelRecruit = () => {
             });
             setStatus('success');
             setForm({ name: '', insta: '', location: '', job: '', phone: '', keywords: '' });
-            if (isAdmin) {
-                const list = await syncCollection(STORES.APPLICATIONS);
-                const sorted = list.sort((a,b) => {
-                    const timeA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : new Date(a.createdAt).getTime();
-                    const timeB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : new Date(b.createdAt).getTime();
-                    return timeB - timeA;
-                });
-                setApplications(sorted);
-            }
         } catch {
             setStatus('error');
         } finally {
@@ -64,61 +39,9 @@ const ModelRecruit = () => {
         }
     };
 
-    const handleDelete = async (id) => {
-        try {
-            await deleteItem(STORES.APPLICATIONS, id);
-            setApplications(prev => prev.filter(app => app.id !== id));
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    const handleToggleSelect = async (id, currentStatus) => {
-        try {
-            const docRef = doc(db, 'applications', id);
-            await updateDoc(docRef, { isSelected: !currentStatus });
-            setApplications(prev => prev.map(app => 
-                app.id === id ? { ...app, isSelected: !currentStatus } : app
-            ));
-        } catch (err) {
-            console.error('Error toggling select:', err);
-        }
-    };
-
-    const selectedApps = applications.filter(app => app.isSelected);
-
     return (
         <section className="model-apply-section">
             <div className="model-apply-container">
-                {/* Selected Ambassadors Showcase */}
-                {selectedApps.length > 0 && (
-                    <div className="selected-ambassadors-section">
-                        <h3 className="selected-title">SELECTED AMBASSADORS</h3>
-                        <div className="selected-list-scroll">
-                            {selectedApps.map(app => (
-                                <div key={app.id} className="selected-item">
-                                    <div className="selected-avatar-glow">
-                                        <div className="selected-avatar">
-                                            {app.name.charAt(0)}
-                                        </div>
-                                    </div>
-                                    <span className="selected-name">{app.name}</span>
-                                    {app.insta && (
-                                        <a 
-                                            href={`https://instagram.com/${app.insta.replace('@', '')}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="selected-insta-icon"
-                                        >
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                                        </a>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
                 <div className="model-apply-header">
                     <h2>{t('modelApply.title', '2026 FITORIAL 엠버서더 지원')}</h2>
                     <p className="model-apply-intro">{t('modelApply.ambassadorDetail.intro', '')}</p>
@@ -258,68 +181,6 @@ const ModelRecruit = () => {
                 <div className="model-apply-footer-note">
                     {t('modelApply.footerNote', '핏걸즈&이너핏은 전 세계 모든 열정과 아름다움을 존중합니다. 국적 및 연령에 제한 없이, 자신만의 독보적인 무드를 가진 분이라면 누구나 2026 핏토리얼리스트가 될 수 있습니다.')}
                 </div>
-
-                {isAdmin && applications.length > 0 && (
-                    <div className="admin-apply-list">
-                        <h3 className="admin-list-title">지원 현황 ({applications.length})</h3>
-                        <div className="admin-apply-feed">
-                            {applications.map(app => (
-                                <div key={app.id} className="admin-apply-comment">
-                                    <div className="admin-apply-avatar">
-                                        <div className="avatar-placeholder">
-                                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                                        </div>
-                                    </div>
-                                    <div className="admin-apply-content">
-                                        <div className="admin-apply-main-row">
-                                            <div className="admin-apply-user-info">
-                                                <span className="admin-apply-username">{app.name}</span>
-                                                {app.insta && (
-                                                    <a
-                                                        href={`https://instagram.com/${app.insta.replace('@', '')}`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="admin-apply-insta-badge"
-                                                    >
-                                                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                                                        {app.insta}
-                                                    </a>
-                                                )}
-                                            </div>
-                                            <span className="admin-apply-time">
-                                                {app.createdAt ? new Date(app.createdAt.toDate ? app.createdAt.toDate() : app.createdAt).toLocaleDateString() : ''}
-                                            </span>
-                                        </div>
-                                        <div className="admin-apply-info-row">
-                                            <span className="info-tag">📍 {app.location}</span>
-                                            {app.job && <span className="info-tag">💼 {app.job}</span>}
-                                            <span className="info-tag">📞 {app.phone}</span>
-                                        </div>
-                                        {app.keywords && (
-                                            <div className="admin-apply-keywords">
-                                                {app.keywords}
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className="admin-apply-actions">
-                                        <button
-                                            className={`admin-apply-select-btn ${app.isSelected ? 'active' : ''}`}
-                                            onClick={() => handleToggleSelect(app.id, app.isSelected)}
-                                            title={app.isSelected ? "선정 취소" : "선정하기"}
-                                        >
-                                            <svg viewBox="0 0 24 24" fill={app.isSelected ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                                        </button>
-                                        <button
-                                            className="admin-apply-delete-icon"
-                                            onClick={() => handleDelete(app.id)}
-                                            title="삭제"
-                                        >✕</button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
             </div>
         </section>
     );
