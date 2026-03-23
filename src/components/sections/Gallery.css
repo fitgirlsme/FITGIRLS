@@ -1043,3 +1043,276 @@ body.lightbox-active {
 .lightbox-overlay {
     touch-action: none; /* 모든 브라우저 기본 터치 동작 비활성화 (JS 스와이프만 허용) */
 }
+
+/* ===== Floating Action Button (FAB) for Admin Upload ===== */
+.admin-fab-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+.admin-fab-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--color-primary, #ff0000);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-fab-btn:hover {
+    transform: scale(1.1) rotate(90deg);
+    background: var(--color-primary-hover, #d00000);
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+}
+
+.admin-fab-label {
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.admin-fab-container:hover .admin-fab-label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ===== Admin Quick Upload Modal ===== */
+.admin-upload-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.admin-upload-modal {
+    background: #fff;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: modal-slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modal-slide-up {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.admin-upload-modal-header {
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-upload-modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #111;
+}
+
+.admin-upload-modal-close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+
+.admin-upload-modal-body {
+    padding: 24px;
+    max-height: 80dvh;
+    overflow-y: auto;
+}
+
+@media (max-width: 480px) {
+    .admin-upload-modal {
+        max-height: 90dvh;
+    }
+    .admin-upload-modal-body {
+        padding: 16px;
+    }
+    .admin-fab-btn {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* ===== Admin Multi Uploader Internal Styles ===== */
+.admin-uploader-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.admin-uploader-selectors {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.uploader-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.uploader-field label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #666;
+}
+
+.uploader-field select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+    background: #fdfdfd;
+}
+
+.uploader-file-area {
+    width: 100%;
+}
+
+.uploader-dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border: 2px dashed #ddd;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #fafafa;
+}
+
+.uploader-dropzone:hover {
+    border-color: var(--color-primary, #ff0000);
+    background: #fff5f5;
+}
+
+.uploader-dropzone span {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.uploader-dropzone p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #888;
+    font-weight: 600;
+}
+
+.uploader-submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.uploader-submit-btn:hover:not(:disabled) {
+    background: #333;
+}
+
+.uploader-submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.uploader-status-list {
+    border-top: 1px solid #eee;
+    padding-top: 16px;
+}
+
+.uploader-status-list h4 {
+    margin: 0 0 12px;
+    font-size: 0.9rem;
+    color: #111;
+}
+
+.uploader-status-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.uploader-status-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.uploader-status-list li.error {
+    color: #e53e3e;
+}
+
+.status-empty {
+    font-size: 0.85rem;
+    color: #999;
+    margin: 0;
+}
+
+.file-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.status-text {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #999;
+}
+
+.status-text.success {
+    color: #38a169;
+}

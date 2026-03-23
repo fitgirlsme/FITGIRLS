@@ -7,6 +7,7 @@ import { db as fireDb, storage } from '../../utils/firebase';
 import FadeInSection from '../FadeInSection';
 import { getGalleryItems, addGalleryItem, deleteGalleryItem, updateGalleryItem } from '../../utils/db';
 import { getGalleries } from '../../utils/galleryService';
+import GalleryMultiUploader from '../GalleryMultiUploader';
 import './Gallery.css';
 
 const MAIN_CATEGORIES = [
@@ -43,6 +44,7 @@ const GallerySection = () => {
     const [editFile, setEditFile] = useState(null);
     const [editPreview, setEditPreview] = useState(null);
     const [isSaving, setIsSaving] = useState(false);
+    const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
     const [savedTags, setSavedTags] = useState(() => {
         const saved = localStorage.getItem('adminHashtags');
         return saved ? JSON.parse(saved) : ['#바디프로필', '#이너핏'];
@@ -746,6 +748,37 @@ const GallerySection = () => {
                             <p>SWIPE TO BROWSE</p>
                         </div>
                     )}
+                </div>
+            )}
+
+            {/* Admin Floating Action Button (FAB) */}
+            {isAdmin && (
+                <div className="admin-fab-container">
+                    <span className="admin-fab-label">새 사진 업로드</span>
+                    <button 
+                        className="admin-fab-btn" 
+                        onClick={() => setIsUploadModalOpen(true)}
+                        title="Quick Upload"
+                    >
+                        +
+                    </button>
+                </div>
+            )}
+
+            {/* Admin Quick Upload Modal */}
+            {isAdmin && isUploadModalOpen && (
+                <div className="admin-upload-modal-overlay" onClick={() => setIsUploadModalOpen(false)}>
+                    <div className="admin-upload-modal" onClick={e => e.stopPropagation()}>
+                        <div className="admin-upload-modal-header">
+                            <h3>Quick Photo Upload</h3>
+                            <button className="admin-upload-modal-close" onClick={() => setIsUploadModalOpen(false)}>×</button>
+                        </div>
+                        <div className="admin-upload-modal-body">
+                            <GalleryMultiUploader onUploadSuccess={(newItem) => {
+                                setAllItems(prev => [newItem, ...prev]);
+                            }} />
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
