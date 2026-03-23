@@ -38,9 +38,9 @@ const Header = ({ isScrolled, isOnHero, changeLanguage, currentLang }) => {
                 { id: 'location', label: t('nav.location', 'Location'), path: '/location' },
             ]
         },
-        { id: 'reservation', label: t('nav.reservation', 'Reservation'), path: '/reservation', isRed: true },
         { id: 'reviews', label: t('nav.review', 'Review'), path: '/reviews' },
-        { id: 'partners', label: t('nav.partners', 'Partners'), path: '/partners' },
+        { id: 'partners', label: t('nav.partners', 'Partnership'), path: '/partners' },
+        { id: 'reservation', label: t('nav.reservation', 'Reservation'), path: '/reservation', isRed: true },
         { id: 'amber', label: t('nav.ambassador', 'Ambassador'), path: '/amber' },
     ];
 

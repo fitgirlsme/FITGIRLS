@@ -19,7 +19,8 @@
         "program": "Price List",
         "info": "Info",
         "event": "Event",
-        "ambassador": "Ambassador"
+        "ambassador": "Ambassador",
+        "partners": "Partnership"
     },
     "event": {
         "title": "EVENT & NOTICE",
