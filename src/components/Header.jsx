@@ -39,9 +39,9 @@ const Header = ({ isScrolled, isOnHero, changeLanguage, currentLang }) => {
             ]
         },
         { id: 'reviews', label: t('nav.review', 'Review'), path: '/reviews' },
-        { id: 'partners', label: t('nav.partners', 'Partnership'), path: '/partners' },
         { id: 'reservation', label: t('nav.reservation', 'Reservation'), path: '/reservation', isRed: true },
         { id: 'amber', label: t('nav.ambassador', 'Ambassador'), path: '/amber' },
+        { id: 'partners', label: t('nav.partners', 'Partnership'), path: '/partners' },
     ];
 
     const handleNavClick = (path, sectionId) => {
