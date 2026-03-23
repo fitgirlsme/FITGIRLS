@@ -241,11 +241,26 @@
                 "badge": "特典",
                 "subtitle": "Fitgirlsはアンバサダーの継続的なビジュアル成長とパーソナルブランディングを全面的にサポートします。",
                 "items": [
-                    { "title": "Premium Editorial Shooting (年2回)", "desc": "6ヶ月に一度、本人の最も輝く瞬間を収める「2コンセプトフルパッケージ」撮影サポート。" },
-                    { "title": "Private Self-Studio Pass (年2回)", "desc": "大切な人と自由に記録できる「2人セルフ撮影券」提供。" },
-                    { "title": "[Special] 2027 FITORIAL Calendar Project", "desc": "年末発売予定の「2027フィトリアルカレンダー」製作プロジェクトメインモデル参加及び製作協力。" },
-                    { "title": "Media & Career Opportunity (MaxQ)", "desc": "国内最高のヘルス&フィットネスマガジン「MAXQ」の誌面またはオンライン企画コンテンツモデルデビュー機会の提供及び推薦。" },
-                    { "title": "Official Muse Debut & Networking", "desc": "公式ホームページ及びSNSメインモデル活動。各種ファッション&ビューティーイベントへの参加情報提供及びネットワーキング。" }
+                    {
+                        "title": "Premium Editorial Shooting (年2回)",
+                        "desc": "6ヶ月に一度、本人の最も輝く瞬間を収める「2コンセプトフルパッケージ」撮影サポート。"
+                    },
+                    {
+                        "title": "Private Self-Studio Pass (年2回)",
+                        "desc": "大切な人と自由に記録できる「2人セルフ撮影券」提供。"
+                    },
+                    {
+                        "title": "[Special] 2027 FITORIAL Calendar Project",
+                        "desc": "年末発売予定の「2027フィトリアルカレンダー」製作プロジェクトメインモデル参加及び製作協力。"
+                    },
+                    {
+                        "title": "Media & Career Opportunity (MaxQ)",
+                        "desc": "国内最高のヘルス&フィットネスマガジン「MAXQ」の誌面またはオンライン企画コンテンツモデルデビュー機会の提供及び推薦。"
+                    },
+                    {
+                        "title": "Official Muse Debut & Networking",
+                        "desc": "公式ホームページ及びSNSメインモデル活動。各種ファッション&ビューティーイベントへの参加情報提供及びネットワーキング。"
+                    }
                 ]
             },
             "role": {
@@ -253,10 +268,22 @@
                 "badge": "役割",
                 "subtitle": "私たちはお互いの影響力をつなぎ、より大きな価値を生み出す**「クリエイティブパートナー」**です。",
                 "items": [
-                    { "title": "Instagram Collaborator", "desc": "撮影結果を本人のフィードに投稿する際、必ず「Fitgirls & Inafit (@fitgirlsme)」を共同作業者に指定してアップロードします。" },
-                    { "title": "Essential Tagging", "desc": "キャプションに必須ハッシュタグ #fitgirls #inafit #fitorial を含めてブランドの価値を広めます。" },
-                    { "title": "Monthly Visual Archive", "desc": "撮影ビハインド、スタジオスケッチなど、現場の雰囲気をInstagramストーリーで共有します。" },
-                    { "title": "Creative Growth", "desc": "1年間Fitgirlsと緊密にコミュニケーションを取り、自分だけの感覚でブランドのムードを共にリードします。" }
+                    {
+                        "title": "Instagram Collaborator",
+                        "desc": "撮影結果を本人のフィードに投稿する際、必ず「Fitgirls & Inafit (@fitgirlsme)」を共同作業者に指定してアップロードします。"
+                    },
+                    {
+                        "title": "Essential Tagging",
+                        "desc": "キャプションに必須ハッシュタグ #fitgirls #inafit #fitorial を含めてブランドの価値を広めます。"
+                    },
+                    {
+                        "title": "Monthly Visual Archive",
+                        "desc": "撮影ビハインド、スタジオスケッチなど、現場の雰囲気をInstagramストーリーで共有します。"
+                    },
+                    {
+                        "title": "Creative Growth",
+                        "desc": "1年間Fitgirlsと緊密にコミュニケーションを取り、自分だけの感覚でブランドのムードを共にリードします。"
+                    }
                 ]
             }
         }
@@ -445,5 +472,31 @@
                 "text": "作家さんがとても親切でした！リラックスして撮影でき、色味も構図も最高です。"
             }
         }
+    },
+    "partners": {
+        "title": "公式パートナー",
+        "subtitle": "FITGIRLSと共に歩むプレミアムフィットネスパートナーをご紹介します。",
+        "trainers": "専任トレーナーチーム",
+        "subtitle_desc": "店舗の写真、情報、トレーナープロフィールをご確認いただけます。",
+        "partner1": {
+            "name": "プレミアムフィットネスA",
+            "desc": "最高級の施設と専門的なコーチングシステムを備えた都市型ウェルネス空間です。",
+            "role1": "ヘッドトレーナー",
+            "bio1": "体型矯正およびボディプロフィール専門コーチ",
+            "role2": "ピラティス講師",
+            "bio2": "経歴10年のリハビリおよび姿勢矯正専門가"
+        },
+        "partner2": {
+            "name": "ウェルネスセンターB",
+            "desc": "リカバリーと하이 퍼포먼스(High Performance)に特化した最先端施設です。",
+            "role1": "パフォーマンスコーチ",
+            "bio1": "運動能力向上および栄養設計専門家"
+        },
+        "categories": {
+            "all": "すべて",
+            "fitness": "フィットネス",
+            "pilates": "ピラティス"
+        },
+        "no_results": "このカテゴリーのパートナーは見つかりませんでした。"
     }
 }

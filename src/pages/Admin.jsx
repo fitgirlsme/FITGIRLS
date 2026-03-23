@@ -105,6 +105,7 @@ const Admin = () => {
         { id: 'events', label: 'Events' },
         { id: 'hero', label: 'Hero' },
         { id: 'apply', label: 'Applications' },
+        { id: 'partners', label: 'Partners' },
     ];
 
     return (
@@ -144,6 +145,7 @@ const Admin = () => {
                     {activeTab === 'events' && <EventsTab />}
                     {activeTab === 'hero' && <HeroTab />}
                     {activeTab === 'apply' && <ApplicationsTab />}
+                    {activeTab === 'partners' && <PartnersTab />}
                 </div>
             </div>
         </div>
@@ -952,6 +954,206 @@ const ApplicationsTab = () => {
                     </div>
                 ))}
                 {apps.length === 0 && <p style={{ color: 'var(--color-text-secondary)', textAlign: 'center', padding: 40 }}>신청 데이터가 없습니다.</p>}
+            </div>
+        </div>
+    );
+};
+
+// ===== 7. Partners Tab =====
+const PartnersTab = () => {
+    const [partners, setPartners] = useState([]);
+    const [showForm, setShowForm] = useState(false);
+    const [editId, setEditId] = useState(null);
+    const [form, setForm] = useState({ 
+        name: '', category: 'fitness', description: '', trainers: [] 
+    });
+    const [saving, setSaving] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    useEffect(() => { loadPartners(); }, []);
+
+    const loadPartners = async () => {
+        try {
+            const snap = await getDocs(query(collection(db, 'partners'), orderBy('createdAt', 'desc')));
+            setPartners(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+        } catch (err) { console.error('Failed to load partners:', err); }
+    };
+
+    const resetForm = () => {
+        setForm({ name: '', category: 'fitness', description: '', trainers: [] });
+        setEditId(null); setShowForm(false);
+    };
+
+    const handleSave = async () => {
+        if (!form.name) { alert('Partner Name is required.'); return; }
+        setSaving(true);
+        try {
+            const data = {
+                ...form,
+                updatedAt: serverTimestamp(),
+                ...(editId ? {} : { createdAt: serverTimestamp() })
+            };
+
+            if (editId) {
+                await updateDoc(doc(db, 'partners', editId), data);
+            } else {
+                await addDoc(collection(db, 'partners'), data);
+            }
+            setShowSuccess(true); setTimeout(() => setShowSuccess(false), 3000);
+            resetForm(); loadPartners();
+        } catch (err) { alert('Save error: ' + err.message); }
+        setSaving(false);
+    };
+
+    const handleDelete = async (id) => {
+        if (!confirm('Are you sure you want to delete this partner?')) return;
+        try {
+            await deleteDoc(doc(db, 'partners', id));
+            loadPartners();
+        } catch (err) { alert('Delete error: ' + err.message); }
+    };
+
+    const startEdit = (partner) => {
+        setForm({ ...partner });
+        setEditId(partner.id);
+        setShowForm(true);
+    };
+
+    const addTrainer = () => {
+        setForm({ 
+            ...form, 
+            trainers: [...form.trainers, { name: '', role: '', bio: '', image: '' }] 
+        });
+    };
+
+    const removeTrainer = (idx) => {
+        const newTrainers = [...form.trainers];
+        newTrainers.splice(idx, 1);
+        setForm({ ...form, trainers: newTrainers });
+    };
+
+    const updateTrainer = (idx, field, value) => {
+        const newTrainers = [...form.trainers];
+        newTrainers[idx][field] = value;
+        setForm({ ...form, trainers: newTrainers });
+    };
+
+    const handleTrainerPhoto = async (idx, file) => {
+        if (!file) return;
+        try {
+            const { url } = await uploadToStorage(file, 'partners/trainers');
+            updateTrainer(idx, 'image', url);
+        } catch (err) { alert('Trainer photo upload failed: ' + err.message); }
+    };
+
+    const handlePartnerPhoto = async (file) => {
+        if (!file) return;
+        try {
+            const { url } = await uploadToStorage(file, 'partners');
+            setForm(prev => ({ 
+                ...prev, 
+                images: prev.images ? [...prev.images, url] : [url] 
+            }));
+        } catch (err) { alert('Partner photo upload failed: ' + err.message); }
+    };
+
+    const removePartnerPhoto = (idx) => {
+        const newImages = [...form.images];
+        newImages.splice(idx, 1);
+        setForm({ ...form, images: newImages });
+    };
+
+    return (
+        <div className="upload-section">
+            {showSuccess && <Toast message="Saved successfully!" onClose={() => setShowSuccess(false)} />}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                <h3 style={{ margin: 0 }}>Partners & Trainers Management</h3>
+                <button className="add-btn" onClick={() => { resetForm(); setShowForm(true); }}>+ Add New Partner</button>
+            </div>
+
+            {showForm && (
+                <div className="admin-modal-overlay" onClick={() => resetForm()}>
+                    <div className="admin-modal" style={{ maxWidth: '800px' }} onClick={e => e.stopPropagation()}>
+                        <button className="close-x" onClick={resetForm}>×</button>
+                        <h3>{editId ? 'Edit Partner' : 'Add New Partner'}</h3>
+                        <div className="admin-modal-form">
+                            <div className="form-group"><label>Partner Name *</label><input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} /></div>
+                            <div className="form-group">
+                                <label>Category</label>
+                                <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="admin-select">
+                                    <option value="fitness">FITNESS</option>
+                                    <option value="pilates">PILATES</option>
+                                </select>
+                            </div>
+                            <div className="form-group"><label>Description</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} /></div>
+                            
+                            <div className="form-group">
+                                <label>Partner Gallery Photos</label>
+                                <input type="file" accept="image/*" multiple onChange={e => Array.from(e.target.files).forEach(f => handlePartnerPhoto(f))} />
+                                <div style={{ display: 'flex', gap: 10, marginTop: 10, flexWrap: 'wrap' }}>
+                                    {form.images?.map((img, i) => (
+                                        <div key={i} style={{ position: 'relative' }}>
+                                            <img src={img} alt="partner" style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 8 }} />
+                                            <button type="button" onClick={() => removePartnerPhoto(i)} style={{ position: 'absolute', top: -5, right: -5, background: 'rgba(255,0,0,0.8)', color: '#fff', border: 'none', borderRadius: '50%', width: 20, height: 20, fontSize: 12, cursor: 'pointer' }}>×</button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div style={{ marginTop: 30 }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15 }}>
+                                    <h4 style={{ margin: 0 }}>Trainers</h4>
+                                    <button type="button" onClick={addTrainer} className="add-btn" style={{ padding: '4px 12px', fontSize: '0.85rem' }}>+ Add Trainer</button>
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                                    {form.trainers.map((t, i) => (
+                                        <div key={i} style={{ padding: 15, background: 'rgba(255,255,255,0.03)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.05)' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+                                                <span style={{ fontWeight: 600 }}>Trainer #{i + 1}</span>
+                                                <button type="button" onClick={() => removeTrainer(i)} style={{ color: '#ff4d4d', background: 'none', border: 'none', cursor: 'pointer' }}>Remove</button>
+                                            </div>
+                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 15 }}>
+                                                <div className="form-group"><label>Name</label><input type="text" value={t.name} onChange={e => updateTrainer(i, 'name', e.target.value)} /></div>
+                                                <div className="form-group"><label>Role</label><input type="text" value={t.role} onChange={e => updateTrainer(i, 'role', e.target.value)} /></div>
+                                            </div>
+                                            <div className="form-group"><label>Bio</label><textarea value={t.bio} onChange={e => updateTrainer(i, 'bio', e.target.value)} rows={2} /></div>
+                                            <div className="form-group">
+                                                <label>Trainer Photo</label>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: 15 }}>
+                                                    {t.image && <img src={t.image} alt="trainer" style={{ width: 50, height: 50, borderRadius: '50%', objectFit: 'cover' }} />}
+                                                    <input type="file" accept="image/*" onChange={e => handleTrainerPhoto(i, e.target.files[0])} />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <button className="submit-btn" style={{ marginTop: 30 }} onClick={handleSave} disabled={saving}>
+                                {saving ? 'Saving...' : editId ? 'Update Partner' : 'Create Partner'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="admin-item-list">
+                {partners.map(p => (
+                    <div key={p.id} className="admin-item-card">
+                        {p.images?.[0] && <img src={p.images[0]} alt={p.name} className="admin-item-thumb" />}
+                        <div className="admin-item-info">
+                            <strong>{p.name}</strong>
+                            <span className="admin-item-badge">{p.category.toUpperCase()}</span>
+                            <span style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>
+                                {p.trainers.length} Trainers
+                            </span>
+                        </div>
+                        <div className="admin-item-actions">
+                            <button onClick={() => startEdit(p)}>Edit</button>
+                            <button onClick={() => handleDelete(p.id)} className="delete">Delete</button>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );

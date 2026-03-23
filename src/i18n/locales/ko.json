@@ -242,11 +242,26 @@
                 "badge": "지원 혜택",
                 "subtitle": "핏걸즈는 엠버서더의 지속적인 비주얼 성장과 퍼스널 브랜딩을 전폭 지원합니다.",
                 "items": [
-                    { "title": "Premium Editorial Shooting (연 2회)", "desc": "6개월마다 한 번씩, 본인의 가장 빛나는 순간을 담는 '2컨셉 풀 패키지' 촬영 지원." },
-                    { "title": "Private Self-Studio Pass (연 2회)", "desc": "소중한 사람과 함께 자유롭게 기록할 수 있는 '2인 셀프 촬영권' 제공." },
-                    { "title": "[Special] 2027 FITORIAL Calendar Project", "desc": "연말 발매 예정인 '2027 핏토리얼 캘린더' 제작 프로젝트 메인 모델 참여 및 제작 협업." },
-                    { "title": "Media & Career Opportunity (MaxQ)", "desc": "국내 최고의 헬스&피트니스 매거진 '맥스큐(MAXQ)' 지면 or 온라인 기획 컨텐츠 모델 데뷔 기회 제공 및 추천." },
-                    { "title": "Official Muse Debut & Networking", "desc": "공식 홈페이지 및 SNS 메인 모델 활동. 각종 패션 & 뷰티 행사 참여 정보 및 네트워킹 기회 제공." }
+                    {
+                        "title": "Premium Editorial Shooting (연 2회)",
+                        "desc": "6개월마다 한 번씩, 본인의 가장 빛나는 순간을 담는 '2컨셉 풀 패키지' 촬영 지원."
+                    },
+                    {
+                        "title": "Private Self-Studio Pass (연 2회)",
+                        "desc": "소중한 사람과 함께 자유롭게 기록할 수 있는 '2인 셀프 촬영권' 제공."
+                    },
+                    {
+                        "title": "[Special] 2027 FITORIAL Calendar Project",
+                        "desc": "연말 발매 예정인 '2027 핏토리얼 캘린더' 제작 프로젝트 메인 모델 참여 및 제작 협업."
+                    },
+                    {
+                        "title": "Media & Career Opportunity (MaxQ)",
+                        "desc": "국내 최고의 헬스&피트니스 매거진 '맥스큐(MAXQ)' 지면 or 온라인 기획 컨텐츠 모델 데뷔 기회 제공 및 추천."
+                    },
+                    {
+                        "title": "Official Muse Debut & Networking",
+                        "desc": "공식 홈페이지 및 SNS 메인 모델 활동. 각종 패션 & 뷰티 행사 참여 정보 및 네트워킹 기회 제공."
+                    }
                 ]
             },
             "role": {
@@ -254,10 +269,22 @@
                 "badge": "엠버서더의 역할",
                 "subtitle": "우리는 서로의 영향력을 연결하여 더 큰 가치를 만드는 **'크리에이티브 파트너'**입니다.",
                 "items": [
-                    { "title": "Instagram Collaborator", "desc": "촬영 결과물을 본인 피드에 게시할 때, 반드시 '핏걸즈&이너핏(@fitgirlsme)'를 공동 작업자로 지정하여 업로드합니다." },
-                    { "title": "Essential Tagging", "desc": "게시물 캡션 내 필수 해시태그 #핏걸즈 #이너핏 #핏토리얼을 포함하여 브랜드의 가치를 전파합니다." },
-                    { "title": "Monthly Visual Archive", "desc": "촬영 비하인드, 스튜디오 스케치 등 현장의 생생한 분위기를 인스타그램 스토리를 통해 공유합니다." },
-                    { "title": "Creative Growth", "desc": "1년 동안 핏걸즈와 긴밀히 소통하며, 본인만의 감각으로 브랜드의 무드를 함께 리드합니다." }
+                    {
+                        "title": "Instagram Collaborator",
+                        "desc": "촬영 결과물을 본인 피드에 게시할 때, 반드시 '핏걸즈&이너핏(@fitgirlsme)'를 공동 작업자로 지정하여 업로드합니다."
+                    },
+                    {
+                        "title": "Essential Tagging",
+                        "desc": "게시물 캡션 내 필수 해시태그 #핏걸즈 #이너핏 #핏토리얼을 포함하여 브랜드의 가치를 전파합니다."
+                    },
+                    {
+                        "title": "Monthly Visual Archive",
+                        "desc": "촬영 비하인드, 스튜디오 스케치 등 현장의 생생한 분위기를 인스타그램 스토리를 통해 공유합니다."
+                    },
+                    {
+                        "title": "Creative Growth",
+                        "desc": "1년 동안 핏걸즈와 긴밀히 소통하며, 본인만의 감각으로 브랜드의 무드를 함께 리드합니다."
+                    }
                 ]
             }
         }
@@ -690,5 +717,31 @@
                 "text": "무엇보다 작가님이 너무 친절하셨어요! 촬영 전에는 엄청 긴장했는데 부드러운 분위기 속에서 편하게 촬영했습니다. 특히 구도랑 색감이 너무 예쁘게 나와서 주변에서도 다들 어디서 찍었냐고 물어보네요. 강력 추천합니다!"
             }
         }
+    },
+    "partners": {
+        "title": "OFFICIAL PARTNERS",
+        "subtitle": "핏걸즈와 함께하는 프리미엄 피트니스 파트너를 소개합니다.",
+        "trainers": "전담 트레이너팀",
+        "subtitle_desc": "업체 사진과 정보, 그리고 담당 트레이너 프로필을 확인하실 수 있습니다.",
+        "partner1": {
+            "name": "프리미엄 피트니스 A",
+            "desc": "최고급 시설과 전문적인 코칭 시스템을 갖춘 도심 속 웰니스 공간입니다. 핏걸즈 촬영 시 최상의 컨디션을 위한 최적의 트레이닝을 제안합니다.",
+            "role1": "수석 트레이너",
+            "bio1": "체형 교정 및 바디 프로필 전문 코치",
+            "role2": "필라테스 강사",
+            "bio2": "10년 경력의 재활 및 자세 교정 전문가"
+        },
+        "partner2": {
+            "name": "웰니스 센터 B",
+            "desc": "회복과 고성능 트레이닝에 집중한 최첨단 시설입니다. 화보 촬영을 위한 바디라인 완성에 특화된 프로그램을 제공합니다.",
+            "role1": "퍼포먼스 코치",
+            "bio1": "운동 수행 능력 향상 및 영양 설계 전문가"
+        },
+        "categories": {
+            "all": "전체",
+            "fitness": "피트니스",
+            "pilates": "필라테스"
+        },
+        "no_results": "해당 카테고리의 파트너가 없습니다."
     }
 }

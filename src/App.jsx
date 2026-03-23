@@ -19,6 +19,7 @@ import Reviews from './pages/Reviews';
 import BrandReport from './pages/BrandReport';
 import Admin from './pages/Admin';
 import Ambassador from './pages/Ambassador';
+import Partners from './pages/Partners';
 import { syncAll } from './utils/syncService';
 import './index.css';
 
@@ -115,6 +116,7 @@ function App() {
           <Route path="/report" element={<BrandReport />} />
           <Route path="/amber" element={<Ambassador />} />
           <Route path="/ambassador" element={<Ambassador />} />
+          <Route path="/partners" element={<Partners />} />
           <Route path="/:section" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
         </Routes>
       </React.Suspense>

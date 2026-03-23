@@ -242,11 +242,26 @@
                 "badge": "Benefits",
                 "subtitle": "Fitgirls fully supports your continuous visual growth and personal branding.",
                 "items": [
-                    { "title": "Premium Editorial Shooting (Twice a year)", "desc": "Support for a '2-concept full package' shoot every 6 months." },
-                    { "title": "Private Self-Studio Pass (Twice a year)", "desc": "Free '2-person self-shoot vouchers' to record special moments with loved ones." },
-                    { "title": "[Special] 2027 FITORIAL Calendar Project", "desc": "Lead model participation and collaboration for the '2027 Fitorial Calendar' project." },
-                    { "title": "Media & Career Opportunity (MaxQ)", "desc": "Opportunities and recommendations for featured content in 'MAXQ', Korea's top fitness magazine." },
-                    { "title": "Official Muse Debut & Networking", "desc": "Main model for official site and SNS. Access to various fashion & beauty events and networking." }
+                    {
+                        "title": "Premium Editorial Shooting (Twice a year)",
+                        "desc": "Support for a '2-concept full package' shoot every 6 months."
+                    },
+                    {
+                        "title": "Private Self-Studio Pass (Twice a year)",
+                        "desc": "Free '2-person self-shoot vouchers' to record special moments with loved ones."
+                    },
+                    {
+                        "title": "[Special] 2027 FITORIAL Calendar Project",
+                        "desc": "Lead model participation and collaboration for the '2027 Fitorial Calendar' project."
+                    },
+                    {
+                        "title": "Media & Career Opportunity (MaxQ)",
+                        "desc": "Opportunities and recommendations for featured content in 'MAXQ', Korea's top fitness magazine."
+                    },
+                    {
+                        "title": "Official Muse Debut & Networking",
+                        "desc": "Main model for official site and SNS. Access to various fashion & beauty events and networking."
+                    }
                 ]
             },
             "role": {
@@ -254,10 +269,22 @@
                 "badge": "Role",
                 "subtitle": "We are **'Creative Partners'** connecting each other's influence.",
                 "items": [
-                    { "title": "Instagram Collaborator", "desc": "Must tag 'Fitgirls & Inafit (@fitgirlsme)' as a collaborator when posting results." },
-                    { "title": "Essential Tagging", "desc": "Include essential hashtags #Fitgirls #Inafit #Fitorial in caption." },
-                    { "title": "Monthly Visual Archive", "desc": "Share behind-the-scenes sketches and studio atmosphere via Instagram Stories." },
-                    { "title": "Creative Growth", "desc": "Communicate closely with Fitgirls for 1 year and lead the brand's mood together." }
+                    {
+                        "title": "Instagram Collaborator",
+                        "desc": "Must tag 'Fitgirls & Inafit (@fitgirlsme)' as a collaborator when posting results."
+                    },
+                    {
+                        "title": "Essential Tagging",
+                        "desc": "Include essential hashtags #Fitgirls #Inafit #Fitorial in caption."
+                    },
+                    {
+                        "title": "Monthly Visual Archive",
+                        "desc": "Share behind-the-scenes sketches and studio atmosphere via Instagram Stories."
+                    },
+                    {
+                        "title": "Creative Growth",
+                        "desc": "Communicate closely with Fitgirls for 1 year and lead the brand's mood together."
+                    }
                 ]
             }
         }
@@ -690,5 +717,31 @@
                 "text": "Above all, the photographer was so kind! I was very nervous before the shoot, but I filmed comfortably in a soft atmosphere. Especially the composition and colors came out so beautifully that everyone is asking where I took it. Highly recommended!"
             }
         }
+    },
+    "partners": {
+        "title": "OFFICIAL PARTNERS",
+        "subtitle": "Introducing premium fitness partners with FITGIRLS.",
+        "trainers": "Dedicated Trainer Team",
+        "subtitle_desc": "Check out company photos, info, and trainer profiles.",
+        "partner1": {
+            "name": "Premium Fitness A",
+            "desc": "A wellness space in the city with top-notch facilities and professional coaching.",
+            "role1": "Head Trainer",
+            "bio1": "Specialist in body composition and profiling.",
+            "role2": "Pilates Instructor",
+            "bio2": "Rehabilitation expert with 10 years experience."
+        },
+        "partner2": {
+            "name": "Wellness Center B",
+            "desc": "State-of-the-art facility focused on recovery and high performance.",
+            "role1": "Performance Coach",
+            "bio1": "Expert in athletic performance and nutrition."
+        },
+        "categories": {
+            "all": "ALL",
+            "fitness": "FITNESS",
+            "pilates": "PILATES"
+        },
+        "no_results": "No partners found in this category."
     }
 }

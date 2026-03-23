@@ -13,7 +13,8 @@ export const STORES = {
     HOME_SECTIONS: 'home_sections',
     LOOKBOOK: 'lookbook',
     MODELS: 'models',
-    APPLICATIONS: 'applications'
+    APPLICATIONS: 'applications',
+    PARTNERS: 'partners'
 };
 
 export const initDB = () => {
