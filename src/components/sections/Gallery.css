@@ -1222,9 +1222,11 @@ body.lightbox-active {
     background: #fafafa;
 }
 
-.uploader-dropzone:hover {
+.uploader-dropzone:hover,
+.uploader-dropzone.dragging {
     border-color: var(--color-primary, #ff0000);
     background: #fff5f5;
+    transform: scale(1.02);
 }
 
 .uploader-dropzone span {

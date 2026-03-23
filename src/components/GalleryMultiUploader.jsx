@@ -10,9 +10,14 @@ function GalleryMultiUploader({ onUploadSuccess }) {
   const [isUploading, setIsUploading] = useState(false);
   const [mainCategory, setMainCategory] = useState('fitorialist');
   const [subCategory, setSubCategory] = useState('women');
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
+    processFiles(files);
+  };
+
+  const processFiles = (files) => {
     setSelectedFiles(files);
     
     const initialStatus = files.map(file => ({
@@ -21,6 +26,31 @@ function GalleryMultiUploader({ onUploadSuccess }) {
       url: null
     }));
     setUploadStatus(initialStatus);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!isUploading) setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    
+    if (isUploading) return;
+
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const files = Array.from(e.dataTransfer.files);
+      processFiles(files);
+    }
   };
 
   const handleStartUpload = async () => {
@@ -62,8 +92,8 @@ function GalleryMultiUploader({ onUploadSuccess }) {
         const newItem = { 
           ...galleryData, 
           id: docRef.id, 
-          createdAt: Date.now(), // Use numeric timestamp for local state consistency
-          img: optimizedUrl // consistency for Gallery.jsx
+          createdAt: Date.now(), 
+          img: optimizedUrl 
         };
         await addItem(STORES.GALLERY, newItem);
 
@@ -117,9 +147,15 @@ function GalleryMultiUploader({ onUploadSuccess }) {
           disabled={isUploading}
           style={{ display: 'none' }}
         />
-        <label htmlFor="uploader-file-input" className="uploader-dropzone">
+        <label 
+            htmlFor="uploader-file-input" 
+            className={`uploader-dropzone ${isDragging ? 'dragging' : ''}`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+        >
             <span>📷</span>
-            <p>{selectedFiles.length > 0 ? `${selectedFiles.length}장의 사진 선택됨` : '클릭하여 사진 선택'}</p>
+            <p>{selectedFiles.length > 0 ? `${selectedFiles.length}장의 사진 선택됨` : '클릭하거나 사진을 여기에 끌어다 대세요'}</p>
         </label>
       </div>
       
