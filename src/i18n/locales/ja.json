@@ -7,130 +7,131 @@
         "lookbook": "Lookbook",
         "reservation": "Reservation",
         "review": "Reviews",
-        "service": "가격표",
+        "service": "Price List",
         "hairmakeup": "Hair & Makeup",
         "hm": "H & M",
         "faq": "FAQ",
-        "notice": "공지사항",
-        "location": "위치",
-        "zone": "촬영존",
-        "social": "소셜",
-        "mgmt": "모델 매니지먼트",
-        "program": "가격표",
-        "info": "정보",
-        "event": "이벤트",
-        "ambassador": "엠버서더 지원",
-        "partners": "パートナーシップ"
+        "notice": "Notice",
+        "location": "Location",
+        "zone": "Zone",
+        "social": "Social",
+        "mgmt": "Model Mgmt",
+        "program": "Price List",
+        "info": "Info",
+        "event": "Event",
+        "ambassador": "Muse Recruitment",
+        "partners": "Partnership"
     },
     "event": {
         "title": "EVENT & NOTICE",
-        "adminLink": "관리자"
+        "adminLink": "Admin"
     },
     "social": {
         "posts": "Instagram & Pinterest",
-        "searchPlaceholder": "검색...",
-        "subtitle": "SNSでフォローしてください"
+        "searchPlaceholder": "Search...",
+        "subtitle": "Follow us on social media"
     },
     "intro": {
-        "slogan": "単なるボディ記録を超え、\n自分だけのオーラを一枚のグラビアで完成させる方式。",
-        "desc": "筋肉の鮮明度より被写体固有のムードとエネルギーを捉えるフィトリアリスト提案"
+        "slogan": "Beyond simple body records,\na way to complete your own aura in a single pictorial.",
+        "desc": "Fitorialist's suggestion to capture the subject's unique mood and energy rather than just muscle definition"
     },
     "studios": {
         "title": "STUDIO ZONE",
-        "subtitle": "あなたのムードを完成させる最適な空間",
+        "subtitle": "The optimal space to complete your mood",
         "zones": {
-            "blackmoon": "ブラックムーン",
-            "blackwall": "ブラック壁",
-            "sofa": "ソファ",
-            "yellow": "イエロー背景",
-            "cake": "ホワイトケーキ",
-            "blue": "ブルー背景",
-            "pink": "ピンク背景",
-            "curtain": "ピュアカーテン",
-            "natural": "ナチュラル壁",
-            "mirror": "ミラーショット",
-            "jennie": "ジェニーゾーン",
-            "red": "レッド背景"
+            "blackmoon": "Black Moon",
+            "blackwall": "Black Wall",
+            "sofa": "Long Sofa",
+            "yellow": "Yellow Background",
+            "cake": "White Cake Shot",
+            "blue": "Blue Background",
+            "pink": "Pink Background",
+            "curtain": "Pure Curtain",
+            "natural": "Natural Wall",
+            "mirror": "Mirror Shot",
+            "jennie": "Jennie Zone",
+            "red": "Red Background"
         }
     },
     "zone": {
         "title": "ZONE",
-        "subtitle": "Fitgirlsならではの多様な背景を自由に選択してください。",
-        "subtitleInsta": "さらに多様な背景はインスタグラムで",
+        "subtitle": "Choose from various backgrounds available only at Fitgirls.",
+        "subtitleInsta": "More backgrounds on Instagram",
         "subtitleHashtag": "#fitgirls",
-        "subtitleInstaEnd": "を検索してご覧ください。",
+        "subtitleInstaEnd": " — search to see more.",
         "names": {
-            "zone1": "ベーシックブラウン",
-            "zone2": "オレンジ",
-            "zone3": "ホワイト",
-            "zone4": "ナチュラルブラウン",
-            "zone5": "サーフィン",
-            "zone6": "ベーシックビビッド",
-            "zone7": "ブルーホワイト",
-            "zone8": "キッチン",
-            "zone10": "冷蔵庫",
-            "zone11": "レッドソファ",
-            "zone12": "イエローキャビネット",
-            "zone13": "ブラックムーン",
-            "zone14": "ブラック壁",
-            "zone15": "ロングソファ",
-            "zone16": "イエロー背景",
-            "zone17": "ホワイトケーキ",
-            "zone18": "ブルー背景",
-            "zone19": "ピンク背景",
-            "zone20": "ピュアカーテン",
-            "zone21": "ナチュラル壁",
-            "zone22": "ミラーショット",
-            "zone23": "ジェニーゾーン",
-            "zone24": "レッド背景"
+            "zone1": "Basic Brown",
+            "zone2": "Orange",
+            "zone3": "White",
+            "zone4": "Natural Brown",
+            "zone5": "Surfing",
+            "zone6": "Basic Vivid",
+            "zone7": "Blue White",
+            "zone8": "Kitchen",
+            "zone9": "Bicycle",
+            "zone10": "Refrigerator",
+            "zone11": "Red Sofa",
+            "zone12": "Yellow Cabinet",
+            "zone13": "Black Moon",
+            "zone14": "Black Wall",
+            "zone15": "Long Sofa",
+            "zone16": "Yellow Background",
+            "zone17": "White Cake Shot",
+            "zone18": "Blue Background",
+            "zone19": "Pink Background",
+            "zone20": "Pure Curtain",
+            "zone21": "Natural Wall",
+            "zone22": "Mirror Shot",
+            "zone23": "Jennie Zone",
+            "zone24": "Red Background"
         },
         "tabs": {
             "zone": "STUDIO ZONE",
             "lookbook": "LOOKBOOK"
         },
-        "lookbookNotice": "*Fitgirlsでレンタル可能な衣装をチェックしてください。小物は豊富なので、すべて使用可能です。",
+        "lookbookNotice": "*Check available rental outfits at Fitgirls. Various props are available for use.",
         "lookbook": {
-            "top": "トップス",
-            "bottom": "ボトムス",
-            "sizeLabel": "サイズ:",
-            "sizeUnknown": "サイズ未定"
+            "top": "Top",
+            "bottom": "Bottom",
+            "sizeLabel": "Size:",
+            "sizeUnknown": "Size TBD"
         }
     },
     "lookbook": {
         "title": "LOOKBOOK",
-        "subtitle": "多様なコンセプトと衣装で完成させる自分だけのスタイル",
-        "fitorialist": "ファッション写真家の視線でボディプロフィールを捉えるスタイル",
-        "artist": "筋肉と線の果敢で芸術的な表現",
-        "fashion": "マガジングラビアのようなトレンディでスタイリッシュなムード",
-        "portrait": "最も自然で美しい本来の瞬間に集中"
+        "subtitle": "Your own style completed with various concepts and outfits",
+        "fitorialist": "Capturing body profiles from an editorial fashion photographer's perspective",
+        "artist": "Bold and artistic expression of muscles and lines",
+        "fashion": "Trendy and stylish mood like a magazine pictorial",
+        "portrait": "Focusing on the most natural and beautiful inherent moments"
     },
     "hm": {
-        "subtitle": "提携ヘアメイクのご案内",
-        "shop_name": "マ벨꾸띠끄(Mabelle Boutique)",
-        "desc1": "マ벨꾸띠끄で提携価格でのご利用が可能です。",
-        "desc2": "*メイクの予約がすぐに埋まってしまうため、Fitgirls & Inafitの撮影予約と同時にメイク予約をすることをお勧めします。",
-        "desc3": "*予約時にFitgirls & Inafitのネイバー予約内容を伝えていただくことで提携価格が適用されます。",
-        "direct_booking": "直接予約必須",
-        "outcall_notice": "(出張に関するお問い合わせはショップまでお願いします。)",
-        "female": "女性",
-        "male": "男性",
-        "price_female": "88,000ウォン",
-        "price_male": "66,000ウォン",
-        "vat_included": "(税込)",
-        "address_label": "住所.",
-        "address_value": "ソウル特別市江南区鶴洞路47ギル5 1階 (江南区庁駅 徒歩5分)",
-        "kakao": "カカオトーク",
-        "insta": "インスタグラム"
+        "subtitle": "Partner Hair & Makeup Info",
+        "shop_name": "Mabelle Boutique",
+        "desc1": "Partner discounts are available at Mabelle Boutique.",
+        "desc2": "*Makeup slots fill up quickly, so we recommend booking your makeup at the same time as your Fitgirls & Inafit shoot.",
+        "desc3": "*You must mention your Fitgirls & Inafit Naver reservation to receive the partner price.",
+        "direct_booking": "Direct Booking Required",
+        "outcall_notice": "(Please contact the shop for outcall inquiries.)",
+        "female": "Female",
+        "male": "Male",
+        "price_female": "88,000 KRW",
+        "price_male": "66,000 KRW",
+        "vat_included": "(VAT included)",
+        "address_label": "Address.",
+        "address_value": "1F, 5 Hakdong-ro 47-gil, Gangnam-gu, Seoul (5 min walk from Gangnam-gu Office Station)",
+        "kakao": "KakaoTalk Channel",
+        "insta": "Instagram"
     },
     "notice": {
         "title": "NOTICE",
         "items": [
             {
-                "title": "2026 Fitgirls & Inafit 提携フィットネスセンター特典及び募集",
+                "title": "2026 Fitgirls & Inafit Partner Fitness Center Benefits & Recruitment",
                 "date": "2026.03.04"
             },
             {
-                "title": "4月 ピンクルームオープン",
+                "title": "April Pink Room Open",
                 "date": "2026.03.04"
             }
         ]
@@ -146,144 +147,144 @@
         "artist": "ARTIST",
         "fashion_beauty": "FASHION & BEAUTY",
         "portrait": "PORTRAIT",
-        "women": "女性",
-        "men": "男性",
-        "couple": "友情&カップル",
-        "outdoor": "バリプロジェクト",
-        "fashion": "ファッション&ビューティー",
-        "dancer": "ダンサー&DJ",
-        "self": "セルフ",
+        "women": "Women",
+        "men": "Men",
+        "couple": "Friends & Couple",
+        "outdoor": "Bali Project",
+        "fashion": "Fashion & Beauty",
+        "dancer": "Dancer & DJ",
+        "self": "Self",
         "hashtags": {
-            "ALL": "全体",
-            "RED": "レッド",
-            "BLACK": "ブラック",
-            "WHITE": "ホワイト",
-            "COLOR": "カラー",
-            "MONO": "モノ",
-            "CLEAN": "クリーン",
-            "CONCEPT": "コンセプト"
+            "ALL": "All",
+            "RED": "Red",
+            "BLACK": "Black",
+            "WHITE": "White",
+            "COLOR": "Color",
+            "MONO": "Mono",
+            "CLEAN": "Clean",
+            "CONCEPT": "Concept"
         }
     },
     "hero": {
         "title": "FITORIALIST",
         "subtitle": "PHOTOGRAPHED BY ANGELO SHIN.",
         "fitorialist_desc": "",
-        "cta": "Naverで予約"
+        "cta": "Book on Naver"
     },
     "cs": {
-        "label": "お問い合わせ",
-        "link_text": "カカオチャネルでお問い合わせ"
+        "label": "Inquiry",
+        "link_text": "Inquiry via KakaoTalk"
     },
     "reservation": {
         "title": "RESERVATION",
-        "subtitle": "予約手順のご案内",
-        "button": "Naverで予約申請",
+        "subtitle": "Reservation Procedure",
+        "button": "Apply for Reservation (Naver)",
         "link": "https://naver.me/GWeuhE37",
-        "guidebook_title": "Fitgirls & Inafit 公式ガイドブック",
+        "guidebook_title": "Fitgirls & Inafit Official Guidebook",
         "steps": {
-            "step1_title": "Naver予約申請",
-            "step1_desc": "スケジュール確認のため、Fitgirlsカカオチャネルで予約問い合わせ後、Naverスケジュールをオープンします。",
-            "step2_title": "予約金の支払い",
-            "step2_desc": "Naver予約後、カカオトークで「Toss Order」通知が届いたら予約金90,000ウォンをお支払いいただくと、最終予約が完了します。",
-            "account_info": "銀行振込: ウリ銀行 010-4696-1434 (Fitgirls)"
+            "step1_title": "Naver Reservation Request",
+            "step1_desc": "Inquire via Fitgirls Kakao Channel first for schedule check, then we'll open the Naver schedule.",
+            "step2_title": "Deposit Payment",
+            "step2_desc": "After Naver booking, Pay the 90,000 KRW deposit via 'Toss Order' notification on KakaoTalk to finalize the reservation.",
+            "account_info": "Bank Transfer: Woori Bank 010-4696-1434 (Fitgirls)"
         },
-        "final_notice": "予約が確定しましたら、撮影準備に関する詳細案内をお送りします。",
-        "return_discount": "* 再訪問予約時、2回目 20%、3回目以降 30%割引特典 — Fitgirlsカカオチャネルにお問い合わせ"
+        "final_notice": "We will send detailed instructions regarding shoot preparation once the reservation is confirmed.",
+        "return_discount": "* 20% discount for 2nd visit, 30% for 3rd+ visit — Contact via Fitgirls Kakao Channel"
     },
     "location": {
         "title": "LOCATION",
-        "subtitle": "アクセス",
+        "subtitle": "Find Us",
         "studio_name": "Fitgirls & Inafit",
-        "address": "ソウル特別市江南区江南大路160ギル18 (アティウムビル), B1\n(地番: 江南区新沙洞508-4番地地下)",
-        "address_copy": "ソウル特別市江南区江南大路160ギル18 アティウムビル B1",
+        "address": "B1, 18, Gangnam-daero 160-gil, Gangnam-gu, Seoul (Atium Building)\n(Old: B1, 508-4 Sinsa-dong, Gangnam-gu, Seoul)",
+        "address_copy": "B1, Atium Building, 18 Gangnam-daero 160-gil, Gangnam-gu, Seoul",
         "links": {
             "studio_map": "https://map.naver.com/p/search/%ED%95%8F%EA%B1%B8%EC%A6%88%EC%8A%A4%ED%8A%9C%EB%94%94%EC%98%A4/place/1976065694",
             "parking_map": "https://map.naver.com/p/search/두원빌딩%20주차장/place/667509448"
         },
-        "btn_studio": "Naverギルチャジ",
-        "btn_parking": "駐車場位置を見る",
-        "parking_title": "駐車場のご案内",
+        "btn_studio": "Naver Maps",
+        "btn_parking": "View Parking Location",
+        "parking_title": "Parking Guide",
         "parking_notices": [
-            "本スタジオビルは駐車が不可能です。",
-            "お車でお越しの際は、近隣の有料/公営駐車場をご利用ください。"
+            "Parking is not available at the studio building.",
+            "Please use nearby paid/public parking lots if using a car!"
         ],
-        "parking_name": "ドゥウォンビル有料駐車場（地下）",
-        "parking_address": "ソウル特別市江南区江南大路636ドゥウォンビル",
-        "parking_distance": "スタジオまで徒歩2分 143m",
-        "parking_price": "60分 3,000ウォン / 120分 6,000ウォン",
-        "parking_warning": "駐車場運営終了時間 20:00 までに出庫してください。"
+        "parking_name": "Doowon Building Paid Parking (Basement)",
+        "parking_address": "636 Gangnam-daero, Gangnam-gu, Seoul",
+        "parking_distance": "2 min walk (143m) to studio",
+        "parking_price": "60min 3,000 KRW / 120min 6,000 KRW",
+        "parking_warning": "Closes at 20:00. Please move your car before closing."
     },
     "modelApply": {
-        "title": "2026 FITORIAL 応募",
-        "subtitle": "Fitgirlsと共に成長を夢見るアンバサダーを探しています。",
-        "name": "お名前",
-        "namePlaceholder": "お名前を入力してください",
+        "title": "2026 FITORIAL Muse Recruitment",
+        "subtitle": "We are looking for muses who dream of growing together with Fitgirls.",
+        "name": "Name",
+        "namePlaceholder": "Enter your name",
         "insta": "Instagram ID",
-        "instaPlaceholder": "@アイディー",
-        "location": "地域",
-        "locationPlaceholder": "居住地域",
-        "job": "職業",
-        "jobPlaceholder": "例: 学生、フリーランス、会社員など",
-        "phone": "連絡先",
+        "instaPlaceholder": "@username",
+        "location": "Location",
+        "locationPlaceholder": "Current region",
+        "job": "Occupation",
+        "jobPlaceholder": "e.g., student, freelancer, office worker, etc.",
+        "phone": "Phone",
         "phonePlaceholder": "010-0000-0000",
-        "keywords": "自分を表現するスタイルキーワード3つ",
-        "keywordsPlaceholder": "(例: #エディトリアル #Y2K #エネルギー)",
-        "quoteSub": "年齢はただの数字、国籍は背景に過ぎません。あなたの「フィット」がすべてです。",
-        "submit": "応募する",
-        "submitting": "提出中...",
-        "successMsg": "応募が完了しました。ありがとうございます！",
-        "errorMsg": "エラーが発生しました。もう一度お試しください。",
-        "footerNote": "Fitgirls & Inafitは、世界のすべての情熱と美しさを尊重します。国籍や年齢に関係なく、独自のムードを持つ方なら誰でも2026フィトリアリストになれます。",
+        "keywords": "3 keywords that express your style",
+        "keywordsPlaceholder": "(e.g., #editorial #Y2K #energy)",
+        "quoteSub": "Age is just a number, nationality is just a background. Your 'fit' is everything.",
+        "submit": "Apply Now",
+        "submitting": "Submitting...",
+        "successMsg": "Application submitted successfully. Thank you!",
+        "errorMsg": "An error occurred. Please try again.",
+        "footerNote": "Fitgirls & Inafit respects all passion and beauty across the world. No matter your nationality or age, anyone with a unique mood can become a 2026 Fitorialist.",
         "ambassadorDetail": {
-            "mainTitle": "2026 FITORIAL AMBASSADOR : THE CO-CREATOR",
-            "intro": "単に撮られるモデルを超え、Fitgirls & Inafitのミューズとしてビジュアルアーカイブを共に完成させる**「2026フィトリアリスト(Fitorialist)」**を探しています。",
+            "mainTitle": "2026 FITORIAL MUSE : THE CO-CREATOR",
+            "intro": "Beyond just a model, we are looking for **'2026 Fitorialists'** who will complete the visual archive together as Fitgirls & Inafit's Muse.",
             "benefits": {
-                "title": "🎁 AMBASSADOR BENEFITS",
-                "badge": "特典",
-                "subtitle": "Fitgirlsはアンバサダーの継続的なビジュアル成長とパーソナルブランディングを全面的にサポートします。",
+                "title": "🎁 MUSE BENEFITS",
+                "badge": "Benefits",
+                "subtitle": "Fitgirls fully supports your continuous visual growth and personal branding.",
                 "items": [
                     {
-                        "title": "Premium Editorial Shooting (3ヶ月に1回)",
-                        "desc": "3ヶ月に一度、本人の最も輝く瞬間を収める「2コンセプトフルパッケージ」撮影サポート。"
+                        "title": "Premium Editorial Shooting (Once every 3 months)",
+                        "desc": "Support for a '2-concept full package' shoot every 3 months."
                     },
                     {
-                        "title": "Private Self-Studio Pass (1回提供)",
-                        "desc": "大切な人と自由に記録できる「2人セルフ撮影券」提供。"
+                        "title": "Private Self-Studio Pass (Once)",
+                        "desc": "Free '2-person self-shoot vouchers' to record special moments with loved ones."
                     },
                     {
                         "title": "[Special] 2027 FITORIAL Calendar Project",
-                        "desc": "年末発売予定の「2027フィトリアルカレンダー」製作プロジェクトメインモデル参加及び製作協力。"
+                        "desc": "Lead model participation and collaboration for the '2027 Fitorial Calendar' project."
                     },
                     {
                         "title": "Media & Career Opportunity (MaxQ)",
-                        "desc": "国内最高のヘルス&フィットネスマガジン「MAXQ」の誌面またはオンライン企画コンテンツモデルデビュー機会の提供及び推薦。"
+                        "desc": "Opportunities and recommendations for featured content in 'MAXQ', Korea's top fitness magazine."
                     },
                     {
                         "title": "Official Muse Debut & Networking",
-                        "desc": "公式ホームページ及びSNSメインモデル活動。各種ファッション&ビューティーイベントへの参加情報提供及びネットワーキング。"
+                        "desc": "Main model for official site and SNS. Access to various fashion & beauty events and networking."
                     }
                 ]
             },
             "role": {
-                "title": "🤝 AMBASSADOR'S ROLE",
-                "badge": "役割",
-                "subtitle": "私たちはお互いの影響力をつなぎ、より大きな価値を生み出す**「クリエイティブパートナー」**です。",
+                "title": "🤝 MUSE'S ROLE",
+                "badge": "Role",
+                "subtitle": "We are **'Creative Partners'** connecting each other's influence.",
                 "items": [
                     {
                         "title": "Instagram Collaborator",
-                        "desc": "撮影結果を本人のフィードに投稿する際、必ず「@fitgirls.me」と「@fitorial.muse」を共同作業者に指定してアップロードします。"
+                        "desc": "When posting the shooting results to your own feed, you must upload them by designating '@fitgirls.me' and '@fitorial.muse' as collaborators."
                     },
                     {
                         "title": "Essential Tagging",
-                        "desc": "キャプションに必須ハッシュタグ #fitgirls #inafit #fitorial を含めてブランドの価値を広めます。"
+                        "desc": "Include essential hashtags #Fitgirls #Inafit #Fitorial in caption."
                     },
                     {
                         "title": "Monthly Visual Archive",
-                        "desc": "撮影ビハインド、スタジオスケッチなど、現場の雰囲気をInstagramストーリーで共有します。"
+                        "desc": "Share behind-the-scenes sketches and studio atmosphere via Instagram Stories."
                     },
                     {
                         "title": "Creative Growth",
-                        "desc": "6ヶ月間Fitgirlsと緊密にコミュニケーションを取り、自分だけの感覚で 브랜드のムードを共にリードします。"
+                        "desc": "Communicate closely with Fitgirls for 6 months and lead the brand's mood together."
                     }
                 ]
             }
@@ -318,8 +319,63 @@
                 ]
             },
             {
+                "question": "予約待ちはできますか？",
+                "answer": "キャンセル待ちは受け付けておりません。予約状況は随時変動しますので、予約システムから直接空き状況をご確認ください。"
+            },
+            {
                 "question": "キャンセル及び返金規定はどうなっていますか？",
                 "answer": "撮影日の50日前までのキャンセルは100%返金可能です。49日前からは返金ができません。"
+            },
+            {
+                "question": "予約の日時を変更したいです。",
+                "answer": "撮影日の50日前まで、1回に限り変更可能です。"
+            },
+            {
+                "question": "振込名義が予約者名と異なる場合はどうすればいいですか？",
+                "answer": "名義が異なる場合は、相談チャネルまで振込日と名義人名をお知らせください。"
+            }
+        ],
+        "before_shoot": [
+            {
+                "question": "レンタル衣装の情報はどこで確認できますか？",
+                "answer": "ウェブサイトのLookbookタブでコンセプトと衣装のラインナップを確認できます。",
+                "links": [
+                    {
+                        "label": "Fitgirls Lookbookを見る",
+                        "url": "/zone?tab=lookbook",
+                        "type": "link"
+                    }
+                ]
+            },
+            {
+                "question": "撮影コンセプトの案はいつまでに提出すればいいですか？",
+                "answer": "撮影の1週間前までに、希望のムード案（画像、衣装レンタル情報など）をアップロードしてください。\nファイル名の例: お名前_撮影日 (例: Chulmin_1025)",
+                "links": [
+                    {
+                        "label": "案をアップロード",
+                        "url": "https://www.dropbox.com/request/dLsnN9aUQwOOauBCODY4",
+                        "type": "dropbox"
+                    }
+                ]
+            },
+            {
+                "question": "当日は何時までに到着すればいいですか？",
+                "answer": "予約時間の30分前までに到着してください。\n衣装の着替えやパンプアップ、オイルの準備をして撮影を開始します。"
+            },
+            {
+                "question": "スタジオに備え付けの小道具や運動器具はありますか？",
+                "answer": "オイルとワセリン、ダンベルやバンドなどのパンプアップ用具が備え付けられています。SNSで公開されている小道具も自由に使用可能です。"
+            },
+            {
+                "question": "駐車場はありますか？",
+                "answer": "スタジオ前の有料バレーサービス（2時間10,000ウォン）または近隣の有料駐車場を利用してください。",
+                "links": [
+                    {
+                        "label": "Doowonビル駐車場",
+                        "url": "https://map.naver.com/p/search/두원빌딩%20주차장/place/667509448",
+                        "type": "map"
+                    }
+                ]
             }
         ],
         "after_shoot": [
@@ -329,7 +385,33 @@
             },
             {
                 "question": "修正写真のセレクトはどうしますか？",
-                "answer": "受け取った原本から希望の写真をセレクトして inafit@daum.net へ返信してください。"
+                "answer": "受け取った原本から希望の写真をセレクトして inafit@daum.net へ返信してください。\nファイル番号は変更しないでください。セレクトは20日以内にお願いします。",
+                "links": [
+                    {
+                        "label": "inafit@daum.net",
+                        "url": "mailto:inafit@daum.net",
+                        "type": "email"
+                    }
+                ]
+            },
+            {
+                "question": "レタッチにはどのくらい時間がかかりますか？",
+                "answer": "セレクト当日に1枚、残りの写真は約4週間以内に完成します。"
+            },
+            {
+                "question": "レタッチの段階はどの程度ですか？",
+                "answer": "肌の質感、ボディライン、グラビアのムードを活かしつつ自然な仕上がりにします。1回まで再修正が可能です。"
+            },
+            {
+                "question": "追加のレタッチは可能ですか？",
+                "answer": "Naverレビューで1枚, SNS投稿同意で1枚のサービスレタッチを提供しています。追加購入も可能です（1枚 33,000ウォン）。",
+                "links": [
+                    {
+                        "label": "Fitgirls Smart Store",
+                        "url": "https://smartstore.naver.com/imfitgirl",
+                        "type": "naver"
+                    }
+                ]
             }
         ]
     },
@@ -392,7 +474,7 @@
                 },
                 {
                     "title": "友情&カップル PACKAGE 1",
-                    "price": "770,000ウォン",
+                    "price": "770,000ウォ원",
                     "details": [
                         "個人 1コンセプトずつ 2名 + 友情 1コンセプト",
                         "トータル補正 6枚"
@@ -419,7 +501,7 @@
                     "price": "220,000ウォン",
                     "details": [
                         "コンセプトごとに [衣装1着, 背景1個, ポーズ2種類] (1名追加時 所要時間及び補正カット1名につき5万ウォン追加)",
-                        "団体 コンセプトごとに [衣装1着ずつ, 背景1個]",
+                        "단체 コンセプトごとに [衣装1着ずつ, 背景1個]",
                         "補正2枚 · 個人ごとに 5x7プリント1枚 · WEB用原本ファイル提供 · 15分撮影"
                     ]
                 },
@@ -580,7 +662,7 @@
             "badge": "AI SUMMARY",
             "title": "AI 要約",
             "desc": "{{count}}件のレビューを分析しました",
-            "bullet1": "初心者でも自然なポージングを可能にする専門的なディレクション",
+            "bullet1": "初心者でも自然なポージングを可能にする専門적인 디렉팅",
             "bullet2": "繊細な補正と高品質な結果に対する圧倒的な満足度",
             "bullet3": "多様なコンセプト選択とレンタル衣装のクオリティ"
         },
@@ -613,42 +695,42 @@
         "subtitle_desc": "店舗の写真、情報、トレーナープロフィールをご確認いただけます。",
         "partner1": {
             "name": "プレミアムフィットネスA",
-            "desc": "最高級の施設と専門的なコーチングシステムを備えた都市型ウェルネス空間です。",
+            "desc": "最高級의 시설과 전문적인 코칭 시스템을 갖춘 도심 속 웰니스 공간입니다。",
             "role1": "ヘッドトレーナー",
             "bio1": "体型矯正およびボディプロフィール専門コーチ",
-            "role2": "ピラティス講師",
-            "bio2": "経歴10年のリハビリおよび姿勢矯正専門가"
+            "role2": "필라테스 강사",
+            "bio2": "経歴10年のリハビリおよび姿勢矯正전문가"
         },
         "partner2": {
-            "name": "ウェルネスセンターB",
-            "desc": "リカバリーと하이 퍼포먼스(High Performance)に特化した最先端施設です。",
-            "role1": "パフォーマンスコーチ",
-            "bio1": "運動能力向上および栄養設計専門家"
+            "name": "웰니스 센터 B",
+            "desc": "リカバリーと하이 퍼포먼스(High Performance)에 특화된 최첨단 시설입니다。",
+            "role1": "퍼포먼스 코치",
+            "bio1": "운동 수행 능력 향상 및 영양 설계 전문가"
         },
         "categories": {
             "all": "すべて",
-            "fitness": "フィットネス",
-            "pilates": "ピラティス"
+            "fitness": "피트니스",
+            "pilates": "필라테스"
         },
-        "no_results": "このカテゴリーのパートナーは見つかりませんでした。",
+        "no_results": "이 카테고리의 파트너가 없습니다.",
         "benefits": {
             "title": "FITGIRLS & INAFIT 提携提案",
-            "subtitle": "フィットネスセンターと共に成長하는 최고의 비주얼 파트너십",
+            "subtitle": "피트니스 센터와 함께 상생하는 최고의 비주얼 파트너십",
             "member_title": "会員特典 (Member Benefits)",
-            "member_basic": "基本20%割引",
-            "member_basic_desc": "提携センター所属会員の撮影費が常時20%割引",
-            "member_acc": "累計5名で30%割引",
-            "member_acc_desc": "累計5名の撮影完了後、6人目の会員から30%割引を適用",
-            "center_title": "センターリワード (Center Rewards)",
-            "center_voucher": "5名ごとに無料撮影券進呈",
-            "center_voucher_desc": "会員5名の撮影ごとに「2コンセプトボディプロフィール撮影券」1枚進呈",
-            "center_marketing": "センター広报支援",
-            "center_marketing_desc": "撮影された高品質な写真をセンターのマーケティング資産として活用支援",
-            "trainer_title": "トレーナー特別特典 (Trainer Special)",
-            "trainer_gift": "ウェルカムギフト",
-            "trainer_gift_desc": "提携締結時、所属トレーナーに「プロフェッショナルプロフィール1コンセプト撮影券（リタッチ2枚）」を提供",
-            "trainer_friendship": "記念カットサービス",
-            "trainer_friendship_desc": "会員撮影時、トレーナーと共にする「友情ミニコンセプト」無料撮影およびリタッチ1枚進呈"
+            "member_basic": "기본 20% 할인",
+            "member_basic_desc": "제휴 센터 소속 회원 상시 촬영비 20% 할인",
+            "member_acc": "누적 5인 시 30% 할인",
+            "member_acc_desc": "누적 5명 촬영 완료 후, 6번째 회원부터 30% 할인 적용",
+            "center_title": "Center Rewards",
+            "center_voucher": "5인당 무료 촬영권",
+            "center_voucher_desc": "회원 5명 촬영 시마다 ‘2컨셉 바디프로필 촬영권’ 1매 증정",
+            "center_marketing": "센터 홍보 지원",
+            "center_marketing_desc": "촬영된 고퀄리티 사진을 센터 마케팅 자산으로 활용 지원",
+            "trainer_title": "트레이너 특별 혜택 (Trainer Special)",
+            "trainer_gift": "웰컴 기프트",
+            "trainer_gift_desc": "제휴 체결 시 소속 트레이너에게 전문가용 프로필 1컨셉 촬영권(보정본 2장) 제공",
+            "trainer_friendship": "기념 컷 서비스",
+            "trainer_friendship_desc": "회원 촬영 시 트레이너와 함께하는 ‘우정 미니 컨셉’ 무료 촬영 및 보정본 1장 증정"
         },
         "login_modal": {
             "title": "提携先ログイン",
@@ -656,7 +738,7 @@
             "id_placeholder": "ID",
             "pw_placeholder": "パスワード",
             "submit": "ログイン",
-            "error": "IDまたはパスワードが正しくありません。"
+            "error": "ID 또는 비밀번호가 일치하지 않습니다."
         }
     }
 }

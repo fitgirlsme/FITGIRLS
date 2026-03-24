@@ -19,7 +19,7 @@
         "program": "가격표",
         "info": "정보",
         "event": "이벤트",
-        "ambassador": "엠버서더 지원",
+        "ambassador": "뮤즈 지원",
         "partners": "파트너십"
     },
     "event": {
@@ -215,8 +215,8 @@
         "parking_warning": "주차장 운영 마감시간 20:00으로 마감 전에 출차해 주셔야 합니다."
     },
     "modelApply": {
-        "title": "2026 FITORIAL 엠버서더 지원",
-        "subtitle": "핏걸즈와 함께 컨텐츠를 만들며 성장을 꿈꾸는 엠버서더를 찾습니다.",
+        "title": "2026 FITORIAL 뮤즈 지원",
+        "subtitle": "핏걸즈와 함께 컨텐츠를 만들며 성장을 꿈꾸는 뮤즈를 찾습니다.",
         "name": "이름",
         "namePlaceholder": "이름을 입력해주세요",
         "insta": "인스타그램 ID",
@@ -236,12 +236,12 @@
         "errorMsg": "오류가 발생했습니다. 다시 시도해주세요.",
         "footerNote": "핏걸즈&이너핏은 전 세계 모든 열정과 아름다움을 존중합니다. 국적 및 연령에 제한 없이, 자신만의 독보적인 무드를 가진 분이라면 누구나 2026 핏토리얼리스트가 될 수 있습니다.",
         "ambassadorDetail": {
-            "mainTitle": "2026 FITORIAL AMBASSADOR : THE CO-CREATOR",
+            "mainTitle": "2026 FITORIAL MUSE : THE CO-CREATOR",
             "intro": "단순히 찍히는 모델을 넘어, 핏걸즈&이너핏의 뮤즈로 비주얼 아카이브를 함께 완성할 **'2026 핏토리얼리스트(Fitorialist)'**를 찾습니다.",
             "benefits": {
-                "title": "🎁 AMBASSADOR BENEFITS",
+                "title": "🎁 MUSE BENEFITS",
                 "badge": "지원 혜택",
-                "subtitle": "핏걸즈는 엠버서더의 지속적인 비주얼 성장과 퍼스널 브랜딩을 전폭 지원합니다.",
+                "subtitle": "핏걸즈는 뮤즈의 지속적인 비주얼 성장과 퍼스널 브랜딩을 전폭 지원합니다.",
                 "items": [
                     {
                         "title": "Premium Editorial Shooting (3개월마다 1회)",
@@ -266,8 +266,8 @@
                 ]
             },
             "role": {
-                "title": "🤝 AMBASSADOR'S ROLE",
-                "badge": "엠버서더의 역할",
+                "title": "🤝 MUSE'S ROLE",
+                "badge": "뮤즈의 역할",
                 "subtitle": "우리는 서로의 영향력을 연결하여 더 큰 가치를 만드는 **'크리에이티브 파트너'**입니다.",
                 "items": [
                     {

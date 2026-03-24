@@ -19,7 +19,7 @@
         "program": "拍摄方案",
         "info": "信息",
         "event": "活动",
-        "ambassador": "大使招募",
+        "ambassador": "缪斯招募",
         "partners": "合作伙伴"
     },
     "event": {
@@ -214,8 +214,8 @@
         "parking_warning": "停车场运营结束时间为20:00，请在结束前驶离。"
     },
     "modelApply": {
-        "title": "2026 FITORIAL 大使招募",
-        "subtitle": "寻找梦想与Fitgirls共同成长并创作内容的的大使。",
+        "title": "2026 FITORIAL 缪斯招募",
+        "subtitle": "寻找梦想与Fitgirls共同成长并创作内容的的缪斯。",
         "name": "姓名",
         "namePlaceholder": "请输入姓名",
         "insta": "Instagram ID",
@@ -235,10 +235,10 @@
         "errorMsg": "发生错误。请重试。",
         "footerNote": "Fitgirls & Inafit尊重全世界所有的热忱与美丽。不分国籍及年龄，只要是拥有独特氛围的人，谁都可以成为2026 Fitorialist。",
         "ambassadorDetail": {
-            "mainTitle": "2026 FITORIAL AMBASSADOR : THE CO-CREATOR",
+            "mainTitle": "2026 FITORIAL MUSE : THE CO-CREATOR",
             "intro": "不仅是作为模特，我们正在寻找作为 Fitgirls & Inafit 缪斯来共同完成视觉档案的**“2026 Fitorialist”**。",
             "benefits": {
-                "title": "🎁 AMBASSADOR BENEFITS",
+                "title": "🎁 MUSE BENEFITS",
                 "badge": "奖项福利",
                 "subtitle": "Fitgirls全力支持大使的持续视觉成长及个人品牌建设。",
                 "items": [
@@ -265,7 +265,7 @@
                 ]
             },
             "role": {
-                "title": "🤝 AMBASSADOR'S ROLE",
+                "title": "🤝 MUSE'S ROLE",
                 "badge": "大使职责",
                 "subtitle": "我们是连接彼此影响力以创造更大价值的**“创意合作伙伴”**。",
                 "items": [
@@ -318,8 +318,63 @@
                 ]
             },
             {
+                "question": "可以预约候补吗？",
+                "answer": "我们不提供候补预约。预约情况随时变动，请直接通过预约系统确认空余日程。"
+            },
+            {
                 "question": "取消及退款规定是怎样的？",
-                "answer": "拍摄日前50天取消可退还100%定금。49天起不可退款。"
+                "answer": "拍摄日前50天取消可退还100%定金。49天起不可退款。"
+            },
+            {
+                "question": "我想更改预约日期或时间。",
+                "answer": "仅限在拍摄日前50天之前更改一次。"
+            },
+            {
+                "question": "如果汇款人姓名与预约人姓名不一致怎么办？",
+                "answer": "如果姓名不一致，请通过咨询频道告知汇款日期和姓名以供确认。"
+            }
+        ],
+        "before_shoot": [
+            {
+                "question": "在哪里可以查看可租赁服装的信息？",
+                "answer": "您可以在网站的Lookbook标签页中查看Fitgirls的背景概念和可租赁服装系列。",
+                "links": [
+                    {
+                        "label": "查看Fitgirls Lookbook",
+                        "url": "/zone?tab=lookbook",
+                        "type": "link"
+                    }
+                ]
+            },
+            {
+                "question": "什么时候提交拍摄概念草案？",
+                "answer": "请至少在拍摄前一周上传您想要的氛围草案（图片、服装租赁信息等）。\n文件名示例：姓名_日期 (如：Chulmin_1025)",
+                "links": [
+                    {
+                        "label": "上传草案文件",
+                        "url": "https://www.dropbox.com/request/dLsnN9aUQwOOauBCODY4",
+                        "type": "dropbox"
+                    }
+                ]
+            },
+            {
+                "question": "拍摄当天几点到达？",
+                "answer": "请在预约时间前30分钟到达。\n到达后将进行更衣、泵感、涂抹油性物等准备，准时开始拍摄。"
+            },
+            {
+                "question": "摄影棚提供道具或运动器材吗？",
+                "answer": "提供油和凡士林。还提供各种重量的哑铃、弹力带等泵感用具。社交媒体上展示的各种道具也可自由使用。"
+            },
+            {
+                "question": "可以停车吗？",
+                "answer": "请使用摄影棚前的收费代客泊车服务（2小时10,000韩元）或利用附近的收费停车场。",
+                "links": [
+                    {
+                        "label": "Doowon大厦停车场",
+                        "url": "https://map.naver.com/p/search/두원빌딩%20주차장/place/667509448",
+                        "type": "map"
+                    }
+                ]
             }
         ],
         "after_shoot": [
@@ -329,7 +384,33 @@
             },
             {
                 "question": "如何选片？",
-                "answer": "在接收到的原片中选择希望精修的照片并回复至 inafit@daum.net。"
+                "answer": "在接收到的原片中选择希望精修的照片并回复至 inafit@daum.net。\n请勿更改文件编号，并在20天内完成选片。",
+                "links": [
+                    {
+                        "label": "inafit@daum.net",
+                        "url": "mailto:inafit@daum.net",
+                        "type": "email"
+                    }
+                ]
+            },
+            {
+                "question": "精修需要多长时间？",
+                "answer": "选片当天会先发回一张，其余照片约在4周内完成。"
+            },
+            {
+                "question": "精修的程度如何？",
+                "answer": "在保留自然魅力的同时，优化皮肤纹理、身材线条和画报氛围。可申请一次免费再修改。"
+            },
+            {
+                "question": "可以获得额外的精修吗？",
+                "answer": "Naver评论赠送1张，社交媒体上传同意赠送1张。也可额外购买（一张33,000韩元）。",
+                "links": [
+                    {
+                        "label": "Fitgirls Smart Store",
+                        "url": "https://smartstore.naver.com/imfitgirl",
+                        "type": "naver"
+                    }
+                ]
             }
         ]
     },
