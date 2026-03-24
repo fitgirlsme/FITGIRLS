@@ -928,8 +928,13 @@ const ApplicationsTab = () => {
     };
 
     const handleDelete = async (id) => {
-        if (!confirm('삭제하시겠습니까?')) return;
-        try { await deleteDoc(doc(db, 'applications', id)); loadApps(); } catch (err) { alert(err.message); }
+        if (!window.confirm('정말 삭제하시겠습니까?')) return;
+        try { 
+            await deleteDoc(doc(db, 'applications', id)); 
+            loadApps(); 
+        } catch (err) { 
+            alert(err.message); 
+        }
     };
 
     return (
