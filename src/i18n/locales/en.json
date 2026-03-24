@@ -19,7 +19,7 @@
         "program": "Price List",
         "info": "Info",
         "event": "Event",
-        "ambassador": "Muse Recruitment",
+        "ambassador": "Ambassador Recruitment",
         "partners": "Partnership"
     },
     "event": {
@@ -215,8 +215,8 @@
         "parking_warning": "Closes at 20:00. Please move your car before closing."
     },
     "modelApply": {
-        "title": "2026 FITORIAL Muse Recruitment",
-        "subtitle": "We are looking for muses who dream of growing together with Fitgirls.",
+        "title": "2026 FITORIAL Ambassador Recruitment",
+        "subtitle": "We are looking for ambassadors who dream of growing together with Fitgirls.",
         "name": "Name",
         "namePlaceholder": "Enter your name",
         "insta": "Instagram ID",
@@ -236,10 +236,10 @@
         "errorMsg": "An error occurred. Please try again.",
         "footerNote": "Fitgirls & Inafit respects all passion and beauty across the world. No matter your nationality or age, anyone with a unique mood can become a 2026 Fitorialist.",
         "ambassadorDetail": {
-            "mainTitle": "2026 FITORIAL MUSE : THE CO-CREATOR",
-            "intro": "Beyond just a model, we are looking for **'2026 Fitorialists'** who will complete the visual archive together as Fitgirls & Inafit's Muse.",
+            "mainTitle": "2026 FITORIAL AMBASSADOR : THE CO-CREATOR",
+            "intro": "Beyond just a model, we are looking for **'2026 Fitorialists'** who will complete the visual archive together as Fitgirls & Inafit's Ambassador.",
             "benefits": {
-                "title": "🎁 MUSE BENEFITS",
+                "title": "🎁 AMBASSADOR BENEFITS",
                 "badge": "Benefits",
                 "subtitle": "Fitgirls fully supports your continuous visual growth and personal branding.",
                 "items": [
@@ -260,19 +260,19 @@
                         "desc": "Opportunities and recommendations for featured content in 'MAXQ', Korea's top fitness magazine."
                     },
                     {
-                        "title": "Official Muse Debut & Networking",
+                        "title": "Official Ambassador Debut & Networking",
                         "desc": "Main model for official site and SNS. Access to various fashion & beauty events and networking."
                     }
                 ]
             },
             "role": {
-                "title": "🤝 MUSE'S ROLE",
+                "title": "🤝 AMBASSADOR'S ROLE",
                 "badge": "Role",
                 "subtitle": "We are **'Creative Partners'** connecting each other's influence.",
                 "items": [
                     {
                         "title": "Instagram Collaborator",
-                        "desc": "When posting the shooting results to your own feed, you must upload them by designating '@fitgirls.me' and '@fitorial.muse' as collaborators."
+                        "desc": "When posting the shooting results to your own feed, you must upload them by designating '@fitgirls.me' and '@fitorial.ambassador' as collaborators."
                     },
                     {
                         "title": "Essential Tagging",
