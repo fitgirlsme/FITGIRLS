@@ -418,9 +418,9 @@
     "services": {
         "header_title": "FITGIRLS & INAFIT",
         "header_subtitle": "PORTRAIT SERVICE 2026",
-        "header_desc": "OPEN YEAR ROUND · Reservation based studio · All prices include VAT / Card & Cash receipt available",
-        "same_price": "Fitgirls Studio maintains the same prices for weekdays and weekends.",
-        "return_discount": "20% discount for 2nd visit, 30% discount for 3rd visit or more (Inquire via Kakaotalk)",
+        "header_desc": "OPEN YEAR ROUND · BY APPOINTMENT ONLY · ALL PRICES VAT INCLUDED / CARD & CASH RECEIPT AVAILABLE",
+        "same_price": "FITGIRLS studio pricing is the same for weekdays and weekends.",
+        "return_discount": "20% discount on 2nd visit, 30% discount on 3rd+ visit (Check KakaoTalk)",
         "tabs": {
             "fitorialist": "FITORIALIST",
             "artist": "ARTIST",
@@ -430,8 +430,7 @@
         "fitorialist": {
             "menu1": {
                 "title": "PORTRAIT MENU",
-                "subtitle": "FITGIRLS & INAFIT SIGNATURE SESSIONS & PACKAGES",
-                "category": "PERSONAL\nProfile"
+                "category": "FITORIAL SIGNATURE\nPERSONAL SESSIONS"
             },
             "list1": [
                 {
@@ -439,7 +438,7 @@
                     "price": "275,000 KRW",
                     "details": [
                         "1 outfit per concept, 2 backgrounds",
-                        "2 retouched photos · 1 print each · Web source provided · 30min session"
+                        "3 retouched photos · 1 print each · Web source provided · 30min session"
                     ]
                 },
                 {
@@ -447,14 +446,14 @@
                     "price": "440,000 KRW",
                     "details": [
                         "1 outfit per concept, Unlimited backgrounds · Unlimited poses",
-                        "4 retouched photos · 2 prints each · Web source provided · 90min session"
+                        "6 retouched photos · 2 prints each · Web source provided · 90min session"
                     ]
                 },
                 {
                     "title": "3 Concepts",
                     "price": "550,000 KRW",
                     "details": [
-                        "Unlimited outfit · background · pose utilization",
+                        "Unlimited outfits · backgrounds · poses",
                         "6 retouched photos · 3 prints each · Web source provided · 120min session"
                     ]
                 }
@@ -502,7 +501,7 @@
                     "price": "220,000 KRW",
                     "details": [
                         "1 outfit per concept, 1 background, 2 poses",
-                        "2 retouched photos · 1 print · all web source files · 15min session"
+                        "2 retouched photos · 1 print · web source files · 15min session"
                     ]
                 },
                 {
@@ -567,7 +566,7 @@
                     "price": "220,000 KRW",
                     "details": [
                         "1 outfit per concept, 1 background, 2 poses",
-                        "2 retouched photos · 1 print · all web source files · 15min session"
+                        "2 retouched photos · 1 print · web source files · 15min session"
                     ]
                 },
                 {
@@ -575,7 +574,7 @@
                     "price": "330,000 KRW",
                     "details": [
                         "1 outfit per concept, 1 background, 2 poses",
-                        "4 retouched photos · 2 prints · all web source files · 30min session"
+                        "4 retouched photos · 2 prints · web source files · 30min session"
                     ]
                 },
                 {
@@ -603,7 +602,7 @@
                 },
                 {
                     "title": "GROUP PACKAGE 1",
-                    "price": "550,000 KRW",
+                    "price": "550,00W KRW",
                     "details": [
                         "For 2~3 people",
                         "2 people with 1 individual concept each + 1 group concept",
@@ -648,11 +647,11 @@
             ]
         },
         "notices": [
-            "Retouching period: 1 photo edited on result selection day, remaining photos within 4 weeks (Request for additional revision available)",
-            "Original files provided in web size (approx. 2000px).",
-            "Additional retouching fee: 33,000 KRW per photo.",
+            "Retouching period: 1 photo on selection day, rest finished within ~4 weeks (further edits possible)",
+            "Web source files provided at ~2000px.",
+            "Additional retouching: 33,000 KRW per photo.",
             "Parking: Please use Doowon Building paid parking lot.",
-            "1 extra retouched photo for Naver Review, 1 extra for SNS upload agreement."
+            "Naver review service: 1 photo, SNS upload agreement: 1 photo."
         ]
     },
     "how_to_book": {
