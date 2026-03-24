@@ -56,9 +56,11 @@ import { uploadOptimizedImage } from '../utils/uploadService';
 // ===== Upload to Firebase Storage =====
 const uploadToStorage = async (file, folder = 'galleries') => {
     // hero_slides나 events 폴더 등 고화질 렌더링이 필요한 경우 옵션 조정
-    const customOpts = folder === 'hero_slides' || folder === 'events' 
+    const customOpts = folder === 'hero_slides' 
         ? { maxSizeMB: 2, maxWidthOrHeight: 1980 } 
-        : {};
+        : folder === 'events'
+            ? { maxSizeMB: 2, maxWidthOrHeight: 1500 }
+            : {};
     return await uploadOptimizedImage(file, folder, customOpts);
 };
 
