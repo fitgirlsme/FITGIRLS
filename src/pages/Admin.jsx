@@ -953,11 +953,36 @@ const ApplicationsTab = () => {
                             </div>
                             <button onClick={() => handleDelete(app.id)} className="delete" style={{ background: 'none', border: 'none', color: '#ff4d4d', cursor: 'pointer', fontSize: '0.9rem' }}>Delete</button>
                         </div>
-                        <div style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px 20px', width: '100%' }}>
-                            {app.insta && <span>📷 <a href={`https://instagram.com/${app.insta.replace('@','')}`} target="_blank" rel="noreferrer" style={{ color: 'var(--color-primary)' }}>{app.insta}</a></span>}
-                            {app.location && <span>📍 {app.location}</span>}
-                            {app.phone && <span>📞 {app.phone}</span>}
-                            {app.createdAt?.toDate && <span>📅 {app.createdAt.toDate().toLocaleDateString()}</span>}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', width: '100%' }}>
+                            <div style={{ 
+                                width: '60px', 
+                                height: '60px', 
+                                borderRadius: '50%', 
+                                overflow: 'hidden', 
+                                backgroundColor: 'var(--color-surface)',
+                                border: '2px solid var(--color-primary)',
+                                flexShrink: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}>
+                                {app.insta ? (
+                                    <img 
+                                        src={`https://unavatar.io/instagram/${app.insta.replace('@','')}`} 
+                                        alt={app.insta} 
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                        onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<span style="font-size: 1.5rem">👤</span>'; }}
+                                    />
+                                ) : (
+                                    <span style={{ fontSize: '1.5rem' }}>👤</span>
+                                )}
+                            </div>
+                            <div style={{ flex: 1, fontSize: '0.85rem', color: 'var(--color-text-secondary)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px 20px' }}>
+                                {app.insta && <span>📷 <a href={`https://instagram.com/${app.insta.replace('@','')}`} target="_blank" rel="noreferrer" style={{ color: 'var(--color-primary)' }}>{app.insta}</a></span>}
+                                {app.location && <span>📍 {app.location}</span>}
+                                {app.phone && <span>📞 {app.phone}</span>}
+                                {app.createdAt?.toDate && <span>📅 {app.createdAt.toDate().toLocaleDateString()}</span>}
+                            </div>
                         </div>
                         {app.keywords && (
                             <div style={{ width: '100%', background: 'rgba(0,0,0,0.15)', padding: '12px', borderRadius: '8px', borderLeft: '3px solid var(--color-primary)', marginTop: '4px' }}>
