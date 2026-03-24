@@ -15,7 +15,7 @@
         "location": "位置",
         "zone": "拍摄区",
         "social": "社交媒体",
-        "mgmt": "模特管理",
+        "mgmt": "模特 management",
         "program": "拍摄方案",
         "info": "信息",
         "event": "活动",
@@ -130,7 +130,7 @@
                 "date": "2026.03.04"
             },
             {
-                "title": "4月 粉色房开放",
+                "title": "4월 粉色房开放",
                 "date": "2026.03.04"
             }
         ]
@@ -183,7 +183,7 @@
         "steps": {
             "step1_title": "Naver预约申请",
             "step1_desc": "为核对日程，请先在Fitgirls Kakao频道咨询，之后开放Naver日程。",
-            "step2_title": "支付定金",
+            "step2_title": "支付定금",
             "step2_desc": "Naver预约后，收到KakaoTalk上的“Toss Order”通知后，支付90,000韩元定金即完成最终预约。",
             "account_info": "转账：友利银行 010-4696-1434 (Fitgirls)"
         },
@@ -260,7 +260,7 @@
                     },
                     {
                         "title": "Official Muse Debut & Networking",
-                        "desc": "官方网站及SNS主模特活动。提供参加各种时尚与美容活动的资讯及交流机会。"
+                        "desc": "官方网站 및 SNS主模特活动。提供参加各种时尚与美容活动的资讯及交流机会。"
                     }
                 ]
             },
@@ -319,7 +319,7 @@
             },
             {
                 "question": "取消及退款规定是怎样的？",
-                "answer": "拍摄日前50天取消可退还100%定金。49天起不可退款。"
+                "answer": "拍摄日前50天取消可退还100%定금。49天起不可退款。"
             }
         ],
         "after_shoot": [
@@ -362,8 +362,8 @@
                     "每个概念1套服装, 2种背景",
                     "精修4张 · 5x7照片2张 · 提供网页用原片文件 · 拍摄60分钟"
                 ]
-            },
-       },
+            }
+        ],
         "list2": [
             {
                 "title": "友情/情侣 1概念",
@@ -458,7 +458,7 @@
             },
             "review2": {
                 "author": "李智惠",
-                "text": "摄影师非常亲切！拍摄氛围很轻松，构图和色调非常漂亮。强烈推荐！"
+                "text": "摄影师非常亲切！拍摄氛围很轻松，构图和色调非常漂亮。强烈推荐!"
             }
         }
     },
@@ -486,6 +486,33 @@
             "fitness": "健身",
             "pilates": "普拉提"
         },
-        "no_results": "在该分类下未找到合作伙伴。"
+        "no_results": "在该分类下未找到合作伙伴。",
+        "benefits": {
+            "title": "FITGIRLS & INAFIT 合作提案",
+            "subtitle": "与健身中心共同成长的顶级视觉合作伙伴关系",
+            "member_title": "会员权益 (Member Benefits)",
+            "member_basic": "基础20%折扣",
+            "member_basic_desc": "合作中心所属会员拍摄费用常时20%折扣",
+            "member_acc": "累计5人时30%折扣",
+            "member_acc_desc": "累计5名拍摄完成后，从第6位会员开始适用30%折扣",
+            "center_title": "中心奖励 (Center Rewards)",
+            "center_voucher": "每5名赠送免费拍摄券",
+            "center_voucher_desc": "每有5名会员拍摄，赠送1张“2概念个人形象照拍摄券”",
+            "center_marketing": "中心宣传支持",
+            "center_marketing_desc": "支持将拍摄的高质量照片作为中心营销资产使用",
+            "trainer_title": "教练特别权益 (Trainer Special)",
+            "trainer_gift": "欢迎礼品",
+            "trainer_gift_desc": "签署合作协议时，为所属教练提供“专业形象照1概念拍摄券（含2张精修）”",
+            "trainer_friendship": "纪念拍摄服务",
+            "trainer_friendship_desc": "会员拍摄时，免费提供与教练共同拍摄的“友情微概念”并赠送1张精修图"
+        },
+        "login_modal": {
+            "title": "合作伙伴登录",
+            "subtitle": "请登录以查看专属权益。",
+            "id_placeholder": "账号",
+            "pw_placeholder": "密码",
+            "submit": "登录",
+            "error": "账号或密码错误。"
+        }
     }
 }

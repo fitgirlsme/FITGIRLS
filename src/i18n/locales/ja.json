@@ -498,6 +498,33 @@
             "fitness": "フィットネス",
             "pilates": "ピラティス"
         },
-        "no_results": "このカテゴリーのパートナーは見つかりませんでした。"
+        "no_results": "このカテゴリーのパートナーは見つかりませんでした。",
+        "benefits": {
+            "title": "FITGIRLS & INAFIT 提携提案",
+            "subtitle": "フィットネスセンターと共に成長하는 최고의 비주얼 파트너십",
+            "member_title": "会員特典 (Member Benefits)",
+            "member_basic": "基本20%割引",
+            "member_basic_desc": "提携センター所属会員の撮影費が常時20%割引",
+            "member_acc": "累計5名で30%割引",
+            "member_acc_desc": "累計5名の撮影完了後、6人目の会員から30%割引を適用",
+            "center_title": "センターリワード (Center Rewards)",
+            "center_voucher": "5名ごとに無料撮影券進呈",
+            "center_voucher_desc": "会員5名の撮影ごとに「2コンセプトボディプロフィール撮影券」1枚進呈",
+            "center_marketing": "センター広报支援",
+            "center_marketing_desc": "撮影された高品質な写真をセンターのマーケティング資産として活用支援",
+            "trainer_title": "トレーナー特別特典 (Trainer Special)",
+            "trainer_gift": "ウェルカムギフト",
+            "trainer_gift_desc": "提携締結時、所属トレーナーに「プロフェッショナルプロフィール1コンセプト撮影券（リタッチ2枚）」を提供",
+            "trainer_friendship": "記念カットサービス",
+            "trainer_friendship_desc": "会員撮影時、トレーナーと共にする「友情ミニコンセプト」無料撮影およびリタッチ1枚進呈"
+        },
+        "login_modal": {
+            "title": "提携先ログイン",
+            "subtitle": "専用特典を確認するためにログインしてください。",
+            "id_placeholder": "ID",
+            "pw_placeholder": "パスワード",
+            "submit": "ログイン",
+            "error": "IDまたはパスワードが正しくありません。"
+        }
     }
 }

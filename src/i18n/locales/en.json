@@ -583,7 +583,7 @@
                     "price": "440,000 KRW",
                     "details": [
                         "1 outfit per concept, 1 background, 2 poses",
-                        "6 retouched photos · 3 prints · high-res source files · 40min session"
+                        "6 retouched photos · 3 prints · web source files · 40min session"
                     ]
                 }
             ],
@@ -729,6 +729,33 @@
             "fitness": "FITNESS",
             "pilates": "PILATES"
         },
-        "no_results": "No partners found in this category."
+        "no_results": "No partners found in this category.",
+        "benefits": {
+            "title": "FITGIRLS & INAFIT Partnership Proposal",
+            "subtitle": "The ultimate visual partnership for fitness centers",
+            "member_title": "Member Benefits",
+            "member_basic": "Basic 20% Discount",
+            "member_basic_desc": "20% discount on all shoots for members of partnered centers",
+            "member_acc": "30% Discount for 5+ Members",
+            "member_acc_desc": "30% discount starting from the 6th member after 5 completed shoots",
+            "center_title": "Center Rewards",
+            "center_voucher": "Free Shoot Voucher for every 5 members",
+            "center_voucher_desc": "One '2-concept body profile shoot voucher' for every 5 members",
+            "center_marketing": "Marketing Support",
+            "center_marketing_desc": "Access to high-quality photos for center marketing purposes",
+            "trainer_title": "Trainer Special",
+            "trainer_gift": "Welcome Gift",
+            "trainer_gift_desc": "One 'Professional Profile 1-concept shoot voucher (2 retouched photos)' for trainers upon partnership",
+            "trainer_friendship": "Commemorative Cut Service",
+            "trainer_friendship_desc": "Free 'Friendship Mini Concept' shoot and 1 retouched photo for trainer during member's shoot"
+        },
+        "login_modal": {
+            "title": "Partner Login",
+            "subtitle": "Please login to view exclusive benefits.",
+            "id_placeholder": "ID",
+            "pw_placeholder": "Password",
+            "submit": "Login",
+            "error": "Invalid ID or Password."
+        }
     }
 }
