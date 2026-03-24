@@ -66,7 +66,7 @@ const Header = ({ isScrolled, isOnHero, changeLanguage, currentLang }) => {
     };
 
     return (
-        <header className={`app-header ${isScrolled ? 'scrolled' : ''}`}>
+        <header className={`app-header ${isScrolled || !isOnHero ? 'scrolled' : ''}`}>
             <div className="hamburger-container">
                 <button
                     className={`hamburger-btn ${menuOpen ? 'open' : ''}`}
