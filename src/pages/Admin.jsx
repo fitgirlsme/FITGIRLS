@@ -945,17 +945,26 @@ const ApplicationsTab = () => {
             </div>
             <div className="admin-item-list">
                 {apps.map(app => (
-                    <div key={app.id} className="admin-item-card" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 8 }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
-                            <strong>{app.name}</strong>
-                            <button onClick={() => handleDelete(app.id)} className="delete" style={{ background: 'none', border: 'none', color: '#ff4d4d', cursor: 'pointer' }}>Delete</button>
+                    <div key={app.id} className="admin-item-card" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 12, padding: '20px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', borderBottom: '1px solid var(--color-border)', paddingBottom: '10px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                                <strong style={{ fontSize: '1.1rem' }}>{app.name}</strong>
+                                {app.job && <span className="admin-item-badge" style={{ fontSize: '0.75rem', padding: '2px 8px', borderRadius: '4px', background: 'var(--color-surface)', color: 'var(--color-primary)' }}>{app.job}</span>}
+                            </div>
+                            <button onClick={() => handleDelete(app.id)} className="delete" style={{ background: 'none', border: 'none', color: '#ff4d4d', cursor: 'pointer', fontSize: '0.9rem' }}>Delete</button>
                         </div>
-                        <div style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                        <div style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px 20px', width: '100%' }}>
                             {app.insta && <span>📷 <a href={`https://instagram.com/${app.insta.replace('@','')}`} target="_blank" rel="noreferrer" style={{ color: 'var(--color-primary)' }}>{app.insta}</a></span>}
                             {app.location && <span>📍 {app.location}</span>}
                             {app.phone && <span>📞 {app.phone}</span>}
                             {app.createdAt?.toDate && <span>📅 {app.createdAt.toDate().toLocaleDateString()}</span>}
                         </div>
+                        {app.keywords && (
+                            <div style={{ width: '100%', background: 'rgba(0,0,0,0.15)', padding: '12px', borderRadius: '8px', borderLeft: '3px solid var(--color-primary)', marginTop: '4px' }}>
+                                <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginBottom: '8px', letterSpacing: '0.5px' }}>keywords / Message</div>
+                                <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--color-text)', lineHeight: '1.5', whiteSpace: 'pre-wrap' }}>{app.keywords}</p>
+                            </div>
+                        )}
                     </div>
                 ))}
                 {apps.length === 0 && <p style={{ color: 'var(--color-text-secondary)', textAlign: 'center', padding: 40 }}>신청 데이터가 없습니다.</p>}
