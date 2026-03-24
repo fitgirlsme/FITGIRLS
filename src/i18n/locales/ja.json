@@ -237,54 +237,55 @@
         "footerNote": "Fitgirls & Inafit respects all passion and beauty across the world. No matter your nationality or age, anyone with a unique mood can become a 2026 Fitorialist.",
         "ambassadorDetail": {
             "mainTitle": "2026 FITORIAL AMBASSADOR : THE CO-CREATOR",
-            "intro": "Beyond just a model, we are looking for **'2026 Fitorialists'** who will complete the visual archive together as Fitgirls & Inafit's Ambassador.",
+            "intro": "単に撮られるモデルを超え、Fitgirls＆Inafitのアンバサダーとしてビジュアルアーカイブを共に完成させる **'2026 フィトリアリスト(Fitorialist)'** を募集します。",
             "benefits": {
                 "title": "🎁 AMBASSADOR BENEFITS",
-                "badge": "Benefits",
-                "subtitle": "Fitgirls fully supports your continuous visual growth and personal branding.",
+                "badge": "特典",
+                "subtitle": "Fitgirlsは、アン바サダーの持続的なビジュアル成長とパーソナルブラン딩を全面的にサポートします。",
                 "items": [
                     {
-                        "title": "Premium Editorial Shooting (Once every 3 months)",
-                        "desc": "Support for a '2-concept full package' shoot every 3 months."
+                        "title": "Premium Editorial Shooting (3ヶ月に1回)",
+                        "desc": "3ヶ月に一度、本인의 가장 빛나는 순간을収める '2コンセプト・フルパッケージ' 撮影をサポート。"
                     },
                     {
-                        "title": "Private Self-Studio Pass (Once)",
-                        "desc": "Free '2-person self-shoot vouchers' to record special moments with loved ones."
+                        "title": "Private Self-Studio Pass (1回提供)",
+                        "desc": "大切な人と一緒に自由に記録できる '2人用セルフ撮影券' を提供。"
                     },
                     {
                         "title": "[Special] 2027 FITORIAL Calendar Project",
-                        "desc": "Lead model participation and collaboration for the '2027 Fitorial Calendar' project."
+                        "desc": "年末発売予定の '2027 フィトリアルカレンダー' 制作プロジェクトのメインモデルとして参加＆制作協力。"
                     },
                     {
                         "title": "Media & Career Opportunity (MaxQ)",
-                        "desc": "Opportunities and recommendations for featured content in 'MAXQ', Korea's top fitness magazine."
+                        "desc": "韓国最高のヘルス＆フィットネスマガジン 'MAXQ' の誌面またはオンライン企画コンテンツでのモデルデビュー機会の提供および推薦。"
                     },
                     {
                         "title": "Official Ambassador Debut & Networking",
-                        "desc": "Main model for official site and SNS. Access to various fashion & beauty events and networking."
+                        "desc": "公式サイトおよびSNSのメインモデルとしての活動。各種ファッション＆ビューティーイベントへの参加情報やネットワーキング機会を提供。"
                     }
                 ]
             },
             "role": {
                 "title": "🤝 AMBASSADOR'S ROLE",
-                "badge": "Role",
-                "subtitle": "We are **'Creative Partners'** connecting each other's influence.",
+                "badge": "アンバサダーの役割",
+                "subtitle": "私たちは、お互いの影響力をつなげてより大きな価値を創り出す **'クリエイティブ・パートナー'** です。",
                 "items": [
                     {
                         "title": "Instagram Collaborator",
-                        "desc": "When posting the shooting results to your own feed, you must upload them by designating '@fitgirls.me' and '@fitorial.muse' as collaborators."
+                        "desc": "撮影結果を自身のフィードに投稿する際、必ず '@fitgirls.me' と '@fitorial.muse' を共同作業者(Collaborator)に指定してアップロードします。"
                     },
                     {
                         "title": "Essential Tagging",
-                        "desc": "Include essential hashtags #Fitgirls #Inafit #Fitorial in caption."
+                        "desc": "投稿のキャプション内に必須ハッシュタグ #Fitgirls #Inafit #Fitorial を含め、ブランドの価値を広めます。"
                     },
                     {
                         "title": "Monthly Visual Archive",
-                        "desc": "Share behind-the-scenes sketches and studio atmosphere via Instagram Stories."
+                        "desc": "撮影の비하인드、スタジオスケッチなど、現場の生き生きとした雰囲気をInstagramストーリーを通じて共有します。",
+                        "note": "비하인드"
                     },
                     {
                         "title": "Creative Growth",
-                        "desc": "Communicate closely with Fitgirls for 6 months and lead the brand's mood together."
+                        "desc": "6개월間、Fitgirlsと緊密にコミュニケーションを取りながら、自分だけの感覚でブランドのムードを共にリードします。"
                     }
                 ]
             }
