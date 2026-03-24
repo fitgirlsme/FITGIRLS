@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { addItem, STORES } from '../../utils/db';
 import { db } from '../../utils/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, getDocs, query } from 'firebase/firestore';
 import './ModelRecruit.css';
 
 const ModelRecruit = () => {
@@ -177,6 +177,40 @@ const ModelRecruit = () => {
                         </div>
                     )}
                 </form>
+                {/* Admin-only applicants view */}
+                {(() => {
+                    const [count, setCount] = React.useState(null);
+                    const isAdmin = localStorage.getItem('admin_logged_in') === 'true';
+                    
+                    React.useEffect(() => {
+                        if (isAdmin) {
+                            getDocs(query(collection(db, 'applications'))).then(snap => {
+                                setCount(snap.size);
+                            }).catch(console.error);
+                        }
+                    }, [isAdmin]);
+
+                    if (!isAdmin) return null;
+
+                    return (
+                        <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                            <a href="/admin" style={{ 
+                                display: 'inline-block',
+                                padding: '10px 20px',
+                                background: 'rgba(255,255,255,0.05)',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                borderRadius: '8px',
+                                color: 'var(--color-primary)',
+                                textDecoration: 'none',
+                                fontSize: '0.9rem',
+                                fontWeight: 600,
+                                transition: 'all 0.2s'
+                            }}>
+                                📋 {t('modelApply.viewApps', '지원자보기')} (지원인원 +{count ?? '...'}명)
+                            </a>
+                        </div>
+                    );
+                })()}
 
                 <div className="model-apply-footer-note">
                     {t('modelApply.footerNote', '핏걸즈&이너핏은 전 세계 모든 열정과 아름다움을 존중합니다. 국적 및 연령에 제한 없이, 자신만의 독보적인 무드를 가진 분이라면 누구나 2026 핏토리얼리스트가 될 수 있습니다.')}
