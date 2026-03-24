@@ -715,7 +715,12 @@
             },
             "review2": {
                 "author": "Jihye Lee",
-                "text": "Above all, the photographer was so kind! I was very nervous before the shoot, but I filmed comfortably in a soft atmosphere. Especially the composition and colors came out so beautifully that everyone is asking where I        "title": "Official Partners",
+                "text": "Above all, the photographer was so kind! I was very nervous before the shoot, but I filmed comfortably in a soft atmosphere. Especially the composition and colors came out so beautifully that everyone is asking where I shot it. Highly recommended!"
+            }
+        }
+    },
+    "partners": {
+        "title": "Official Partners",
         "subtitle": "Meet our high-end fitness partners",
         "trainers": "Our Trainer Team",
         "gallery": "Gallery",
@@ -723,11 +728,6 @@
             "all": "ALL",
             "fitness": "FITNESS",
             "pilates": "PILATES"
-        },
-        "no_results": "No partners found in this category."
-    }
-}
-"
         },
         "no_results": "No partners found in this category."
     }
