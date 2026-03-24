@@ -494,7 +494,7 @@
         "artist": {
             "menu1": {
                 "title": "개인 BASIC",
-                "category": "ARTIST PROFILE BASIC"
+                "category": "ARTIST PROFILE BASIC\n/ 댄서, DJ, 안무가 등등"
             },
             "list1": [
                 {
@@ -529,7 +529,7 @@
         "expert": {
             "menu1": {
                 "title": "개인 BASIC",
-                "category": "PROFESSIONAL PROFILE BASIC"
+                "category": "PROFESSIONAL PROFILE BASIC\n전문분야 프로필(의사, 약사, 트레이너 등 전문 분야에 필요한 광고형 프로필)"
             },
             "list1": [
                 {

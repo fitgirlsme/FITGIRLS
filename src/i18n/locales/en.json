@@ -494,7 +494,7 @@
         "artist": {
             "menu1": {
                 "title": "BASIC",
-                "category": "ARTIST PROFILE BASIC"
+                "category": "ARTIST PROFILE BASIC\n/ Dancers, DJs, Choreographers, etc."
             },
             "list1": [
                 {
@@ -559,7 +559,7 @@
         "expert": {
             "menu1": {
                 "title": "BASIC",
-                "category": "PRO PROFILE BASIC"
+                "category": "PRO PROFILE BASIC\nSpecialized Profiles (Doctors, Pharmacists, Trainers, Advertising profiles for professionals)"
             },
             "list1": [
                 {
