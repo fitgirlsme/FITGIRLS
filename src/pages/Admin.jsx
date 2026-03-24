@@ -57,7 +57,7 @@ import { uploadOptimizedImage } from '../utils/uploadService';
 const uploadToStorage = async (file, folder = 'galleries') => {
     // hero_slides나 events 폴더 등 고화질 렌더링이 필요한 경우 옵션 조정
     const customOpts = folder === 'hero_slides' || folder === 'events' 
-        ? { maxSizeMB: 2, maxWidthOrHeight: 1920 } 
+        ? { maxSizeMB: 2, maxWidthOrHeight: 1980 } 
         : {};
     return await uploadOptimizedImage(file, folder, customOpts);
 };
