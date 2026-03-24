@@ -1,7 +1,10 @@
-.brand-report-page {
-  min-height: 100dvh;
+.brand-report-container {
   background: var(--color-bg, #000);
-  color: var(--color-text, #fff);
+}
+
+.brand-report-page {
+  min-height: 100vh;
+  padding-top: 80px;
   display: flex;
   align-items: center;
   justify-content: center;

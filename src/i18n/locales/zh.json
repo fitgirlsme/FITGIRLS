@@ -356,26 +356,19 @@
                 ]
             },
             {
-                "title": "2 CONCEPTS",
-                "price": "440,000 韩元",
-                "details": [
-                    "每个概念1套服装, 背景不限 · 姿势不限",
-                    "精修4张 · 5x7照片2张 · 提供网页用原片文件 · 拍摄90分钟"
-                ]
-            },
-            {
-                "title": "3 CONCEPTS",
-                "price": "550,000 韩元",
-                "details": [
-                    "服装 · 背景 · 姿势均不限",
-                    "精修6张 · 5x7照片3张 · 提供网页用原片文件 · 拍摄120分钟"
-                ]
-            }
-        ],
-        "menu2": {
-            "title": "FRIENDS & COUPLE",
-            "category": "友情 & 情侣套餐"
+                "title"        "title": "官方合作伙伴",
+        "subtitle": "为您介绍与 FITGIRLS 合作的高端健身伙伴。",
+        "trainers": "专属教练团队",
+        "gallery": "画廊",
+        "categories": {
+            "all": "全部",
+            "fitness": "健身",
+            "pilates": "普拉提"
         },
+        "no_results": "在该分类下未找到合作伙伴。"
+    }
+}
+       },
         "list2": [
             {
                 "title": "友情/情侣 1概念",

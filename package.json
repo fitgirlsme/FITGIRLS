@@ -8,7 +8,7 @@
         "build": "vite build",
         "preview": "vite preview",
         "predeploy": "npm run build",
-        "deploy": "gh-pages -d dist"
+        "deploy": "firebase deploy"
     },
     "dependencies": {
         "browser-image-compression": "^2.0.2",

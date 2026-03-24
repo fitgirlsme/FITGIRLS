@@ -715,33 +715,19 @@
             },
             "review2": {
                 "author": "Jihye Lee",
-                "text": "Above all, the photographer was so kind! I was very nervous before the shoot, but I filmed comfortably in a soft atmosphere. Especially the composition and colors came out so beautifully that everyone is asking where I took it. Highly recommended!"
-            }
-        }
-    },
-    "partners": {
-        "title": "OFFICIAL PARTNERS",
-        "subtitle": "Introducing premium fitness partners with FITGIRLS.",
-        "trainers": "Dedicated Trainer Team",
-        "subtitle_desc": "Check out company photos, info, and trainer profiles.",
-        "partner1": {
-            "name": "Premium Fitness A",
-            "desc": "A wellness space in the city with top-notch facilities and professional coaching.",
-            "role1": "Head Trainer",
-            "bio1": "Specialist in body composition and profiling.",
-            "role2": "Pilates Instructor",
-            "bio2": "Rehabilitation expert with 10 years experience."
-        },
-        "partner2": {
-            "name": "Wellness Center B",
-            "desc": "State-of-the-art facility focused on recovery and high performance.",
-            "role1": "Performance Coach",
-            "bio1": "Expert in athletic performance and nutrition."
-        },
+                "text": "Above all, the photographer was so kind! I was very nervous before the shoot, but I filmed comfortably in a soft atmosphere. Especially the composition and colors came out so beautifully that everyone is asking where I        "title": "Official Partners",
+        "subtitle": "Meet our high-end fitness partners",
+        "trainers": "Our Trainer Team",
+        "gallery": "Gallery",
         "categories": {
             "all": "ALL",
             "fitness": "FITNESS",
             "pilates": "PILATES"
+        },
+        "no_results": "No partners found in this category."
+    }
+}
+"
         },
         "no_results": "No partners found in this category."
     }

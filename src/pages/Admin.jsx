@@ -964,8 +964,13 @@ const PartnersTab = () => {
     const [partners, setPartners] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [editId, setEditId] = useState(null);
-    const [form, setForm] = useState({ 
-        name: '', category: 'fitness', description: '', trainers: [] 
+    const [form, setForm] = useState({
+        name: '',
+        location: '',
+        category: 'fitness',
+        description: '',
+        images: [],
+        trainers: []
     });
     const [saving, setSaving] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -980,8 +985,16 @@ const PartnersTab = () => {
     };
 
     const resetForm = () => {
-        setForm({ name: '', category: 'fitness', description: '', trainers: [] });
-        setEditId(null); setShowForm(false);
+        setForm({
+            name: '',
+            location: '',
+            category: 'fitness',
+            description: '',
+            images: [],
+            trainers: []
+        });
+        setEditId(null);
+        setShowForm(false);
     };
 
     const handleSave = async () => {
@@ -999,18 +1012,24 @@ const PartnersTab = () => {
             } else {
                 await addDoc(collection(db, 'partners'), data);
             }
+            const { syncCollection } = await import('../utils/syncService');
+            await syncCollection(STORES.PARTNERS);
             setShowSuccess(true); setTimeout(() => setShowSuccess(false), 3000);
             resetForm(); loadPartners();
         } catch (err) { alert('Save error: ' + err.message); }
         setSaving(false);
     };
 
-    const handleDelete = async (id) => {
-        if (!confirm('Are you sure you want to delete this partner?')) return;
+    const handleDeletePartner = async (partnerId) => {
+        if (!window.confirm('Are you sure you want to delete this partner?')) return;
         try {
-            await deleteDoc(doc(db, 'partners', id));
+            await deleteDoc(doc(db, 'partners', partnerId));
+            const { syncCollection } = await import('../utils/syncService');
+            await syncCollection(STORES.PARTNERS);
             loadPartners();
-        } catch (err) { alert('Delete error: ' + err.message); }
+        } catch (err) { 
+            alert('Delete error: ' + err.message); 
+        }
     };
 
     const startEdit = (partner) => {
@@ -1020,9 +1039,9 @@ const PartnersTab = () => {
     };
 
     const addTrainer = () => {
-        setForm({ 
-            ...form, 
-            trainers: [...form.trainers, { name: '', role: '', bio: '', image: '' }] 
+        setForm({
+            ...form,
+            trainers: [...form.trainers, { name: '', role: '', bio: '', image: '', contact: '' }]
         });
     };
 
@@ -1050,9 +1069,9 @@ const PartnersTab = () => {
         if (!file) return;
         try {
             const { url } = await uploadToStorage(file, 'partners');
-            setForm(prev => ({ 
-                ...prev, 
-                images: prev.images ? [...prev.images, url] : [url] 
+            setForm(prev => ({
+                ...prev,
+                images: prev.images ? [...prev.images, url] : [url]
             }));
         } catch (err) { alert('Partner photo upload failed: ' + err.message); }
     };
@@ -1072,56 +1091,99 @@ const PartnersTab = () => {
             </div>
 
             {showForm && (
-                <div className="admin-modal-overlay" onClick={() => resetForm()}>
-                    <div className="admin-modal" style={{ maxWidth: '800px' }} onClick={e => e.stopPropagation()}>
-                        <button className="close-x" onClick={resetForm}>×</button>
-                        <h3>{editId ? 'Edit Partner' : 'Add New Partner'}</h3>
+                <div className="admin-modal-overlay" onClick={() => resetForm()} style={{ backdropFilter: 'blur(8px)', backgroundColor: 'rgba(0,0,0,0.7)' }}>
+                    <div className="admin-modal" style={{ maxWidth: '850px', backgroundColor: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)' }} onClick={e => e.stopPropagation()}>
+                        <button className="close-x" onClick={resetForm} style={{ color: 'rgba(255,255,255,0.5)' }}>×</button>
+                        <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '25px', color: '#fff' }}>{editId ? 'Edit Partner' : 'Add New Partner'}</h3>
                         <div className="admin-modal-form">
-                            <div className="form-group"><label>Partner Name *</label><input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} /></div>
-                            <div className="form-group">
-                                <label>Category</label>
-                                <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="admin-select">
+                            <div className="admin-grid-two">
+                                <div className="form-group">
+                                    <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Partner Name *</label>
+                                    <input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '8px', padding: '12px' }} />
+                                </div>
+                                <div className="form-group">
+                                    <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Location (Region) *</label>
+                                    <input
+                                        type="text"
+                                        value={form.location || ''}
+                                        onChange={e => setForm({...form, location: e.target.value})}
+                                        placeholder="ex) 안양, 범계, 강남"
+                                        style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '8px', padding: '12px' }}
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-group" style={{ marginTop: '20px' }}>
+                                <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Category</label>
+                                <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="admin-select" style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '8px', padding: '12px' }}>
                                     <option value="fitness">FITNESS</option>
                                     <option value="pilates">PILATES</option>
                                 </select>
                             </div>
-                            <div className="form-group"><label>Description</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} /></div>
+                            <div className="form-group" style={{ marginTop: '20px' }}>
+                                <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Description</label>
+                                <textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '8px', padding: '12px', width: '100%' }} />
+                            </div>
+
                             
-                            <div className="form-group">
-                                <label>Partner Gallery Photos</label>
-                                <input type="file" accept="image/*" multiple onChange={e => Array.from(e.target.files).forEach(f => handlePartnerPhoto(f))} />
-                                <div style={{ display: 'flex', gap: 10, marginTop: 10, flexWrap: 'wrap' }}>
+                            <div className="form-group" style={{ marginTop: '20px' }}>
+                                <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Partner Gallery Photos</label>
+                                <div className="custom-file-upload" style={{ position: 'relative', marginTop: '10px' }}>
+                                    <input type="file" accept="image/*" multiple onChange={e => Array.from(e.target.files).forEach(f => handlePartnerPhoto(f))} id="partner-files" style={{ display: 'none' }} />
+                                    <label htmlFor="partner-files" className="add-btn" style={{ display: 'inline-block', cursor: 'pointer', backgroundColor: 'rgba(255,255,255,0.1)', border: '1px dashed rgba(255,255,255,0.3)', padding: '15px 30px', borderRadius: '12px', textAlign: 'center', width: '100%' }}>
+                                        Click to select gallery photos
+                                    </label>
+                                </div>
+                                <div style={{ display: 'flex', gap: 12, marginTop: 15, flexWrap: 'wrap' }}>
                                     {form.images?.map((img, i) => (
-                                        <div key={i} style={{ position: 'relative' }}>
-                                            <img src={img} alt="partner" style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 8 }} />
-                                            <button type="button" onClick={() => removePartnerPhoto(i)} style={{ position: 'absolute', top: -5, right: -5, background: 'rgba(255,0,0,0.8)', color: '#fff', border: 'none', borderRadius: '50%', width: 20, height: 20, fontSize: 12, cursor: 'pointer' }}>×</button>
+                                        <div key={i} style={{ position: 'relative', overflow: 'hidden', borderRadius: '10px', boxShadow: '0 4px 6px rgba(0,0,0,0.3)' }}>
+                                            <img src={img} alt="partner" style={{ width: 100, height: 70, objectFit: 'cover' }} />
+                                            <button type="button" onClick={() => removePartnerPhoto(i)} style={{ position: 'absolute', top: 5, right: 5, background: 'rgba(0,0,0,0.6)', color: '#fff', border: 'none', borderRadius: '50%', width: 24, height: 24, fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>×</button>
                                         </div>
                                     ))}
                                 </div>
                             </div>
 
-                            <div style={{ marginTop: 30 }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15 }}>
-                                    <h4 style={{ margin: 0 }}>Trainers</h4>
-                                    <button type="button" onClick={addTrainer} className="add-btn" style={{ padding: '4px 12px', fontSize: '0.85rem' }}>+ Add Trainer</button>
+                            <div style={{ marginTop: 40, paddingTop: 30, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                                    <h4 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 600 }}>Trainers</h4>
+                                    <button type="button" onClick={addTrainer} className="add-btn" style={{ padding: '8px 16px', fontSize: '0.85rem', borderRadius: '8px' }}>+ Add Trainer</button>
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 25 }}>
                                     {form.trainers.map((t, i) => (
-                                        <div key={i} style={{ padding: 15, background: 'rgba(255,255,255,0.03)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.05)' }}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                                                <span style={{ fontWeight: 600 }}>Trainer #{i + 1}</span>
-                                                <button type="button" onClick={() => removeTrainer(i)} style={{ color: '#ff4d4d', background: 'none', border: 'none', cursor: 'pointer' }}>Remove</button>
+                                        <div key={i} style={{ padding: 25, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)', position: 'relative' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
+                                                <span style={{ fontWeight: 600, color: '#e74c3c' }}>Trainer #{i + 1}</span>
+                                                <button type="button" onClick={() => removeTrainer(i)} style={{ color: 'rgba(255,255,255,0.4)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.9rem' }}>Remove</button>
                                             </div>
-                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 15 }}>
-                                                <div className="form-group"><label>Name</label><input type="text" value={t.name} onChange={e => updateTrainer(i, 'name', e.target.value)} /></div>
-                                                <div className="form-group"><label>Role</label><input type="text" value={t.role} onChange={e => updateTrainer(i, 'role', e.target.value)} /></div>
+                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+                                                <div className="form-group">
+                                                    <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem' }}>Name</label>
+                                                    <input type="text" value={t.name} onChange={e => updateTrainer(i, 'name', e.target.value)} style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '8px', padding: '10px' }} />
+                                                </div>
+                                                <div className="form-group">
+                                                    <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem' }}>Role</label>
+                                                    <input type="text" value={t.role} onChange={e => updateTrainer(i, 'role', e.target.value)} style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '8px', padding: '10px' }} />
+                                                </div>
                                             </div>
-                                            <div className="form-group"><label>Bio</label><textarea value={t.bio} onChange={e => updateTrainer(i, 'bio', e.target.value)} rows={2} /></div>
-                                            <div className="form-group">
-                                                <label>Trainer Photo</label>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: 15 }}>
-                                                    {t.image && <img src={t.image} alt="trainer" style={{ width: 50, height: 50, borderRadius: '50%', objectFit: 'cover' }} />}
-                                                    <input type="file" accept="image/*" onChange={e => handleTrainerPhoto(i, e.target.files[0])} />
+                                            <div className="form-group" style={{ marginTop: '15px' }}>
+                                                <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem' }}>Personal Contact (ADMIN ONLY)</label>
+                                                <input type="text" value={t.contact} onChange={e => updateTrainer(i, 'contact', e.target.value)} placeholder="010-..." style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', color: '#f1c40f', borderRadius: '8px', padding: '10px', width: '100%' }} />
+                                            </div>
+                                            <div className="form-group" style={{ marginTop: '15px' }}>
+                                                <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem' }}>Bio</label>
+                                                <textarea value={t.bio} onChange={e => updateTrainer(i, 'bio', e.target.value)} rows={2} style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '8px', padding: '10px', width: '100%' }} />
+                                            </div>
+                                            <div className="form-group" style={{ marginTop: '15px' }}>
+                                                <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem' }}>Trainer Photo</label>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginTop: '8px' }}>
+                                                    <div style={{ position: 'relative', width: 60, height: 60, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
+                                                        {t.image ? (
+                                                            <img src={t.image} alt="trainer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                        ) : (
+                                                            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', color: 'rgba(255,255,255,0.2)' }}>👤</div>
+                                                        )}
+                                                    </div>
+                                                    <input type="file" accept="image/*" onChange={e => handleTrainerPhoto(i, e.target.files[0])} style={{ fontSize: '0.8rem' }} />
                                                 </div>
                                             </div>
                                         </div>
@@ -1129,9 +1191,11 @@ const PartnersTab = () => {
                                 </div>
                             </div>
 
-                            <button className="submit-btn" style={{ marginTop: 30 }} onClick={handleSave} disabled={saving}>
-                                {saving ? 'Saving...' : editId ? 'Update Partner' : 'Create Partner'}
-                            </button>
+                            <div style={{ position: 'sticky', bottom: 0, padding: '20px 0', background: '#1a1a1a', borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: 40 }}>
+                                <button className="submit-btn" style={{ width: '100%', padding: '15px', fontSize: '1.1rem', fontWeight: 600, borderRadius: '12px', background: 'linear-gradient(45deg, #e74c3c, #c0392b)', border: 'none', color: '#fff', cursor: 'pointer', boxShadow: '0 10px 20px -5px rgba(231, 76, 60, 0.4)' }} onClick={handleSave} disabled={saving}>
+                                    {saving ? 'Saving...' : editId ? 'Update Partner' : 'Create Partner'}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1150,7 +1214,7 @@ const PartnersTab = () => {
                         </div>
                         <div className="admin-item-actions">
                             <button onClick={() => startEdit(p)}>Edit</button>
-                            <button onClick={() => handleDelete(p.id)} className="delete">Delete</button>
+                             <button onClick={() => handleDeletePartner(p.id)} className="delete">Delete</button>
                         </div>
                     </div>
                 ))}
