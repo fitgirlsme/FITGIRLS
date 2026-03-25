@@ -302,7 +302,7 @@ const GallerySection = () => {
     const showNext = (e) => { e.stopPropagation(); setLightboxIndex(prev => prev < filteredGallery.length - 1 ? prev + 1 : 0); };
 
     return (
-        <div className="gallery-full-container">
+        <div className="gallery-full-container" ref={galleryRef}>
             <div className="gallery-title-header-wrap">
                 <FadeInSection className="section-header">
                     <h2 className="section-title">STUDIOS</h2>
@@ -459,7 +459,7 @@ const GallerySection = () => {
                     </div>
 
                     {/* Gallery Grid */}
-                    <div className="gallery-masonry-wrapper" ref={galleryRef}>
+                    <div className="gallery-masonry-wrapper">
                         <div 
                             className="gallery-masonry-grid" 
                             style={{ 
@@ -752,7 +752,7 @@ const GallerySection = () => {
             )}
 
             {/* Admin Floating Action Button (FAB) */}
-            {isAdmin && (
+            {isAdmin && isGalleryVisible && (
                 <div className="admin-fab-container">
                     <span className="admin-fab-label">새 사진 업로드</span>
                     <button 

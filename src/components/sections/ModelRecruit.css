@@ -160,6 +160,47 @@
     word-break: keep-all;
 }
 
+.model-apply-kakao {
+    text-align: center;
+    margin: 60px auto 20px;
+    padding: 0 20px;
+}
+
+.kakao-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.kakao-link-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 32px;
+    background: #FEE500;
+    color: #191919;
+    text-decoration: none;
+    border-radius: 980px;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(254, 229, 0, 0.2);
+}
+
+.kakao-link-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(254, 229, 0, 0.4);
+}
+
+.kakao-icon {
+    width: 24px;
+    height: 24px;
+}
+
 /* Selected Ambassadors Showcase */
 .selected-ambassadors-section {
     margin-bottom: 60px;

@@ -194,7 +194,7 @@ const ModelRecruit = () => {
 
                     return (
                         <div style={{ marginTop: '20px', textAlign: 'center' }}>
-                            <a href="/admin" style={{ 
+                            <a href="/admin?tab=apply" style={{ 
                                 display: 'inline-block',
                                 padding: '10px 20px',
                                 background: 'rgba(255,255,255,0.05)',
@@ -212,8 +212,41 @@ const ModelRecruit = () => {
                     );
                 })()}
 
+                <div className="model-apply-kakao">
+                    <p className="kakao-label">오픈채팅방</p>
+                    <a href="https://open.kakao.com/o/gwwIefni" target="_blank" rel="noopener noreferrer" className="kakao-link-btn">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" alt="Kakao" className="kakao-icon" />
+                        <span>핏토리얼리스트 엠버서더<br/>(참여코드: fitgirls)</span>
+                    </a>
+                </div>
+
                 <div className="model-apply-footer-note">
                     {t('modelApply.footerNote', '핏걸즈&이너핏은 전 세계 모든 열정과 아름다움을 존중합니다. 국적 및 연령에 제한 없이, 자신만의 독보적인 무드를 가진 분이라면 누구나 2026 핏토리얼리스트가 될 수 있습니다.')}
+                </div>
+
+                <div className="model-list-link-container" style={{ marginTop: '60px', textAlign: 'center' }}>
+                    <a href="/amberlist" className="model-list-link-btn" style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        padding: '12px 30px',
+                        border: '1px solid var(--color-primary)',
+                        borderRadius: '30px',
+                        color: 'var(--color-primary)',
+                        textDecoration: 'none',
+                        fontSize: '0.9rem',
+                        fontWeight: 600,
+                        letterSpacing: '0.1em',
+                        transition: 'all 0.3s'
+                    }}>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                        {t('modelApply.viewList', 'VIEW AMBASSADOR LIST')}
+                    </a>
                 </div>
             </div>
         </section>

@@ -66,6 +66,10 @@
     border-radius: 2px;
 }
 
+.hamburger-btn.open span {
+    background-color: #111 !important;
+}
+
 .hamburger-btn.open span:nth-child(1) {
     transform: translateY(9px) rotate(45deg);
 }
@@ -78,27 +82,27 @@
     transform: translateY(-9px) rotate(-45deg);
 }
 
-/* === DROPDOWN MENU === */
+/* === SIDEBAR MENU (FORD MODELS STYLE) === */
 .dropdown-menu {
-    position: absolute;
-    top: 50px;
-    left: -10px;
-    background-color: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 12px;
-    padding: 16px 0;
-    min-width: 220px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100vh;
+    background-color: #fff;
+    padding: 80px 40px;
+    box-shadow: 15px 0 40px rgba(0, 0, 0, 0.08);
+    transform: translateX(-100%);
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
     z-index: 1001;
-    max-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
     scrollbar-width: none;
+    border-radius: 0;
+    border: none;
+    opacity: 1;
+    visibility: visible;
 }
 
 .dropdown-menu::-webkit-scrollbar {
@@ -106,9 +110,7 @@
 }
 
 .dropdown-menu.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+    transform: translateX(0);
 }
 
 .menu-overlay {
@@ -117,8 +119,18 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+    backdrop-filter: blur(4px);
+}
+
+.hamburger-btn.open + .dropdown-menu + .menu-overlay,
+.dropdown-menu.active + .menu-overlay {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* === NAV LINKS === */
@@ -132,20 +144,24 @@
 .nav-link-btn {
     width: 100%;
     text-align: left;
-    padding: 14px 28px;
-    font-size: 16px;
-    font-weight: 500;
-    color: #4a4a4a;
+    padding: 14px 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: #111;
+    font-family: var(--font-family);
     border-radius: 0;
     background: transparent;
     border: none;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: -0.0125em;
+    line-height: 1.1;
 }
 
 .nav-link-btn:hover {
-    background-color: rgba(0, 0, 0, 0.03);
-    color: #000;
+    color: var(--color-primary);
+    transform: translateX(5px);
 }
 
 .nav-link-red {
@@ -165,24 +181,20 @@
     width: 100%;
     background: transparent;
     border: none;
-    padding: 14px 28px 8px;
+    padding: 24px 0 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    transition: background 0.2s;
-}
-
-.nav-category-header:hover {
-    background-color: rgba(0, 0, 0, 0.02);
 }
 
 .nav-category-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: #888;
-    letter-spacing: 0.1em;
+    font-size: 20px;
+    font-weight: 800;
+    color: #111;
+    letter-spacing: -0.0125em;
     user-select: none;
+    font-family: var(--font-family);
     text-transform: uppercase;
 }
 
@@ -208,9 +220,14 @@
 }
 
 .nav-sub-item {
-    font-size: 15px;
-    color: #6a6a6a;
-    padding-left: 42px !important;
+    font-size: 16px;
+    color: #666;
+    padding-left: 0 !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    font-family: var(--font-family);
+    font-weight: 600;
+    text-transform: none;
 }
 
 /* === LANG SWITCHER === */
@@ -261,27 +278,24 @@
     }
 
     .dropdown-menu {
-        top: 45px;
-        left: -5px;
-        min-width: 200px;
+        width: 280px;
+        padding: 70px 30px;
     }
 
     .dropdown-menu .nav-link-btn {
-        padding: 14px 24px;
-        font-size: 15px;
+        font-size: 18px;
     }
 
     .dropdown-menu .nav-category-header {
-        padding: 14px 24px 6px;
+        padding: 20px 0 6px;
     }
 
     .dropdown-menu .nav-category-label {
-        font-size: 11px;
+        font-size: 18px;
     }
 
     .dropdown-menu .nav-sub-item {
-        padding-left: 36px !important;
-        font-size: 14px;
+        font-size: 15px;
     }
 
     .lang-switcher {

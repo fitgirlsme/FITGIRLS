@@ -5,6 +5,9 @@ import './SupportCS.css';
 const SupportCS = () => {
     const { t, i18n: { language } } = useTranslation();
     const [showWeChatQR, setShowWeChatQR] = useState(false);
+    const isAdmin = localStorage.getItem('isAdmin') === 'true';
+
+    if (isAdmin) return null;
 
     const getLink = () => {
         switch (language) {

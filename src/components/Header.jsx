@@ -40,7 +40,8 @@ const Header = ({ isScrolled, isOnHero, changeLanguage, currentLang }) => {
         },
         { id: 'reviews', label: t('nav.review', 'Review'), path: '/reviews' },
         { id: 'reservation', label: t('nav.reservation', 'Reservation'), path: '/reservation', isRed: true },
-        { id: 'amber', label: t('nav.ambassador', 'Ambassador'), path: '/amber' },
+        { id: 'ambassadors', label: t('nav.muses', 'AMBASSADOR'), path: '/' },
+        { id: 'amber', label: t('nav.ambassador', 'RECRUIT'), path: '/amber' },
         { id: 'partners', label: t('nav.partners', 'Partnership'), path: '/partners' },
     ];
 

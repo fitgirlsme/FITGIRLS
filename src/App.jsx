@@ -20,6 +20,7 @@ import BrandReport from './pages/BrandReport';
 import Admin from './pages/Admin';
 import Ambassador from './pages/Ambassador';
 import Partners from './pages/Partners';
+import AmbassadorList from './components/AmbassadorList';
 import { syncAll } from './utils/syncService';
 import './index.css';
 
@@ -82,6 +83,7 @@ const Home = ({ changeLanguage, currentLang }) => {
         <section className="snap-section" id="location"><Location /></section>
         <section className="snap-section" id="reservation"><ReservationForm /></section>
         <section className="snap-section" id="reviews"><Reviews /></section>
+        <section className="snap-section" id="ambassadors"><AmbassadorList /></section>
 
         <footer className={`site-footer ${isGalleryVisible ? 'footer-hidden' : ''}`}>
           <div className="site-footer-inner">
@@ -116,6 +118,7 @@ function App() {
           <Route path="/report" element={<BrandReport />} />
           <Route path="/amber" element={<Ambassador />} />
           <Route path="/ambassador" element={<Ambassador />} />
+          <Route path="/amberlist" element={<AmbassadorList />} />
           <Route path="/partners" element={<Partners />} />
           <Route path="/:section" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
         </Routes>

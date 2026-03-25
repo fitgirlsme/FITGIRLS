@@ -1,108 +1,105 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import { addItem, getData, deleteItem, updateItem, STORES } from '../utils/db';
+import { useSearchParams } from 'react-router-dom';
 import { db, storage } from '../utils/firebase';
-import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
+import { 
+    collection, addDoc, getDocs, deleteDoc, doc, updateDoc, 
+    query, orderBy, serverTimestamp 
+} from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import { syncAll } from '../utils/syncService';
+import GalleryMultiUploader from '../components/GalleryMultiUploader';
 import './Admin.css';
+import '../components/sections/Gallery.css';
 
-// ===== SEO Tag Dictionary =====
-const SEO_DICT = {
-    fitorialist: ['여자 바디프로필', '여성 바디프로필', 'Female Body Profile', '女子ボディプロフィール', '女子健身写真'],
-    artist: ['아티스트 프로필', '댄서 프로필', 'DJ 프로필', 'Artist Profile', 'アーティスト写真'],
-    fashion: ['패션 화보', '뷰티 촬영', 'Fashion Editorial', 'ファッション撮影', '时尚写真'],
-    portrait: ['인물 사진', '개인 소장용', 'Portrait Photography', 'ポートレート', '个人肖像'],
-    women: ['여자 바디프로필 전문', '여성미', 'Girl Crush', 'Women Strength', '女子力'],
-    men: ['남자 바디프로필', '근육', 'Men Fitness', 'Bodybuilding', '男子ボディプロフィール'],
-    couple: ['커플 바디프로필', '우정 스냅', 'Couple Body Profile', 'カップル写真', '情侣写真'],
-    outdoor: ['야외 바디프로필', '발리 촬영', 'Outdoor Shooting', 'ロケイション촬영', '户外写真'],
+// Constants
+const MODEL_CATEGORIES = ['WOMAN', 'MAN'];
+const STORES = {
+    HERO_SLIDES: 'hero_slides',
+    MODELS: 'models',
+    LOOKBOOK: 'lookbook',
+    PARTNERS: 'partners',
 };
 
-const shuffleArray = (arr) => {
-    const a = [...arr];
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
+// Utilities
+const resizeImage = (file, maxSide = 1950) => {
+    return new Promise((resolve) => {
+        if (!file.type.startsWith('image/')) { resolve(file); return; }
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+            const img = new Image();
+            img.src = e.target.result;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+                if (width > height) {
+                    if (width > maxSide) { height *= maxSide / width; width = maxSide; }
+                } else {
+                    if (height > maxSide) { width *= maxSide / height; height = maxSide; }
+                }
+                canvas.width = width;
+                canvas.height = height;
+                canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+                canvas.toBlob((blob) => {
+                    resolve(new File([blob], file.name, { type: 'image/jpeg' }));
+                }, 'image/jpeg', 0.9);
+            };
+        };
+    });
 };
 
-const generateSeoTags = (mainCat, subCat, tags) => {
-    const pool = [...(SEO_DICT[mainCat] || []), ...(SEO_DICT[subCat] || [])];
-    tags.forEach(t => { if (SEO_DICT[t.replace('#', '')]) pool.push(...SEO_DICT[t.replace('#', '')]); });
-    return shuffleArray([...new Set(pool)]).join(', ');
+const uploadToStorage = async (file, folder) => {
+    const resizedFile = await resizeImage(file);
+    const fileName = `${Date.now()}_${file.name}`;
+    const storageRef = ref(storage, `${folder}/${fileName}`);
+    await uploadBytes(storageRef, resizedFile);
+    const url = await getDownloadURL(storageRef);
+    return { url, path: `${folder}/${fileName}` };
 };
 
-// ===== Category Constants =====
-const MAIN_CATEGORIES = [
-    { id: 'fitorialist', label: 'FITORIALIST' },
-    { id: 'artist', label: 'ARTIST (DANCER & DJ)' },
-    { id: 'fashion', label: 'FASHION & BEAUTY' },
-    { id: 'portrait', label: 'PORTRAIT' },
-];
-
-const SUB_CATEGORIES = [
-    { id: 'women', label: '여자 (Women)' },
-    { id: 'men', label: '남자 (Men)' },
-    { id: 'couple', label: '우정&커플 (Friendship & Couple)' },
-    { id: 'outdoor', label: '발리프로젝트 (Bali Project)' },
-];
-
-const MODEL_CATEGORIES = ['WOMEN', 'MEN', 'ARTIST', 'FASHION', 'PORTRAIT'];
-
-import { uploadOptimizedImage } from '../utils/uploadService';
-
-// ===== Upload to Firebase Storage =====
-const uploadToStorage = async (file, folder = 'galleries') => {
-    // hero_slides나 events 폴더 등 고화질 렌더링이 필요한 경우 옵션 조정
-    const customOpts = folder === 'hero_slides' 
-        ? { maxSizeMB: 2, maxWidthOrHeight: 1980 } 
-        : folder === 'events'
-            ? { maxSizeMB: 2, maxWidthOrHeight: 1500 }
-            : {};
-    return await uploadOptimizedImage(file, folder, customOpts);
-};
-
-// ===== Main Admin Component =====
 const Admin = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isAdmin') === 'true');
+    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('admin_logged_in') === 'true');
     const [password, setPassword] = useState('');
-    const [activeTab, setActiveTab] = useState('gallery');
     const [searchParams] = useSearchParams();
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (searchParams.get('editModel')) setActiveTab('models');
-    }, [searchParams]);
+    const [activeTab, setActiveTab] = useState(searchParams.get('tab') || 'gallery');
 
     const handleLogin = (e) => {
         e.preventDefault();
-        if (password === 'admin123') {
+        const trimmedPassword = password.trim();
+        if (trimmedPassword === 'admin123') {
             setIsLoggedIn(true);
-            localStorage.setItem('isAdmin', 'true');
+            localStorage.setItem('admin_logged_in', 'true');
         } else {
-            alert('비밀번호가 틀렸습니다.');
+            alert('Incorrect password');
         }
     };
 
     if (!isLoggedIn) {
         return (
-            <div className="admin-page">
-                <div className="login-box">
-                    <h2>Admin Login</h2>
-                    <form onSubmit={handleLogin}>
-                        <input type="password" placeholder="비밀번호 입력" value={password} onChange={e => setPassword(e.target.value)} />
-                        <button type="submit">접속</button>
-                    </form>
-                </div>
+            <div className="admin-login-overlay">
+                <form className="admin-login-card" onSubmit={handleLogin}>
+                    <div className="login-logo-css">
+                        <span>Fitgirls</span>
+                        <small>.me</small>
+                    </div>
+                    <h2>Admin Portal</h2>
+                    <input 
+                        type="password" 
+                        value={password} 
+                        onChange={(e) => setPassword(e.target.value)} 
+                        placeholder="Admin Password"
+                        required
+                    />
+                    <button type="submit">Login</button>
+                    <button type="button" className="guest-back" onClick={() => window.location.href = '/'}>Back to Site</button>
+                </form>
             </div>
         );
     }
 
     const tabs = [
         { id: 'gallery', label: 'Gallery' },
-        { id: 'models', label: 'Models' },
+        { id: 'models', label: 'Ambassadors' },
         { id: 'concepts', label: 'Concepts' },
         { id: 'events', label: 'Events' },
         { id: 'hero', label: 'Hero' },
@@ -115,17 +112,7 @@ const Admin = () => {
             <div className="admin-container">
                 <header className="admin-header">
                     <div className="admin-header-left">
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                            <h2 style={{ margin: 0 }}>Dashboard</h2>
-                            <span style={{ 
-                                background: '#f1c40f', 
-                                color: '#000', 
-                                padding: '2px 8px', 
-                                borderRadius: '4px', 
-                                fontSize: '0.7rem', 
-                                fontWeight: 'bold' 
-                            }}>v8.0_UI_Perfect</span>
-                        </div>
+                        <h2>Dashboard</h2>
                         <nav className="admin-tabs">
                             {tabs.map(tab => (
                                 <button
@@ -138,7 +125,7 @@ const Admin = () => {
                             ))}
                         </nav>
                     </div>
-                    <button className="logout-btn" onClick={() => { setIsLoggedIn(false); localStorage.removeItem('isAdmin'); }}>Logout</button>
+                    <button className="logout-btn" onClick={() => { setIsLoggedIn(false); localStorage.removeItem('admin_logged_in'); }}>Logout</button>
                 </header>
                 <div className="admin-content">
                     {activeTab === 'gallery' && <GalleryTab />}
@@ -168,341 +155,248 @@ const Toast = ({ message, sub, onClose }) => (
 
 // ===== 1. Gallery Tab =====
 const GalleryTab = () => {
-    const [files, setFiles] = useState([]);
-    const [previews, setPreviews] = useState([]);
-    const [mainCategory, setMainCategory] = useState('fitorialist');
-    const [subCategory, setSubCategory] = useState('women');
-    const [hashtags, setHashtags] = useState('');
-    const [uploading, setUploading] = useState(false);
-    const [uploadCount, setUploadCount] = useState(0);
-    const [showSuccess, setShowSuccess] = useState(false);
-
-    const [savedTags, setSavedTags] = useState(() => {
-        const saved = localStorage.getItem('adminHashtags');
-        return saved ? JSON.parse(saved) : ['#바디프로필', '#이너핏'];
-    });
-    const [allTagsCloud, setAllTagsCloud] = useState([]);
-
-    useEffect(() => {
-        (async () => {
-            try {
-                const items = await getData(STORES.GALLERY);
-                const tagSet = new Set();
-                items.forEach(item => { if (item.tags) item.tags.forEach(t => tagSet.add(t)); });
-                setAllTagsCloud(Array.from(tagSet));
-            } catch {}
-        })();
-    }, []);
-
-    const mergedPool = Array.from(new Set([...savedTags, ...allTagsCloud]));
-    const parsedTags = hashtags.split(/[\s,]+/).filter(Boolean);
-
-    // Autocomplete
-    const tokens = hashtags.split(/,\s*|\s+/);
-    const lastToken = tokens[tokens.length - 1]?.trim().toLowerCase() || '';
-    const suggestions = (lastToken && lastToken !== '#')
-        ? mergedPool.filter(t => t.replace('#','').toLowerCase().includes(lastToken.replace('#','').toLowerCase()) && t !== tokens[tokens.length - 1]?.trim()).slice(0, 10)
-        : [];
-
-    const handleSuggestionClick = (tag) => {
-        const t = [...tokens];
-        t[t.length - 1] = tag;
-        let r = t.join(', ');
-        if (!r.endsWith(', ')) r += ', ';
-        setHashtags(r);
-    };
-
-    const handleTagClick = (tag) => {
-        if (!parsedTags.includes(tag)) {
-            if (parsedTags.length >= 3) { alert('해시태그는 최대 3개까지만 입력할 수 있습니다.'); return; }
-            setHashtags(prev => prev ? `${prev}, ${tag}` : tag);
-        }
-    };
-
-    const handleTagDelete = (tag) => {
-        const updated = savedTags.filter(t => t !== tag);
-        setSavedTags(updated);
-        localStorage.setItem('adminHashtags', JSON.stringify(updated));
-    };
-
-    const handleFiles = (fileList) => {
-        const newFiles = Array.from(fileList).filter(f => f.type.startsWith('image/'));
-        setFiles(prev => [...prev, ...newFiles]);
-        newFiles.forEach(f => {
-            const reader = new FileReader();
-            reader.onloadend = () => setPreviews(prev => [...prev, { name: f.name, url: reader.result }]);
-            reader.readAsDataURL(f);
-        });
-    };
-
-    const handleSubmit = async () => {
-        if (parsedTags.length > 3) { alert('해시태그는 최대 3개까지만 입력 가능합니다.'); return; }
-        if (files.length === 0) { alert('파일을 첨부해주세요.'); return; }
-
-        setUploading(true);
-        setUploadCount(0);
-
-        const newSaved = Array.from(new Set([...savedTags, ...parsedTags]));
-        setSavedTags(newSaved);
-        localStorage.setItem('adminHashtags', JSON.stringify(newSaved));
-
-        const seoTags = generateSeoTags(mainCategory, subCategory, parsedTags);
-
-        for (let i = 0; i < files.length; i++) {
-            try {
-                const { url, path } = await uploadToStorage(files[i], 'galleries');
-                const galleryData = {
-                    mainCategory, type: subCategory, tags: parsedTags, seoTags,
-                    imageUrl: url, storagePath: path, name: files[i].name, size: files[i].size,
-                    order: Date.now(), createdAt: serverTimestamp()
-                };
-                const docRef = await addDoc(collection(db, STORES.GALLERY), galleryData);
-                await addItem(STORES.GALLERY, { ...galleryData, id: docRef.id, createdAt: new Date().toISOString() });
-                setUploadCount(i + 1);
-            } catch (err) {
-                console.error('Upload error:', err);
-                alert(`업로드 오류 (${files[i].name}): ${err.message}`);
-            }
-        }
-
-        setUploading(false);
-        setShowSuccess(true);
-        setTimeout(() => setShowSuccess(false), 3000);
-        setFiles([]);
-        setPreviews([]);
-        setHashtags('');
-    };
-
     return (
         <div className="upload-section">
-            {showSuccess && <Toast message="업로드 완료!" sub="갤러리에서 확인해 보세요" onClose={() => setShowSuccess(false)} />}
-            <h3>New Gallery Upload</h3>
-            <div className="admin-form">
-                <div className="form-group">
-                    <label>1. 이미지 첨부 및 확인</label>
-                    <input id="admin-file-input" type="file" accept="image/*" multiple style={{ display: 'none' }}
-                        onChange={e => { handleFiles(e.target.files); e.target.value = ''; }} />
-                    <div className="admin-dropzone"
-                        onClick={() => document.getElementById('admin-file-input').click()}
-                        onDragOver={e => { e.preventDefault(); e.currentTarget.classList.add('dragover'); }}
-                        onDragLeave={e => e.currentTarget.classList.remove('dragover')}
-                        onDrop={e => { e.preventDefault(); e.currentTarget.classList.remove('dragover'); handleFiles(e.dataTransfer.files); }}
-                    >
-                        <p style={{ fontSize: '2rem', margin: '0 0 8px' }}>📷</p>
-                        <p style={{ fontWeight: 'bold', margin: '0 0 4px' }}>클릭하거나 여러 장의 사진을 여기에 드래그하세요</p>
-                        <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.85rem', margin: 0 }}>JPG, PNG, HEIC 등 모든 이미지 형식 지원</p>
-                    </div>
-                    {previews.length > 0 && (
-                        <div style={{ marginTop: 12 }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                                <p className="success-text" style={{ margin: 0 }}>✅ {previews.length}장 첨부 완료</p>
-                                <button type="button" onClick={() => { setFiles([]); setPreviews([]); }}
-                                    style={{ background: 'none', border: 'none', color: '#ff4d4d', cursor: 'pointer', fontSize: '0.85rem' }}>전체 삭제</button>
-                            </div>
-                            <div className="preview-grid">
-                                {previews.map((p, i) => (
-                                    <div key={i} className="preview-thumb">
-                                        <img src={p.url} alt={p.name} />
-                                        <span className="preview-name">{p.name}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                <div className="form-group">
-                    <label>2. 대분류 카테고리 (Main Category)</label>
-                    <select value={mainCategory} onChange={e => setMainCategory(e.target.value)} className="admin-select">
-                        {MAIN_CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
-                    </select>
-                </div>
-
-                <div className="form-group">
-                    <label>3. 중분류 카테고리 (Sub Category)</label>
-                    <select value={subCategory} onChange={e => setSubCategory(e.target.value)} className="admin-select">
-                        {SUB_CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
-                    </select>
-                </div>
-
-                <div className="form-group">
-                    <label>
-                        4. 해시태그
-                        <span style={{ color: parsedTags.length > 3 ? '#ff4d4d' : 'var(--color-primary)', marginLeft: 6, fontWeight: 'bold' }}>({parsedTags.length}/3)</span>
-                        <span style={{ fontSize: '0.85em', color: 'var(--color-text-secondary)', fontWeight: 'normal', marginLeft: 6 }}>(공백 또는 콤마 구분)</span>
-                    </label>
-                    <input type="text" placeholder="#바디프로필, #이너핏, #레드포인트" value={hashtags}
-                        onChange={e => setHashtags(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') e.preventDefault(); }} />
-                    {suggestions.length > 0 && (
-                        <div className="admin-autocomplete">
-                            {suggestions.map((s, i) => (
-                                <div key={i} className="admin-autocomplete-item" onClick={() => handleSuggestionClick(s)}>{s}</div>
-                            ))}
-                        </div>
-                    )}
-                    <small className={parsedTags.length <= 3 ? 'success-text' : 'error-text'}>현재 입력: {parsedTags.length} / 최대 3개</small>
-                    {savedTags.length > 0 && (
-                        <div className="saved-tags-container">
-                            {savedTags.map((tag, i) => (
-                                <span key={i} className="saved-tag-pill">
-                                    <button type="button" onClick={() => handleTagClick(tag)} className="tag-text-btn">{tag}</button>
-                                    <button type="button" onClick={() => handleTagDelete(tag)} className="tag-delete-btn" title="태그 삭제">×</button>
-                                </span>
-                            ))}
-                        </div>
-                    )}
-                </div>
-
-                <button type="button" onClick={handleSubmit} className="submit-btn"
-                    disabled={files.length === 0 || parsedTags.length > 3 || uploading}>
-                    {uploading ? `업로드 중... ${uploadCount}장 서버 전송 중` : `새 사진 ${files.length}장 업로드 완료`}
-                </button>
-                <button type="button" className="secondary-btn" onClick={() => navigate('/gallery')}>📸 갤러리로 이동</button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+                <h3 style={{ margin: 0 }}>Gallery Management</h3>
             </div>
+            <GalleryMultiUploader />
         </div>
     );
 };
 
-// ===== 2. Models Tab =====
+// ===== 2. Models (Ambassadors) Tab =====
 const ModelsTab = () => {
     const [models, setModels] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
     const [editId, setEditId] = useState(null);
-    const [form, setForm] = useState({ nameEn: '', nameKr: '', nationality: '', category: 'WOMEN', phone: '', email: '', bio: '', instagram: '', tiktok: '',
-        height: '', hair: '', eyes: '', bust: '', waist: '', hips: '', shoes: '' });
+    const [form, setForm] = useState({
+        nameEn: '', nameKr: '', job: '', category: 'WOMAN', nationality: '', bio: '',
+        instagram: '', tiktok: '', email: '', phone: '',
+        height: '', hair: '', eyes: '', bust: '', waist: '', hips: '', shoes: '',
+        batch: '1st', youtube: ''
+    });
     const [mainImage, setMainImage] = useState(null);
     const [portfolioFiles, setPortfolioFiles] = useState([]);
+    const [portfolioPreviews, setPortfolioPreviews] = useState([]); // To store individual preview URLs
+
+    // Cleanup object URLs to avoid memory leaks
+    useEffect(() => {
+        return () => {
+            portfolioPreviews.forEach(URL.revokeObjectURL);
+        };
+    }, []);
+
+    const handlePortfolioChange = (e) => {
+        const newFiles = Array.from(e.target.files);
+        setPortfolioFiles(prev => [...prev, ...newFiles]);
+        
+        // Create new preview URLs
+        const newPreviews = newFiles.map(file => URL.createObjectURL(file));
+        setPortfolioPreviews(prev => [...prev, ...newPreviews]);
+    };
+
+    const removeNewFile = (index) => {
+        // Revoke URL before removing
+        URL.revokeObjectURL(portfolioPreviews[index]);
+        setPortfolioFiles(prev => prev.filter((_, i) => i !== index));
+        setPortfolioPreviews(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const removeExistingFile = (url) => {
+        setForm(prev => ({
+            ...prev,
+            portfolio: prev.portfolio.filter(p => p !== url)
+        }));
+    };
     const [showSuccess, setShowSuccess] = useState(false);
 
     useEffect(() => { loadModels(); }, []);
 
     const loadModels = async () => {
+        setLoading(true);
         try {
-            const snap = await getDocs(query(collection(db, 'models'), orderBy('createdAt', 'desc')));
+            const snap = await getDocs(query(collection(db, 'models'), orderBy('nameEn', 'asc')));
             setModels(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-        } catch (err) {
-            console.error('Failed to load models:', err);
-        }
+        } catch (err) { console.error(err); }
+        setLoading(false);
     };
 
     const resetForm = () => {
-        setForm({ nameEn: '', nameKr: '', nationality: '', category: 'WOMEN', phone: '', email: '', bio: '', instagram: '', tiktok: '',
-            height: '', hair: '', eyes: '', bust: '', waist: '', hips: '', shoes: '' });
-        setMainImage(null);
-        setPortfolioFiles([]);
-        setEditId(null);
+        setForm({
+            nameEn: '', nameKr: '', job: '', category: 'WOMAN', nationality: '', bio: '',
+            instagram: '', tiktok: '', email: '', phone: '',
+            height: '', hair: '', eyes: '', bust: '', waist: '', hips: '', shoes: '',
+            batch: '1st', youtube: ''
+        });
+        setEditId(null); setMainImage(null); setPortfolioFiles([]); 
+        portfolioPreviews.forEach(URL.revokeObjectURL);
+        setPortfolioPreviews([]);
         setShowForm(false);
     };
 
     const handleSave = async () => {
-        if (!form.nameEn) { alert('English Name은 필수입니다.'); return; }
+        if (!form.nameEn) { alert('English Name is required.'); return; }
         try {
-            let mainImageUrl = editId ? models.find(m => m.id === editId)?.mainImage : null;
+            let data = { ...form, updatedAt: serverTimestamp() };
             if (mainImage) {
-                const { url } = await uploadToStorage(mainImage, 'models');
-                mainImageUrl = url;
+                const { url } = await uploadToStorage(mainImage, 'models/main');
+                data.mainImage = url;
             }
-
-            let portfolioUrls = editId ? models.find(m => m.id === editId)?.portfolio || [] : [];
-            for (const f of portfolioFiles) {
-                const { url } = await uploadToStorage(f, 'models/portfolio');
-                portfolioUrls.push({ url, type: 'PORTFOLIO' });
+            if (portfolioFiles.length > 0) {
+                const urls = await Promise.all(portfolioFiles.map(f => uploadToStorage(f, 'models/portfolio').then(r => r.url)));
+                data.portfolio = [...(form.portfolio || []), ...urls];
             }
-
-            const data = {
-                ...form, mainImage: mainImageUrl, portfolio: portfolioUrls,
-                updatedAt: serverTimestamp(), ...(editId ? {} : { createdAt: serverTimestamp() })
-            };
-
             if (editId) {
                 await updateDoc(doc(db, 'models', editId), data);
             } else {
-                await addDoc(collection(db, 'models'), data);
+                await addDoc(collection(db, 'models'), { ...data, createdAt: serverTimestamp() });
             }
-            setShowSuccess(true);
-            setTimeout(() => setShowSuccess(false), 3000);
-            resetForm();
-            loadModels();
-        } catch (err) {
-            alert('저장 오류: ' + err.message);
-        }
+            setShowSuccess(true); setTimeout(() => setShowSuccess(false), 3000);
+            resetForm(); loadModels();
+        } catch (err) { alert('Save error: ' + err.message); }
     };
 
     const handleDelete = async (id) => {
-        if (!confirm('정말 삭제하시겠습니까?')) return;
-        try {
-            await deleteDoc(doc(db, 'models', id));
-            loadModels();
-        } catch (err) { alert('삭제 오류: ' + err.message); }
+        if (!window.confirm('Are you sure?')) return;
+        try { await deleteDoc(doc(db, 'models', id)); loadModels(); } catch (err) { console.error(err); }
     };
 
-    const startEdit = (model) => {
-        setForm({
-            nameEn: model.nameEn || '', nameKr: model.nameKr || '', nationality: model.nationality || '',
-            category: model.category || 'WOMEN', phone: model.phone || '', email: model.email || '',
-            bio: model.bio || '', instagram: model.instagram || '', tiktok: model.tiktok || '',
-            height: model.height || '', hair: model.hair || '', eyes: model.eyes || '',
-            bust: model.bust || '', waist: model.waist || '', hips: model.hips || '', shoes: model.shoes || ''
-        });
-        setEditId(model.id);
+    const startEdit = (m) => {
+        setForm({ ...m });
+        setEditId(m.id);
         setShowForm(true);
     };
 
     return (
         <div className="upload-section">
-            {showSuccess && <Toast message="저장 완료!" onClose={() => setShowSuccess(false)} />}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <h3 style={{ margin: 0 }}>Model Management Board</h3>
-                <button className="add-btn" onClick={() => { resetForm(); setShowForm(true); }}>+ Add New Model</button>
+            {showSuccess && <Toast message="Saved successfully!" onClose={() => setShowSuccess(false)} />}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+                <h3 style={{ margin: 0 }}>Ambassadors</h3>
+                <button className="add-btn" onClick={() => { resetForm(); setShowForm(true); }}>+ Add New Ambassador</button>
             </div>
 
             {showForm && (
                 <div className="admin-modal-overlay" onClick={() => resetForm()}>
                     <div className="admin-modal" onClick={e => e.stopPropagation()}>
                         <button className="close-x" onClick={resetForm}>×</button>
-                        <h3>{editId ? 'Edit Model' : 'Add New Model'}</h3>
+                        <h3 className="modal-title">{editId ? 'Edit Ambassador Profile' : 'Register New Ambassador'}</h3>
                         <div className="admin-modal-form">
                             <div className="form-grid">
-                                <div className="form-column">
-                                    <div className="form-group"><label>English Name *</label><input type="text" value={form.nameEn} onChange={e => setForm({...form, nameEn: e.target.value})} /></div>
-                                    <div className="form-group"><label>Korean Name</label><input type="text" value={form.nameKr} onChange={e => setForm({...form, nameKr: e.target.value})} /></div>
-                                    <div className="form-group"><label>Nationality</label><input type="text" value={form.nationality} onChange={e => setForm({...form, nationality: e.target.value})} /></div>
+                                <div className="admin-form">
+                                    <div className="admin-section-header">
+                                        <h4>Basic Information</h4>
+                                        <p>Personal details and category</p>
+                                    </div>
+                                    <div className="form-group"><label>영어 이름 (English Name) *</label><input type="text" value={form.nameEn} onChange={e => setForm({...form, nameEn: e.target.value})} placeholder="e.g. Jane Doe" /></div>
+                                    <div className="form-group"><label>한글 이름 (Korean Name)</label><input type="text" value={form.nameKr} onChange={e => setForm({...form, nameKr: e.target.value})} placeholder="예: 김지수" /></div>
+                                    <div className="form-group"><label>직업 (Job / Occupation)</label><input type="text" value={form.job || ''} onChange={e => setForm({...form, job: e.target.value})} placeholder="예: 피트니스 모델, 트레이너" /></div>
+                                    <div className="admin-grid-two">
+                                        <div className="form-group"><label>Nationality</label><input type="text" value={form.nationality} onChange={e => setForm({...form, nationality: e.target.value})} /></div>
+                                        <div className="form-group">
+                                            <label>Batch (기수) *</label>
+                                            <input 
+                                                type="text" 
+                                                list="ambassador-batches"
+                                                value={form.batch || '1st'} 
+                                                onChange={e => setForm({...form, batch: e.target.value})} 
+                                                placeholder="e.g. 1st (Select or type)" 
+                                            />
+                                            <datalist id="ambassador-batches">
+                                                {Array.from(new Set(models.map(m => m.batch || '1st'))).sort().map(b => (
+                                                    <option key={b} value={b} />
+                                                ))}
+                                            </datalist>
+                                        </div>
+                                    </div>
                                     <div className="form-group"><label>Category</label>
                                         <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="admin-select">
                                             {MODEL_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                                         </select>
                                     </div>
-                                    <div className="row-2">
+
+                                    <div className="admin-section-header" style={{ marginTop: 32 }}>
+                                        <h4>Contact & Social</h4>
+                                        <p>How to reach and follow</p>
+                                    </div>
+                                    <div className="admin-grid-two">
                                         <div className="form-group"><label>Phone</label><input type="text" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} /></div>
                                         <div className="form-group"><label>Email</label><input type="text" value={form.email} onChange={e => setForm({...form, email: e.target.value})} /></div>
                                     </div>
-                                    <div className="form-group"><label>Biography</label><textarea value={form.bio} onChange={e => setForm({...form, bio: e.target.value})} rows={3} /></div>
-                                    <div className="row-2">
-                                        <div className="form-group"><label>Instagram</label><input type="text" value={form.instagram} onChange={e => setForm({...form, instagram: e.target.value})} /></div>
-                                        <div className="form-group"><label>TikTok</label><input type="text" value={form.tiktok} onChange={e => setForm({...form, tiktok: e.target.value})} /></div>
+                                    <div className="admin-grid-two">
+                                        <div className="form-group"><label>Instagram</label><input type="text" value={form.instagram} onChange={e => setForm({...form, instagram: e.target.value})} placeholder="@username" /></div>
+                                        <div className="form-group"><label>TikTok</label><input type="text" value={form.tiktok} onChange={e => setForm({...form, tiktok: e.target.value})} placeholder="@username" /></div>
                                     </div>
+                                    <div className="form-group"><label>YouTube ID</label><input type="text" value={form.youtube || ''} onChange={e => setForm({...form, youtube: e.target.value})} placeholder="e.g. dQw4w9WgXcQ (Video ID only)" /></div>
+                                    <div className="form-group"><label>Short Biography</label><textarea value={form.bio} onChange={e => setForm({...form, bio: e.target.value})} rows={3} placeholder="Introduce the ambassador..." /></div>
                                 </div>
-                                <div className="form-column">
-                                    <label style={{ fontWeight: 600, marginBottom: 8, display: 'block' }}>Measurements</label>
-                                    <div className="measure-grid">
+                                <div className="admin-form-side">
+                                    <div className="admin-section-header">
+                                        <h4>Measurements</h4>
+                                        <p>Physical attributes</p>
+                                    </div>
+                                    <div className="measure-grid premium-measure">
                                         {['height', 'hair', 'eyes', 'bust', 'waist', 'hips', 'shoes'].map(f => (
                                             <div key={f} className="form-item">
-                                                <label>{f.charAt(0).toUpperCase() + f.slice(1)}</label>
-                                                <input type="text" value={form[f]} onChange={e => setForm({...form, [f]: e.target.value})} />
+                                                <label>{f.toUpperCase()}</label>
+                                                <input type="text" value={form[f] || ''} onChange={e => setForm({...form, [f]: e.target.value})} />
                                             </div>
                                         ))}
                                     </div>
-                                    <div className="form-group" style={{ marginTop: 16 }}>
-                                        <label>Main Image {editId ? '(Optional)' : ''}</label>
-                                        <input type="file" accept="image/*" onChange={e => setMainImage(e.target.files[0])} />
+
+                                    <div className="admin-section-header" style={{ marginTop: 40 }}>
+                                        <h4>Media Assets</h4>
+                                        <p>Primary and portfolio images</p>
                                     </div>
                                     <div className="form-group">
-                                        <label>Add Portfolio</label>
-                                        <input type="file" accept="image/*" multiple onChange={e => setPortfolioFiles(Array.from(e.target.files))} />
+                                        <label>Main Portrait {editId ? '(Optional)' : '*'}</label>
+                                        <div className="custom-file-upload">
+                                            <input type="file" id="main-image" accept="image/*" onChange={e => setMainImage(e.target.files[0])} style={{ display: 'none' }} />
+                                            <label htmlFor="main-image" className="file-label">
+                                                {mainImage ? mainImage.name : 'Select Main Image'}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Portfolio Gallery</label>
+                                        <div className="custom-file-upload">
+                                            <input
+                                                type="file"
+                                                id="portfolio-upload"
+                                                multiple
+                                                accept="image/*"
+                                                onChange={handlePortfolioChange}
+                                                hidden
+                                            />
+                                            <label htmlFor="portfolio-upload" className="file-label">
+                                                + Add Portfolio Photos
+                                            </label>
+
+                                            {(form.portfolio?.length > 0 || portfolioFiles.length > 0) && (
+                                                <div className="portfolio-preview-scroll">
+                                                    <div className="portfolio-preview-grid">
+                                                        {form.portfolio && form.portfolio.map((url, idx) => (
+                                                            <div key={`existing-${idx}`} className="portfolio-preview-item">
+                                                                <img src={url} alt="Portfolio" />
+                                                                <button type="button" className="remove-preview-btn" onClick={() => removeExistingFile(url)}>×</button>
+                                                            </div>
+                                                        ))}
+                                                        {portfolioPreviews.map((url, idx) => (
+                                                            <div key={`new-${idx}`} className="portfolio-preview-item new-file">
+                                                                <img src={url} alt="New Portfolio" />
+                                                                <button type="button" className="remove-preview-btn" onClick={() => removeNewFile(idx)}>×</button>
+                                                                <span className="new-badge">NEW</span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <button className="submit-btn" onClick={handleSave}>{editId ? 'Update Model' : 'Add Model'}</button>
+                            <button className="submit-btn" onClick={handleSave} style={{ marginTop: 24 }}>{editId ? 'Update Ambassador' : 'Add Ambassador'}</button>
                         </div>
                     </div>
                 </div>
@@ -513,7 +407,8 @@ const ModelsTab = () => {
                     <div key={m.id} className="admin-item-card">
                         {m.mainImage && <img src={m.mainImage} alt={m.nameEn} className="admin-item-thumb" />}
                         <div className="admin-item-info">
-                            <strong>{m.nameEn}</strong> {m.nameKr && <span style={{ color: 'var(--color-text-secondary)' }}>({m.nameKr})</span>}
+                            <strong>{m.nameEn}</strong> {m.nameKr && <span style={{ color: '#888', fontSize: '0.85rem', marginLeft: 6 }}>({m.nameKr})</span>}
+                            {m.job && <div style={{ fontSize: '0.8rem', color: 'var(--color-primary)', marginTop: 2 }}>{m.job}</div>}
                             <span className="admin-item-badge">{m.category}</span>
                         </div>
                         <div className="admin-item-actions">
@@ -522,7 +417,7 @@ const ModelsTab = () => {
                         </div>
                     </div>
                 ))}
-                {models.length === 0 && <p style={{ color: 'var(--color-text-secondary)', textAlign: 'center', padding: 40 }}>등록된 모델이 없습니다.</p>}
+                {models.length === 0 && <p style={{ color: '#888', textAlign: 'center', padding: 40, gridColumn: '1/-1' }}>No ambassadors found.</p>}
             </div>
         </div>
     );
@@ -544,7 +439,7 @@ const ConceptsTab = () => {
     const loadItems = async () => {
         setLoading(true);
         try {
-            const snap = await getDocs(collection(db, 'lookbook'));
+            const snap = await getDocs(query(collection(db, 'lookbook'), orderBy('createdAt', 'desc')));
             setItems(snap.docs.map(d => ({ id: d.id, ...d.data() })));
         } catch (err) { console.error(err); }
         setLoading(false);
@@ -556,92 +451,92 @@ const ConceptsTab = () => {
 
     const handleSave = async (e) => {
         if (e) e.preventDefault();
-        if (!outfitName) { alert('의상 명칭을 입력하세요.'); return; }
+        if (!outfitName) { alert('Please enter outfit name.'); return; }
         setSaving(true);
         try {
             if (editItem) {
-                // 수정 모드: outfitName, outfitSize만 업데이트
-                await updateDoc(doc(db, 'lookbook', editItem.id), { outfitName, outfitSize });
+                let data = { outfitName, outfitSize };
+                if (file) {
+                    const { url, path } = await uploadToStorage(file, 'lookbook');
+                    data.img = url;
+                    data.storagePath = path;
+                    // Delete old image if it exists
+                    if (editItem.storagePath) {
+                        try { await deleteObject(ref(storage, editItem.storagePath)); } catch (err) { console.error('Storage delete error:', err); }
+                    }
+                }
+                await updateDoc(doc(db, 'lookbook', editItem.id), data);
             } else {
-                // 등록 모드: 이미지 필수
-                if (!file) { alert('이미지를 선택하세요.'); setSaving(false); return; }
+                if (!file) { alert('Please select an image.'); setSaving(false); return; }
                 const { url, path } = await uploadToStorage(file, 'lookbook');
                 await addDoc(collection(db, 'lookbook'), {
                     outfitName, outfitSize, img: url, storagePath: path,
-                    name: file.name, size: file.size, createdAt: Date.now()
+                    createdAt: Date.now()
                 });
             }
-            setShowSuccess(true);
-            setTimeout(() => setShowSuccess(false), 3000);
-            resetForm();
-            loadItems();
-        } catch (err) { alert('저장 오류: ' + err.message); }
+            setShowSuccess(true); setTimeout(() => setShowSuccess(false), 3000);
+            resetForm(); loadItems();
+        } catch (err) { alert('Save error: ' + err.message); }
         setSaving(false);
     };
 
     const handleDelete = async (item) => {
-        if (!confirm('정말 삭제하시겠습니까?')) return;
+        if (!confirm('Are you sure?')) return;
         try {
             await deleteDoc(doc(db, 'lookbook', item.id));
             if (item.storagePath) { try { await deleteObject(ref(storage, item.storagePath)); } catch {} }
             loadItems();
-        } catch (err) { alert('삭제 오류: ' + err.message); }
+        } catch (err) { alert('Delete error: ' + err.message); }
     };
 
     return (
         <div className="upload-section">
-            {showSuccess && <Toast message="저장 완료!" onClose={() => setShowSuccess(false)} />}
-            <h3>Concept (Lookbook) Management</h3>
+            {showSuccess && <Toast message="Saved successfully!" onClose={() => setShowSuccess(false)} />}
+            <h3>Concepts (Lookbook)</h3>
 
-            {/* 등록/수정 폼 (다크 카드) */}
-            <form onSubmit={handleSave} className="concept-form-card">
-                <h4>{editItem ? '컨셉 정보 수정' : '새 컨셉 등록'}</h4>
-                <div className="concept-form-grid">
+            <form onSubmit={handleSave} className="admin-form" style={{ background: '#fff', padding: '32px', borderRadius: '16px', border: '1px solid #f0f0f0', marginBottom: '40px' }}>
+                <h4 style={{ margin: '0 0 24px', fontFamily: 'Playfair Display, serif', fontSize: '1.2rem' }}>{editItem ? 'Edit Concept' : 'Add New Concept'}</h4>
+                <div className="form-grid">
                     <div className="form-group">
-                        <label className="concept-label">의상 명칭 (Outfit Name)</label>
-                        <input type="text" value={outfitName} onChange={e => setOutfitName(e.target.value)}
-                            className="concept-input" placeholder="예: 시그니처 화이트 바디수트" required />
+                        <label>Outfit Name</label>
+                        <input type="text" value={outfitName} onChange={e => setOutfitName(e.target.value)} placeholder="e.g. Signature White Bodysuit" required />
                     </div>
                     <div className="form-group">
-                        <label className="concept-label">사이즈 (Size)</label>
-                        <input type="text" value={outfitSize} onChange={e => setOutfitSize(e.target.value)}
-                            className="concept-input" placeholder="예: S / M" />
+                        <label>Size</label>
+                        <input type="text" value={outfitSize} onChange={e => setOutfitSize(e.target.value)} placeholder="e.g. S / M" />
                     </div>
                 </div>
-                {!editItem && (
-                    <div className="form-group" style={{ marginBottom: 16 }}>
-                        <label className="concept-label">이미지 선택</label>
-                        <input type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} className="concept-input" />
-                    </div>
-                )}
-                <div style={{ display: 'flex', gap: 12 }}>
+                <div className="form-group" style={{ marginTop: '8px' }}>
+                    <label>Image {editItem ? '(Optional - select to change)' : '*'}</label>
                     {editItem && (
-                        <button type="button" onClick={resetForm} className="concept-cancel-btn">취소</button>
+                        <div style={{ marginBottom: 12, display: 'flex', alignItems: 'center', gap: 12 }}>
+                            <img src={editItem.img} alt="Current" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 8, border: '1px solid #eee' }} />
+                            <span style={{ fontSize: '0.8rem', color: '#888' }}>Current Image</span>
+                        </div>
                     )}
-                    <button type="submit" disabled={saving} className="concept-submit-btn" style={{ cursor: saving ? 'not-allowed' : 'pointer' }}>
-                        {saving ? '업로드 중...' : editItem ? '저장하기' : '등록하기'}
+                    <input type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} />
+                </div>
+                <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
+                    <button type="submit" className="submit-btn" style={{ width: 'auto', paddingLeft: '40px', paddingRight: '40px' }} disabled={saving}>
+                        {saving ? 'Saving...' : editItem ? 'Update' : 'Add Concept'}
                     </button>
+                    {editItem && <button type="button" className="secondary-btn" style={{ width: 'auto', marginTop: 0 }} onClick={resetForm}>Cancel</button>}
                 </div>
             </form>
 
-            {/* 컨셉 카드 그리드 */}
-            <div className="concept-grid">
-                {loading ? <p style={{ color: '#888' }}>불러오는 중...</p> : items.map(item => (
-                    <div key={item.id} className="concept-card">
-                        <div className="concept-card-img">
-                            <img src={item.img || item.imageUrl} alt={item.outfitName || item.name} />
-                        </div>
-                        <div className="concept-card-info">
-                            <h5>{item.outfitName || item.name}</h5>
-                            <p>Size: {item.outfitSize || item.size || 'FREE'}</p>
-                            <div className="concept-card-actions">
-                                <button className="concept-edit-btn" onClick={() => {
-                                    setEditItem(item);
-                                    setOutfitName(item.outfitName || item.name || '');
-                                    setOutfitSize(item.outfitSize || item.size || '');
+            <div className="admin-item-list">
+                {items.map(item => (
+                    <div key={item.id} className="admin-item-card">
+                        <img src={item.img} alt={item.outfitName} className="admin-item-thumb" />
+                        <div className="admin-item-info">
+                            <h4>{item.outfitName}</h4>
+                            <p style={{ margin: '0 0 12px', fontSize: '0.85rem', color: '#666' }}>Size: {item.outfitSize || 'FREE'}</p>
+                            <div className="admin-item-actions">
+                                <button onClick={() => {
+                                    setEditItem(item); setOutfitName(item.outfitName); setOutfitSize(item.outfitSize || '');
                                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                                }}>수정</button>
-                                <button className="concept-delete-btn" onClick={() => handleDelete(item)}>삭제</button>
+                                }}>Edit</button>
+                                <button onClick={() => handleDelete(item)} className="delete">Delete</button>
                             </div>
                         </div>
                     </div>
@@ -664,6 +559,7 @@ const EventsTab = () => {
     const [existingImages, setExistingImages] = useState([]);
     const [editId, setEditId] = useState(null);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [saving, setSaving] = useState(false);
 
     useEffect(() => { loadEvents(); }, []);
 
@@ -675,7 +571,7 @@ const EventsTab = () => {
     };
 
     const autoTranslate = async () => {
-        if (!title && !content) { alert('한국어 원문을 먼저 입력하세요.'); return; }
+        if (!title && !content) { alert('Please enter Korean source first.'); return; }
         const translate = async (text, target) => {
             if (!text) return '';
             try {
@@ -694,7 +590,8 @@ const EventsTab = () => {
     };
 
     const handleSave = async () => {
-        if (!title) { alert('이벤트 제목을 입력하세요.'); return; }
+        if (!title) { alert('Title is required.'); return; }
+        setSaving(true);
         try {
             let imageUrls = [...existingImages];
             for (const f of images) {
@@ -703,92 +600,95 @@ const EventsTab = () => {
             }
             const data = {
                 title, content, titleEn, contentEn, titleJa, contentJa, titleZh, contentZh,
-                images: imageUrls, updatedAt: serverTimestamp(), ...(editId ? {} : { createdAt: serverTimestamp() })
+                images: imageUrls, updatedAt: serverTimestamp(), 
+                ...(editId ? {} : { createdAt: serverTimestamp() })
             };
             if (editId) { await updateDoc(doc(db, 'events', editId), data); }
             else { await addDoc(collection(db, 'events'), data); }
             setShowSuccess(true); setTimeout(() => setShowSuccess(false), 3000);
-            setTitle(''); setContent(''); setTitleEn(''); setContentEn(''); setTitleJa(''); setContentJa(''); setTitleZh(''); setContentZh('');
-            setImages([]); setExistingImages([]); setEditId(null); setShowMulti(false);
-            loadEvents();
-        } catch (err) { alert('저장 오류: ' + err.message); }
+            resetForm(); loadEvents();
+        } catch (err) { alert('Save error: ' + err.message); }
+        setSaving(false);
+    };
+
+    const resetForm = () => {
+        setTitle(''); setContent(''); setTitleEn(''); setContentEn(''); setTitleJa(''); setContentJa(''); setTitleZh(''); setContentZh('');
+        setImages([]); setExistingImages([]); setEditId(null); setShowMulti(false);
     };
 
     const handleDelete = async (id) => {
-        if (!confirm('정말 삭제하시겠습니까?')) return;
+        if (!confirm('Are you sure?')) return;
         try { await deleteDoc(doc(db, 'events', id)); loadEvents(); } catch (err) { alert(err.message); }
     };
 
     return (
         <div className="upload-section">
-            {showSuccess && <Toast message="저장 완료!" onClose={() => setShowSuccess(false)} />}
-            <h3>EVENT & NOTICE Management</h3>
-            <div className="admin-form">
-                <div className="form-group">
-                    <label>이벤트 제목</label>
-                    <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="이벤트 제목 (예: 3월 바디프로필 할인 이벤트)" />
-                </div>
-                <div className="form-group">
-                    <label>이벤트 내용</label>
-                    <textarea value={content} onChange={e => setContent(e.target.value)} placeholder="이벤트 내용 (줄바꿈 가능)" rows={4} />
+            {showSuccess && <Toast message="Saved successfully!" onClose={() => setShowSuccess(false)} />}
+            <h3>Events & Notice</h3>
+            
+            <div className="admin-form" style={{ background: '#fff', padding: '32px', borderRadius: '16px', border: '1px solid #f0f0f0', marginBottom: '40px' }}>
+                <h4 style={{ margin: '0 0 24px', fontFamily: 'Playfair Display, serif', fontSize: '1.2rem' }}>{editId ? 'Edit Event' : 'New Event'}</h4>
+                <div className="form-grid">
+                    <div className="form-group">
+                        <label>Title (KO)</label>
+                        <input type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="Event Title" />
+                    </div>
+                    <div className="form-group">
+                        <label>Description (KO)</label>
+                        <textarea value={content} onChange={e => setContent(e.target.value)} rows={3} placeholder="Event details..." />
+                    </div>
                 </div>
 
-                <button type="button" className="secondary-btn" onClick={autoTranslate} style={{ marginBottom: 16 }}>
-                    ✨ 원문을 다국어로 자동 번역하기
+                <button type="button" className="secondary-btn" onClick={autoTranslate} style={{ marginBottom: 24, fontSize: '0.85rem' }}>
+                    ✨ Auto-translate to Multi-languages
                 </button>
 
                 {showMulti && (
-                    <div className="multi-lang-section">
-                        <h4>영어 (EN)</h4>
-                        <input type="text" value={titleEn} onChange={e => setTitleEn(e.target.value)} placeholder="Title (EN)" />
-                        <textarea value={contentEn} onChange={e => setContentEn(e.target.value)} placeholder="Content (EN)" rows={3} />
-                        <h4>일본어 (JA)</h4>
-                        <input type="text" value={titleJa} onChange={e => setTitleJa(e.target.value)} placeholder="Title (JA)" />
-                        <textarea value={contentJa} onChange={e => setContentJa(e.target.value)} placeholder="Content (JA)" rows={3} />
-                        <h4>중국어 (ZH)</h4>
-                        <input type="text" value={titleZh} onChange={e => setTitleZh(e.target.value)} placeholder="Title (ZH)" />
-                        <textarea value={contentZh} onChange={e => setContentZh(e.target.value)} placeholder="Content (ZH)" rows={3} />
+                    <div className="admin-grid-two" style={{ marginBottom: 24, padding: 20, background: '#f9f9f9', borderRadius: 12 }}>
+                        <div><label>English</label><input value={titleEn} onChange={e => setTitleEn(e.target.value)} placeholder="Title EN" /></div>
+                        <div><label>Japanese</label><input value={titleJa} onChange={e => setTitleJa(e.target.value)} placeholder="Title JA" /></div>
+                        <div><label>Chinese</label><input value={titleZh} onChange={e => setTitleZh(e.target.value)} placeholder="Title ZH" /></div>
                     </div>
                 )}
 
                 <div className="form-group">
-                    <label>📷 사진 첨부 (선택, 여러 장 가능)</label>
+                    <label>Photos</label>
                     <input type="file" accept="image/*" multiple onChange={e => setImages(Array.from(e.target.files))} />
                 </div>
 
                 {existingImages.length > 0 && (
-                    <div className="existing-images-preview" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 24 }}>
                         {existingImages.map((img, idx) => (
                             <div key={idx} style={{ position: 'relative' }}>
-                                <img src={img} alt="existing" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '4px' }} />
-                                <button type="button" onClick={() => setExistingImages(prev => prev.filter((_, i) => i !== idx))}
-                                    style={{ position: 'absolute', top: -5, right: -5, background: 'rgba(255,0,0,0.8)', color: '#fff', border: 'none', borderRadius: '50%', width: '20px', height: '20px', fontSize: '12px', cursor: 'pointer' }}>×</button>
+                                <img src={img} alt="" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 8 }} />
+                                <button onClick={() => setExistingImages(prev => prev.filter((_, i) => i !== idx))}
+                                    style={{ position: 'absolute', top: -5, right: -5, background: '#e74c3c', color: '#fff', border: 'none', borderRadius: '50%', width: 20, height: 20, cursor: 'pointer' }}>×</button>
                             </div>
                         ))}
                     </div>
                 )}
 
-                <button className="submit-btn" onClick={handleSave}>{editId ? '수정 완료' : '이벤트 등록'}</button>
-                {editId && <button className="secondary-btn" onClick={() => { setEditId(null); setTitle(''); setContent(''); setExistingImages([]); setImages([]); }}>취소</button>}
+                <div style={{ display: 'flex', gap: 12 }}>
+                    <button className="submit-btn" onClick={handleSave} disabled={saving} style={{ width: 'auto', paddingLeft: 40, paddingRight: 40 }}>
+                        {saving ? 'Saving...' : editId ? 'Update' : 'Post Event'}
+                    </button>
+                    {editId && <button className="secondary-btn" onClick={resetForm} style={{ width: 'auto' }}>Cancel</button>}
+                </div>
             </div>
 
-            <div className="admin-item-list" style={{ marginTop: 24 }}>
+            <div className="admin-item-list">
                 {events.map(ev => (
                     <div key={ev.id} className="admin-item-card">
-                        <div className="admin-item-info" style={{ flex: 1 }}>
+                        {ev.images?.[0] && <img src={ev.images[0]} alt="" className="admin-item-thumb" />}
+                        <div className="admin-item-info">
                             <strong>{ev.title}</strong>
-                            <span style={{ color: 'var(--color-text-secondary)', fontSize: '0.8rem' }}>
-                                {ev.createdAt?.toDate ? ev.createdAt.toDate().toLocaleDateString() : ''}
-                            </span>
+                            <span style={{ fontSize: '0.8rem', color: '#888' }}>{ev.createdAt?.toDate ? ev.createdAt.toDate().toLocaleDateString() : ''}</span>
                         </div>
                         <div className="admin-item-actions">
                             <button onClick={() => {
                                 setEditId(ev.id); setTitle(ev.title || ''); setContent(ev.content || '');
-                                setTitleEn(ev.titleEn || ''); setContentEn(ev.contentEn || '');
-                                setTitleJa(ev.titleJa || ''); setContentJa(ev.contentJa || '');
-                                setTitleZh(ev.titleZh || ''); setContentZh(ev.contentZh || '');
-                                setExistingImages(ev.images || []);
-                                if (ev.titleEn || ev.titleJa || ev.titleZh) setShowMulti(true);
+                                setTitleEn(ev.titleEn || ''); setTitleJa(ev.titleJa || ''); setTitleZh(ev.titleZh || '');
+                                setExistingImages(ev.images || []); setShowMulti(true);
                             }}>Edit</button>
                             <button onClick={() => handleDelete(ev.id)} className="delete">Delete</button>
                         </div>
@@ -802,8 +702,8 @@ const EventsTab = () => {
 // ===== 5. Hero Tab =====
 const HeroTab = () => {
     const [slides, setSlides] = useState([]);
-    const [showYtInput, setShowYtInput] = useState(false);
     const [ytUrl, setYtUrl] = useState('');
+    const [showYtInput, setShowYtInput] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
     const dragItem = useRef(null);
     const dragOverItem = useRef(null);
@@ -827,30 +727,19 @@ const HeroTab = () => {
                 order: slides.length, createdAt: serverTimestamp()
             });
             loadSlides();
-        } catch (err) { alert('업로드 오류: ' + err.message); }
-        e.target.value = '';
+        } catch (err) { alert(err.message); }
     };
 
     const handleAddYoutube = async () => {
         let videoId = ytUrl.trim();
         const match = videoId.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
         if (match) videoId = match[1];
-        if (videoId.length !== 11) { alert('유효한 YouTube ID/URL을 입력하세요.'); return; }
+        if (videoId.length !== 11) { alert('Invalid YouTube URL'); return; }
         try {
             await addDoc(collection(db, 'hero_slides'), {
                 type: 'video', src: videoId, order: slides.length, createdAt: serverTimestamp()
             });
-            setYtUrl(''); setShowYtInput(false);
-            loadSlides();
-        } catch (err) { alert(err.message); }
-    };
-
-    const handleDelete = async (slide) => {
-        if (!confirm('삭제하시겠습니까?')) return;
-        try {
-            await deleteDoc(doc(db, 'hero_slides', slide.id));
-            if (slide.storagePath) { try { await deleteObject(ref(storage, slide.storagePath)); } catch {} }
-            loadSlides();
+            setYtUrl(''); setShowYtInput(false); loadSlides();
         } catch (err) { alert(err.message); }
     };
 
@@ -858,57 +747,68 @@ const HeroTab = () => {
         const items = [...slides];
         const [removed] = items.splice(dragItem.current, 1);
         items.splice(dragOverItem.current, 0, removed);
-        dragItem.current = null;
-        dragOverItem.current = null;
+        dragItem.current = null; dragOverItem.current = null;
         setSlides(items);
     };
 
     const saveOrder = async () => {
         try {
             await Promise.all(slides.map((s, i) => updateDoc(doc(db, 'hero_slides', s.id), { order: i })));
-            // IndexedDB도 동기화하여 메인 화면에서 즉시 반영
             const { syncCollection } = await import('../utils/syncService');
             await syncCollection(STORES.HERO_SLIDES);
             setShowSuccess(true); setTimeout(() => setShowSuccess(false), 3000);
         } catch (err) { alert(err.message); }
     };
 
+    const handleDelete = async (slide) => {
+        if (!confirm('Delete slide?')) return;
+        try {
+            await deleteDoc(doc(db, 'hero_slides', slide.id));
+            if (slide.storagePath) { try { await deleteObject(ref(storage, slide.storagePath)); } catch {} }
+            loadSlides();
+        } catch (err) { alert(err.message); }
+    };
+
     return (
         <div className="upload-section">
-            {showSuccess && <Toast message="순서 저장 완료!" onClose={() => setShowSuccess(false)} />}
-            <h3>첫 번째 페이지 (Hero) 슬라이드 관리</h3>
-            <div style={{ display: 'flex', gap: 10, marginBottom: 20, flexWrap: 'wrap' }}>
+            {showSuccess && <Toast message="Order saved successfully!" onClose={() => setShowSuccess(false)} />}
+            <h3>Hero Slides</h3>
+            <div style={{ display: 'flex', gap: 12, marginBottom: 32 }}>
                 <label className="add-btn" style={{ cursor: 'pointer' }}>
-                    📷 이미지 추가
+                    📷 Add Image Slide
                     <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
                 </label>
-                <button className="add-btn" onClick={() => setShowYtInput(!showYtInput)}>▶ 유튜브 영상 추가</button>
-                {slides.length > 1 && <button className="add-btn" onClick={saveOrder}>순서 저장</button>}
+                <button className="add-btn" onClick={() => setShowYtInput(!showYtInput)}>▶ Add Video Slide</button>
+                {slides.length > 1 && <button className="add-btn" onClick={saveOrder}>Save Order</button>}
             </div>
 
             {showYtInput && (
-                <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
-                    <input type="text" value={ytUrl} onChange={e => setYtUrl(e.target.value)} placeholder="YouTube URL 또는 Video ID"
-                        style={{ flex: 1, padding: '10px 12px', borderRadius: 8, border: '1px solid var(--color-border)', background: 'var(--color-bg)', color: 'var(--color-text)' }} />
-                    <button className="add-btn" onClick={handleAddYoutube}>추가</button>
+                <div style={{ display: 'flex', gap: 12, marginBottom: 24, padding: 24, background: '#f9f9f9', borderRadius: 16 }}>
+                    <input style={{ flex: 1 }} type="text" value={ytUrl} onChange={e => setYtUrl(e.target.value)} placeholder="YouTube URL or Video ID" />
+                    <button className="submit-btn" style={{ width: 'auto' }} onClick={handleAddYoutube}>Add</button>
                 </div>
             )}
 
-            <div className="hero-slide-grid">
+            <div className="hero-slide-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 24 }}>
                 {slides.map((slide, idx) => (
-                    <div key={slide.id} className="hero-slide-card"
-                        draggable
-                        onDragStart={() => dragItem.current = idx}
-                        onDragOver={e => { e.preventDefault(); dragOverItem.current = idx; }}
-                        onDragEnd={handleDragEnd}
+                    <div key={slide.id} className="hero-slide-card" 
+                         draggable 
+                         onDragStart={() => dragItem.current = idx}
+                         onDragOver={e => { e.preventDefault(); dragOverItem.current = idx; }}
+                         onDragEnd={handleDragEnd}
+                         style={{ position: 'relative', borderRadius: 16, overflow: 'hidden', border: '1px solid #eee' }}
                     >
                         {slide.type === 'video' ? (
-                            <div className="hero-slide-yt">▶ {slide.src}</div>
+                            <div style={{ aspectRatio: '16/9', background: '#000', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <span style={{ fontSize: '0.9rem' }}>YouTube: {slide.src}</span>
+                            </div>
                         ) : (
-                            <img src={slide.src || slide.imageUrl} alt={`Slide ${idx + 1}`} />
+                            <img src={slide.src} alt="" style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover' }} />
                         )}
-                        <button className="hero-slide-delete" onClick={() => handleDelete(slide)}>×</button>
-                        <span className="hero-slide-order">{idx + 1}</span>
+                        <div style={{ position: 'absolute', top: 12, right: 12, display: 'flex', gap: 8 }}>
+                            <button onClick={() => handleDelete(slide)} style={{ background: 'rgba(231, 76, 60, 0.9)', color: '#fff', border: 'none', borderRadius: '50%', width: 32, height: 32, cursor: 'pointer' }}>×</button>
+                        </div>
+                        <span style={{ position: 'absolute', bottom: 12, left: 12, background: '#fff', padding: '4px 10px', borderRadius: 20, fontSize: '0.8rem', fontWeight: 700 }}>#{idx + 1}</span>
                     </div>
                 ))}
             </div>
@@ -930,71 +830,64 @@ const ApplicationsTab = () => {
     };
 
     const handleDelete = async (id) => {
-        if (!window.confirm('정말 삭제하시겠습니까?')) return;
-        try { 
-            await deleteDoc(doc(db, 'applications', id)); 
-            loadApps(); 
-        } catch (err) { 
-            alert(err.message); 
-        }
+        if (!confirm('Delete applicant?')) return;
+        try { await deleteDoc(doc(db, 'applications', id)); loadApps(); } catch (err) { alert(err.message); }
     };
 
     return (
         <div className="upload-section">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <h3 style={{ margin: 0 }}>Applications</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+                <h3 style={{ margin: 0 }}>Applicants</h3>
                 <button className="add-btn" onClick={loadApps}>Refresh</button>
             </div>
             <div className="admin-item-list">
                 {apps.map(app => (
-                    <div key={app.id} className="admin-item-card" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 12, padding: '20px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', borderBottom: '1px solid var(--color-border)', paddingBottom: '10px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                <strong style={{ fontSize: '1.1rem' }}>{app.name}</strong>
-                                {app.job && <span className="admin-item-badge" style={{ fontSize: '0.75rem', padding: '2px 8px', borderRadius: '4px', background: 'var(--color-surface)', color: 'var(--color-primary)' }}>{app.job}</span>}
+                    <div key={app.id} className="app-card">
+                        <div className="applicant-header">
+                            <div className="app-main-info">
+                                <h4 style={{ fontSize: '1.4rem', margin: 0, color: '#000', fontWeight: 800 }}>
+                                    {app.name || app.userName || <span style={{ color: '#ff6b6b' }}>[이름 없음]</span>}
+                                </h4>
+                                <div className="app-insta-row" style={{ marginTop: 4 }}>
+                                    {app.insta ? (
+                                        <a href={`https://instagram.com/${app.insta.replace('@','')}`} target="_blank" rel="noreferrer" style={{ 
+                                            color: 'var(--color-primary)', 
+                                            textDecoration: 'none',
+                                            fontSize: '0.95rem',
+                                            fontWeight: 600,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '6px'
+                                        }}>
+                                            📷 {app.insta}
+                                        </a>
+                                    ) : (
+                                        <span style={{ fontSize: '0.85rem', color: '#999' }}>No Instagram</span>
+                                    )}
+                                </div>
                             </div>
-                            <button onClick={() => handleDelete(app.id)} className="delete" style={{ background: 'none', border: 'none', color: '#ff4d4d', cursor: 'pointer', fontSize: '0.9rem' }}>Delete</button>
+                            <div style={{ textAlign: 'right' }}>
+                                <div className="admin-item-badge" style={{ marginBottom: 8, display: 'block', width: 'fit-content', marginLeft: 'auto' }}>
+                                    {app.job || 'Applicant'}
+                                </div>
+                                <button onClick={() => handleDelete(app.id)} className="delete" style={{ fontSize: '0.8rem', opacity: 0.6 }}>Delete</button>
+                            </div>
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', width: '100%' }}>
-                            <div style={{ 
-                                width: '60px', 
-                                height: '60px', 
-                                borderRadius: '50%', 
-                                overflow: 'hidden', 
-                                backgroundColor: 'var(--color-surface)',
-                                border: '2px solid var(--color-primary)',
-                                flexShrink: 0,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                            }}>
-                                {app.insta ? (
-                                    <img 
-                                        src={`https://unavatar.io/instagram/${app.insta.replace('@','')}`} 
-                                        alt={app.insta} 
-                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                        onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<span style="font-size: 1.5rem">👤</span>'; }}
-                                    />
-                                ) : (
-                                    <span style={{ fontSize: '1.5rem' }}>👤</span>
-                                )}
-                            </div>
-                            <div style={{ flex: 1, fontSize: '0.85rem', color: 'var(--color-text-secondary)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px 20px' }}>
-                                {app.insta && <span>📷 <a href={`https://instagram.com/${app.insta.replace('@','')}`} target="_blank" rel="noreferrer" style={{ color: 'var(--color-primary)' }}>{app.insta}</a></span>}
+                        <div className="app-profile" style={{ marginTop: 24, padding: '16px 0', borderTop: '1px solid #f0f0f0' }}>
+                            <div className="app-info-grid">
                                 {app.location && <span>📍 {app.location}</span>}
                                 {app.phone && <span>📞 {app.phone}</span>}
                                 {app.createdAt?.toDate && <span>📅 {app.createdAt.toDate().toLocaleDateString()}</span>}
                             </div>
                         </div>
                         {app.keywords && (
-                            <div style={{ width: '100%', background: 'rgba(0,0,0,0.15)', padding: '12px', borderRadius: '8px', borderLeft: '3px solid var(--color-primary)', marginTop: '4px' }}>
-                                <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginBottom: '8px', letterSpacing: '0.5px' }}>keywords / Message</div>
-                                <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--color-text)', lineHeight: '1.5', whiteSpace: 'pre-wrap' }}>{app.keywords}</p>
+                            <div className="app-keywords-box" style={{ marginTop: 12, padding: '16px 20px', background: '#f8f9fa', borderRadius: '12px', border: '1px solid #f0f0f0' }}>
+                                <p style={{ margin: 0, fontSize: '0.9rem', color: '#444', lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{app.keywords}</p>
                             </div>
                         )}
                     </div>
                 ))}
-                {apps.length === 0 && <p style={{ color: 'var(--color-text-secondary)', textAlign: 'center', padding: 40 }}>신청 데이터가 없습니다.</p>}
+                {apps.length === 0 && <p style={{ textAlign: 'center', padding: 40, color: '#888' }}>No applications yet.</p>}
             </div>
         </div>
     );
@@ -1006,12 +899,8 @@ const PartnersTab = () => {
     const [showForm, setShowForm] = useState(false);
     const [editId, setEditId] = useState(null);
     const [form, setForm] = useState({
-        name: '',
-        location: '',
-        category: 'fitness',
-        description: '',
-        images: [],
-        trainers: []
+        name: '', location: '', category: 'fitness', description: '',
+        images: [], trainers: []
     });
     const [saving, setSaving] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -1022,37 +911,21 @@ const PartnersTab = () => {
         try {
             const snap = await getDocs(query(collection(db, 'partners'), orderBy('createdAt', 'desc')));
             setPartners(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-        } catch (err) { console.error('Failed to load partners:', err); }
+        } catch (err) { console.error(err); }
     };
 
     const resetForm = () => {
-        setForm({
-            name: '',
-            location: '',
-            category: 'fitness',
-            description: '',
-            images: [],
-            trainers: []
-        });
-        setEditId(null);
-        setShowForm(false);
+        setForm({ name: '', location: '', category: 'fitness', description: '', images: [], trainers: [] });
+        setEditId(null); setShowForm(false);
     };
 
     const handleSave = async () => {
         if (!form.name) { alert('Partner Name is required.'); return; }
         setSaving(true);
         try {
-            const data = {
-                ...form,
-                updatedAt: serverTimestamp(),
-                ...(editId ? {} : { createdAt: serverTimestamp() })
-            };
-
-            if (editId) {
-                await updateDoc(doc(db, 'partners', editId), data);
-            } else {
-                await addDoc(collection(db, 'partners'), data);
-            }
+            const data = { ...form, updatedAt: serverTimestamp(), ...(editId ? {} : { createdAt: serverTimestamp() }) };
+            if (editId) { await updateDoc(doc(db, 'partners', editId), data); }
+            else { await addDoc(collection(db, 'partners'), data); }
             const { syncCollection } = await import('../utils/syncService');
             await syncCollection(STORES.PARTNERS);
             setShowSuccess(true); setTimeout(() => setShowSuccess(false), 3000);
@@ -1062,180 +935,107 @@ const PartnersTab = () => {
     };
 
     const handleDeletePartner = async (partnerId) => {
-        if (!window.confirm('Are you sure you want to delete this partner?')) return;
+        if (!window.confirm('Are you sure?')) return;
         try {
             await deleteDoc(doc(db, 'partners', partnerId));
             const { syncCollection } = await import('../utils/syncService');
             await syncCollection(STORES.PARTNERS);
             loadPartners();
-        } catch (err) { 
-            alert('Delete error: ' + err.message); 
-        }
+        } catch (err) { alert(err.message); }
     };
 
-    const startEdit = (partner) => {
-        setForm({ ...partner });
-        setEditId(partner.id);
-        setShowForm(true);
+    const startEdit = (p) => { setForm({ ...p }); setEditId(p.id); setShowForm(true); };
+
+    const handlePartnerPhoto = async (file) => {
+        const { url } = await uploadToStorage(file, 'partners');
+        setForm(prev => ({ ...prev, images: [...(prev.images || []), url] }));
+    };
+
+    const removePhoto = (idx) => {
+        const newImgs = [...form.images]; newImgs.splice(idx, 1);
+        setForm({ ...form, images: newImgs });
     };
 
     const addTrainer = () => {
-        setForm({
-            ...form,
-            trainers: [...form.trainers, { name: '', role: '', bio: '', image: '', contact: '' }]
-        });
+        setForm(prev => ({ ...prev, trainers: [...(prev.trainers || []), { name: '', role: '', description: '', image: '' }] }));
     };
 
-    const removeTrainer = (idx) => {
-        const newTrainers = [...form.trainers];
-        newTrainers.splice(idx, 1);
-        setForm({ ...form, trainers: newTrainers });
-    };
-
-    const updateTrainer = (idx, field, value) => {
-        const newTrainers = [...form.trainers];
-        newTrainers[idx][field] = value;
-        setForm({ ...form, trainers: newTrainers });
+    const updateTrainer = (idx, field, val) => {
+        const newTr = [...form.trainers]; newTr[idx][field] = val;
+        setForm(prev => ({ ...prev, trainers: newTr }));
     };
 
     const handleTrainerPhoto = async (idx, file) => {
-        if (!file) return;
-        try {
-            const { url } = await uploadToStorage(file, 'partners/trainers');
-            updateTrainer(idx, 'image', url);
-        } catch (err) { alert('Trainer photo upload failed: ' + err.message); }
+        const { url } = await uploadToStorage(file, 'trainers');
+        updateTrainer(idx, 'image', url);
     };
 
-    const handlePartnerPhoto = async (file) => {
-        if (!file) return;
-        try {
-            const { url } = await uploadToStorage(file, 'partners');
-            setForm(prev => ({
-                ...prev,
-                images: prev.images ? [...prev.images, url] : [url]
-            }));
-        } catch (err) { alert('Partner photo upload failed: ' + err.message); }
-    };
-
-    const removePartnerPhoto = (idx) => {
-        const newImages = [...form.images];
-        newImages.splice(idx, 1);
-        setForm({ ...form, images: newImages });
+    const removeTrainer = (idx) => {
+        const newTr = [...form.trainers]; newTr.splice(idx, 1);
+        setForm(prev => ({ ...prev, trainers: newTr }));
     };
 
     return (
         <div className="upload-section">
             {showSuccess && <Toast message="Saved successfully!" onClose={() => setShowSuccess(false)} />}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                <h3 style={{ margin: 0 }}>Partners & Trainers Management</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+                <h3 style={{ margin: 0 }}>Partners & Trainers</h3>
                 <button className="add-btn" onClick={() => { resetForm(); setShowForm(true); }}>+ Add New Partner</button>
             </div>
 
             {showForm && (
-                <div className="admin-modal-overlay" onClick={() => resetForm()} style={{ backdropFilter: 'blur(8px)', backgroundColor: 'rgba(0,0,0,0.7)' }}>
-                    <div className="admin-modal" style={{ maxWidth: '850px', backgroundColor: '#1a1a1a', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)' }} onClick={e => e.stopPropagation()}>
-                        <button className="close-x" onClick={resetForm} style={{ color: 'rgba(255,255,255,0.5)' }}>×</button>
-                        <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '25px', color: '#fff' }}>{editId ? 'Edit Partner' : 'Add New Partner'}</h3>
+                <div className="admin-modal-overlay" onClick={() => resetForm()}>
+                    <div className="admin-modal partner-modal" onClick={e => e.stopPropagation()}>
+                        <button className="close-x" onClick={resetForm}>×</button>
+                        <h3>{editId ? 'Edit Partner' : 'Add New Partner'}</h3>
                         <div className="admin-modal-form">
                             <div className="admin-grid-two">
-                                <div className="form-group">
-                                    <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Partner Name *</label>
-                                    <input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '8px', padding: '12px' }} />
-                                </div>
-                                <div className="form-group">
-                                    <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Location (Region) *</label>
-                                    <input
-                                        type="text"
-                                        value={form.location || ''}
-                                        onChange={e => setForm({...form, location: e.target.value})}
-                                        placeholder="ex) 안양, 범계, 강남"
-                                        style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '8px', padding: '12px' }}
-                                    />
-                                </div>
+                                <div className="form-group"><label>Partner Name *</label><input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} /></div>
+                                <div className="form-group"><label>Location</label><input type="text" value={form.location} onChange={e => setForm({...form, location: e.target.value})} placeholder="ex) Gangnam" /></div>
                             </div>
-                            <div className="form-group" style={{ marginTop: '20px' }}>
-                                <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Category</label>
-                                <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="admin-select" style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '8px', padding: '12px' }}>
-                                    <option value="fitness">FITNESS</option>
-                                    <option value="pilates">PILATES</option>
+                            <div className="form-group">
+                                <label>Category</label>
+                                <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="admin-select">
+                                    <option value="fitness">Fitness / Gym</option>
+                                    <option value="studio">Studio</option>
+                                    <option value="beauty">Beauty / Hair</option>
+                                    <option value="food">Healthy Food / Cafe</option>
                                 </select>
                             </div>
-                            <div className="form-group" style={{ marginTop: '20px' }}>
-                                <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Description</label>
-                                <textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '8px', padding: '12px', width: '100%' }} />
-                            </div>
-
-                            
-                            <div className="form-group" style={{ marginTop: '20px' }}>
-                                <label style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Partner Gallery Photos</label>
-                                <div className="custom-file-upload" style={{ position: 'relative', marginTop: '10px' }}>
-                                    <input type="file" accept="image/*" multiple onChange={e => Array.from(e.target.files).forEach(f => handlePartnerPhoto(f))} id="partner-files" style={{ display: 'none' }} />
-                                    <label htmlFor="partner-files" className="add-btn" style={{ display: 'inline-block', cursor: 'pointer', backgroundColor: 'rgba(255,255,255,0.1)', border: '1px dashed rgba(255,255,255,0.3)', padding: '15px 30px', borderRadius: '12px', textAlign: 'center', width: '100%' }}>
-                                        Click to select gallery photos
-                                    </label>
-                                </div>
-                                <div style={{ display: 'flex', gap: 12, marginTop: 15, flexWrap: 'wrap' }}>
+                            <div className="form-group"><label>Description</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} /></div>
+                            <div className="form-group">
+                                <label>Photos</label>
+                                <input type="file" multiple onChange={e => Array.from(e.target.files).forEach(f => handlePartnerPhoto(f))} />
+                                <div style={{ display: 'flex', gap: 10, marginTop: 12, flexWrap: 'wrap' }}>
                                     {form.images?.map((img, i) => (
-                                        <div key={i} style={{ position: 'relative', overflow: 'hidden', borderRadius: '10px', boxShadow: '0 4px 6px rgba(0,0,0,0.3)' }}>
-                                            <img src={img} alt="partner" style={{ width: 100, height: 70, objectFit: 'cover' }} />
-                                            <button type="button" onClick={() => removePartnerPhoto(i)} style={{ position: 'absolute', top: 5, right: 5, background: 'rgba(0,0,0,0.6)', color: '#fff', border: 'none', borderRadius: '50%', width: 24, height: 24, fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>×</button>
-                                        </div>
+                                        <div key={i} style={{ position: 'relative' }}><img src={img} alt="" style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 8 }} /><button onClick={() => removePhoto(i)} className="remove-thumb-btn">×</button></div>
                                     ))}
                                 </div>
                             </div>
 
-                            <div style={{ marginTop: 40, paddingTop: 30, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                                    <h4 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 600 }}>Trainers</h4>
-                                    <button type="button" onClick={addTrainer} className="add-btn" style={{ padding: '8px 16px', fontSize: '0.85rem', borderRadius: '8px' }}>+ Add Trainer</button>
+                            <div style={{ marginTop: 32, borderTop: '1px solid #eee', paddingTop: 24 }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
+                                    <h4 style={{ margin: 0 }}>Trainers</h4>
+                                    <button onClick={addTrainer} className="add-btn" style={{ width: 'auto', padding: '6px 12px', fontSize: '0.8rem' }}>+ Add Trainer</button>
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: 25 }}>
-                                    {form.trainers.map((t, i) => (
-                                        <div key={i} style={{ padding: 25, background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)', position: 'relative' }}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
-                                                <span style={{ fontWeight: 600, color: '#e74c3c' }}>Trainer #{i + 1}</span>
-                                                <button type="button" onClick={() => removeTrainer(i)} style={{ color: 'rgba(255,255,255,0.4)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.9rem' }}>Remove</button>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                                    {form.trainers?.map((t, i) => (
+                                        <div key={i} style={{ padding: 20, background: '#f9f9f9', borderRadius: 12, border: '1px solid #eee' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
+                                                <strong>Staff #{i+1}</strong>
+                                                <button onClick={() => removeTrainer(i)} style={{ background: 'none', border: 'none', color: '#e74c3c', cursor: 'pointer' }}>Remove</button>
                                             </div>
-                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-                                                <div className="form-group">
-                                                    <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem' }}>Name</label>
-                                                    <input type="text" value={t.name} onChange={e => updateTrainer(i, 'name', e.target.value)} style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '8px', padding: '10px' }} />
-                                                </div>
-                                                <div className="form-group">
-                                                    <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem' }}>Role</label>
-                                                    <input type="text" value={t.role} onChange={e => updateTrainer(i, 'role', e.target.value)} style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '8px', padding: '10px' }} />
-                                                </div>
+                                            <div className="admin-grid-two">
+                                                <div className="form-group"><label>Name</label><input value={t.name} onChange={e => updateTrainer(i, 'name', e.target.value)} /></div>
+                                                <div className="form-group"><label>Role</label><input value={t.role} onChange={e => updateTrainer(i, 'role', e.target.value)} /></div>
                                             </div>
-                                            <div className="form-group" style={{ marginTop: '15px' }}>
-                                                <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem' }}>Personal Contact (ADMIN ONLY)</label>
-                                                <input type="text" value={t.contact} onChange={e => updateTrainer(i, 'contact', e.target.value)} placeholder="010-..." style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.15)', color: '#f1c40f', borderRadius: '8px', padding: '10px', width: '100%' }} />
-                                            </div>
-                                            <div className="form-group" style={{ marginTop: '15px' }}>
-                                                <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem' }}>Bio</label>
-                                                <textarea value={t.bio} onChange={e => updateTrainer(i, 'bio', e.target.value)} rows={2} style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '8px', padding: '10px', width: '100%' }} />
-                                            </div>
-                                            <div className="form-group" style={{ marginTop: '15px' }}>
-                                                <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem' }}>Trainer Photo</label>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginTop: '8px' }}>
-                                                    <div style={{ position: 'relative', width: 60, height: 60, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
-                                                        {t.image ? (
-                                                            <img src={t.image} alt="trainer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                                        ) : (
-                                                            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', color: 'rgba(255,255,255,0.2)' }}>👤</div>
-                                                        )}
-                                                    </div>
-                                                    <input type="file" accept="image/*" onChange={e => handleTrainerPhoto(i, e.target.files[0])} style={{ fontSize: '0.8rem' }} />
-                                                </div>
-                                            </div>
+                                            <div className="form-group"><label>Photo</label><input type="file" onChange={e => handleTrainerPhoto(i, e.target.files[0])} />{t.image && <img src={t.image} alt="" style={{ width: 40, height: 40, borderRadius: '50%', marginTop: 8 }} />}</div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
-
-                            <div style={{ position: 'sticky', bottom: 0, padding: '20px 0', background: '#1a1a1a', borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: 40 }}>
-                                <button className="submit-btn" style={{ width: '100%', padding: '15px', fontSize: '1.1rem', fontWeight: 600, borderRadius: '12px', background: 'linear-gradient(45deg, #e74c3c, #c0392b)', border: 'none', color: '#fff', cursor: 'pointer', boxShadow: '0 10px 20px -5px rgba(231, 76, 60, 0.4)' }} onClick={handleSave} disabled={saving}>
-                                    {saving ? 'Saving...' : editId ? 'Update Partner' : 'Create Partner'}
-                                </button>
+                            <div style={{ position: 'sticky', bottom: 0, background: '#fff', padding: '24px 0', borderTop: '1px solid #eee', marginTop: 32 }}>
+                                <button className="submit-btn" onClick={handleSave} disabled={saving}>{saving ? 'Saving...' : 'Save Partner'}</button>
                             </div>
                         </div>
                     </div>
@@ -1245,17 +1045,15 @@ const PartnersTab = () => {
             <div className="admin-item-list">
                 {partners.map(p => (
                     <div key={p.id} className="admin-item-card">
-                        {p.images?.[0] && <img src={p.images[0]} alt={p.name} className="admin-item-thumb" />}
+                        {p.images?.[0] && <img src={p.images[0]} alt="" className="admin-item-thumb" />}
                         <div className="admin-item-info">
                             <strong>{p.name}</strong>
                             <span className="admin-item-badge">{p.category.toUpperCase()}</span>
-                            <span style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>
-                                {p.trainers.length} Trainers
-                            </span>
+                            <span style={{ fontSize: '0.8rem', color: '#888' }}>{p.trainers?.length || 0} Trainers</span>
                         </div>
                         <div className="admin-item-actions">
                             <button onClick={() => startEdit(p)}>Edit</button>
-                             <button onClick={() => handleDeletePartner(p.id)} className="delete">Delete</button>
+                            <button onClick={() => handleDeletePartner(p.id)} className="delete">Delete</button>
                         </div>
                     </div>
                 ))}

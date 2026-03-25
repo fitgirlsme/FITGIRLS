@@ -10,6 +10,7 @@ function GalleryMultiUploader({ onUploadSuccess }) {
   const [isUploading, setIsUploading] = useState(false);
   const [mainCategory, setMainCategory] = useState('fitorialist');
   const [subCategory, setSubCategory] = useState('women');
+  const [tagsInput, setTagsInput] = useState('');
   const [isDragging, setIsDragging] = useState(false);
 
   const handleFileChange = (event) => {
@@ -75,11 +76,12 @@ function GalleryMultiUploader({ onUploadSuccess }) {
           index === i ? { ...item, status: '업로드 완료! 🎉', url: optimizedUrl } : item
         ));
 
+        const parsedTags = tagsInput.split(/[ ,#]+/).filter(t => t.trim()).map(t => t.trim());
         const galleryData = {
           mainCategory: mainCategory,
           type: subCategory,
-          tags: [],
-          seoTags: '',
+          tags: parsedTags,
+          seoTags: parsedTags.join(', '),
           imageUrl: optimizedUrl,
           storagePath: storagePath,
           name: file.name,
@@ -134,6 +136,33 @@ function GalleryMultiUploader({ onUploadSuccess }) {
             <option value="couple">우정&커플</option>
             <option value="outdoor">발리프로젝트</option>
           </select>
+        </div>
+      </div>
+
+      <div className="uploader-field" style={{ marginTop: '8px' }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span>🎨</span> 해시태그 (공백이나 #으로 구분)
+        </label>
+        <div className="uploader-tag-input-wrapper" style={{ position: 'relative' }}>
+            <input 
+              type="text" 
+              value={tagsInput} 
+              onChange={(e) => setTagsInput(e.target.value)} 
+              placeholder="예: #오운완 #프로필 #바디프로필 (입력 후 업로드 시작)"
+              disabled={isUploading}
+              className="uploader-tag-input"
+              style={{ 
+                width: '100%',
+                padding: '12px 14px', 
+                border: '2px solid #eee', 
+                borderRadius: '12px', 
+                fontSize: '0.95rem',
+                outline: 'none',
+                background: '#fff',
+                transition: 'border-color 0.2s',
+                boxSizing: 'border-box'
+              }}
+            />
         </div>
       </div>
 
