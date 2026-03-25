@@ -126,7 +126,13 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+    /* Prevent flickering on mobile by stabilizing GPU layer */
+    will-change: auto;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
+
 
 .zone-badge {
     font-size: 0.65rem;
@@ -142,6 +148,14 @@
     color: #fff;
     margin: 0;
 }
+
+/* Prevent hover zoom flicker on mobile */
+@media (hover: none) {
+    .zone-card:hover .zone-img-wrapper img {
+        transform: none;
+    }
+}
+
 
 @media (max-width: 768px) {
     .zone-info {

@@ -740,5 +740,20 @@
             "submit": "ログイン",
             "error": "IDまたはパスワードが一致しません。"
         }
+    },
+    "ambassador": {
+        "profile": {
+            "height": "HEIGHT",
+            "bust": "BUST",
+            "waist": "WAIST",
+            "hips": "HIPS",
+            "shoes": "SHOES",
+            "hair": "HAIR",
+            "eyes": "EYES"
+        },
+        "labels": {
+            "portfolio": "PORTFOLIO",
+            "instagram": "INSTAGRAM"
+        }
     }
 }

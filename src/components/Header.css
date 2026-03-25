@@ -223,12 +223,16 @@
     font-size: 16px;
     color: #666;
     padding-left: 0 !important;
-    padding-top: 6px !important;
-    padding-bottom: 6px !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
     font-family: var(--font-family);
     font-weight: 600;
     text-transform: none;
+    min-height: 44px; /* iOS recommended minimum touch target */
+    display: flex;
+    align-items: center;
 }
+
 
 /* === LANG SWITCHER === */
 .lang-switcher {

@@ -32,16 +32,20 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
         };
     }, []);
 
-    const delayClass = delay > 0 ? `delay-${delay}` : '';
-
+    const delaySeconds = typeof delay === 'number' ? delay : 0;
+    
     return (
         <div
-            className={`fade-up ${delayClass} ${className}`}
+            className={`fade-up ${className}`}
             ref={domRef}
+            style={{ 
+                transitionDelay: delaySeconds > 0 ? `${delaySeconds}s` : undefined 
+            }}
         >
             {children}
         </div>
     );
+
 };
 
 export default FadeInSection;

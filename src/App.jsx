@@ -79,7 +79,7 @@ const Home = ({ changeLanguage, currentLang }) => {
         <section className="snap-section" id="zone"><Zone /></section>
         <section className="snap-section" id="hair-makeup"><HM /></section>
         <section className="snap-section" id="faq"><FAQ /></section>
-        <section className="snap-section" id="notice"><Notice /></section>
+        <section className="snap-section" id="event-board"><Notice /></section>
         <section className="snap-section" id="location"><Location /></section>
         <section className="snap-section" id="reservation"><ReservationForm /></section>
         <section className="snap-section" id="reviews"><Reviews /></section>

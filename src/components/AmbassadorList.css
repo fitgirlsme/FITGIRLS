@@ -45,10 +45,29 @@
   font-family: var(--fg-font-serif, serif);
   font-size: clamp(48px, 8vw, 96px);
   font-weight: 400;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   margin: 0 0 12px;
   line-height: 1;
+  color: #111;
+  
+  /* Premium Breathing Light */
+  animation: al-title-shine 4s ease-in-out infinite alternate;
 }
+
+@keyframes al-title-shine {
+
+  0% {
+    color: #111;
+    text-shadow: 0 0 0px rgba(0,0,0,0);
+  }
+  100% {
+    color: #555;
+    text-shadow: 0 0 15px rgba(0,0,0,0.08); /* Very subtle glow */
+  }
+}
+
+
+
 
 .al-subtitle {
   font-size: 12px;
@@ -104,8 +123,27 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 2px;
   padding: 0;
-  max-width: 1280px;
+  max-width: 1600px; /* Increased reach */
   margin: 0 auto;
+}
+
+@media (max-width: 1440px) {
+  .al-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .al-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .al-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5px;
+  }
 }
 
 .al-placeholder {
@@ -125,6 +163,7 @@
 }
 
 .al-card-img {
+  width: 100%;
   aspect-ratio: 3 / 4;
   overflow: hidden;
   background: #f5f5f5;
@@ -135,12 +174,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   display: block;
 }
 
 .al-card:hover .al-card-img img {
-  transform: scale(1.04);
+  transform: scale(1.08);
 }
 
 .al-card-no-img {
@@ -155,18 +194,47 @@
 }
 
 .al-card-info {
-  padding: 14px 12px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 12px 10px; /* Reduced from 24/16/16 for closer fit */
+  background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
+  pointer-events: none; /* Let clicks pass to card */
+}
+
+.al-card-cat {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #999;
+  text-transform: uppercase;
+  margin-bottom: 2px;
 }
 
 .al-card-name {
-  font-size: 18px;
+  font-size: clamp(16px, 1.8vw, 24px); /* Increased significantly */
   font-weight: 800;
-  letter-spacing: -0.0125em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   font-family: var(--font-family);
+  color: #fff; /* Changed to white for overlay */
+  transition: transform 0.3s ease;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.al-card:hover .al-card-name {
+  transform: translateX(5px);
+}
+
+.al-card:hover .al-card-name {
+  color: var(--color-primary, #FF0000);
 }
 
 .al-card-name-kr {
@@ -176,318 +244,341 @@
 
 .al-card-job {
   font-size: 11px;
-  color: var(--color-primary, #00d2ff);
+  color: rgba(255, 255, 255, 0.8);
   font-weight: 500;
   margin-top: 1px;
+  letter-spacing: 0.05em;
 }
 
-.al-card-nationality-overlay {
-  position: absolute;
-  bottom: 8px;
-  right: 10px;
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  color: #fff;
-  text-transform: uppercase;
-  font-weight: 500;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-  z-index: 2;
-  pointer-events: none;
-}
+/* Nationality removed */
 
-/* ===== Modal ===== */
+/* ===== Modal (Ford Models Redesign) ===== */
 .al-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  z-index: 1000;
+  background: #ffffff; /* Solid background to hide underlying content */
+  z-index: 2000;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 20px;
-  backdrop-filter: blur(4px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .al-modal {
-  background: #fff;
+  background: #ffffff;
   width: 100%;
-  max-width: 900px;
-  max-height: 90vh;
-  overflow-y: auto;
+  max-width: 1440px;
+  min-height: 100vh;
   position: relative;
-  border-radius: 2px;
+  padding: 100px 60px;
 }
 
 .al-modal-close {
-  position: absolute;
-  top: 16px;
-  right: 20px;
-  background: none;
-  border: none;
-  font-size: 28px;
+  position: fixed;
+  top: 40px;
+  right: 40px;
+  background: #fff;
+  border: 1px solid #111;
+  font-size: 24px;
   cursor: pointer;
-  color: #888;
-  z-index: 10;
-  line-height: 1;
-}
-
-.al-modal-close:hover {
   color: #111;
-}
-
-.al-modal-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.al-modal-img-col img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  min-height: 500px;
-}
-
-.al-modal-no-img {
-  width: 100%;
-  min-height: 500px;
+  z-index: 2010;
+  line-height: 1;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f5f5;
-  color: #ccc;
-  font-size: 12px;
-  letter-spacing: 0.2em;
+  transition: all 0.3s;
 }
 
-.al-modal-info-col {
-  padding: 48px 36px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.al-modal-badge {
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  color: #999;
-  margin: 0;
-}
-
-.al-modal-name {
-  font-family: "Playfair Display", serif;
-  font-size: 48px;
-  font-weight: 700;
-  font-style: italic;
-  text-transform: lowercase;
-  letter-spacing: -0.02em;
-  margin: 0;
-  line-height: 1.1;
-}
-
-.al-modal-name-kr {
-  font-size: 14px;
-  color: #777;
-  margin: 0;
-}
-
-.al-modal-job {
-  font-size: 14px;
-  color: var(--color-primary, #00d2ff);
-  font-weight: 600;
-  margin: -4px 0 4px;
-}
-
-.al-modal-job {
-  font-size: 14px;
-  color: var(--color-primary, #00d2ff);
-  font-weight: 600;
-  margin: -4px 0 4px;
-}
-
-.al-modal-meta {
-  font-size: 13px;
-  color: #555;
-  margin: 4px 0 0;
-}
-
-.al-modal-bio {
-  font-size: 15px;
-  line-height: 1.8;
-  color: #444;
-  margin-top: 10px;
-  white-space: pre-wrap;
-}
-
-.al-modal-video {
-  margin-top: 30px;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #000;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-.al-modal-video iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-/* Stats */
-.al-modal-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin: 12px 0;
-  border-top: 1px solid #eee;
-  padding-top: 16px;
-}
-
-.al-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.al-stat span {
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  color: #aaa;
-}
-
-.al-stat strong {
-  font-size: 13px;
-  font-weight: 600;
-}
-
-/* Socials */
-.al-modal-socials {
-  display: flex;
-  gap: 10px;
-  margin-top: 4px;
-}
-
-.al-social-btn {
-  font-size: 12px;
-  padding: 8px 16px;
-  border: 1px solid #ddd;
-  border-radius: 2px;
-  text-decoration: none;
-  color: #333;
-  transition: background 0.2s, color 0.2s;
-}
-
-.al-social-btn:hover {
+.al-modal-close:hover {
   background: #111;
   color: #fff;
-  border-color: #111;
 }
 
-/* Portfolio */
-.al-modal-portfolio {
-  margin-top: 16px;
-  border-top: 1px solid #eee;
-  padding-top: 16px;
+.al-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
 }
 
-.al-portfolio-label {
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  color: #aaa;
-  margin: 0 0 10px;
+/* Header: Name and Stats */
+.al-modal-header-ford {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Reduced from 40px to bring name and hero closer */
+  margin-bottom: 40px;
 }
 
-.al-portfolio-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
+.al-modal-name-ford {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(60px, 12vw, 180px);
+  font-weight: 700;
+  color: #000;
+  line-height: 0.8;
+  margin-bottom: -15px; /* Negative margin to pull hero closer */
+  letter-spacing: -0.05em;
+  text-transform: lowercase;
 }
 
-.al-portfolio-grid img {
+.al-modal-hero-ford {
   width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  display: block;
+  max-width: 800px; /* Hero should be prominent but not overwhelming */
+  margin: 0 auto;
 }
 
-/* Responsive */
-@media (max-width: 1100px) {
-  .al-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
+.al-modal-hero-ford img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.al-modal-name-ford em {
+  font-style: italic;
+  font-weight: 700;
+}
+
+.al-modal-name-kr-ford {
+  font-family: var(--font-family); /* Use base sans-serif for Korean */
+  font-size: 24px;
+  font-weight: 500;
+  color: #999;
+  margin-left: 20px;
+  vertical-align: baseline;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 @media (max-width: 900px) {
-  .al-grid {
-    grid-template-columns: repeat(3, 1fr);
+  .al-modal-name-kr-ford {
+    font-size: 14px;
+    margin-left: 10px;
   }
 }
 
-@media (max-width: 600px) {
-  .al-header {
-    padding: 60px 10px 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .al-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px; /* Reduced gap for larger photos */
-    padding: 0 4px 100px; /* Reduced side margins (approx half of previous) */
-    justify-items: center;
-    overflow: visible; 
-  }
+.al-modal-stats-ford {
+  display: flex;
+  flex-wrap: nowrap; /* Force one line */
+  justify-content: center;
+  column-gap: 40px;
+  padding: 30px 0;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+  width: 100%;
+  overflow-x: auto; /* Allow horizontal scroll if squeezed */
+  -ms-overflow-style: none; /* Hide scrollbar */
+  scrollbar-width: none;
+}
 
-  .al-card {
-    width: 100%;
-    margin-bottom: 24px;
-  }
+.al-modal-stats-ford::-webkit-scrollbar {
+  display: none;
+}
 
-  .al-card-info {
-    padding: 2px 0 0; /* Tightened to photo */
-    text-align: left;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.al-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
 
-  .al-card-name {
-    font-size: 20px;
-    font-weight: 800;
-    margin-bottom: 0px;
-    line-height: 1.1;
-    text-align: left;
-    text-transform: uppercase;
-    letter-spacing: -0.0125em;
-    font-family: var(--font-family);
-  }
+.al-stat-item span {
+  font-family: 'Playfair Display', serif;
+  font-size: 8px; /* Increased by 30% (~6 -> 8) */
+  letter-spacing: 0.15em;
+  color: #888;
+}
 
-  .al-card-name-kr, .al-card-job, .al-card-nationality {
-    font-size: 13px;
-    text-align: left;
-    margin-left: 0;
-    opacity: 0.8;
-    margin-top: 2px;
+.al-stat-item strong {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px; /* Increased by 30% (~13 -> 17) */
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+/* Body: Side Labels and Gallery */
+.al-modal-body-ford {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.al-modal-side-ford {
+  position: sticky;
+  top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.al-side-label-clip {
+  font-family: 'Playfair Display', serif;
+  font-size: 64px;
+  font-weight: 700;
+  color: #f0f0f0;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  user-select: none;
+  pointer-events: none;
+}
+
+.al-side-social-ford {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.al-side-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #999;
+}
+
+.al-ig-link-ford {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  font-style: italic;
+  color: #111;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.al-ig-link-ford:hover {
+  opacity: 0.6;
+}
+
+/* Right Side: Masonry Gallery */
+.al-modal-gallery-ford {
+  width: 100%;
+}
+
+.al-masonry-grid {
+  column-count: 2;
+  column-gap: 30px;
+}
+
+.al-masonry-item {
+  break-inside: avoid;
+  margin-bottom: 40px;
+  cursor: zoom-in;
+  overflow: hidden;
+  background: #fdfdfd; 
+  
+  /* Robust animation: start visible but slightly offset */
+  opacity: 1; 
+  transform: translateY(0);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Optional: use a class to "prime" the animation if needed, 
+   but base state should be visible for reliability */
+.al-masonry-item.al-animate-item {
+  animation: al-portfolio-fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes al-portfolio-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
   }
-  .al-modal-inner {
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.al-masonry-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.al-masonry-item:hover img {
+  transform: scale(1.03);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 900px) {
+  .al-modal {
+    padding: 60px 20px;
+  }
+  .al-modal-name-ford {
+    font-size: 48px;
+  }
+  .al-modal-body-ford {
     grid-template-columns: 1fr;
+    gap: 40px;
   }
-  .al-modal-img-col img {
-    min-height: 300px;
-  }
-  .al-modal-info-col {
-    padding: 24px 20px;
-  }
-  .al-modal-name {
-    font-size: 24px;
-  }
-  .al-filters {
+  .al-modal-side-ford {
+    position: static;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
     gap: 20px;
   }
+  .al-side-label-clip {
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-size: 32px;
+  }
+  .al-masonry-grid {
+    column-gap: 20px;
+  }
+  .al-masonry-item {
+    margin-bottom: 20px;
+  }
+  .al-modal-close {
+    top: 20px;
+    right: 20px;
+  }
 }
+
+@media (max-width: 480px) {
+  .al-modal-name-ford {
+    font-size: 36px;
+  }
+  .al-modal-stats-ford {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 items per row */
+    gap: 20px 10px;
+    padding: 20px 0;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+  }
+  .al-stat-item {
+    text-align: left;
+    align-items: flex-start;
+  }
+  .al-stat-item strong {
+    font-size: 10.5px; /* Increased by 30% (~8 -> 10.5) */
+    white-space: nowrap;
+  }
+  .al-stat-item span {
+    font-size: 6.5px; /* Increased by 30% (~5 -> 6.5) */
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .al-modal-side-ford {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .al-masonry-grid {
+    column-count: 1;
+  }
+}
+
 
 /* Zoom Overlay */
 .al-zoom-overlay {
@@ -586,3 +677,55 @@
   .al-prev { left: 10px; }
   .al-next { right: 10px; }
 }
+
+/* Swipe Guide (Gallery Style) */
+.al-swipe-guide-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2050;
+  opacity: 0;
+  animation: al-fadeInOut 2.4s ease forwards;
+}
+
+.al-swipe-guide-overlay p {
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-top: 20px;
+  opacity: 0.8;
+}
+
+.al-swipe-finger-icon {
+  width: 80px;
+  height: 80px;
+}
+
+.al-finger-anim {
+  animation: al-swipeHand 1.2s ease-in-out infinite;
+}
+
+@keyframes al-fadeInOut {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes al-swipeHand {
+  0% { transform: translateX(30px); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateX(-30px); opacity: 0; }
+}
+
+@media (min-width: 1024px) {
+  .al-swipe-guide-overlay { display: none; }
+}
+

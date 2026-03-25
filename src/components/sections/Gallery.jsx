@@ -56,6 +56,9 @@ const GallerySection = () => {
     const [showSwipeGuide, setShowSwipeGuide] = useState(false);
     const touchStart = useRef(null);
     const galleryRef = useRef(null);
+    const loadMoreSentinelRef = useRef(null);
+    const itemRefs = useRef([]);
+    const [showScrollTop, setShowScrollTop] = useState(false);
 
     // URL query param으로 카테고리 자동 선택
     useEffect(() => {
@@ -65,6 +68,9 @@ const GallerySection = () => {
             setViewMode('detail');
             setSubCategory('women');
             setActiveTag('ALL');
+        } else if (!mainParam) {
+            // ALL 버튼 클릭 시 (/gallery, main 파라미터 없음) → 첫 페이지로 복귀
+            setViewMode('main');
         }
     }, [searchParams]);
 
@@ -262,8 +268,6 @@ const GallerySection = () => {
     }, []);
 
     // 페이지네이션: 보이는 항목만 슬라이스
-    // '더 보기' 버튼이 있는 경우, 우측 하단 빈칸을 방지하기 위해 
-    // 현재 줄(cols) 수의 배수로 내림하여 보여줍니다.
     const displayLimit = (visibleCount < filteredGallery.length) 
         ? Math.max(cols, Math.floor(visibleCount / cols) * cols) 
         : visibleCount;
@@ -271,17 +275,61 @@ const GallerySection = () => {
     const visibleItems = filteredGallery.slice(0, displayLimit);
     const hasMore = displayLimit < filteredGallery.length;
 
-    // displayLimit와 hasMore가 계산된 후의 logic
+    // Infinite Scroll: IntersectionObserver로 하단 센티넬 감지 → 자동 로드
+    useEffect(() => {
+        const sentinel = loadMoreSentinelRef.current;
+        if (!sentinel) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && hasMore && !isLoadingMore) {
+                    setIsLoadingMore(true);
+                    setTimeout(() => {
+                        setVisibleCount(prev => prev + 24);
+                        setIsLoadingMore(false);
+                    }, 300);
+                }
+            },
+            { threshold: 0.1 }
+        );
+        observer.observe(sentinel);
+        return () => observer.disconnect();
+    }, [hasMore, isLoadingMore, viewMode, mainCategory, subCategory, activeTag, searchQuery]);
 
+    // Staggered Entrance: 각 갤러리 아이템에 fade-in + slide-up 효과
+    useEffect(() => {
+        const observers = [];
+        itemRefs.current.forEach((el) => {
+            if (!el) return;
+            const obs = new IntersectionObserver(
+                ([entry]) => {
+                    if (entry.isIntersecting) {
+                        el.classList.add('gallery-item-visible');
+                        obs.unobserve(el);
+                    }
+                },
+                { threshold: 0.05, rootMargin: '0px 0px -30px 0px' }
+            );
+            obs.observe(el);
+            observers.push(obs);
+        });
+        return () => observers.forEach(o => o.disconnect());
+    }, [visibleItems]);
 
-    const handleLoadMore = () => {
-        if (hasMore && !isLoadingMore) {
-            setIsLoadingMore(true);
-            setTimeout(() => {
-                setVisibleCount(prev => prev + 24);
-                setIsLoadingMore(false);
-            }, 300);
-        }
+    // Scroll-to-top button visibility
+    useEffect(() => {
+        if (viewMode !== 'detail') { setShowScrollTop(false); return; }
+        const container = document.getElementById('gallery');
+        if (!container) return;
+        const handleScroll = () => {
+            setShowScrollTop(container.scrollTop > 600);
+        };
+        container.addEventListener('scroll', handleScroll, { passive: true });
+        return () => container.removeEventListener('scroll', handleScroll);
+    }, [viewMode]);
+
+    const scrollToTop = () => {
+        const container = document.getElementById('gallery');
+        if (container) container.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const handleTouchStart = (e) => { touchStart.current = e.touches[0].clientX; };
@@ -289,12 +337,17 @@ const GallerySection = () => {
         if (!touchStart.current) return;
         const touchEnd = e.changedTouches[0].clientX;
         const diff = touchStart.current - touchEnd;
-        if (Math.abs(diff) > 50) { // 50px 이상 스와이프 시 동작
+        if (Math.abs(diff) > 50) { 
+            // 스와이프 발생 시 클릭 이벤트로 간주되지 않도록 방지 가능 (필요시)
             if (diff > 0) showNext(e);
             else showPrev(e);
+            touchStart.current = null;
+            // 스와이프 동작 시 브라우저 기본 동작이나 후속 클릭 방지
+            if (e.cancelable) e.preventDefault();
         }
         touchStart.current = null;
     };
+
 
     const openLightbox = (index) => setLightboxIndex(index);
     const closeLightbox = () => setLightboxIndex(null);
@@ -470,7 +523,9 @@ const GallerySection = () => {
                             {visibleItems.map((item, originalIndex) => (
                                 <div
                                     key={item.id}
-                                    className="masonry-item"
+                                    ref={el => itemRefs.current[originalIndex] = el}
+                                    className="masonry-item gallery-item-enter"
+                                    style={{ transitionDelay: `${(originalIndex % cols) * 0.08}s` }}
                                     onClick={() => openLightbox(originalIndex)}
                                 >
                                     <img src={item.img} alt={item.seoTags || 'Gallery'} loading="lazy" />
@@ -520,12 +575,16 @@ const GallerySection = () => {
                             ))}
                         </div>
 
-                        {/* 더 보기 버튼 */}
-                        {hasMore && !isLoadingMore && (
-                            <div className="gallery-more-container">
-                                <button className="gallery-more-btn" onClick={handleLoadMore}>
-                                    더 보기
-                                </button>
+                        {/* Infinite Scroll Sentinel */}
+                        {hasMore && (
+                            <div ref={loadMoreSentinelRef} className="gallery-scroll-sentinel">
+                                {isLoadingMore && (
+                                    <div className="gallery-loading-indicator">
+                                        <div className="gallery-loading-dots">
+                                            <span></span><span></span><span></span>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         )}
 
@@ -536,6 +595,16 @@ const GallerySection = () => {
                         )}
                     </div>
                 </>
+            )}
+
+            {/* Scroll to Top Button */}
+            {viewMode === 'detail' && showScrollTop && (
+                <button className="gallery-scroll-top-btn" onClick={scrollToTop} aria-label="Scroll to top">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 20V4" />
+                        <path d="M5 11l7-7 7 7" />
+                    </svg>
+                </button>
             )}
 
             {/* 삭제 확인 모달 */}
@@ -731,9 +800,11 @@ const GallerySection = () => {
                         <button className="lightbox-close" onClick={closeLightbox}>✕</button>
                     </div>
                     <button className="lightbox-nav-btn prev-btn" onClick={showPrev}>⟨</button>
-                    <div className="lightbox-content" onClick={closeLightbox}>
-                        <img src={filteredGallery[lightboxIndex].img} alt="Lightbox Detail" />
+                    <div className="lightbox-content">
+                        <img key={lightboxIndex} src={filteredGallery[lightboxIndex].img} alt="Lightbox Detail" />
                     </div>
+
+
                     <button className="lightbox-nav-btn next-btn" onClick={showNext}>⟩</button>
 
                     {/* 모바일 스와이프 가이드 (처음 등장 시 잠깐 표시) */}

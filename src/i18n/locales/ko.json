@@ -502,7 +502,7 @@
                     "title": "1컨셉",
                     "price": "220,000원",
                     "details": [
-                                                "컨셉당 [의상 1벌, 배경 1개, 포즈 2가지] (1인 추가시 소요시간 및 보정컷 인당 5만원씩 추가)",
+                        "컨셉당 [의상 1벌, 배경 1개, 포즈 2가지] (1인 추가시 소요시간 및 보정컷 인당 5만원씩 추가)",
                         "단체 컨셉당 [의상 1벌씩, 배경 1개]",
                         "보정 2장 · 개인당 5x7 프린트 1장 · 웹용 원본파일 제공 · 15분 촬영"
                     ]
@@ -741,6 +741,21 @@
             "pw_placeholder": "비밀번호",
             "submit": "로그인",
             "error": "아이디 또는 비밀번호가 일치하지 않습니다."
+        }
+    },
+    "ambassador": {
+        "profile": {
+            "height": "HEIGHT",
+            "bust": "BUST",
+            "waist": "WAIST",
+            "hips": "HIPS",
+            "shoes": "SHOES",
+            "hair": "HAIR",
+            "eyes": "EYES"
+        },
+        "labels": {
+            "portfolio": "PORTFOLIO",
+            "instagram": "INSTAGRAM"
         }
     }
 }

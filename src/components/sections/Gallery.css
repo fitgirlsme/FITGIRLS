@@ -544,6 +544,20 @@
     aspect-ratio: 4 / 5; /* 한눈에 들어오는 4:5 비율 고정 (인물 사진 최적) */
 }
 
+/* Ford Models-style Entrance Animation */
+.masonry-item.gallery-item-enter {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.masonry-item.gallery-item-enter.gallery-item-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
 @media (min-width: 768px) {
     .masonry-item {
         margin-bottom: 4px;
@@ -639,6 +653,96 @@
     color: #111;
     background: #f9f9f9;
 }
+
+/* ===== Infinite Scroll Sentinel & Loading Indicator ===== */
+.gallery-scroll-sentinel {
+    width: 100%;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.gallery-loading-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.gallery-loading-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.gallery-loading-dots span {
+    width: 8px;
+    height: 8px;
+    background: #ccc;
+    border-radius: 50%;
+    animation: gallery-dot-pulse 1.4s ease-in-out infinite;
+}
+
+.gallery-loading-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.gallery-loading-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes gallery-dot-pulse {
+    0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ===== Scroll to Top Button (Ford Models Style) ===== */
+.gallery-scroll-top-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: #fff;
+    color: #222;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 900;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: scrollTopFadeIn 0.3s ease;
+}
+
+.gallery-scroll-top-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+}
+
+.gallery-scroll-top-btn:active {
+    transform: translateY(0);
+}
+
+@keyframes scrollTopFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .gallery-scroll-top-btn {
+        bottom: 20px;
+        left: 16px;
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+    }
+}
+
+
 
 /* ===== Empty State ===== */
 .gallery-empty-state {
@@ -917,7 +1021,14 @@
     display: block;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: al-zoom-in 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+@keyframes al-zoom-in {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
 
 /* Edit Modal Photo Preview */
 .edit-photo-preview-wrap {

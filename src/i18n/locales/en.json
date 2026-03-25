@@ -754,7 +754,22 @@
             "id_placeholder": "ID",
             "pw_placeholder": "Password",
             "submit": "Login",
-            "error": "Invalid ID or Password."
+            "error": "ID or Password does not match."
+        }
+    },
+    "ambassador": {
+        "profile": {
+            "height": "HEIGHT",
+            "bust": "BUST",
+            "waist": "WAIST",
+            "hips": "HIPS",
+            "shoes": "SHOES",
+            "hair": "HAIR",
+            "eyes": "EYES"
+        },
+        "labels": {
+            "portfolio": "PORTFOLIO",
+            "instagram": "INSTAGRAM"
         }
     }
 }
