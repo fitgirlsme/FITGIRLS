@@ -29,29 +29,16 @@ const Home = ({ changeLanguage, currentLang }) => {
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isOnHero, setIsOnHero] = React.useState(true);
   const [isHideCS, setIsHideCS] = React.useState(true); // Hide on first two pages
-  const [isGalleryVisible, setIsGalleryVisible] = React.useState(false);
+  const [isLastSectionVisible, setIsLastSectionVisible] = React.useState(false);
 
   React.useEffect(() => {
-    const section = location.pathname.substring(1);
-    if (section && section !== 'admin' && section !== 'report' && section !== 'amber') {
-      setTimeout(() => {
-        const el = document.getElementById(section);
-        const container = document.querySelector('.snap-container');
-        if (el && container) {
-          container.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
-        }
-      }, 100);
-    }
-  }, [location.pathname]);
-
-  React.useEffect(() => {
-    const galleryEl = document.getElementById('gallery');
-    if (!galleryEl) return;
+    const lastEl = document.getElementById('ambassadors');
+    if (!lastEl) return;
     const observer = new IntersectionObserver(
-      ([entry]) => setIsGalleryVisible(entry.isIntersecting),
-      { threshold: 0.3 }
+      ([entry]) => setIsLastSectionVisible(entry.isIntersecting),
+      { threshold: 0.1 }
     );
-    observer.observe(galleryEl);
+    observer.observe(lastEl);
     return () => observer.disconnect();
   }, []);
 
@@ -85,7 +72,7 @@ const Home = ({ changeLanguage, currentLang }) => {
         <section className="snap-section" id="reviews"><Reviews /></section>
         <section className="snap-section" id="ambassadors"><AmbassadorList /></section>
       </main>
-      <footer className={`site-footer ${isGalleryVisible ? 'footer-hidden' : ''}`}>
+      <footer className={`site-footer ${!isLastSectionVisible ? 'footer-hidden' : ''}`}>
         <div className="site-footer-inner">
           <span className="site-footer-logo">FITGIRLS &amp; INAFIT</span>
           <span className="site-footer-divider">|</span>
