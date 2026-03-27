@@ -156,7 +156,7 @@ const AmbassadorList = () => {
               className={`al-batch-item ${activeBatch === b ? 'active' : ''}`}
               onClick={() => setActiveBatch(b)}
             >
-              {b}
+              {b} AMBASSADOR LIST
             </span>
           ))}
         </div>
