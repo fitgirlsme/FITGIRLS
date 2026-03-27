@@ -1411,6 +1411,58 @@ body.lightbox-active {
     margin: 0;
 }
 
+.file-info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-width: 80%;
+}
+
+.remove-file-btn {
+    background: #f0f0f0;
+    border: none;
+    color: #666;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.remove-file-btn:hover {
+    background: #ff4d4d;
+    color: #fff;
+}
+
+.uploader-queue-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.uploader-clear-btn {
+    background: none;
+    border: 1px solid #ddd;
+    color: #888;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.uploader-clear-btn:hover {
+    border-color: #ff4d4d;
+    color: #ff4d4d;
+    background: #fff5f5;
+}
+
 .file-name {
     font-size: 0.85rem;
     font-weight: 500;

@@ -18,15 +18,28 @@ function GalleryMultiUploader({ onUploadSuccess }) {
     processFiles(files);
   };
 
-  const processFiles = (files) => {
-    setSelectedFiles(files);
+  const processFiles = (newFiles) => {
+    // Accumulate files instead of replacing
+    setSelectedFiles(prev => [...prev, ...newFiles]);
     
-    const initialStatus = files.map(file => ({
+    const newStatus = newFiles.map(file => ({
       name: file.name,
       status: '대기 중', 
       url: null
     }));
-    setUploadStatus(initialStatus);
+    setUploadStatus(prev => [...prev, ...newStatus]);
+  };
+
+  const removeFile = (index) => {
+    if (isUploading) return;
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+    setUploadStatus(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const clearQueue = () => {
+    if (isUploading) return;
+    setSelectedFiles([]);
+    setUploadStatus([]);
   };
 
   const handleDragOver = (e) => {
@@ -184,9 +197,15 @@ function GalleryMultiUploader({ onUploadSuccess }) {
             onDrop={handleDrop}
         >
             <span>📷</span>
-            <p>{selectedFiles.length > 0 ? `${selectedFiles.length}장의 사진 선택됨` : '클릭하거나 사진을 여기에 끌어다 대세요'}</p>
+            <p>{selectedFiles.length > 0 ? `${selectedFiles.length}장의 사진 선택됨 (추가 가능)` : '클릭하거나 사진을 여기에 끌어다 대세요'}</p>
         </label>
       </div>
+
+      {selectedFiles.length > 0 && !isUploading && (
+        <div className="uploader-queue-actions">
+          <button className="uploader-clear-btn" onClick={clearQueue}>목록 전체 삭제</button>
+        </div>
+      )}
       
       <button 
         className="uploader-submit-btn"
@@ -202,10 +221,17 @@ function GalleryMultiUploader({ onUploadSuccess }) {
         <ul>
           {uploadStatus.map((item, index) => (
             <li key={index} className={item.status.includes('실패') ? 'error' : ''}>
-              <span className="file-name">{item.name}</span>
-              <span className={`status-text ${item.status.includes('완료') ? 'success' : ''}`}>
-                {item.status}
-              </span>
+              <div className="file-info-group">
+                <span className="file-name">{item.name}</span>
+                <span className={`status-text ${item.status.includes('완료') ? 'success' : ''}`}>
+                  {item.status}
+                </span>
+              </div>
+              {!isUploading && !item.status.includes('완료') && (
+                <button className="remove-file-btn" onClick={() => removeFile(index)} title="삭제">
+                  ✕
+                </button>
+              )}
             </li>
           ))}
         </ul>
