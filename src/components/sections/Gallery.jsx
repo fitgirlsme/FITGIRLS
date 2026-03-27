@@ -809,6 +809,9 @@ const GallerySection = () => {
                         <img key={lightboxIndex} src={filteredGallery[lightboxIndex].img} alt="Lightbox Detail" />
                     </div>
 
+                    <div className="lightbox-footer-credit">
+                        PHOTOGRAPHED BY ANGELO SHIN
+                    </div>
 
                     <button className="lightbox-nav-btn next-btn" onClick={showNext}>⟩</button>
 
