@@ -78,9 +78,6 @@ const Location = () => {
                     </div>
                     <p className="location-parking-distance">{loc.parking_distance}</p>
                     <p className="location-parking-price">{loc.parking_price}</p>
-                    <div className="location-parking-warning">
-                        <p>* {loc.parking_warning}</p>
-                    </div>
                     {loc.links?.parking_map && (
                         <a
                             href={loc.links.parking_map}

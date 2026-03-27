@@ -212,8 +212,7 @@
         "parking_name": "두원빌딩 유료주차장 (지하주차장)",
         "parking_address": "서울특별시 강남구 강남대로 636 두원빌딩",
         "parking_distance": "스튜디오까지 도보 2분 143m",
-        "parking_price": "60분 3,000원 / 120분 6,000원 / 240분 9,000원",
-        "parking_warning": "주차장 운영 마감시간 20:00으로 마감 전에 출차해 주셔야 합니다."
+        "parking_price": "60분 3,000원 / 120분 6,000원 / 240분 9,000원"
     },
     "modelApply": {
         "title": "2026 FITORIAL 엠버서더 지원",

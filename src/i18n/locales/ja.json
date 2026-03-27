@@ -211,8 +211,7 @@
         "parking_name": "Doowonビル有料駐車場 (地下駐車場)",
         "parking_address": "東京都江南区江南大路636 Doowonビル",
         "parking_distance": "スタジオまで徒歩2分 143m",
-        "parking_price": "60分 3,000ウォン / 120分 6,000ウォン",
-        "parking_warning": "駐車場運営終了時間 20:00 までに出庫してください。"
+        "parking_price": "60分 3,000ウォン / 120分 6,000ウォン"
     },
     "modelApply": {
         "title": "2026 FITORIAL アンバサダー応募",

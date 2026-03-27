@@ -211,8 +211,7 @@
         "parking_name": "Doowon Building Paid Parking (Basement)",
         "parking_address": "636 Gangnam-daero, Gangnam-gu, Seoul",
         "parking_distance": "2 min walk (143m) to studio",
-        "parking_price": "60min 3,000 KRW / 120min 6,000 KRW",
-        "parking_warning": "Closes at 20:00. Please move your car before closing."
+        "parking_price": "60 min 3,000 KRW / 120 min 6,000 KRW / 240 min 9,000 KRW"
     },
     "modelApply": {
         "title": "2026 FITORIAL Ambassador Recruitment",
