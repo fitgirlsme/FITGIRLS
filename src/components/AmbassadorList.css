@@ -68,6 +68,36 @@
   text-transform: uppercase;
 }
 
+/* Batch & Filters */
+.al-batch-selector {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 0;
+  padding-bottom: 8px;
+}
+
+.al-batch-item {
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  color: #ccc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0 4px 2px;
+  border-bottom: 1px solid transparent;
+  text-transform: uppercase;
+}
+
+.al-batch-item:hover,
+.al-batch-item.active {
+  color: #111;
+}
+
+.al-batch-item.active {
+  color: #111;
+  font-weight: 800;
+}
+
 @media (max-width: 480px) {
   .al-header {
     height: 40vh;
