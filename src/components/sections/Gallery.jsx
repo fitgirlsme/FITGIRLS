@@ -356,11 +356,6 @@ const GallerySection = () => {
 
     return (
         <div className="gallery-full-container" ref={galleryRef}>
-            <div className="gallery-title-header-wrap">
-                <FadeInSection className="section-header">
-                    <h2 className="section-title">STUDIOS</h2>
-                </FadeInSection>
-            </div>
 
             {viewMode === 'main' ? (
                 /* ===== MAIN VIEW: 2x2 Category Selection Grid ===== */
