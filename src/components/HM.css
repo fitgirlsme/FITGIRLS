@@ -1,9 +1,9 @@
 .hairmakeup-container {
-  padding: 100px 0;
+  padding: 80px 0 120px;
   background-color: #ffffff;
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .hairmakeup-inner {
