@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -25,11 +25,31 @@ import { syncAll } from './utils/syncService';
 import './index.css';
 
 const Home = ({ changeLanguage, currentLang }) => {
+  const { section } = useParams();
   const location = useLocation();
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isOnHero, setIsOnHero] = React.useState(true);
   const [isHideCS, setIsHideCS] = React.useState(true); // Hide on first two pages
   const [isLastSectionVisible, setIsLastSectionVisible] = React.useState(false);
+
+  // Handle section scrolling based on URL
+  React.useEffect(() => {
+    if (section) {
+      // Use a small timeout to ensure DOM is ready
+      setTimeout(() => {
+        const el = document.getElementById(section);
+        const container = document.querySelector('.snap-container');
+        if (el && container) {
+          container.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
+        }
+      }, 100);
+    } else if (location.pathname === '/') {
+      const container = document.querySelector('.snap-container');
+      if (container) {
+        container.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  }, [section, location.pathname]);
 
   React.useEffect(() => {
     const lastEl = document.getElementById('ambassadors');

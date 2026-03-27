@@ -49,8 +49,7 @@ const Header = ({ isScrolled, isOnHero, changeLanguage, currentLang }) => {
         setMenuOpen(false);
         navigate(path);
         
-        // Only attempt to scroll if we are on the home page (or path is /)
-        if (path === '/' || !path.startsWith('/')) {
+        if (sectionId) {
             requestAnimationFrame(() => {
                 const el = document.getElementById(sectionId);
                 const container = document.querySelector('.snap-container');
