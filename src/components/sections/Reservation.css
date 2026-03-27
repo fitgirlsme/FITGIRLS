@@ -1,6 +1,6 @@
 .reservation-section-wrapper {
     background-color: #ffffff;
-    padding: 80px 0 120px;
+    padding: 40px 0 100px;
     min-height: 100vh;
     display: flex;
     align-items: flex-start;
@@ -9,6 +9,7 @@
 .reservation-container {
     max-width: 900px !important;
     width: 100%;
+    padding-top: 0 !important;
 }
 
 .reservation-header {
@@ -17,7 +18,7 @@
     align-items: flex-end;
     border-bottom: 2px solid #000;
     padding-bottom: 12px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .reservation-title {

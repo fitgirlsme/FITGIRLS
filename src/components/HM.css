@@ -1,5 +1,5 @@
 .hairmakeup-container {
-  padding: 80px 0 120px;
+  padding: 40px 0 100px;
   background-color: #ffffff;
   min-height: 100vh;
   display: flex;
@@ -10,6 +10,7 @@
   max-width: 900px !important;
   width: 100%;
   margin: 0 auto;
+  padding-top: 0 !important;
 }
 
 .hairmakeup-header {
@@ -18,7 +19,7 @@
   align-items: flex-end;
   border-bottom: 2px solid #000;
   padding-bottom: 12px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .hairmakeup-title {
