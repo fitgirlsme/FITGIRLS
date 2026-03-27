@@ -8,16 +8,13 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    // Optional: Keep it visible once scrolled past, or toggle to repeat
-                    // observer.unobserve(entry.target); 
-                } else {
-                    // Remove to repeat animation on scroll up/down
-                    entry.target.classList.remove('visible');
+                    // Once visible, keep it visible to avoid flickering in the modal
+                    observer.unobserve(entry.target); 
                 }
             });
         }, {
-            threshold: 0.1,    // Trigger when 10% visible
-            rootMargin: "0px 0px -50px 0px"
+            threshold: 0.01,    // Near-immediate trigger
+            rootMargin: "50px"  // Trigger slightly before they enter the view
         });
 
         const currentRef = domRef.current;

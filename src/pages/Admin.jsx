@@ -258,9 +258,35 @@ const ModelsTab = () => {
         } catch (err) { alert('Save error: ' + err.message); }
     };
 
-    const handleDelete = async (id) => {
-        if (!window.confirm('Are you sure?')) return;
-        try { await deleteDoc(doc(db, 'models', id)); loadModels(); } catch (err) { console.error(err); }
+    const handleModelDelete = async (id) => {
+        if (!window.confirm('정말 삭제하시겠습니까? (Are you sure?)')) return;
+        
+        try {
+            alert('삭제를 시작합니다. ID: ' + id);
+            
+            const docRef = doc(db, 'models', id);
+            alert('문서 참조 생성 완료. 삭제 요청을 보냅니다...');
+            
+            await deleteDoc(docRef);
+            alert('Firestore 문서 삭제 성공!');
+            
+            // Sync with IndexedDB
+            try {
+                alert('로컬 데이터 동기화 시작...');
+                const { syncCollection } = await import('../utils/syncService');
+                await syncCollection('models');
+                alert('동기화 완료!');
+            } catch (syncErr) {
+                console.error('Sync error:', syncErr);
+                alert('동기화 중 오류가 있었으나 삭제는 완료되었습니다.');
+            }
+
+            alert('리스트를 새로고침합니다...');
+            loadModels();
+        } catch (err) {
+            console.error('Delete error:', err);
+            alert('삭제 중 오류 발생: ' + err.message);
+        }
     };
 
     const startEdit = (m) => {
@@ -413,7 +439,7 @@ const ModelsTab = () => {
                         </div>
                         <div className="admin-item-actions">
                             <button onClick={() => startEdit(m)}>Edit</button>
-                            <button onClick={() => handleDelete(m.id)} className="delete">Delete</button>
+                            <button onClick={() => handleModelDelete(m.id)} className="delete">Delete</button>
                         </div>
                     </div>
                 ))}

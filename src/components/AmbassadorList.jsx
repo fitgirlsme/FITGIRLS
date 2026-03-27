@@ -15,13 +15,40 @@ const AmbassadorList = () => {
   const { t } = useTranslation();
   const [zoomedIndex, setZoomedIndex] = useState(null);
   const [showSwipeGuide, setShowSwipeGuide] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const touchStart = React.useRef(null);
   const portfolioRefs = React.useRef([]);
+  const modalOverlayRef = React.useRef(null);
 
   // Clear portfolio refs when selected changes
   useEffect(() => {
     portfolioRefs.current = [];
   }, [selected]);
+
+  // Scroll listener for the modal top button
+  useEffect(() => {
+    const handleScroll = () => {
+      if (modalOverlayRef.current) {
+        setShowScrollTop(modalOverlayRef.current.scrollTop > 500);
+      }
+    };
+
+    const overlay = modalOverlayRef.current;
+    if (overlay) {
+      overlay.addEventListener('scroll', handleScroll);
+    }
+    return () => {
+      if (overlay) {
+        overlay.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [selected]);
+
+  const scrollToTop = () => {
+    if (modalOverlayRef.current) {
+      modalOverlayRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
 
   const FILTERS = ['ALL', 'WOMAN', 'MAN'];
@@ -171,7 +198,11 @@ const AmbassadorList = () => {
 
       {/* Detail Modal */}
       {selected && (
-        <div className="al-modal-overlay" onClick={() => setSelected(null)}>
+        <div 
+          className="al-modal-overlay" 
+          onClick={() => setSelected(null)}
+          ref={modalOverlayRef}
+        >
           <div className="al-modal" onClick={(e) => e.stopPropagation()} id="al-modal-root">
             <button className="al-modal-close" onClick={() => setSelected(null)}>✕</button>
             <div className="al-modal-content">
@@ -219,24 +250,34 @@ const AmbassadorList = () => {
                 {/* Right Side: Masonry Gallery */}
                 <div className="al-modal-gallery-ford">
                   <div className="al-masonry-grid">
-                    {selected.portfolio
-                      ?.filter(img => {
-                        const url = img.url || img;
-                        return !!url && url !== (selected.mainImage || selected.imageUrl);
-                      })
-                      .map((img, idx) => (
-                        <div 
+                      {selected.portfolio && selected.portfolio.filter(img => !!img).map((img, idx) => (
+                        <FadeInSection 
                           key={idx} 
-                          className="al-masonry-item al-animate-item"
-                          onClick={() => setZoomedIndex(idx)}
-                          style={{ animationDelay: `${(idx % 8) * 0.15 + 0.2}s` }}
+                          className="al-masonry-item"
+                          delay={(idx % 4) * 0.1} // Balanced delay for natural flow
                         >
-                          <img src={img.url || img} alt={`Portfolio ${idx}`} loading="lazy" />
-                        </div>
+                          <div 
+                            onClick={() => setZoomedIndex(idx)}
+                            className="al-masonry-img-wrapper"
+                          >
+                            <img src={img.url || img} alt={`Portfolio ${idx}`} loading="lazy" />
+                          </div>
+                        </FadeInSection>
                       ))}
                   </div>
                 </div>
               </div>
+
+              {/* Scroll to Top Arrow */}
+              {showScrollTop && (
+                <button 
+                  className={`al-scroll-top-btn ${showScrollTop ? 'visible' : ''}`} 
+                  onClick={scrollToTop}
+                  aria-label="Scroll to top"
+                >
+                  <span className="al-arrow-up">↑</span>
+                </button>
+              )}
             </div>
           </div>
         </div>
