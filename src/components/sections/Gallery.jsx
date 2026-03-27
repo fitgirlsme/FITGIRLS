@@ -403,6 +403,9 @@ const GallerySection = () => {
                             );
                         })}
                     </div>
+                    <div className="gallery-main-credit">
+                        PHOTOGRAPHED BY ANGELO SHIN
+                    </div>
                 </>
             ) : (
                 /* ===== DETAIL VIEW: 갤러리 그리드 ===== */
