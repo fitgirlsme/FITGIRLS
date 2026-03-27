@@ -158,9 +158,9 @@ body {
   z-index: 50; /* Above sections, below modals */
 }
 
-/* Add padding to the last snap section content so it's not covered */
+/* Remove padding-bottom that was causing white gap on hero */
 .snap-section {
-    padding-bottom: 60px; /* Offset for the fixed footer */
+    padding-bottom: 0px; 
 }
 
 .site-footer.footer-hidden {
