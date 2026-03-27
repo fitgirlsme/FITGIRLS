@@ -1490,6 +1490,7 @@ body.lightbox-active {
     margin: 60px 0 20px;
     text-transform: uppercase;
     font-weight: 500;
+    white-space: nowrap;
 }
 
 .lightbox-footer-credit {
@@ -1502,4 +1503,5 @@ body.lightbox-active {
     color: rgba(255, 255, 255, 0.4);
     text-transform: uppercase;
     z-index: 100;
+    white-space: nowrap;
 }
