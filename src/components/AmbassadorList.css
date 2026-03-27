@@ -100,8 +100,10 @@
 
 @media (max-width: 480px) {
   .al-header {
-    height: 40vh;
-    min-height: 250px;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    min-height: auto;
+    margin-bottom: 24px;
   }
 }
 
