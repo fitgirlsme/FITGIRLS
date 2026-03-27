@@ -490,14 +490,14 @@
 }
 
 .al-side-label {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Helvetica', 'Arial', sans-serif;
   font-size: 11px;
   letter-spacing: 0.2em;
   color: #999;
 }
 
 .al-ig-link-ford {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Helvetica', 'Arial', sans-serif;
   font-size: 20px;
   font-weight: 700;
   font-style: italic;
