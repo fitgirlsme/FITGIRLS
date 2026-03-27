@@ -84,15 +84,14 @@ const Home = ({ changeLanguage, currentLang }) => {
         <section className="snap-section" id="reservation"><ReservationForm /></section>
         <section className="snap-section" id="reviews"><Reviews /></section>
         <section className="snap-section" id="ambassadors"><AmbassadorList /></section>
-
-        <footer className={`site-footer ${isGalleryVisible ? 'footer-hidden' : ''}`}>
-          <div className="site-footer-inner">
-            <span className="site-footer-logo">FITGIRLS &amp; INAFIT</span>
-            <span className="site-footer-divider">|</span>
-            <span className="site-footer-copy">&copy; 2026 All Rights Reserved</span>
-          </div>
-        </footer>
       </main>
+      <footer className={`site-footer ${isGalleryVisible ? 'footer-hidden' : ''}`}>
+        <div className="site-footer-inner">
+          <span className="site-footer-logo">FITGIRLS &amp; INAFIT</span>
+          <span className="site-footer-divider">|</span>
+          <span className="site-footer-copy">&copy; 2026 All Rights Reserved</span>
+        </div>
+      </footer>
       {!isHideCS && <SupportCS />}
     </div>
   );

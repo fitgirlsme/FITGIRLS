@@ -141,17 +141,31 @@ body {
     transform: translateY(0);
 }
 
-/* Site footer */
+/* Site footer - Fixed at the bottom */
 .site-footer {
-  padding: 24px 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 12px 16px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom)); /* Support iPhone Safe Area */
   text-align: center;
-  background: var(--color-bg);
+  background: rgba(255, 255, 255, 0.85); /* Glassmorphism feel */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-top: 1px solid var(--color-border);
-  transition: opacity 0.3s;
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 50; /* Above sections, below modals */
+}
+
+/* Add padding to the last snap section content so it's not covered */
+.snap-section {
+    padding-bottom: 60px; /* Offset for the fixed footer */
 }
 
 .site-footer.footer-hidden {
   opacity: 0;
+  transform: translateY(100%);
   pointer-events: none;
 }
 
@@ -160,7 +174,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 12px;
-  font-size: 0.8rem;
+  font-size: 0.7rem; /* Slightly smaller for minimalism */
   color: var(--color-text-secondary);
 }
 
