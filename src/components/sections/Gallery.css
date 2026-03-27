@@ -1429,3 +1429,13 @@ body.lightbox-active {
 .status-text.success {
     color: #38a169;
 }
+
+.gallery-main-credit {
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: #bbb;
+    margin: 60px 0 20px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
