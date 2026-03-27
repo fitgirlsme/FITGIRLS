@@ -146,10 +146,6 @@ const AmbassadorList = () => {
           <source src="https://www.dropbox.com/scl/fi/lc1csyi1fn732m7y40cxv/_users_6e212ede-ab63-4ae3-abb6-4db08c54e15e_generated_44cd10cb-41d4-490b-bc86-584f976202e6_generated_video.MP4?rlkey=uuz3rdmb07hykevkrdnej1g3g&dl=1" type="video/mp4" />
         </video>
         <div className="al-header-overlay" />
-        <div className="al-header-content">
-          <h1 className="al-title">AMBASSADORS</h1>
-          <p className="al-subtitle">AMBASSADOR LIST</p>
-        </div>
       </div>
 
       <div className="al-filter-section">
