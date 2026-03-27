@@ -547,7 +547,7 @@ const GallerySection = () => {
                                         )}
                                     </div>
                                     {/* 관리자 도구 */}
-                                    {isAdmin && !String(item.id).startsWith('m') && (
+                                    {isAdmin && (
                                         <div className="masonry-admin-tools">
                                             <button
                                                 className="masonry-edit-btn"
