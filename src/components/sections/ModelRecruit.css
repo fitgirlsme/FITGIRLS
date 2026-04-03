@@ -160,45 +160,34 @@
     word-break: keep-all;
 }
 
-.model-apply-kakao {
+
+.model-apply-hook-counter {
+    margin: 20px auto 0;
     text-align: center;
-    margin: 60px auto 20px;
-    padding: 0 20px;
-}
-
-.kakao-label {
-    font-size: 0.85rem;
-    font-weight: 700;
+    font-size: 0.8rem;
+    font-weight: 600;
     color: var(--color-text-secondary);
-    letter-spacing: 0.1em;
-    margin-bottom: 12px;
-    text-transform: uppercase;
-}
-
-.kakao-link-btn {
-    display: inline-flex;
+    opacity: 0.6;
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    padding: 16px 32px;
-    background: #FEE500;
-    color: #191919;
-    text-decoration: none;
-    border-radius: 980px;
-    font-weight: 700;
-    font-size: 1rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px rgba(254, 229, 0, 0.2);
+    gap: 8px;
+    letter-spacing: 0.05em;
 }
 
-.kakao-link-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(254, 229, 0, 0.4);
+.hook-dot {
+    width: 4px;
+    height: 4px;
+    background: #34C759; /* Green for "live" feel */
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(52, 199, 89, 0.6);
+    animation: pulse 2s infinite;
 }
 
-.kakao-icon {
-    width: 24px;
-    height: 24px;
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 /* Selected Ambassadors Showcase */

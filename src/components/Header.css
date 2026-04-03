@@ -21,6 +21,12 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+.app-header.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
 .app-header.scrolled .hamburger-btn span {
     background-color: var(--color-text-secondary);
 }

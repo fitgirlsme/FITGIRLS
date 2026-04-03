@@ -3,7 +3,7 @@
   min-height: 100vh;
   background: var(--color-bg, #fff);
   color: var(--color-text, #111);
-  padding: 0 4px 80px; /* Reduced base padding to allow photo-first layout */
+  padding: 0 0 80px; /* Removed side padding to ensure photo-first layout on mobile */
 }
 
 /* Header */
@@ -200,7 +200,7 @@
 
 .al-card-img {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   background: #f5f5f5;
   position: relative;
@@ -333,24 +333,27 @@
   position: fixed;
   top: 40px;
   right: 40px;
-  background: #fff;
-  border: 1px solid #111;
-  font-size: 24px;
+  background: none;
+  border: none;
   cursor: pointer;
   color: #111;
   z-index: 2010;
-  line-height: 1;
   width: 44px;
   height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s;
+  transition: opacity 0.3s ease;
+  padding: 0;
 }
 
 .al-modal-close:hover {
-  background: #111;
-  color: #fff;
+  opacity: 0.5;
+}
+
+.al-modal-close svg {
+  width: 32px;
+  height: 32px;
 }
 
 .al-modal-content {
@@ -374,22 +377,11 @@
   font-weight: 700;
   color: #000;
   line-height: 0.8;
-  margin-bottom: 5px; /* Adjusting from -15px to 5px for better spacing */
+  margin-bottom: 20px;
   letter-spacing: -0.05em;
   text-transform: lowercase;
-}
-
-.al-modal-hero-ford {
-  width: 100%;
-  max-width: 800px; /* Hero should be prominent but not overwhelming */
-  margin: 0 auto;
-}
-
-.al-modal-hero-ford img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .al-modal-name-ford em {
@@ -397,22 +389,48 @@
   font-weight: 700;
 }
 
-.al-modal-name-kr-ford {
-  font-family: var(--font-family); /* Use base sans-serif for Korean */
-  font-size: 24px;
-  font-weight: 500;
-  color: #999;
-  margin-left: 0; /* Removed left margin for centering */
-  vertical-align: baseline;
-  text-transform: none;
-  letter-spacing: 0;
+.al-modal-hero-ford {
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 4 / 5;
+  margin: 0 auto;
+  overflow: hidden;
 }
 
-@media (max-width: 900px) {
-  .al-modal-name-kr-ford {
-    font-size: 14px;
-    margin-left: 10px;
-  }
+.al-modal-hero-ford img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.al-modal-label-row-ford {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+  max-width: 800px;
+  margin: 12px auto 0;
+  padding: 0 4px;
+}
+
+.al-modal-label-ford {
+  font-family: var(--font-family);
+  font-size: clamp(8px, 1.2vw, 10px);
+  font-weight: 800;
+  letter-spacing: 0.25em;
+  color: #999;
+  text-transform: uppercase;
+  font-style: normal;
+}
+
+.al-modal-name-kr-ford {
+  font-family: var(--font-family);
+  font-size: clamp(14px, 2.5vw, 24px);
+  font-weight: 500;
+  color: #999;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 .al-modal-stats-ford {
@@ -623,8 +641,9 @@
   .al-modal-gallery-ford {
     padding: 20px; /* Reduced padding for more screen space */
   }
-  .al-modal-img-ford {
-    height: 450px; /* Slightly shorter for better mobile balance */
+  .al-modal-hero-ford {
+    height: auto;
+    aspect-ratio: 4 / 5;
   }
   .al-modal-name-ford {
     font-size: 36px;

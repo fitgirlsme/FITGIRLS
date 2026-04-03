@@ -7,6 +7,7 @@ import {
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import GalleryMultiUploader from '../components/GalleryMultiUploader';
+import DirectorPhotoUploader from '../components/DirectorPhotoUploader';
 import './Admin.css';
 import '../components/sections/Gallery.css';
 
@@ -17,6 +18,7 @@ const STORES = {
     MODELS: 'models',
     LOOKBOOK: 'lookbook',
     PARTNERS: 'partners',
+    DIRECTOR: 'director_activities'
 };
 
 // Utilities
@@ -61,7 +63,13 @@ const Admin = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('admin_logged_in') === 'true');
     const [password, setPassword] = useState('');
     const [searchParams] = useSearchParams();
-    const [activeTab, setActiveTab] = useState(searchParams.get('tab') || 'gallery');
+    const [activeTab, setActiveTab] = useState(() => {
+        const param = searchParams.get('tab');
+        if (param) return param;
+        // On mobile, default to menu view (null)
+        if (window.innerWidth <= 768) return null;
+        return 'gallery';
+    });
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -98,22 +106,30 @@ const Admin = () => {
     }
 
     const tabs = [
-        { id: 'gallery', label: 'Gallery' },
-        { id: 'models', label: 'Ambassadors' },
-        { id: 'concepts', label: 'Concepts' },
-        { id: 'events', label: 'Events' },
-        { id: 'hero', label: 'Hero' },
-        { id: 'apply', label: 'Applications' },
-        { id: 'partners', label: 'Partners' },
+        { id: 'gallery', label: 'Gallery', icon: '🖼️', desc: 'Manage photo grid' },
+        { id: 'models', label: 'Ambassadors', icon: '✨', desc: 'Profiles & Portfolio' },
+        { id: 'concepts', label: 'Concepts', icon: '👚', desc: 'Lookbook outfits' },
+        { id: 'events', label: 'Events', icon: '📅', desc: 'Notices & Promos' },
+        { id: 'hero', label: 'Hero', icon: '🎬', desc: 'Main slides & Video' },
+        { id: 'apply', label: 'Applications', icon: '📥', desc: 'New submissions' },
+        { id: 'partners', label: 'Partners', icon: '🤝', desc: 'Partner logos' },
+        { id: 'artist', label: 'Artist', icon: '👤', desc: 'Artist profile' },
     ];
 
     return (
-        <div className="admin-page dashboard-active">
+        <div className={`admin-page ${activeTab ? 'dashboard-active' : 'menu-active'}`}>
             <div className="admin-container">
                 <header className="admin-header">
                     <div className="admin-header-left">
-                        <h2>Dashboard</h2>
-                        <nav className="admin-tabs">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                            {activeTab && window.innerWidth <= 768 && (
+                                <button className="mobile-back-btn" onClick={() => setActiveTab(null)}>
+                                    <span style={{ fontSize: '1.2rem' }}>←</span>
+                                </button>
+                            )}
+                            <h2>{activeTab ? tabs.find(t => t.id === activeTab)?.label : 'Admin Panel'}</h2>
+                        </div>
+                        <nav className="admin-tabs desktop-only">
                             {tabs.map(tab => (
                                 <button
                                     key={tab.id}
@@ -128,6 +144,24 @@ const Admin = () => {
                     <button className="logout-btn" onClick={() => { setIsLoggedIn(false); localStorage.removeItem('admin_logged_in'); }}>Logout</button>
                 </header>
                 <div className="admin-content">
+                    {!activeTab && (
+                        <div className="admin-mobile-menu">
+                            {tabs.map(tab => (
+                                <button 
+                                    key={tab.id} 
+                                    className="menu-box-card"
+                                    onClick={() => setActiveTab(tab.id)}
+                                >
+                                    <span className="box-icon">{tab.icon}</span>
+                                    <div className="box-text">
+                                        <span className="box-label">{tab.label}</span>
+                                        <span className="box-desc">{tab.desc}</span>
+                                    </div>
+                                    <span className="box-arrow">→</span>
+                                </button>
+                            ))}
+                        </div>
+                    )}
                     {activeTab === 'gallery' && <GalleryTab />}
                     {activeTab === 'models' && <ModelsTab />}
                     {activeTab === 'concepts' && <ConceptsTab />}
@@ -135,6 +169,7 @@ const Admin = () => {
                     {activeTab === 'hero' && <HeroTab />}
                     {activeTab === 'apply' && <ApplicationsTab />}
                     {activeTab === 'partners' && <PartnersTab />}
+                    {activeTab === 'artist' && <ArtistTab />}
                 </div>
             </div>
         </div>
@@ -180,6 +215,7 @@ const ModelsTab = () => {
     const [mainImage, setMainImage] = useState(null);
     const [portfolioFiles, setPortfolioFiles] = useState([]);
     const [portfolioPreviews, setPortfolioPreviews] = useState([]); // To store individual preview URLs
+    const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 
     // Cleanup object URLs to avoid memory leaks
     useEffect(() => {
@@ -217,7 +253,7 @@ const ModelsTab = () => {
     const loadModels = async () => {
         setLoading(true);
         try {
-            const snap = await getDocs(query(collection(db, 'models'), orderBy('nameEn', 'asc')));
+            const snap = await getDocs(query(collection(db, 'models'), orderBy('createdAt', 'desc')));
             setModels(snap.docs.map(d => ({ id: d.id, ...d.data() })));
         } catch (err) { console.error(err); }
         setLoading(false);
@@ -259,30 +295,20 @@ const ModelsTab = () => {
     };
 
     const handleModelDelete = async (id) => {
-        if (!window.confirm('정말 삭제하시겠습니까? (Are you sure?)')) return;
-        
         try {
-            alert('삭제를 시작합니다. ID: ' + id);
-            
             const docRef = doc(db, 'models', id);
-            alert('문서 참조 생성 완료. 삭제 요청을 보냅니다...');
-            
             await deleteDoc(docRef);
-            alert('Firestore 문서 삭제 성공!');
             
             // Sync with IndexedDB
             try {
-                alert('로컬 데이터 동기화 시작...');
                 const { syncCollection } = await import('../utils/syncService');
                 await syncCollection('models');
-                alert('동기화 완료!');
             } catch (syncErr) {
                 console.error('Sync error:', syncErr);
-                alert('동기화 중 오류가 있었으나 삭제는 완료되었습니다.');
             }
 
-            alert('리스트를 새로고침합니다...');
             loadModels();
+            setConfirmDeleteId(null);
         } catch (err) {
             console.error('Delete error:', err);
             alert('삭제 중 오류 발생: ' + err.message);
@@ -438,8 +464,17 @@ const ModelsTab = () => {
                             <span className="admin-item-badge">{m.category}</span>
                         </div>
                         <div className="admin-item-actions">
-                            <button onClick={() => startEdit(m)}>Edit</button>
-                            <button onClick={() => handleModelDelete(m.id)} className="delete">Delete</button>
+                            {confirmDeleteId === m.id ? (
+                                <>
+                                    <button onClick={() => handleModelDelete(m.id)} className="delete" style={{ color: '#e74c3c', fontWeight: '800' }}>Confirm!</button>
+                                    <button onClick={() => setConfirmDeleteId(null)} style={{ color: '#888' }}>Cancel</button>
+                                </>
+                            ) : (
+                                <>
+                                    <button onClick={() => startEdit(m)}>Edit</button>
+                                    <button onClick={() => setConfirmDeleteId(m.id)} className="delete">Delete</button>
+                                </>
+                            )}
                         </div>
                     </div>
                 ))}
@@ -521,32 +556,38 @@ const ConceptsTab = () => {
             <h3>Concepts (Lookbook)</h3>
 
             <form onSubmit={handleSave} className="admin-form" style={{ background: '#fff', padding: '32px', borderRadius: '16px', border: '1px solid #f0f0f0', marginBottom: '40px' }}>
-                <h4 style={{ margin: '0 0 24px', fontFamily: 'Playfair Display, serif', fontSize: '1.2rem' }}>{editItem ? 'Edit Concept' : 'Add New Concept'}</h4>
+                <h4 style={{ margin: '0 0 24px', fontFamily: 'Playfair Display, serif', fontSize: '1.2rem' }}>{editItem ? '컨셉 수정 (Edit Concept)' : '새 컨셉 추가 (Add New Concept)'}</h4>
                 <div className="form-grid">
                     <div className="form-group">
-                        <label>Outfit Name</label>
-                        <input type="text" value={outfitName} onChange={e => setOutfitName(e.target.value)} placeholder="e.g. Signature White Bodysuit" required />
+                        <label>의상 이름 (Outfit Name) *</label>
+                        <input type="text" value={outfitName} onChange={e => setOutfitName(e.target.value)} placeholder="예: 시그니처 화이트 바디수트" required />
                     </div>
                     <div className="form-group">
-                        <label>Size</label>
-                        <input type="text" value={outfitSize} onChange={e => setOutfitSize(e.target.value)} placeholder="e.g. S / M" />
+                        <label>사이즈 (Size)</label>
+                        <input type="text" value={outfitSize} onChange={e => setOutfitSize(e.target.value)} placeholder="예: S / M / FREE" />
                     </div>
                 </div>
                 <div className="form-group" style={{ marginTop: '8px' }}>
-                    <label>Image {editItem ? '(Optional - select to change)' : '*'}</label>
+                    <label>이미지 (Image) {editItem ? '(수정 시에만 사진을 다시 선택하세요)' : '*'}</label>
                     {editItem && (
                         <div style={{ marginBottom: 12, display: 'flex', alignItems: 'center', gap: 12 }}>
-                            <img src={editItem.img} alt="Current" style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 8, border: '1px solid #eee' }} />
-                            <span style={{ fontSize: '0.8rem', color: '#888' }}>Current Image</span>
+                            <div style={{ position: 'relative' }}>
+                                <img src={editItem.img} alt="Current" style={{ width: 100, height: 100, objectFit: 'cover', borderRadius: 8, border: '1px solid #eee' }} />
+                                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: '10px', textAlign: 'center', padding: '2px 0', borderBottomLeftRadius: 8, borderBottomRightRadius: 8 }}>현재 이미지</div>
+                            </div>
+                            <div style={{ fontSize: '0.85rem', color: '#666' }}>
+                                <p style={{ margin: '0 0 4px' }}>다른 사진으로 변경하시려면</p>
+                                <p style={{ margin: 0, fontWeight: 'bold', color: 'var(--color-primary, #e1306c)' }}>[파일 선택] 버튼을 눌러주세요.</p>
+                            </div>
                         </div>
                     )}
-                    <input type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} />
+                    <input type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} style={{ padding: '10px 0' }} />
                 </div>
                 <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
                     <button type="submit" className="submit-btn" style={{ width: 'auto', paddingLeft: '40px', paddingRight: '40px' }} disabled={saving}>
-                        {saving ? 'Saving...' : editItem ? 'Update' : 'Add Concept'}
+                        {saving ? '저장 중...' : editItem ? '컨셉 정보 업데이트' : '새 컨셉 등록'}
                     </button>
-                    {editItem && <button type="button" className="secondary-btn" style={{ width: 'auto', marginTop: 0 }} onClick={resetForm}>Cancel</button>}
+                    {editItem && <button type="button" className="secondary-btn" style={{ width: 'auto', marginTop: 0 }} onClick={resetForm}>취소</button>}
                 </div>
             </form>
 
@@ -787,12 +828,25 @@ const HeroTab = () => {
     };
 
     const handleDelete = async (slide) => {
-        if (!confirm('Delete slide?')) return;
+        if (!window.confirm('Delete slide?')) return;
         try {
+            // Optimistic UI update
+            setSlides(prev => prev.filter(s => s.id !== slide.id));
+            
             await deleteDoc(doc(db, 'hero_slides', slide.id));
             if (slide.storagePath) { try { await deleteObject(ref(storage, slide.storagePath)); } catch {} }
-            loadSlides();
-        } catch (err) { alert(err.message); }
+            
+            // Sync with IndexedDB
+            try {
+                const { syncCollection } = await import('../utils/syncService');
+                await syncCollection(STORES.HERO_SLIDES);
+            } catch (syncErr) {
+                console.error('Sync error:', syncErr);
+            }
+        } catch (err) { 
+            alert('Delete failed: ' + err.message); 
+            loadSlides(); // Revert on failure
+        }
     };
 
     return (
@@ -1084,6 +1138,15 @@ const PartnersTab = () => {
                     </div>
                 ))}
             </div>
+        </div>
+    );
+};
+
+const ArtistTab = () => {
+    return (
+        <div className="upload-section">
+            <h3 style={{ margin: '0 0 32px' }}>Artist Section Management</h3>
+            <DirectorPhotoUploader />
         </div>
     );
 };

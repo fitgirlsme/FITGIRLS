@@ -84,13 +84,14 @@ ul, li {
 #reservation,
 #zone,
 #gallery,
+#artist,
 #service,
 #hair-makeup,
 #location,
 #reviews,
 #social,
 #event-board,
-#amber,
+#ambar,
 #ambassadors {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -99,4 +100,14 @@ ul, li {
 #service {
   padding-top: 70px;
   box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  #artist {
+    height: auto !important;
+    min-height: 100dvh;
+    overflow-y: visible !important;
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
 }

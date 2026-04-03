@@ -4,22 +4,30 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
     const domRef = useRef();
 
     useEffect(() => {
+        const container = document.querySelector('.snap-container');
+        
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    // Once visible, keep it visible to avoid flickering in the modal
                     observer.unobserve(entry.target); 
                 }
             });
         }, {
-            threshold: 0.01,    // Near-immediate trigger
-            rootMargin: "50px"  // Trigger slightly before they enter the view
+            threshold: 0.05,
+            root: container || null, // Explicitly observe within snap container if it exists
+            rootMargin: "0px 0px 100px 0px" // Trigger earlier
         });
 
         const currentRef = domRef.current;
         if (currentRef) {
-            observer.observe(currentRef);
+            // Immediate check if already in view (safety)
+            const rect = currentRef.getBoundingClientRect();
+            if (rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)) {
+                currentRef.classList.add('visible');
+            } else {
+                observer.observe(currentRef);
+            }
         }
 
         return () => {

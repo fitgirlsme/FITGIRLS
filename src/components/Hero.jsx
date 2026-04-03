@@ -13,12 +13,23 @@ const Hero = () => {
         const fetchHeroData = async () => {
             try {
                 const data = await getData(STORES.HERO_SLIDES);
+                // Hardcode the branding slide as the absolute first slide
+                const brandingSlide = { 
+                    id: 'branding-intro', 
+                    src: '/branding-logo.jpg', 
+                    type: 'image' 
+                };
+                
                 if (data && data.length > 0) {
                     const sorted = [...data].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-                    setSlides(sorted);
+                    setSlides([brandingSlide, ...sorted]);
+                } else {
+                    setSlides([brandingSlide]);
                 }
             } catch (error) {
                 console.error('Failed to fetch hero slides:', error);
+                // Fallback to at least show the branding logo
+                setSlides([{ id: 'branding-intro', src: '/branding-logo.jpg', type: 'image' }]);
             }
         };
         fetchHeroData();
@@ -39,6 +50,8 @@ const Hero = () => {
                 {slides.length > 0 ? (
                     slides.map((slide, index) => {
                         const isActive = index === currentSlide;
+                        const isBrandingSlide = index === 0;
+                        
                         if (slide.type === 'video') {
                             return (
                                 <div key={slide.id || index} className={`hero-slide ${isActive ? 'active' : ''}`}>
@@ -56,8 +69,13 @@ const Hero = () => {
                         return (
                             <div
                                 key={slide.id || index}
-                                className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
-                                style={{ backgroundImage: `url(${slide.src})` }}
+                                className={`hero-slide ${index === currentSlide ? 'active' : ''} ${isBrandingSlide ? 'branding-slide' : ''}`}
+                                style={{ 
+                                    backgroundImage: `url(${slide.src})`,
+                                    backgroundSize: isBrandingSlide ? 'contain' : 'cover',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundColor: isBrandingSlide ? '#e30613' : 'transparent' // Using a vibrant Fitgirls red
+                                }}
                             ></div>
                         );
                     })
@@ -67,27 +85,41 @@ const Hero = () => {
                 <div className="gradient-overlay"></div>
             </div>
 
-            <div className="hero-side-bar">
-                <div className="hero-side-bar-inner">
-                    <div className="hero-social-links">
-                        <a href="http://instagram.com/fitgirls.me" target="_blank" rel="noopener noreferrer" className="hero-social-link">INSTAGRAM</a>
-                        <a href="https://pin.it/3IPk7D2NY" target="_blank" rel="noopener noreferrer" className="hero-social-link">PINTEREST</a>
-                        <a href="https://www.youtube.com/@핏걸즈" target="_blank" rel="noopener noreferrer" className="hero-social-link">YOUTUBE</a>
+            <div className={`hero-side-bar ${currentSlide === 0 ? 'branding-active' : ''}`} key={`sidebar-${currentSlide === 0}`}>
+                {currentSlide !== 0 && (
+                    <div className="hero-side-bar-inner">
+                        <div className="hero-social-links">
+                            <a href="http://instagram.com/fitgirls.me" target="_blank" rel="noopener noreferrer" className="hero-social-link">FITGIRLS</a>
+                            <a href="https://instagram.com/angeloshin_world" target="_blank" rel="noopener noreferrer" className="hero-social-link">@ANGELOSHIN_WORLD</a>
+                            <a href="https://www.youtube.com/@핏걸즈" target="_blank" rel="noopener noreferrer" className="hero-social-link">YOUTUBE</a>
+                        </div>
+                        <div className="hero-branding-year">
+                            2013 — 2026
+                        </div>
                     </div>
-                    <div className="hero-branding-year">
-                        2013 — 2026
-                    </div>
-                </div>
+                )}
             </div>
 
-            <FadeInSection className="hero-content flex-center">
-                <h1 className="hero-title">{t('hero.title')}</h1>
-                <p className="hero-subtitle">{t('hero.subtitle')}</p>
+            <FadeInSection 
+                key={`content-${currentSlide === 0}`}
+                delay={2}
+                className={`hero-content flex-center ${currentSlide === 0 ? 'branding-active' : ''}`}
+            >
+                {currentSlide !== 0 && (
+                    <>
+                        <h1 className="hero-title">{t('hero.title')}</h1>
+                        <p className="hero-subtitle">{t('hero.subtitle')}</p>
+                    </>
+                )}
             </FadeInSection>
 
-            <div className="scroll-hint">
-                <span className="scroll-text">SCROLL</span>
-                <div className="scroll-line"></div>
+            <div className={`scroll-hint ${currentSlide === 0 ? 'branding-active' : ''}`} key={`scroll-${currentSlide === 0}`}>
+                {currentSlide !== 0 && (
+                    <>
+                        <span className="scroll-text">SCROLL</span>
+                        <div className="scroll-line"></div>
+                    </>
+                )}
             </div>
         </div>
     );

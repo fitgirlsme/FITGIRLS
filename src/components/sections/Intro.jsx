@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FadeInSection from '../FadeInSection';
 import './Intro.css';
@@ -6,14 +6,13 @@ import './Intro.css';
 const Intro = () => {
     const { t } = useTranslation();
     const videoRef = useRef(null);
-    const [isMuted, setIsMuted] = React.useState(true);
+    const [isMuted, setIsMuted] = useState(true);
 
     const toggleMute = () => {
         if (videoRef.current) {
             const newMuted = !isMuted;
             videoRef.current.muted = newMuted;
             setIsMuted(newMuted);
-            // Ensure playback if it was paused
             videoRef.current.play().catch(console.error);
         }
     };
@@ -41,7 +40,7 @@ const Intro = () => {
 
         return () => {
             observer.disconnect();
-            video && video.pause();
+            if (video) video.pause();
         };
     }, []);
 

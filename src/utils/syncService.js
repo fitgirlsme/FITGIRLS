@@ -1,25 +1,29 @@
 import { db } from './firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, limit, orderBy } from 'firebase/firestore';
 import { STORES, saveData } from './db';
 
 /**
  * 특정 컬렉션의 데이터를 Firestore에서 가져와 IndexedDB에 저장합니다.
- * @param {string} storeName - IndexedDB 스토어 이름 (STORES의 값 중 하나)
- * @param {string} collectionName - Firestore 컬렉션 이름 (통상 storeName과 동일)
+ * @param {string} storeName - IndexedDB 스토어 이름
+ * @param {string} collectionName - Firestore 컬렉션 이름
+ * @param {number} limitCount - 가져올 최대 개수 (null이면 전체)
  */
-export const syncCollection = async (storeName, collectionName = storeName) => {
+export const syncCollection = async (storeName, collectionName = storeName, limitCount = null) => {
     try {
-        console.log(`[Sync] Attempting to fetch collection: "${collectionName}"`);
-        const ref = collection(db, collectionName);
-        const snapshot = await getDocs(ref);
+        console.log(`[Sync] Attempting to fetch collection: "${collectionName}" (limit: ${limitCount || 'all'})`);
+        const colRef = collection(db, collectionName);
+        let q = query(colRef, orderBy('createdAt', 'desc'));
+        
+        if (limitCount) {
+            q = query(q, limit(limitCount));
+        }
+        
+        const snapshot = await getDocs(q);
         
         console.log(`[Sync] Result for "${collectionName}": ${snapshot.size} documents found.`);
 
         const data = snapshot.docs.map((doc, index) => {
             const docData = doc.data();
-            if (index === 0) {
-                console.log(`[Sync] First document from "${collectionName}" sample:`, JSON.stringify(docData).slice(0, 200) + '...');
-            }
             return {
                 id: doc.id,
                 ...docData,
@@ -27,7 +31,11 @@ export const syncCollection = async (storeName, collectionName = storeName) => {
             };
         });
 
-        await saveData(storeName, data);
+        // 갤러리는 너무 크면 클리어하지 않고 덮어씌우기만 하거나 부분 업데이트 고려 가능하나,
+        // 현재는 단순화를 위해 saveData가 clear()를 포함함.
+        // Gallery의 경우 limitCount가 있으면 절대 clear()하면 안 됨 (기존 로컬 데이터 유실 방지)
+        await saveData(storeName, data, !!limitCount); // pass whether it's a partial sync
+        
         console.log(`Successfully synced ${data.length} items for ${storeName}`);
         return data;
     } catch (error) {
@@ -43,7 +51,7 @@ export const syncAll = async () => {
     const syncPromises = [
         syncCollection(STORES.NOTICES),
         syncCollection(STORES.REVIEWS),
-        syncCollection(STORES.GALLERY),
+        syncCollection(STORES.GALLERY, STORES.GALLERY, 100), // Gallery는 최근 100개만 우선 동기화
         syncCollection(STORES.FAQ),
         syncCollection(STORES.HERO_SLIDES),
         syncCollection(STORES.HOME_SECTIONS),

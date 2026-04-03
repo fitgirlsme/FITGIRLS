@@ -20,7 +20,8 @@
         "info": "Info",
         "event": "Event",
         "ambassador": "Ambassador Recruitment",
-        "partners": "Partnership"
+        "partners": "Partnership",
+        "director": "Artist"
     },
     "event": {
         "title": "EVENT & NOTICE",
@@ -141,7 +142,8 @@
             "fitorialist": "FITORIALIST",
             "artist": "ARTIST",
             "fashion": "FASHION & BEAUTY",
-            "portrait": "PORTRAIT"
+            "portrait": "PORTRAIT",
+            "director": "ARTIST'S ARCHIVE"
         },
         "fitorialist": "FITORIALIST",
         "artist": "ARTIST",
@@ -417,7 +419,7 @@
     "services": {
         "header_title": "FITGIRLS & INAFIT",
         "header_subtitle": "PORTRAIT SERVICE 2026",
-        "header_desc": "OPEN YEAR ROUND · BY APPOINTMENT ONLY · ALL PRICES VAT INCLUDED / CARD & CASH RECEIPT AVAILABLE",
+        "header_desc": "BY APPOINTMENT ONLY · ALL PRICES VAT INCLUDED / CARD & CASH RECEIPT AVAILABLE",
         "same_price": "FITGIRLS studio pricing is the same for weekdays and weekends.",
         "return_discount": "20% discount on 2nd visit, 30% discount on 3rd+ visit (Check KakaoTalk)",
         "tabs": {
@@ -770,5 +772,33 @@
             "portfolio": "PORTFOLIO",
             "instagram": "INSTAGRAM"
         }
+    },
+    "chief_artist": {
+        "title": "ART DIRECTOR & PHOTOGRAPHER",
+        "name": "ANGELO SHIN",
+        "slogan": "\"Sculpting your most perfect beauty through light, pose, and direction.\"",
+        "bio_title": "Leading FITGIRLS & INAFIT and INACOMPANY, Art Director ANGELO SHIN is a unique visual artist who breaks the boundaries between high fashion, commercial, and fitness.",
+        "bio_desc1": "His sharp sensibilities, cultivated since 2010 as the CEO of INAPADcom—Korea's leading fashion model magazine—align with the 'Pygmalion' philosophy of bringing artistic vision to life.",
+        "bio_desc2": "Since launching FITGIRLS and INAFIT in 2014, he has connected with over 10,000 subjects, transcending conventional beauty standards to elevate individual personality and strength into artistic high-end pictorials.",
+        "bio_desc3": "His lens, chosen by global luxury houses like Louis Vuitton, Gucci, and Chanel Jewelry, now goes beyond mere documentation to deliver a new visual catharsis known as 'FITORIAL'.",
+        "history_title": "PROFILE & HISTORY",
+        "history": [
+            "2014 – Present | Launch of FITGIRLS & INAFIT, Directing over 10,000 body contents",
+            "2011 – Present | INACOMPANY (INAPADcom, INASTUDIO) CEO & Art Director",
+            "2009 – 2010 | Gaya Media (Bazaar, Esquire, Motor Trend, etc.) Photographer",
+            "2008 – 2009 | Modelline Photographer & Artist (Model/Actor pose directing & fashion event planning)",
+            "2001 – 2007 | Graduated from Sangmyung University, Department of Photography"
+        ],
+        "portfolio_title": "KEY PORTFOLIO",
+        "portfolio_fashion": "Fashion: Louis Vuitton, Chanel Jewelry, Gucci, GREEDILOUS, Juun.J, Wooyoungmi Homme, Miss Gee Collection, Pushbutton, KUHO, D.GNAK, Low Classic, 87mm, Yohanix, Munsoo Kwon, etc.",
+        "portfolio_beauty": "Beauty: YSL Beauty, MAC Cosmetics, ID Hospital, etc.",
+        "portfolio_broadcast": "Broadcast & Corporate: SidusHQ, Kia Motors, Delicious Guys, etc.",
+        "social_impact_title": "SOCIAL IMPACT",
+        "social_impact_desc": "2009 – 2024 | NGO 'HIMANGO' Africa South Sudan Tonj region volunteering and documentary filming (10 visits in total)",
+        "vision_title": "NEXT VISION : 2025-2030",
+        "vision_subtitle": "\"The FITORIAL Exhibition\"",
+        "vision_desc": "A record of beauty built with over 10,000 subjects. CEO Angelo Shin is planning a large-scale art exhibition project after 2025 to share the new art genre 'FITORIAL', which combines fitness and high fashion, more deeply with the public.",
+        "activity_title": "ACTIVITY",
+        "insta_label": "FOLLOW ON INSTAGRAM"
     }
 }

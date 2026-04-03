@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import './Header.css';
 
-const Header = ({ isScrolled, isOnHero, changeLanguage, currentLang }) => {
+const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -11,6 +11,7 @@ const Header = ({ isScrolled, isOnHero, changeLanguage, currentLang }) => {
 
     const navItems = [
         { id: 'hero', label: t('nav.home', 'Home'), path: '/' },
+        { id: 'artist', label: t('nav.director', 'Artist'), path: '/' },
         {
             category: t('nav.gallery', 'Gallery'),
             items: [
@@ -41,7 +42,7 @@ const Header = ({ isScrolled, isOnHero, changeLanguage, currentLang }) => {
         { id: 'reviews', label: t('nav.review', 'Review'), path: '/reviews' },
         { id: 'reservation', label: t('nav.reservation', 'Reservation'), path: '/reservation', isRed: true },
         { id: 'ambassadors', label: t('nav.muses', 'AMBASSADOR'), path: '/' },
-        { id: 'amber', label: t('nav.ambassador', 'RECRUIT'), path: '/amber' },
+        { id: 'amber', label: t('nav.ambassador', 'RECRUIT'), path: '/ambar' },
         { id: 'partners', label: t('nav.partners', 'Partnership'), path: '/partners' },
     ];
 
@@ -66,7 +67,7 @@ const Header = ({ isScrolled, isOnHero, changeLanguage, currentLang }) => {
     };
 
     return (
-        <header className={`app-header ${isScrolled || !isOnHero ? 'scrolled' : ''}`}>
+        <header className={`app-header ${isScrolled || !isOnHero ? 'scrolled' : ''} ${isHidden ? 'hidden' : ''}`}>
             <div className="hamburger-container">
                 <button
                     className={`hamburger-btn ${menuOpen ? 'open' : ''}`}

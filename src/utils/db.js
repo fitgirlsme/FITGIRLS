@@ -14,7 +14,8 @@ export const STORES = {
     LOOKBOOK: 'lookbook',
     MODELS: 'models',
     APPLICATIONS: 'applications',
-    PARTNERS: 'partners'
+    PARTNERS: 'partners',
+    DIRECTOR: 'director_activities'
 };
 
 export const initDB = () => {
@@ -37,11 +38,13 @@ export const initDB = () => {
 };
 
 // 범용 CRUD 헬퍼
-export const saveData = async (storeName, items) => {
+export const saveData = async (storeName, items, isPartial = false) => {
     const db = await initDB();
     const transaction = db.transaction(storeName, 'readwrite');
     const store = transaction.objectStore(storeName);
-    store.clear();
+    if (!isPartial) {
+        store.clear();
+    }
     items.forEach(item => store.put(item));
     return new Promise((resolve) => {
         transaction.oncomplete = () => resolve();

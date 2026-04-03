@@ -120,7 +120,7 @@ const ServicePrice = () => {
                 <div className="service-notice">
                     <ul>
                         <li>재방문 예약 시 2회 20%, 3회 이상 30% 할인 혜택 (카카오채널 문의)</li>
-                        <li>OPEN YEAR ROUND · 예약제 스튜디오 · 모든 금액은 VAT 포함</li>
+                        <li>예약제 스튜디오 · 모든 금액은 VAT 포함</li>
                         <li><strong>핏걸즈 스튜디오는 평일&주말 가격이 모두 동일합니다.</strong></li>
                         <li>보정기간 : 셀렉 당일 1장 당일 보정, 나머지 사진은 약 4주 이내 완료</li>
                         <li>추가 보정은 장당 33,000원 비용이 발생합니다.</li>

@@ -13,6 +13,12 @@
     padding: 0 16px;
 }
 
+@media (max-width: 768px) {
+    .gallery-full-container {
+        padding: 50px 16px 120px; /* Space for mobile browser UI */
+    }
+}
+
 @media (min-width: 768px) {
     .gallery-full-container {
         padding: 50px 10vw 40px;
@@ -772,7 +778,7 @@
     padding: 6px 10px;
     border-radius: 4px;
     cursor: pointer;
-    display: none;
+    display: none; /* Reverted to hidden by default */
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
@@ -788,7 +794,7 @@
 .masonry-edit-btn:hover { background: #3a7bd5; }
 .masonry-delete-btn:hover { background: rgba(220, 50, 50, 0.85); }
 
-/* ===== Edit Modal Fields ===== */
+/* Edit Modal Fields */
 .edit-field {
     margin-bottom: 16px;
 }
@@ -1028,6 +1034,7 @@
   from { transform: scale(0.95); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
 
 
 /* Edit Modal Photo Preview */

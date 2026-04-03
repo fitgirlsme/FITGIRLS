@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../utils/firebase';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import FadeInSection from './FadeInSection';
@@ -7,6 +8,8 @@ import './AmbassadorList.css';
 
 
 const AmbassadorList = () => {
+  const { modelName } = useParams();
+  const navigate = useNavigate();
   const [ambassadors, setAmbassadors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('ALL');
@@ -19,6 +22,33 @@ const AmbassadorList = () => {
   const touchStart = React.useRef(null);
   const portfolioRefs = React.useRef([]);
   const modalOverlayRef = React.useRef(null);
+
+  // Sync selected with URL on load and changes
+  useEffect(() => {
+    if (ambassadors.length > 0) {
+      if (modelName) {
+        const found = ambassadors.find(a => 
+          a.nameEn?.toLowerCase().replace(/\s+/g, '-') === modelName.toLowerCase()
+        );
+        if (found) {
+          setSelected(found);
+        } else {
+          setSelected(null);
+        }
+      } else {
+        setSelected(null);
+      }
+    }
+  }, [ambassadors, modelName]);
+
+  const handleSelect = (a) => {
+    if (a) {
+      const slug = a.nameEn?.toLowerCase().replace(/\s+/g, '-');
+      navigate(`/fitorialist/${slug}`);
+    } else {
+      navigate('/fitorialist');
+    }
+  };
 
   // Clear portfolio refs when selected changes
   useEffect(() => {
@@ -143,7 +173,7 @@ const AmbassadorList = () => {
           loop 
           playsInline
         >
-          <source src="https://www.dropbox.com/scl/fi/lc1csyi1fn732m7y40cxv/_users_6e212ede-ab63-4ae3-abb6-4db08c54e15e_generated_44cd10cb-41d4-490b-bc86-584f976202e6_generated_video.MP4?rlkey=uuz3rdmb07hykevkrdnej1g3g&dl=1" type="video/mp4" />
+          <source src="https://www.dropbox.com/scl/fi/lc1csyi1fn732m7y40cxv/_users_6e212ede-ab63-4ae3-abb6-4db08c54e15e_generated_44cd10cb-41d4-490b-bc86-584f976202e6_generated_video.MP4?rlkey=uuz3rdmb07hykevkrdnej1g3g&raw=1" type="video/mp4" />
         </video>
         <div className="al-header-overlay" />
       </div>
@@ -186,7 +216,7 @@ const AmbassadorList = () => {
               key={a.id} 
               delay={(index % 10) * 0.1}
             >
-              <div className="al-card" onClick={() => setSelected(a)}>
+              <div className="al-card" onClick={() => handleSelect(a)}>
                 <div className="al-card-img">
                   {(a.mainImage || a.imageUrl)
                     ? <img src={a.mainImage || a.imageUrl} alt={a.nameEn} />
@@ -208,21 +238,30 @@ const AmbassadorList = () => {
       {selected && (
         <div 
           className="al-modal-overlay" 
-          onClick={() => setSelected(null)}
+          onClick={() => handleSelect(null)}
           ref={modalOverlayRef}
         >
           <div className="al-modal" onClick={(e) => e.stopPropagation()} id="al-modal-root">
-            <button className="al-modal-close" onClick={() => setSelected(null)}>✕</button>
+            <button className="al-modal-close" onClick={() => handleSelect(null)}>
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
             <div className="al-modal-content">
               {/* Header: Name and Stats */}
               <div className="al-modal-header-ford">
                 <h2 className="al-modal-name-ford">
                   <em>{selected.nameEn?.toLowerCase()}</em>
-                  <span className="al-modal-name-kr-ford">{selected.nameKr}</span>
                 </h2>
 
                 <div className="al-modal-hero-ford">
                   <img src={selected.mainImage || selected.imageUrl} alt={selected.nameEn} />
+                </div>
+
+                <div className="al-modal-label-row-ford">
+                  <span className="al-modal-label-ford">1st FITORIALIST+ AMASSADORIST</span>
+                  <span className="al-modal-name-kr-ford">{selected.nameKr}</span>
                 </div>
                 
                 <div className="al-modal-stats-ford">

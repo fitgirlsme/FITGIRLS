@@ -32,6 +32,10 @@
   animation: kenBurns 12s ease-in-out infinite alternate;
 }
 
+.hero-slide.branding-slide {
+  animation: none; /* Disable animation for the branding logo slide */
+}
+
 .hero-slide.active {
   opacity: 0.8;
 }
@@ -71,6 +75,13 @@
     z-index: 10;
     display: flex;
     align-items: center;
+    transition: opacity 0.8s ease, visibility 0.8s;
+}
+
+.hero-side-bar.branding-active {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .hero-side-bar-inner {
@@ -116,6 +127,13 @@
     z-index: 10;
     text-align: center;
     color: #fff;
+    transition: opacity 0.8s ease;
+}
+
+.hero-content.branding-active {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
 }
 
 .hero-title {
@@ -170,6 +188,13 @@
     flex-direction: column;
     align-items: center;
     gap: 12px;
+    transition: opacity 0.8s ease, visibility 0.8s;
+}
+
+.scroll-hint.branding-active {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .scroll-text {

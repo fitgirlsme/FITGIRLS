@@ -1,0 +1,324 @@
+.director-section-container {
+    width: 100%;
+    min-height: 100%;
+    background-color: #ffffff;
+    color: #000000;
+    position: relative;
+    padding: 120px 60px 80px;
+    display: flex;
+    justify-content: center;
+}
+
+/* For snap scrolling */
+.snap-section#artist {
+    /* No internal scroll to avoid confusing intersection observer */
+}
+
+.director-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 70% 30%, rgba(245, 245, 245, 0.5) 0%, rgba(255, 255, 255, 1) 70%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.director-content {
+    max-width: 1200px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+.director-header {
+    text-align: center;
+}
+
+.director-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    color: var(--color-primary, #FF0000);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.director-name {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    margin-bottom: 24px;
+    letter-spacing: -0.04em;
+    color: #000;
+    text-transform: uppercase;
+}
+
+.director-slogan {
+    font-size: 1.2rem;
+    color: rgba(0, 0, 0, 0.6);
+    font-style: italic;
+    letter-spacing: 0.05em;
+}
+
+.director-main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: start;
+}
+
+.director-bio-col {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.director-activity-photo-wrap {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    background-color: #f5f5f5;
+    position: relative;
+    aspect-ratio: 3/4; /* Set a consistent aspect ratio for the carousel */
+}
+
+.director-carousel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.director-activity-photo {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+.director-bio-text {
+    font-size: 0.92rem;
+    line-height: 1.8;
+    color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.bio-highlight {
+    font-size: 1.15rem;
+    color: #000;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.director-info-col {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    padding-top: 40px;
+}
+
+.director-info-col-wrapper {
+    position: relative;
+}
+
+.view-profile-toggle-btn {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 18px 36px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: fit-content;
+    border-radius: 0;
+    margin-top: 20px;
+}
+
+.view-profile-toggle-btn:hover {
+    background: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.director-info-collapsible {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.director-info-collapsible.is-expanded {
+    max-height: 2500px;
+    opacity: 1;
+}
+
+.view-profile-close-btn {
+    background: transparent;
+    color: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 12px 24px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: fit-content;
+    margin-top: 20px;
+    align-self: flex-start;
+}
+
+.view-profile-close-btn:hover {
+    color: #000;
+    border-color: #000;
+}
+
+.info-title {
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    color: var(--color-primary, #FF0000);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 10px;
+    width: fit-content;
+}
+
+.history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.history-list li {
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.5);
+    line-height: 1.5;
+}
+
+.portfolio-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1.6;
+}
+
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.activity-item {
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    background: #f5f5f5;
+}
+
+.activity-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.activity-item:hover img {
+    transform: scale(1.05);
+}
+
+.no-activity {
+    font-size: 0.85rem;
+    color: #999;
+    font-style: italic;
+}
+
+.social-impact-desc {
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 1.6;
+}
+
+.vision-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #000;
+    margin: 0;
+}
+
+.vision-desc {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.director-insta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #000;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: 1px solid #000;
+    padding: 12px 24px;
+    width: fit-content;
+    transition: all 0.3s ease;
+}
+
+.director-insta-link:hover {
+    background: #000;
+    color: #fff;
+}
+
+@media (max-width: 1024px) {
+    .director-main-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+    }
+    
+    .director-name {
+        font-size: 3rem;
+    }
+
+    .activity-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .director-section-container {
+        padding: 100px 24px 100px;
+        height: auto;
+    }
+    
+    .director-name {
+        font-size: 2.4rem;
+    }
+    
+    .director-slogan {
+        font-size: 1rem;
+    }
+    
+    .bio-highlight {
+        font-size: 1.1rem;
+    }
+
+    .activity-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

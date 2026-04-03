@@ -12,6 +12,7 @@ import FAQ from './components/sections/FAQ';
 import Notice from './components/sections/Notice';
 import Location from './components/sections/Location';
 import ReservationForm from './components/sections/ReservationForm';
+import ArtistSection from './components/sections/ArtistSection';
 import ModelRecruit from './components/sections/ModelRecruit';
 
 import SupportCS from './components/SupportCS';
@@ -30,6 +31,7 @@ const Home = ({ changeLanguage, currentLang }) => {
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isOnHero, setIsOnHero] = React.useState(true);
   const [isHideCS, setIsHideCS] = React.useState(true); // Hide on first two pages
+  const [isHeaderHidden, setIsHeaderHidden] = React.useState(true); // Hide header on first two pages
   const [isLastSectionVisible, setIsLastSectionVisible] = React.useState(false);
 
   // Handle section scrolling based on URL
@@ -68,6 +70,7 @@ const Home = ({ changeLanguage, currentLang }) => {
     setIsScrolled(scrollTop > 50);
     setIsOnHero(scrollTop < vh * 0.5);
     setIsHideCS(scrollTop < vh * 1.5); // Hide on first two sections (hero & intro)
+    setIsHeaderHidden(scrollTop < vh * 1.5); // Hide header on first two sections
   };
 
   return (
@@ -75,12 +78,14 @@ const Home = ({ changeLanguage, currentLang }) => {
       <Header
         isScrolled={isScrolled}
         isOnHero={isOnHero}
+        isHidden={isHeaderHidden}
         changeLanguage={changeLanguage}
         currentLang={currentLang}
       />
       <main className="snap-container" onScroll={handleScroll}>
         <section className="snap-section" id="hero"><Hero /></section>
         <section className="snap-section" id="hero-intro"><Intro /></section>
+        <section className="snap-section" id="artist"><ArtistSection /></section>
         <section className="snap-section" id="gallery"><Gallery /></section>
         <section className="snap-section" id="service"><Service /></section>
         <section className="snap-section" id="zone"><Zone /></section>
@@ -122,9 +127,10 @@ function App() {
           <Route path="/" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/report" element={<BrandReport />} />
-          <Route path="/amber" element={<Ambassador />} />
+          <Route path="/ambar" element={<Ambassador />} />
           <Route path="/ambassador" element={<Ambassador />} />
-          <Route path="/amberlist" element={<AmbassadorList />} />
+          <Route path="/fitorialist" element={<AmbassadorList />} />
+          <Route path="/fitorialist/:modelName" element={<AmbassadorList />} />
           <Route path="/partners" element={<Partners />} />
           <Route path="/:section" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
         </Routes>

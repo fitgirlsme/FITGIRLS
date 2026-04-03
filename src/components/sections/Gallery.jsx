@@ -6,7 +6,7 @@ import { ref, deleteObject, uploadBytes, getDownloadURL } from 'firebase/storage
 import { db as fireDb, storage } from '../../utils/firebase';
 import FadeInSection from '../FadeInSection';
 import { getGalleryItems, addGalleryItem, deleteGalleryItem, updateGalleryItem } from '../../utils/db';
-import { getGalleries } from '../../utils/galleryService';
+import { getGalleries, getGalleriesPaginated } from '../../utils/galleryService';
 import GalleryMultiUploader from '../GalleryMultiUploader';
 import './Gallery.css';
 
@@ -54,11 +54,18 @@ const GallerySection = () => {
     const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [isGalleryVisible, setIsGalleryVisible] = useState(false);
     const [showSwipeGuide, setShowSwipeGuide] = useState(false);
+    const [hasShownSwipeGuide, setHasShownSwipeGuide] = useState(false);
     const touchStart = useRef(null);
     const galleryRef = useRef(null);
     const loadMoreSentinelRef = useRef(null);
     const itemRefs = useRef([]);
     const [showScrollTop, setShowScrollTop] = useState(false);
+    
+    // Pagination & Optimization States
+    const [paginatedItems, setPaginatedItems] = useState([]);
+    const [lastVisibleDoc, setLastVisibleDoc] = useState(null);
+    const [hasNextPage, setHasNextPage] = useState(true);
+    const [isPageLoading, setIsPageLoading] = useState(false);
 
     // URL query param으로 카테고리 자동 선택
     useEffect(() => {
@@ -76,12 +83,13 @@ const GallerySection = () => {
 
     // 모바일 스와이프 안내 표시 (라이트박스 열 때 처음 1회성 브리핑)
     useEffect(() => {
-        if (lightboxIndex !== null && window.innerWidth < 1024) {
+        if (lightboxIndex !== null && window.innerWidth < 1024 && !hasShownSwipeGuide) {
             setShowSwipeGuide(true);
+            setHasShownSwipeGuide(true);
             const timer = setTimeout(() => setShowSwipeGuide(false), 2400);
             return () => clearTimeout(timer);
         }
-    }, [lightboxIndex]);
+    }, [lightboxIndex, hasShownSwipeGuide]);
 
     // Lock body scroll and hide SupportCS when any modal is open or in detail view
     useEffect(() => {
@@ -206,6 +214,26 @@ const GallerySection = () => {
         return () => observer.disconnect();
     }, [viewMode]);
 
+    // 최종 렌더링 아이템 결정
+    const filteredGallery = allItems.filter(item => {
+        const matchMain = item.mainCategory === mainCategory || (!item.mainCategory && mainCategory === 'fitorialist');
+        const matchSub = item.type === subCategory;
+        const matchTag = activeTag === 'ALL' || (item.tags && item.tags.some(tag =>
+            tag.replace('#', '').toUpperCase() === activeTag.toUpperCase()
+        ));
+        return matchMain && matchSub && matchTag;
+    }).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+    // 검색 쿼리 우선 (검색 시에는 전체 검색 대상에서 슬라이스)
+    const searchFiltered = searchQuery.trim() ? allItems.filter(item => {
+        const q = searchQuery.replace('#', '').toLowerCase().trim();
+        return item.tags && item.tags.some(tag => tag.replace('#', '').toLowerCase().includes(q));
+    }).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)) : [];
+
+    const finalBaseList = searchQuery.trim() ? searchFiltered : filteredGallery;
+    const visibleItems = finalBaseList.slice(0, visibleCount);
+    const hasMoreItems = visibleCount < finalBaseList.length;
+
     // 필터 변경 시 표시 개수 리셋
     useEffect(() => {
         setVisibleCount(30);
@@ -236,19 +264,7 @@ const GallerySection = () => {
     );
     const dynamicTags = availableTags.size > 0 ? ['ALL', ...availableTags] : ['ALL'];
 
-    // 최종 필터링 (검색 or 태그)
-    const filteredGallery = allItems.filter(item => {
-        if (searchQuery.trim() !== '') {
-            const q = searchQuery.replace('#', '').toLowerCase().trim();
-            return item.tags && item.tags.some(tag => tag.replace('#', '').toLowerCase().includes(q));
-        }
-        const matchMain = item.mainCategory === mainCategory || (!item.mainCategory && mainCategory === 'fitorialist');
-        const matchSub = item.type === subCategory;
-        const matchTag = activeTag === 'ALL' || (item.tags && item.tags.some(tag =>
-            tag.replace('#', '').toUpperCase() === activeTag.toUpperCase()
-        ));
-        return matchMain && matchSub && matchTag;
-    }).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    // Legacy filter removed in favor of paginatedItems and searchFiltered
 
     // JS Masonry chunking (가로(좌->우) 정렬을 위한 라운드로빈 분배)
     const [cols, setCols] = useState(2);
@@ -267,13 +283,7 @@ const GallerySection = () => {
         return () => window.removeEventListener('resize', updateCols);
     }, []);
 
-    // 페이지네이션: 보이는 항목만 슬라이스
-    const displayLimit = (visibleCount < filteredGallery.length) 
-        ? Math.max(cols, Math.floor(visibleCount / cols) * cols) 
-        : visibleCount;
-        
-    const visibleItems = filteredGallery.slice(0, displayLimit);
-    const hasMore = displayLimit < filteredGallery.length;
+    // Pagination: handled by visibleItems state
 
     // Infinite Scroll: IntersectionObserver로 하단 센티넬 감지 → 자동 로드
     useEffect(() => {
@@ -281,19 +291,15 @@ const GallerySection = () => {
         if (!sentinel) return;
         const observer = new IntersectionObserver(
             ([entry]) => {
-                if (entry.isIntersecting && hasMore && !isLoadingMore) {
-                    setIsLoadingMore(true);
-                    setTimeout(() => {
-                        setVisibleCount(prev => prev + 24);
-                        setIsLoadingMore(false);
-                    }, 300);
+                if (entry.isIntersecting && hasMoreItems) {
+                    setVisibleCount(prev => prev + 24);
                 }
             },
             { threshold: 0.1 }
         );
         observer.observe(sentinel);
         return () => observer.disconnect();
-    }, [hasMore, isLoadingMore, viewMode, mainCategory, subCategory, activeTag, searchQuery]);
+    }, [hasMoreItems, viewMode, searchQuery]);
 
     // Staggered Entrance: 각 갤러리 아이템에 fade-in + slide-up 효과
     useEffect(() => {
@@ -527,7 +533,7 @@ const GallerySection = () => {
                         >
                             {visibleItems.map((item, originalIndex) => (
                                 <div
-                                    key={item.id}
+                                    key={`${item.id}-${originalIndex}`}
                                     ref={el => itemRefs.current[originalIndex] = el}
                                     className="masonry-item gallery-item-enter"
                                     style={{ transitionDelay: `${(originalIndex % cols) * 0.08}s` }}
@@ -581,19 +587,17 @@ const GallerySection = () => {
                         </div>
 
                         {/* Infinite Scroll Sentinel */}
-                        {hasMore && (
+                        {hasMoreItems && (
                             <div ref={loadMoreSentinelRef} className="gallery-scroll-sentinel">
-                                {isLoadingMore && (
-                                    <div className="gallery-loading-indicator">
-                                        <div className="gallery-loading-dots">
-                                            <span></span><span></span><span></span>
-                                        </div>
+                                <div className="gallery-loading-indicator">
+                                    <div className="gallery-loading-dots">
+                                        <span></span><span></span><span></span>
                                     </div>
-                                )}
+                                </div>
                             </div>
                         )}
 
-                        {filteredGallery.length === 0 && (
+                        {visibleItems.length === 0 && (
                             <div className="gallery-empty-state">
                                 <p>해당 카테고리에 사진이 없습니다.</p>
                             </div>

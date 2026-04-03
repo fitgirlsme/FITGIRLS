@@ -20,7 +20,8 @@
         "info": "信息",
         "event": "活动",
         "ambassador": "大使招募",
-        "partners": "合作伙伴"
+        "partners": "合作伙伴",
+        "director": "艺术家"
     },
     "event": {
         "title": "EVENT & NOTICE",
@@ -140,7 +141,8 @@
             "fitorialist": "FITORIALIST",
             "artist": "ARTIST",
             "fashion": "FASHION & BEAUTY",
-            "portrait": "PORTRAIT"
+            "portrait": "PORTRAIT",
+            "director": "ARTIST'S ARCHIVE"
         },
         "fitorialist": "FITORIALIST",
         "artist": "ARTIST",
@@ -416,7 +418,7 @@
     "services": {
         "header_title": "FITGIRLS & INAFIT",
         "header_subtitle": "PORTRAIT SERVICE 2026",
-        "header_desc": "全年无休 · 预约制摄影棚 · 所有金额均包含增值税 / 可开具银行卡及现金收据",
+        "header_desc": "预约制摄影棚 · 所有金额均包含增值税 / 可开具银行卡及现金收据",
         "same_price": "Fitgirls摄影棚平日和周末价格一致。",
         "return_discount": "再次预约时，第二次享受 20% 优惠，第三次及以上享受 30% 优惠（请咨询 KakaoTalk）",
         "tabs": {
@@ -783,5 +785,33 @@
             "portfolio": "PORTFOLIO",
             "instagram": "INSTAGRAM"
         }
+    },
+    "chief_artist": {
+        "title": "ART DIRECTOR & PHOTOGRAPHER",
+        "name": "ANGELO SHIN",
+        "slogan": "\"通过光影、姿态与演绎，雕琢出您最完美的瞬间。\"",
+        "bio_title": "引领 FITGIRLS & INAFIT 和 INACOMPANY 的艺术总监 ANGELO SHIN 是一位打破高级时装、商业与健身界限的独特视觉艺术家。",
+        "bio_desc1": "自 2010 年起担任韩国代表性时尚模特杂志 INAPADcom 的 CEO，他所积累的敏锐触觉与“皮格马利翁 (Pygmalion)”哲学息息相通。",
+        "bio_desc2": "自 2014 年创立 FITGIRLS 和 INAFIT 以来，他已与超过 1 万名拍摄对象进行过深度交流，超越了传统的审美标准，将个人的独特魅力与力量感升华为艺术级的高端画报。",
+        "bio_desc3": "他的镜头曾受路易威登、古驰、香奈儿珠宝等全球奢侈品巨头的青睐。如今，他的作品已超越了单纯的记录，提供了一种被称为“FITORIAL”的全新视觉快感。",
+        "history_title": "PROFILE & HISTORY",
+        "history": [
+            "2014 – 至今 | 创立 FITGIRLS & INAFIT，指导超过 10,000 名身体内容拍摄",
+            "2011 – 至今 | INACOMPANY (INAPADcom, INASTUDIO) CEO & 艺术总监",
+            "2009 – 2010 | (株)Gaya Media (Bazaar, Esquire, Motor Trend 等) 摄影师",
+            "2008 – 2009 | (株)Modelline 摄影师及艺术家 (模特/演员姿态指导及时尚活动策划)",
+            "2001 – 2007 | 申明大学摄影系 毕业"
+        ],
+        "portfolio_title": "KEY PORTFOLIO",
+        "portfolio_fashion": "Fashion: Louis Vuitton, Chanel Jewelry, Gucci, GREEDILOUS, Juun.J, Wooyoungmi Homme, Miss Gee Collection, Pushbutton, KUHO, D.GNAK, Low Classic, 87mm, Yohanix, Munsoo Kwon 等",
+        "portfolio_beauty": "Beauty: YSL Beauty, MAC Cosmetics, ID 医院 等",
+        "portfolio_broadcast": "Broadcast & Corporate: SidusHQ, 起亚汽车, 好吃的家伙们(Delicious Guys) 等",
+        "social_impact_title": "SOCIAL IMPACT",
+        "social_impact_desc": "2009 – 2024 | NGO '希望之芒果树 (HIMANGO)' 非洲南苏丹通季 (Tonj) 地区志愿者及纪录片拍摄（共访问 10 次）",
+        "vision_title": "NEXT VISION : 2025-2030",
+        "vision_subtitle": "\"The FITORIAL Exhibition\"",
+        "vision_desc": "与 1 万多名拍摄对象共同积累的美丽记录。Angelo Shin 代表为了向大众更深入地分享结合了健身与高级时尚的全新艺术流派“FITORIAL”，正在策划 2025 年之后的大型艺术展览项目，不断追求新的挑战。",
+        "activity_title": "ACTIVITY",
+        "insta_label": "FOLLOW ON INSTAGRAM"
     }
 }

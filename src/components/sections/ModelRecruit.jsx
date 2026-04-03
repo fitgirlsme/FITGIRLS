@@ -10,6 +10,25 @@ const ModelRecruit = () => {
     const [form, setForm] = useState({ name: '', insta: '', location: '', job: '', phone: '', keywords: '' });
     const [status, setStatus] = useState(null); // 'success' | 'error'
     const [submitting, setSubmitting] = useState(false);
+    const [applicantCount, setApplicantCount] = useState(null);
+    const isAdmin = localStorage.getItem('admin_logged_in') === 'true';
+
+    // Hook: Dynamic Applicant Counter (Increases by 1 every 4 hours from 2026-03-30 starting at 128)
+    const getHookCount = () => {
+        const baseDate = new Date('2026-03-30T00:00:00');
+        const now = new Date();
+        const diffHours = Math.floor((now - baseDate) / (1000 * 60 * 60));
+        return 128 + Math.max(0, Math.floor(diffHours / 4));
+    };
+    const hookCount = getHookCount();
+
+    React.useEffect(() => {
+        if (isAdmin) {
+            getDocs(query(collection(db, 'applications')))
+                .then(snap => setApplicantCount(snap.size))
+                .catch(console.error);
+        }
+    }, [isAdmin]);
 
     const handleChange = (e) => {
         setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -178,54 +197,38 @@ const ModelRecruit = () => {
                     )}
                 </form>
                 {/* Admin-only applicants view */}
-                {(() => {
-                    const [count, setCount] = React.useState(null);
-                    const isAdmin = localStorage.getItem('admin_logged_in') === 'true';
-                    
-                    React.useEffect(() => {
-                        if (isAdmin) {
-                            getDocs(query(collection(db, 'applications'))).then(snap => {
-                                setCount(snap.size);
-                            }).catch(console.error);
-                        }
-                    }, [isAdmin]);
+                {isAdmin && (
+                    <div className="model-apply-admin-link" style={{ marginTop: '20px', textAlign: 'center' }}>
+                        <a href="/admin?tab=apply" style={{ 
+                            display: 'inline-block',
+                            padding: '12px 24px',
+                            background: 'rgba(255, 59, 48, 0.05)',
+                            border: '1px solid rgba(255, 59, 48, 0.2)',
+                            borderRadius: '12px',
+                            color: '#FF3B30',
+                            textDecoration: 'none',
+                            fontSize: '0.95rem',
+                            fontWeight: 700,
+                            transition: 'all 0.2s',
+                            boxShadow: '0 2px 8px rgba(255, 59, 48, 0.1)'
+                        }}>
+                            📋 {t('modelApply.viewApps', '지원자보기')} (지원인원 +{applicantCount ?? '...'}명)
+                        </a>
+                    </div>
+                )}
 
-                    if (!isAdmin) return null;
-
-                    return (
-                        <div style={{ marginTop: '20px', textAlign: 'center' }}>
-                            <a href="/admin?tab=apply" style={{ 
-                                display: 'inline-block',
-                                padding: '10px 20px',
-                                background: 'rgba(255,255,255,0.05)',
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                borderRadius: '8px',
-                                color: 'var(--color-primary)',
-                                textDecoration: 'none',
-                                fontSize: '0.9rem',
-                                fontWeight: 600,
-                                transition: 'all 0.2s'
-                            }}>
-                                📋 {t('modelApply.viewApps', '지원자보기')} (지원인원 +{count ?? '...'}명)
-                            </a>
-                        </div>
-                    );
-                })()}
-
-                <div className="model-apply-kakao">
-                    <p className="kakao-label">오픈채팅방</p>
-                    <a href="https://open.kakao.com/o/gwwIefni" target="_blank" rel="noopener noreferrer" className="kakao-link-btn">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" alt="Kakao" className="kakao-icon" />
-                        <span>핏토리얼리스트 엠버서더<br/>(참여코드: fitgirls)</span>
-                    </a>
-                </div>
 
                 <div className="model-apply-footer-note">
                     {t('modelApply.footerNote', '핏걸즈&이너핏은 전 세계 모든 열정과 아름다움을 존중합니다. 국적 및 연령에 제한 없이, 자신만의 독보적인 무드를 가진 분이라면 누구나 2026 핏토리얼리스트가 될 수 있습니다.')}
                 </div>
 
+                <div className="model-apply-hook-counter">
+                    <span className="hook-dot"></span>
+                    {t('modelApply.accumulatedApps', '현재 누적 지원 인원: {{count}}명', { count: hookCount })}
+                </div>
+
                 <div className="model-list-link-container" style={{ marginTop: '60px', textAlign: 'center' }}>
-                    <a href="/amberlist" className="model-list-link-btn" style={{
+                    <a href="/fitorialist" className="model-list-link-btn" style={{
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '10px',

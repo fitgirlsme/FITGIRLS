@@ -92,6 +92,8 @@
     transform: scale(1.1);
 }
 
+
+
 @media (max-width: 768px) {
     .hero-intro-container {
         padding: 40px 24px;
@@ -104,4 +106,6 @@
     .hero-intro-sub {
         font-size: 0.9rem;
     }
+
+
 }
