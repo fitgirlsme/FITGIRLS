@@ -167,6 +167,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.review-card:hover .review-image-wrapper img {
+  transform: scale(1.05);
 }
 
 .review-content-body {
@@ -190,6 +195,7 @@
   color: #444;
   display: -webkit-box;
   -webkit-line-clamp: 4;
+  line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
   transition: max-height 0.3s ease;
@@ -198,6 +204,7 @@
 .review-text-content.expanded {
   display: block;
   -webkit-line-clamp: unset;
+  line-clamp: unset;
   overflow: visible;
 }
 

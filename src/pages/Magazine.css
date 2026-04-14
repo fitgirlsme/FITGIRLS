@@ -1,0 +1,438 @@
+.magazine-page {
+    width: 100%;
+    min-height: 100vh;
+    background: #fff;
+    padding-top: 80px; /* Header space */
+    transition: background 0.5s ease;
+}
+
+.magazine-page.detail-mode {
+    background: #f2f2f2;
+}
+
+.magazine-page.detail-mode Header {
+    background: rgba(242, 242, 242, 0.9) !important;
+}
+
+/* ===== Magazine Issue Feed (16:9 Feed) ===== */
+.gallery-magazine-feed {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto 60px;
+    padding: 0 16px;
+}
+
+.magazine-feed-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px 20px;
+}
+
+@media (max-width: 1024px) {
+    .magazine-feed-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .magazine-feed-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+.magazine-issue-card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5; /* Modified from 16:9 to 4:5 */
+    border-radius: 8px; /* Slightly tighter border radius for smaller cards */
+    overflow: hidden;
+    cursor: pointer;
+    background: #f0f0f0;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.6s;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.magazine-issue-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.issue-cover-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.issue-cover-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.magazine-issue-card:hover .issue-cover-wrapper img {
+    transform: scale(1.05);
+}
+
+.issue-overlay {
+    position: absolute;
+    inset: 0;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    display: flex;
+    align-items: flex-end; /* Bottom alignment for portrait ratio */
+    justify-content: center;
+    text-align: center;
+}
+
+.issue-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.issue-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.issue-number {
+    font-size: 0.85rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.6em;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.issue-model-name {
+    font-size: 1.6rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #fff;
+    line-height: 1.1;
+}
+
+.issue-date {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+}
+
+/* Detail View Header */
+.issue-detail-header-v2 {
+    max-width: 1200px;
+    margin: 40px auto 20px;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.back-to-archive-btn {
+    align-self: flex-start;
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 40px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.back-to-archive-btn:hover {
+    transform: translateX(-5px);
+}
+
+.active-issue-branding {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.branding-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: #888;
+    text-transform: uppercase;
+}
+
+.active-issue-title {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+}
+
+.active-issue-num {
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.5em;
+    color: #555;
+    text-transform: uppercase;
+}
+
+.active-issue-model {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: #000;
+    text-transform: uppercase;
+}
+
+/* Gallery Grid */
+.magazine-gallery-container {
+    max-width: 2000px;
+    margin: 0 auto 80px;
+    padding: 0 4px;
+}
+
+/* Editorial Detail View (Purple Style) */
+.magazine-detail-view-integrated {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    background: #f2f2f2;
+    padding-bottom: 120px;
+}
+
+.editorial-giant-logo {
+    padding: 60px 20px 20px;
+    text-align: center;
+}
+
+.editorial-giant-logo h1 {
+    font-size: clamp(3rem, 12vw, 12rem);
+    font-weight: 900;
+    margin: 0;
+    letter-spacing: -0.02em;
+    line-height: 0.8;
+    color: #111;
+    font-family: 'Inter', sans-serif;
+}
+
+.editorial-hero-section {
+    width: 100%;
+    padding: 20px 4%;
+    margin-bottom: 60px;
+}
+
+.editorial-hero-image {
+    width: 100%;
+    max-height: 90vh;
+    object-fit: cover;
+    display: block;
+}
+
+.editorial-info-section {
+    max-width: 1200px;
+    margin: 0 auto 80px;
+    padding: 0 6%;
+    text-align: center;
+}
+
+.editorial-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.4em;
+    color: #111;
+    margin-bottom: 24px;
+    font-weight: 500;
+}
+
+.editorial-title {
+    font-size: clamp(2rem, 6vw, 5rem);
+    font-weight: 800;
+    margin: 0;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: #111;
+    text-transform: uppercase;
+}
+
+.editorial-model-name {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    margin-top: 15px;
+    color: #111;
+}
+
+.editorial-metadata {
+    margin-top: 40px;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: #444;
+    font-weight: 500;
+}
+
+.editorial-stats-line {
+    margin-top: 20px;
+    font-size: 0.7rem;
+    color: #666;
+    letter-spacing: 0.05em;
+    font-weight: 400;
+}
+
+.editorial-gallery-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 4%;
+}
+
+.editorial-masonry-grid {
+    column-count: 2;
+    column-gap: 80px;
+    width: 100%;
+}
+
+.editorial-masonry-item {
+    break-inside: avoid;
+    margin-bottom: 80px;
+    width: 100%;
+    cursor: zoom-in;
+    background: #e9e9e9;
+    overflow: hidden;
+}
+
+.editorial-masonry-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+/* Related Issues Section (More) */
+.mag-related-section {
+    max-width: 1440px;
+    margin: 120px auto 0;
+    padding: 60px 4% 0;
+    border-top: 1px solid #ddd;
+}
+
+.mag-related-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    color: #111;
+}
+
+.mag-related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.mag-related-card {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: #eee;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.mag-related-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+.mag-related-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    text-align: center;
+    opacity: 0;
+    transition: background 0.4s ease, opacity 0.4s ease;
+}
+
+.mag-related-card:hover .mag-related-overlay {
+    background: rgba(255, 255, 255, 0.95);
+    opacity: 1;
+}
+
+.mag-related-card:hover img {
+    transform: scale(1.05);
+}
+
+.mag-related-issue-title {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin-top: 10px;
+}
+
+.mag-related-meta {
+    font-size: 0.6rem;
+    color: #000;
+    letter-spacing: 0.1em;
+}
+
+.editorial-instagram-link {
+    margin-top: 60px;
+    display: inline-block;
+}
+
+.editorial-back-btn {
+    position: fixed;
+    top: 100px;
+    left: 40px;
+    background: none;
+    border: none;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    z-index: 100;
+    padding: 10px;
+    color: #111;
+}
+
+@media (max-width: 768px) {
+    .issue-model-name { font-size: 1.5rem; }
+    .active-issue-model { font-size: 1.8rem; }
+    .issue-overlay { padding: 20px; }
+    .magazine-page { padding-top: 60px; }
+    
+    .editorial-masonry-grid {
+        column-count: 1;
+        column-gap: 0;
+    }
+    
+    .editorial-masonry-item {
+        margin-bottom: 30px;
+    }
+
+    .mag-related-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .editorial-back-btn {
+        position: static;
+        margin-bottom: 20px;
+        padding-left: 6%;
+    }
+
+    .editorial-hero-section {
+        padding: 0;
+    }
+}

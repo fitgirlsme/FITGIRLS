@@ -43,6 +43,8 @@ const GallerySection = () => {
     const [editType, setEditType] = useState('women');
     const [editFile, setEditFile] = useState(null);
     const [editPreview, setEditPreview] = useState(null);
+    const [editIssueId, setEditIssueId] = useState('');
+    const [issues, setIssues] = useState([]);
     const [isSaving, setIsSaving] = useState(false);
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
     const [savedTags, setSavedTags] = useState(() => {
@@ -124,6 +126,20 @@ const GallerySection = () => {
             if (csBtn) csBtn.style.display = 'block';
         };
     }, [lightboxIndex, editTarget, deleteTarget, viewMode]);
+
+    // 이슈 목록 로드
+    useEffect(() => {
+        const loadIssues = async () => {
+            try {
+                const { getDocs, collection, query, orderBy } = await import('firebase/firestore');
+                const snap = await getDocs(query(collection(fireDb, 'issues'), orderBy('createdAt', 'desc')));
+                setIssues(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+            } catch (err) {
+                console.error('Error loading issues:', err);
+            }
+        };
+        loadIssues();
+    }, []);
 
     // Firebase + IndexedDB에서 갤러리 데이터 로드
     useEffect(() => {
@@ -234,9 +250,10 @@ const GallerySection = () => {
     const visibleItems = finalBaseList.slice(0, visibleCount);
     const hasMoreItems = visibleCount < finalBaseList.length;
 
-    // 필터 변경 시 표시 개수 리셋
+    // 필터 변경 시 표시 개수 리셋 (화면 너비 기준 10줄)
     useEffect(() => {
-        setVisibleCount(30);
+        const initialCols = window.innerWidth >= 1024 ? 4 : (window.innerWidth >= 768 ? 3 : 2);
+        setVisibleCount(initialCols * 10);
     }, [mainCategory, subCategory, activeTag, searchQuery]);
 
     // 현재 mainCategory에 실제 존재하는 subCategory만 필터
@@ -285,21 +302,7 @@ const GallerySection = () => {
 
     // Pagination: handled by visibleItems state
 
-    // Infinite Scroll: IntersectionObserver로 하단 센티넬 감지 → 자동 로드
-    useEffect(() => {
-        const sentinel = loadMoreSentinelRef.current;
-        if (!sentinel) return;
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting && hasMoreItems) {
-                    setVisibleCount(prev => prev + 24);
-                }
-            },
-            { threshold: 0.1 }
-        );
-        observer.observe(sentinel);
-        return () => observer.disconnect();
-    }, [hasMoreItems, viewMode, searchQuery]);
+    // Infinite Scroll removed. Using manual Load More button.
 
     // Staggered Entrance: 각 갤러리 아이템에 fade-in + slide-up 효과
     useEffect(() => {
@@ -357,8 +360,8 @@ const GallerySection = () => {
 
     const openLightbox = (index) => setLightboxIndex(index);
     const closeLightbox = () => setLightboxIndex(null);
-    const showPrev = (e) => { e.stopPropagation(); setLightboxIndex(prev => prev > 0 ? prev - 1 : filteredGallery.length - 1); };
-    const showNext = (e) => { e.stopPropagation(); setLightboxIndex(prev => prev < filteredGallery.length - 1 ? prev + 1 : 0); };
+    const showPrev = (e) => { e.stopPropagation(); setLightboxIndex(prev => prev > 0 ? prev - 1 : finalBaseList.length - 1); };
+    const showNext = (e) => { e.stopPropagation(); setLightboxIndex(prev => prev < finalBaseList.length - 1 ? prev + 1 : 0); };
 
     return (
         <div className="gallery-full-container" ref={galleryRef}>
@@ -368,7 +371,7 @@ const GallerySection = () => {
                 <>
                     <div className="gallery-title-header-wrap">
                         <FadeInSection className="section-header">
-                            <h2 className="section-title">STUDIOS</h2>
+                            <h2 className="section-title">ARTICLE</h2>
                         </FadeInSection>
                     </div>
                     <div className="main-selection-grid">
@@ -387,7 +390,7 @@ const GallerySection = () => {
                                         setViewMode('detail');
                                         setSubCategory('women');
                                         setActiveTag('ALL');
-                                        const el = document.getElementById('gallery');
+                                        const el = document.getElementById('article');
                                         if (el) el.scrollTop = 0;
                                     }}
                                 >
@@ -564,6 +567,7 @@ const GallerySection = () => {
                                                     setEditTags((item.tags || []).join(', '));
                                                     setEditMainCat(item.mainCategory || 'fitorialist');
                                                     setEditType(item.type || 'women');
+                                                    setEditIssueId(item.issueId || '');
                                                     setEditFile(null);
                                                     setEditPreview(null);
                                                 }}
@@ -586,14 +590,41 @@ const GallerySection = () => {
                             ))}
                         </div>
 
-                        {/* Infinite Scroll Sentinel */}
+                        {/* 수동 더보기 버튼 */}
                         {hasMoreItems && (
-                            <div ref={loadMoreSentinelRef} className="gallery-scroll-sentinel">
-                                <div className="gallery-loading-indicator">
-                                    <div className="gallery-loading-dots">
-                                        <span></span><span></span><span></span>
-                                    </div>
-                                </div>
+                            <div className="gallery-more-container" style={{ textAlign: 'center', marginTop: '40px', paddingBottom: '40px', width: '100%', gridColumn: '1 / -1' }}>
+                                <button
+                                    className="gallery-load-more-btn"
+                                    onClick={() => {
+                                        const currentCols = window.innerWidth >= 1024 ? 4 : (window.innerWidth >= 768 ? 3 : 2);
+                                        setVisibleCount(prev => prev + (currentCols * 10)); // 더보기 누를 때마다 10줄씩 추가
+                                    }}
+                                    style={{
+                                        padding: '14px 48px',
+                                        backgroundColor: '#ff2d2d',
+                                        color: '#ffffff',
+                                        border: 'none',
+                                        borderRadius: '30px',
+                                        fontSize: '0.95rem',
+                                        fontWeight: '800',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.3s ease',
+                                        letterSpacing: '0.05em',
+                                        boxShadow: '0 4px 15px rgba(255, 45, 45, 0.3)'
+                                    }}
+                                    onMouseOver={(e) => {
+                                        e.target.style.backgroundColor = '#cc0000';
+                                        e.target.style.transform = 'translateY(-2px)';
+                                        e.target.style.boxShadow = '0 6px 20px rgba(255, 45, 45, 0.4)';
+                                    }}
+                                    onMouseOut={(e) => {
+                                        e.target.style.backgroundColor = '#ff2d2d';
+                                        e.target.style.transform = 'translateY(0)';
+                                        e.target.style.boxShadow = '0 4px 15px rgba(255, 45, 45, 0.3)';
+                                    }}
+                                >
+                                    더보기 (Load More)
+                                </button>
                             </div>
                         )}
 
@@ -695,6 +726,16 @@ const GallerySection = () => {
                         </div>
 
                         <div className="edit-field">
+                            <label className="edit-label">매거진 이슈 추가</label>
+                            <select className="edit-select" value={editIssueId} onChange={e => setEditIssueId(e.target.value)}>
+                                <option value="">이슈 미지정</option>
+                                {issues.map(iss => (
+                                    <option key={iss.id} value={iss.id}>{iss.title}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="edit-field">
                             <label className="edit-label">해시태그 (최대 3개)</label>
                             <input
                                 type="text"
@@ -753,7 +794,8 @@ const GallerySection = () => {
                                         mainCategory: editMainCat,
                                         type: editType,
                                         imageUrl: newUrl,
-                                        storagePath: newStoragePath
+                                        storagePath: newStoragePath,
+                                        issueId: editIssueId
                                     };
 
                                     await updateDoc(docRef, updateData);
@@ -804,13 +846,13 @@ const GallerySection = () => {
                 >
                     <div className="lightbox-header">
                         <div className="lightbox-counter">
-                            {lightboxIndex + 1} / {filteredGallery.length}
+                            {lightboxIndex + 1} / {finalBaseList.length}
                         </div>
                         <button className="lightbox-close" onClick={closeLightbox}>✕</button>
                     </div>
                     <button className="lightbox-nav-btn prev-btn" onClick={showPrev}>⟨</button>
                     <div className="lightbox-content">
-                        <img key={lightboxIndex} src={filteredGallery[lightboxIndex].img} alt="Lightbox Detail" />
+                        <img key={lightboxIndex} src={finalBaseList[lightboxIndex].img} alt="Lightbox Detail" />
                     </div>
 
                     <div className="lightbox-footer-credit">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import { db } from '../utils/firebase';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import FadeInSection from './FadeInSection';
@@ -8,13 +8,15 @@ import './AmbassadorList.css';
 
 
 const AmbassadorList = () => {
-  const { modelName } = useParams();
+  const { modelName, modelId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [ambassadors, setAmbassadors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [activeBatch, setActiveBatch] = useState('ALL');
   const [selected, setSelected] = useState(null);
+  const [issues, setIssues] = useState([]);
   const { t } = useTranslation();
   const [zoomedIndex, setZoomedIndex] = useState(null);
   const [showSwipeGuide, setShowSwipeGuide] = useState(false);
@@ -26,27 +28,40 @@ const AmbassadorList = () => {
   // Sync selected with URL on load and changes
   useEffect(() => {
     if (ambassadors.length > 0) {
-      if (modelName) {
+      if (modelId) {
+        // High priority: Find by unique ID
+        const found = ambassadors.find(a => a.id === modelId);
+        setSelected(found || null);
+      } else if (modelName) {
+        // Fallback: Find by name slug (for backward compatibility)
         const found = ambassadors.find(a => 
           a.nameEn?.toLowerCase().replace(/\s+/g, '-') === modelName.toLowerCase()
         );
-        if (found) {
-          setSelected(found);
-        } else {
-          setSelected(null);
-        }
+        setSelected(found || null);
       } else {
         setSelected(null);
       }
     }
-  }, [ambassadors, modelName]);
+  }, [ambassadors, modelName, modelId]);
 
   const handleSelect = (a) => {
     if (a) {
-      const slug = a.nameEn?.toLowerCase().replace(/\s+/g, '-');
-      navigate(`/fitorialist/${slug}`);
+      const slug = a.nameEn?.toLowerCase().replace(/\s+/g, '-') || 'model';
+      // If we are on the homepage (routes start without fitorialist), stay on the homepage
+      if (location.pathname === '/' || !location.pathname.startsWith('/fitorialist')) {
+        // Use 'ambassadors' as default section to ensure scrolling
+        const currentSection = location.pathname.split('/')[1] || 'ambassadors';
+        navigate(`/${currentSection}/${slug}/${a.id}`);
+      } else {
+        navigate(`/fitorialist/${slug}/${a.id}`);
+      }
     } else {
-      navigate('/fitorialist');
+      if (location.pathname === '/' || !location.pathname.startsWith('/fitorialist')) {
+        const currentSection = location.pathname.split('/')[1] || '';
+        navigate(`/${currentSection}`);
+      } else {
+        navigate('/fitorialist');
+      }
     }
   };
 
@@ -81,7 +96,7 @@ const AmbassadorList = () => {
   };
 
 
-  const FILTERS = ['ALL', 'WOMAN', 'MAN'];
+  const FILTERS = ['ALL', 'WOMAN', 'MAN', 'MAGAZINE'];
   
 
   useEffect(() => {
@@ -101,6 +116,19 @@ const AmbassadorList = () => {
       setLoading(false);
     };
     fetchAmbassadors();
+  }, []);
+
+  // Fetch issues for linking
+  useEffect(() => {
+    const fetchIssues = async () => {
+      try {
+        const snap = await getDocs(query(collection(db, 'issues'), orderBy('createdAt', 'desc')));
+        setIssues(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      } catch (err) {
+        console.error('Failed to load issues:', err);
+      }
+    };
+    fetchIssues();
   }, []);
 
   // Lock ALL scroll containers when detail modal or zoom is open
@@ -205,13 +233,47 @@ const AmbassadorList = () => {
         </div>
       </div>
 
-      <div className="al-grid">
-        {loading ? (
-          <div className="al-placeholder">불러오는 중...</div>
-        ) : finalFiltered.length === 0 ? (
-          <div className="al-placeholder">등록된 앰버서더가 없습니다.</div>
+
+      {/* Magazine Issues View (Only in MAGAZINE tab) */}
+      {activeFilter === 'MAGAZINE' && (
+        issues.length === 0 ? (
+          <div className="al-placeholder" style={{ padding: '40px 0', textAlign: 'center' }}>등록된 매거진이 없습니다.</div>
         ) : (
-          finalFiltered.map((a, index) => (
+          <div className="al-featured-magazine" style={{ width: '100%', borderTop: 'none', paddingTop: 0 }}>
+            <div className="al-section-header">
+              <h3 className="al-section-subtitle">THE NEW STORY</h3>
+              <h2 className="al-section-title">MAGAZINES</h2>
+              <Link to="/magazine" className="al-view-all-btn">VIEW ALL MAGAZINES →</Link>
+            </div>
+            <div className="al-magazine-grid">
+              {issues.map((issue, idx) => (
+                <Link 
+                  key={issue.id} 
+                  to={`/magazine?id=${issue.id}`} 
+                  className="al-mag-card"
+                >
+                  <div className="al-mag-card-img">
+                    <img src={issue.coverImg} alt={issue.title} />
+                  </div>
+                  <div className="al-mag-card-info">
+                    <span className="al-mag-issue-num">ISSUE #{issues.length - idx}</span>
+                    <span className="al-mag-model-name">{issue.modelName}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )
+      )}
+
+      {activeFilter !== 'MAGAZINE' && (
+        <div className="al-grid">
+          {loading ? (
+            <div className="al-placeholder">불러오는 중...</div>
+          ) : finalFiltered.length === 0 ? (
+            <div className="al-placeholder">등록된 앰버서더가 없습니다.</div>
+          ) : (
+            finalFiltered.map((a, index) => (
             <FadeInSection 
               key={a.id} 
               delay={(index % 10) * 0.1}
@@ -230,9 +292,11 @@ const AmbassadorList = () => {
               </div>
             </FadeInSection>
           ))
+          )}
+        </div>
+      )}
 
-        )}
-      </div>
+
 
       {/* Detail Modal */}
       {selected && (
@@ -263,7 +327,7 @@ const AmbassadorList = () => {
                   <span className="al-modal-label-ford">1st FITORIALIST+ AMASSADORIST</span>
                   <span className="al-modal-name-kr-ford">{selected.nameKr}</span>
                 </div>
-                
+
                 <div className="al-modal-stats-ford">
                   {selected.height && <div className="al-stat-item"><span>{t('ambassador.profile.height')}</span><strong>{selected.height}</strong></div>}
                   {selected.bust && <div className="al-stat-item"><span>{t('ambassador.profile.bust')}</span><strong>{selected.bust}</strong></div>}
@@ -273,6 +337,25 @@ const AmbassadorList = () => {
                   {selected.hair && <div className="al-stat-item"><span>{t('ambassador.profile.hair')}</span><strong>{selected.hair}</strong></div>}
                   {selected.eyes && <div className="al-stat-item"><span>{t('ambassador.profile.eyes')}</span><strong>{selected.eyes}</strong></div>}
                 </div>
+
+                {/* Official Magazine Issue Link Button */}
+                {issues.some(iss => iss.modelName === selected.nameKr) && (
+                  <div className="al-modal-issue-link-box">
+                    {issues.filter(iss => iss.modelName === selected.nameKr).map(iss => (
+                      <button 
+                        key={iss.id}
+                        className="al-official-issue-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/magazine?id=${iss.id}`);
+                        }}
+                      >
+                        <span className="btn-label">VIEW OFFICIAL ISSUE</span>
+                        <span className="btn-title">{iss.title}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="al-modal-body-ford">

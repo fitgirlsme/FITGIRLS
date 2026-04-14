@@ -2,7 +2,7 @@
     "nav": {
         "home": "Home",
         "intro": "Intro",
-        "gallery": "Gallery",
+        "gallery": "ARTICLE",
         "studios": "Studio Zone",
         "lookbook": "Lookbook",
         "reservation": "Reservation",
@@ -41,14 +41,14 @@
         "subtitle": "The optimal space to complete your mood",
         "zones": {
             "blackmoon": "Black Moon",
-            "blackwall": "Black Wall",
+            "blackwall ": "Black Wall ",
             "sofa": "Long Sofa",
             "yellow": "Yellow Background",
             "cake": "White Cake Shot",
             "blue": "Blue Background",
             "pink": "Pink Background",
             "curtain": "Pure Curtain",
-            "natural": "Natural Wall",
+            "natural": "Natural Wall ",
             "mirror": "Mirror Shot",
             "jennie": "Jennie Zone",
             "red": "Red Background"
@@ -74,14 +74,14 @@
             "zone11": "Red Sofa",
             "zone12": "Yellow Cabinet",
             "zone13": "Black Moon",
-            "zone14": "Black Wall",
+            "zone14": "Black Wall ",
             "zone15": "Long Sofa",
             "zone16": "Yellow Background",
             "zone17": "White Cake Shot",
             "zone18": "Blue Background",
             "zone19": "Pink Background",
             "zone20": "Pure Curtain",
-            "zone21": "Natural Wall",
+            "zone21": "Natural Wall ",
             "zone22": "Mirror Shot",
             "zone23": "Jennie Zone",
             "zone24": "Red Background"
@@ -113,15 +113,15 @@
         "desc2": "*Makeup slots fill up quickly, so we recommend booking your makeup at the same time as your Fitgirls & Inafit shoot.",
         "desc3": "*You must mention your Fitgirls & Inafit Naver reservation to receive the partner price.",
         "direct_booking": "Direct Booking Required",
-        "outcall_notice": "(Please contact the shop for outcall inquiries.)",
+        "outcall _notice": "(Please contact the shop for outcall inquiries.)",
         "female": "Female",
         "male": "Male",
         "price_female": "88,000 KRW",
         "price_male": "66,000 KRW",
         "vat_included": "(VAT included)",
-        "address_label": "Address.",
-        "address_value": "1F, 5 Hakdong-ro 47-gil, Gangnam-gu, Seoul (5 min walk from Gangnam-gu Office Station)",
-        "kakao": "KakaoTalk Channel",
+        "address_label": "ADDRESS / TEL",
+        "address_value": "5, Hakdong-ro 47-gil, Gangnam-gu, Seoul (1F) / Tel. 02-511-1859",
+        "kakao": "KakaoTalk Support",
         "insta": "Instagram"
     },
     "notice": {
@@ -137,15 +137,15 @@
             }
         ]
     },
-    "gallery": {
+    "gall ery": {
         "main": {
-            "fitorialist": "FITORIALIST",
+            "fitorialist": "MAGAZINES",
             "artist": "ARTIST",
             "fashion": "FASHION & BEAUTY",
             "portrait": "PORTRAIT",
             "director": "ARTIST'S ARCHIVE"
         },
-        "fitorialist": "FITORIALIST",
+        "fitorialist": "MAGAZINES",
         "artist": "ARTIST",
         "fashion_beauty": "FASHION & BEAUTY",
         "portrait": "PORTRAIT",
@@ -171,27 +171,30 @@
         "title": "FITORIALIST",
         "subtitle": "PHOTOGRAPHED BY ANGELO SHIN.",
         "fitorialist_desc": "",
-        "cta": "Book on Naver"
+        "cta": "Book on Naver",
+        "inquiry": "Consult via WhatsApp",
+        "reservation": "Book on Naver"
     },
     "cs": {
         "label": "Inquiry",
-        "link_text": "Inquiry via KakaoTalk"
+        "link_text": "Consult via WhatsApp"
     },
     "reservation": {
         "title": "RESERVATION",
         "subtitle": "Reservation Procedure",
         "button": "Apply for Reservation (Naver)",
+        "channel_button": "Chat on WhatsApp",
         "link": "https://naver.me/GWeuhE37",
         "guidebook_title": "Fitgirls & Inafit Official Guidebook",
         "steps": {
             "step1_title": "Naver Reservation Request",
-            "step1_desc": "Inquire via Fitgirls Kakao Channel first for schedule check, then we'll open the Naver schedule.",
+            "step1_desc": "Inquire via WhatsApp first for schedule check, then we'll open the Naver schedule.",
             "step2_title": "Deposit Payment",
-            "step2_desc": "After Naver booking, Pay the 90,000 KRW deposit via 'Toss Order' notification on KakaoTalk to finalize the reservation.",
+            "step2_desc": "After Naver booking, pay the 90,000 KRW deposit via the 'Toss Order' notification on WhatsApp to finalize your reservation.",
             "account_info": "Bank Transfer: Woori Bank 010-4696-1434 (Fitgirls)"
         },
         "final_notice": "We will send detailed instructions regarding shoot preparation once the reservation is confirmed.",
-        "return_discount": "* 20% discount for 2nd visit, 30% for 3rd+ visit — Contact via Fitgirls Kakao Channel"
+        "return_discount": "* 20% discount for 2nd visit, 30% for 3rd+ visit — Contact via WhatsApp"
     },
     "location": {
         "title": "LOCATION",
@@ -306,11 +309,11 @@
         "before_booking": [
             {
                 "question": "How do I make a reservation?",
-                "answer": "Please inquire with your name, contact info, desired date/time, and number of concepts.\n\nApply via our reservation system after consultation, and pay the 90,000 KRW deposit within 4 hours via the Toss notification on KakaoTalk to finalize."
+                "answer": "Please inquire with your name, contact info, desired date/time, and number of concepts.\n\nApply via our reservation system after consultation, and pay the 90,000 KRW deposit within 4 hours via the Toss notification on WhatsApp to finalize."
             },
             {
                 "question": "I'm curious about the price.",
-                "answer": "Detailed pricing per package can be checked on Naver Smart Place or the KakaoTalk consultation menu. Please refer to the FITORIAL package guide.",
+                "answer": "Detailed pricing per package can be checked on Naver Smart Place or the Channel Talk consultation menu. Please refer to the FITORIAL package guide.",
                 "links": [
                     {
                         "label": "View FITORIAL Packages",
@@ -325,11 +328,11 @@
             },
             {
                 "question": "What is the cancellation and refund policy?",
-                "answer": "100% refund of the deposit is possible for cancellations made 50 days before the shoot date.\n\nFrom 49 days before until the day of the shoot, the deposit (90,000 KRW) will be charged as a penalty and is non-refundable."
+                "answer": "100% refund of the deposit is possible for cancellations made 50 days before the shoot date.\n\nHowever, in case of a schedule change, the deposit is non-refundable regardless of the remaining period.\n\nFrom 49 days before until the day of the shoot, the deposit (90,000 KRW) will be charged as a penalty and is non-refundable."
             },
             {
                 "question": "I want to change the reservation date or time.",
-                "answer": "Changes are allowed only once up to 50 days before the shoot date.\n\nIf booked within 50 days of the shoot date, no changes or refunds are allowed regardless of the reason."
+                "answer": "Changes are all owed only once up to 50 days before the shoot date.\n\nIf booked within 50 days of the shoot date, no changes or refunds are all owed regardless of the reason."
             },
             {
                 "question": "What if the sender name is different from the reserver name?",
@@ -361,7 +364,7 @@
             },
             {
                 "question": "What time should I arrive on the day of the shoot?",
-                "answer": "Please arrive 30 minutes before your reservation time.\n\nAfter arriving, you'll change outfits, pump, and prepare oils/vaseline to start the shoot punctually."
+                "answer": "Please arrive 30 minutes before your reservation time.\n\nAfter arriving, you'll change outfits, pump, and prepare oils/vaseline to start the shoot punctuall y."
             },
             {
                 "question": "Are there props or exercise equipment provided?",
@@ -417,11 +420,11 @@
         ]
     },
     "services": {
-        "header_title": "FITGIRLS & INAFIT",
+        "header_title": "FITGIRLS & INERFIT",
         "header_subtitle": "PORTRAIT SERVICE 2026",
         "header_desc": "BY APPOINTMENT ONLY · ALL PRICES VAT INCLUDED / CARD & CASH RECEIPT AVAILABLE",
-        "same_price": "FITGIRLS studio pricing is the same for weekdays and weekends.",
-        "return_discount": "20% discount on 2nd visit, 30% discount on 3rd+ visit (Check KakaoTalk)",
+        "same_price": "FITGIRLS & INERFIT studio pricing is the same for weekdays and weekends.",
+        "return_discount": "20% discount on 2nd visit, 30% discount on 3rd+ visit (Check WhatsApp)",
         "tabs": {
             "fitorialist": "FITORIALIST",
             "artist": "ARTIST",
@@ -439,7 +442,7 @@
                     "price": "275,000 KRW",
                     "details": [
                         "1 outfit per concept, 2 backgrounds",
-                        "3 retouched photos · 1 print each · Web source provided · 30min session"
+                        "2 high-res retouched photos · 1 print each · All web source files provided · 30min session"
                     ]
                 },
                 {
@@ -447,7 +450,7 @@
                     "price": "440,000 KRW",
                     "details": [
                         "1 outfit per concept, Unlimited backgrounds · Unlimited poses",
-                        "6 retouched photos · 2 prints each · Web source provided · 90min session"
+                        "4 high-res retouched photos · 2 prints each · All web source files provided · 90min session"
                     ]
                 },
                 {
@@ -455,7 +458,7 @@
                     "price": "550,000 KRW",
                     "details": [
                         "Unlimited outfits · backgrounds · poses",
-                        "6 retouched photos · 3 prints each · Web source provided · 120min session"
+                        "6 high-res retouched photos · 3 prints each · All web source files provided · 120min session"
                     ]
                 }
             ],
@@ -478,7 +481,7 @@
                     "price": "770,000 KRW",
                     "details": [
                         "2 people with 1 individual concept each + 1 friend concept",
-                        "Total 6 retouched photos"
+                        "Total 6 high-res retouched photos"
                     ]
                 },
                 {
@@ -486,7 +489,7 @@
                     "price": "1,100,000 KRW",
                     "details": [
                         "2 people with 2 individual concepts each + 1 friend concept",
-                        "Total 10 retouched photos"
+                        "Total 10 high-res retouched photos"
                     ]
                 }
             ]
@@ -502,7 +505,7 @@
                     "price": "220,000 KRW",
                     "details": [
                         "1 outfit per concept, 1 background, 2 poses",
-                        "2 retouched photos · 1 print · web source files · 15min session"
+                        "2 high-res retouched photos · 1 print · all web source files provided · 15min session"
                     ]
                 },
                 {
@@ -510,7 +513,7 @@
                     "price": "330,000 KRW",
                     "details": [
                         "1 outfit per concept, 1 background, 2 poses",
-                        "4 retouched photos · 2 prints · all web source files · 30min session"
+                        "4 high-res retouched photos · 2 prints · all web source files provided · 30min session"
                     ]
                 },
                 {
@@ -518,7 +521,7 @@
                     "price": "440,000 KRW",
                     "details": [
                         "1 outfit per concept, 1 background, 2 poses",
-                        "6 retouched photos · 3 prints · high-res source files · 40min session"
+                        "6 high-res retouched photos · 3 prints · all web source files provided · 40min session"
                     ]
                 }
             ],
@@ -533,7 +536,7 @@
                     "details": [
                         "For 2~3 people (50,000 KRW per additional person from 4th)",
                         "1 outfit each per group concept, 1 background",
-                        "2 retouched photos · 1 print each · web source files · 15min session"
+                        "2 high-res retouched photos · 1 print each · all web source files provided · 15min session"
                     ]
                 },
                 {
@@ -542,7 +545,7 @@
                     "details": [
                         "For 2~3 people",
                         "2 people with 1 individual concept each + 1 group concept",
-                        "Total 6 retouched photos / 45min session"
+                        "Total 6 high-res retouched photos / 45min session"
                     ]
                 },
                 {
@@ -551,7 +554,7 @@
                     "details": [
                         "For 2~3 people",
                         "2 people with 2 individual concepts each + 1 group concept",
-                        "Total 10 retouched photos"
+                        "Total 10 high-res retouched photos"
                     ]
                 }
             ]
@@ -567,7 +570,7 @@
                     "price": "220,000 KRW",
                     "details": [
                         "1 outfit per concept, 1 background, 2 poses",
-                        "2 retouched photos · 1 print · web source files · 15min session"
+                        "2 high-res retouched photos · 1 print · all web source files provided · 15min session"
                     ]
                 },
                 {
@@ -575,7 +578,7 @@
                     "price": "330,000 KRW",
                     "details": [
                         "1 outfit per concept, 1 background, 2 poses",
-                        "4 retouched photos · 2 prints · web source files · 30min session"
+                        "4 high-res retouched photos · 2 prints · all web source files provided · 30min session"
                     ]
                 },
                 {
@@ -583,7 +586,15 @@
                     "price": "440,000 KRW",
                     "details": [
                         "1 outfit per concept, 1 background, 2 poses",
-                        "6 retouched photos · 3 prints · web source files · 40min session"
+                        "6 high-res retouched photos · 3 prints · all web source files provided · 40min session"
+                    ]
+                },
+                {
+                    "title": "4 Concepts",
+                    "price": "550,000 KRW",
+                    "details": [
+                        "1 outfit per concept, 1 background, 2 poses",
+                        "8 high-res retouched photos · 4 prints · all web source files provided · 60min session"
                     ]
                 }
             ],
@@ -598,16 +609,16 @@
                     "details": [
                         "For 2~3 people (50,000 KRW per additional person from 4th)",
                         "1 outfit each per group concept, 1 background",
-                        "2 retouched photos · 1 print each · web source files · 15min session"
+                        "2 high-res retouched photos · 1 print each · all web source files provided · 15min session"
                     ]
                 },
                 {
                     "title": "GROUP PACKAGE 1",
-                    "price": "550,00W KRW",
+                    "price": "550,000 KRW",
                     "details": [
                         "For 2~3 people",
                         "2 people with 1 individual concept each + 1 group concept",
-                        "Total 6 retouched photos / 45min session"
+                        "Total 6 high-res retouched photos / 45min session"
                     ]
                 },
                 {
@@ -616,7 +627,7 @@
                     "details": [
                         "For 2~3 people",
                         "2 people with 2 individual concepts each + 1 group concept",
-                        "Total 10 retouched photos"
+                        "Total 10 high-res retouched photos"
                     ]
                 }
             ]
@@ -633,7 +644,7 @@
                     "details": [
                         "30min session / 10min prep time",
                         "No outfit limit (unlimited)",
-                        "All web source files (1200px) provided",
+                        "All web source files (approx. 1500px) provided",
                         "One 5x7 inch print provided",
                         "Approx. 200 shots"
                     ]
@@ -669,13 +680,13 @@
                 "step": "STEP 2",
                 "title": "Deposit Payment",
                 "highlight": "90,000 KRW Deposit",
-                "desc": "Pay the deposit within 4 hours of booking, or it will be automatically cancelled."
+                "desc": "Pay the deposit within 4 hours of booking, or it will be automaticall y cancelled."
             },
             {
                 "step": "STEP 3",
                 "title": "Confirmed!",
                 "highlight": "Check via Naver\n'My Reservation'",
-                "desc": "Reservation is finalized when names match. Please inform us via Kakao if names differ."
+                "desc": "Reservation is finalized when names match. Please inform us via WhatsApp if names differ."
             }
         ]
     },
@@ -702,7 +713,7 @@
         "writeGoogle": "Write on Google",
         "empty": "No reviews yet.",
         "tags": {
-            "all": "All",
+            "all ": "All",
             "photo": "Photo Expert",
             "kind": "Kind",
             "config": "Good Setup",
@@ -711,11 +722,11 @@
         "samples": {
             "review1": {
                 "author": "Chulmin Kim",
-                "text": "It was my first body profile shoot, and the photographer lived up to their reputation. I had a lot of worries about poses and concepts, but they led me perfectly. I'm so satisfied and plan to visit again! They captured a life shot by catching even the smallest details."
+                "text": "It was my first body profile shoot, and the photographer lived up to their reputation. I had a lot of worries about poses and concepts, but they led me perfectly. I'm so satisfied and plan to visit again! They captured a life shot by catching even the small est details."
             },
             "review2": {
                 "author": "Jihye Lee",
-                "text": "Above all, the photographer was so kind! I was very nervous before the shoot, but I filmed comfortably in a soft atmosphere. Especially the composition and colors came out so beautifully that everyone is asking where I shot it. Highly recommended!"
+                "text": "Above all , the photographer was so kind! I was very nervous before the shoot, but I filmed comfortably in a soft atmosphere. Especiall y the composition and colors came out so beautifully that everyone is asking where I shot it. Highly recommended!"
             }
         }
     },
@@ -723,9 +734,9 @@
         "title": "Official Partners",
         "subtitle": "Meet our high-end fitness partners",
         "trainers": "Our Trainer Team",
-        "gallery": "Gallery",
+        "gall ery": "Gall ery",
         "categories": {
-            "all": "ALL",
+            "all ": "ALL",
             "fitness": "FITNESS",
             "pilates": "PILATES"
         },

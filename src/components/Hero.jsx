@@ -89,7 +89,7 @@ const Hero = () => {
                 {currentSlide !== 0 && (
                     <div className="hero-side-bar-inner">
                         <div className="hero-social-links">
-                            <a href="http://instagram.com/fitgirls.me" target="_blank" rel="noopener noreferrer" className="hero-social-link">FITGIRLS</a>
+                            <a href="http://instagram.com/fitgirls.me" target="_blank" rel="noopener noreferrer" className="hero-social-link">FITGIRLS & INERFIT</a>
                             <a href="https://instagram.com/angeloshin_world" target="_blank" rel="noopener noreferrer" className="hero-social-link">@ANGELOSHIN_WORLD</a>
                             <a href="https://www.youtube.com/@핏걸즈" target="_blank" rel="noopener noreferrer" className="hero-social-link">YOUTUBE</a>
                         </div>

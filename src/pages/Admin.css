@@ -756,3 +756,39 @@
         to { opacity: 1; transform: translateY(0); }
     }
 }
+
+/* ===== Photo Manager Improvements ===== */
+.photo-mgmt-card {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.photo-mgmt-card.selected {
+    border-color: #ff2d2d !important;
+    box-shadow: 0 8px 24px rgba(255, 45, 45, 0.2);
+    transform: translateY(-4px);
+}
+
+.photo-mgmt-card.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #ff2d2d;
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 900;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.photo-mgmt-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+

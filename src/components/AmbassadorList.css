@@ -3,7 +3,7 @@
   min-height: 100vh;
   background: var(--color-bg, #fff);
   color: var(--color-text, #111);
-  padding: 0 0 80px; /* Removed side padding to ensure photo-first layout on mobile */
+  padding: 0 0 120px; /* 푸터와의 간격 확보를 위해 패딩 증가 */
 }
 
 /* Header */
@@ -210,7 +210,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: grayscale(100%);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
   display: block;
   /* Stabilize rendering during scale transition */
   -webkit-backface-visibility: hidden;
@@ -219,6 +220,7 @@
 
 .al-card:hover .al-card-img img {
   transform: scale(1.08);
+  filter: grayscale(0%);
 }
 
 .al-card-no-img {
@@ -899,6 +901,204 @@
     right: 20px;
     width: 44px;
     height: 44px;
+  }
+}
+
+/* Featured Magazine Grid on Homepage */
+.al-featured-magazine {
+  max-width: 1280px;
+  margin: 0 auto 60px;
+  padding: 0 20px;
+}
+
+.al-featured-magazine .al-section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.al-section-subtitle {
+  font-size: 10px;
+  letter-spacing: 0.5em;
+  color: #888;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.al-section-title {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 0 0 16px;
+  color: #000;
+}
+
+.al-view-all-btn {
+  font-size: 11px;
+  font-weight: 700;
+  color: #000;
+  text-decoration: none;
+  border-bottom: 1px solid #000;
+  padding-bottom: 2px;
+  transition: opacity 0.3s ease;
+  letter-spacing: 0.05em;
+}
+
+.al-view-all-btn:hover {
+  opacity: 0.6;
+}
+
+.al-magazine-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.al-mag-card {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.al-mag-card:hover {
+  transform: translateY(-8px);
+}
+
+.al-mag-card-img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: #f0f0f0;
+  overflow: hidden;
+  margin-bottom: 12px;
+  border-radius: 4px;
+}
+
+.al-mag-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.al-mag-card:hover .al-mag-card-img img {
+  transform: scale(1.05);
+}
+
+.al-mag-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.al-mag-issue-num {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: #999;
+  font-weight: 500;
+}
+
+.al-mag-model-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: #111;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 768px) {
+  .al-magazine-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .al-section-title { font-size: 20px; }
+  .al-mag-model-name { font-size: 14px; }
+  
+  /* Hide the 3rd card on mobile to keep 2-col clean */
+  .al-mag-card:nth-child(3) {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .al-magazine-grid {
+    grid-template-columns: 1fr;
+  }
+  .al-mag-card:nth-child(3) {
+    display: block; /* Show back in 1-col if space allows, or keep hidden */
+  }
+}
+
+@media (max-width: 768px) {
+  .al-magazine-link {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
+  }
+  .al-ml-text {
+    font-size: 12px;
+    letter-spacing: 0.15em;
+  }
+}
+
+/* ===== Official Issue Link Button ===== */
+.al-modal-issue-link-box {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.al-official-issue-btn {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+  max-width: 400px;
+  text-decoration: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.al-official-issue-btn:hover {
+  background: #222;
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+.al-official-issue-btn .btn-label {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  font-weight: 800;
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+.al-official-issue-btn .btn-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 480px) {
+  .al-official-issue-btn {
+    padding: 14px 24px;
+  }
+  .al-official-issue-btn .btn-title {
+    font-size: 16px;
   }
 }
 

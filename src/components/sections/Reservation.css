@@ -98,6 +98,13 @@
     margin: 8px 0 0;
 }
 
+.step-action {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+}
+
 .res-naver-btn {
     display: inline-block;
     background: #00c35b;
@@ -107,7 +114,31 @@
     font-weight: 800;
     font-size: 1.1rem;
     text-decoration: none;
-    margin-top: 10px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.res-naver-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.res-channel-btn {
+    display: inline-block;
+    background: #000000;
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.res-channel-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
 }
 
 .reservation-info-box {
@@ -256,9 +287,13 @@
         font-size: 0.85rem;
     }
 
-    .res-naver-btn {
+    .res-naver-btn,
+    .res-channel-btn {
         padding: 12px 24px;
         font-size: 0.95rem;
+        flex: 1; /* Stretch buttons to fill width if needed or keep original size */
+        min-width: 140px; /* Ensure buttons have minimum size on mobile */
+        text-align: center;
     }
 
     .reservation-info-box {

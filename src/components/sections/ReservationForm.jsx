@@ -48,6 +48,14 @@ const ReservationForm = () => {
                                     >
                                         {t('reservation.button')}
                                     </a>
+                                    <a
+                                        href="http://pf.kakao.com/_cpxbxnC"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="res-channel-btn"
+                                    >
+                                        {t('reservation.channel_button')}
+                                    </a>
                                 </div>
                             </div>
                         </div>

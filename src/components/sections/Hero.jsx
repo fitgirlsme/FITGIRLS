@@ -57,6 +57,25 @@ const Hero = () => {
                 <span className="hero-year">2026</span>
                 <h1 className="hero-title">{t('hero.title')}</h1>
                 <p className="hero-subtitle">{t('hero.subtitle')}</p>
+                
+                <div className="hero-actions">
+                    <a
+                        href={t('reservation.link')}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hero-btn hero-btn-naver"
+                    >
+                        {t('hero.cta')}
+                    </a>
+                    <a
+                        href="http://pf.kakao.com/_cpxbxnC"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hero-btn hero-btn-kakao"
+                    >
+                        {t('reservation.channel_button')}
+                    </a>
+                </div>
             </FadeInSection>
 
             {/* 첫 화면 전용 소셜 링크 */}

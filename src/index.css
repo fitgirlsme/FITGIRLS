@@ -12,6 +12,16 @@ body {
   overflow-x: hidden;
 }
 
+/* Hide Channel Talk launcher bubble globally */
+#ch-plugin-launcher, 
+.ch-messenger-launcher,
+[class^="Launcherstyled__Launcher"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 .container-inner {
   max-width: 600px;
   width: 100%;

@@ -4,14 +4,31 @@ import { db } from '../utils/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { addItem, STORES } from '../utils/db';
 
-function GalleryMultiUploader({ onUploadSuccess }) {
+function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
   const [selectedFiles, setSelectedFiles] = useState([]); 
   const [uploadStatus, setUploadStatus] = useState([]); 
   const [isUploading, setIsUploading] = useState(false);
   const [mainCategory, setMainCategory] = useState('fitorialist');
   const [subCategory, setSubCategory] = useState('women');
+  const [issueId, setIssueId] = useState('');
   const [tagsInput, setTagsInput] = useState('');
   const [isDragging, setIsDragging] = useState(false);
+
+  // Prevent browser from opening files dropped outside the dropzone
+  React.useEffect(() => {
+    const preventDefault = (e) => {
+        if (e.dataTransfer) {
+            e.dataTransfer.dropEffect = 'none';
+        }
+        e.preventDefault();
+    };
+    window.addEventListener('dragover', preventDefault);
+    window.addEventListener('drop', preventDefault);
+    return () => {
+      window.removeEventListener('dragover', preventDefault);
+      window.removeEventListener('drop', preventDefault);
+    };
+  }, []);
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
@@ -45,6 +62,9 @@ function GalleryMultiUploader({ onUploadSuccess }) {
   const handleDragOver = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    if (e.dataTransfer) {
+        e.dataTransfer.dropEffect = 'copy';
+    }
     if (!isUploading) setIsDragging(true);
   };
 
@@ -61,9 +81,23 @@ function GalleryMultiUploader({ onUploadSuccess }) {
     
     if (isUploading) return;
 
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      const files = Array.from(e.dataTransfer.files);
-      processFiles(files);
+    const files = [];
+    if (e.dataTransfer.items) {
+      // Use DataTransferItemList interface to access the file(s)
+      for (let i = 0; i < e.dataTransfer.items.length; i++) {
+        if (e.dataTransfer.items[i].kind === 'file') {
+          files.push(e.dataTransfer.items[i].getAsFile());
+        }
+      }
+    } else {
+      // Use DataTransfer interface to access the file(s)
+      for (let i = 0; i < e.dataTransfer.files.length; i++) {
+        files.push(e.dataTransfer.files[i]);
+      }
+    }
+
+    if (files.length > 0) {
+      processFiles(files.filter(f => f !== null));
     }
   };
 
@@ -93,6 +127,7 @@ function GalleryMultiUploader({ onUploadSuccess }) {
         const galleryData = {
           mainCategory: mainCategory,
           type: subCategory,
+          issueId: issueId, // Added issueId
           tags: parsedTags,
           seoTags: parsedTags.join(', '),
           imageUrl: optimizedUrl,
@@ -148,6 +183,15 @@ function GalleryMultiUploader({ onUploadSuccess }) {
             <option value="men">남자 (Men)</option>
             <option value="couple">우정&커플</option>
             <option value="outdoor">발리프로젝트</option>
+          </select>
+        </div>
+        <div className="uploader-field">
+          <label>매거진 이슈 (Optional)</label>
+          <select value={issueId} onChange={(e) => setIssueId(e.target.value)} disabled={isUploading}>
+            <option value="">이슈 미지정</option>
+            {issues.map(iss => (
+              <option key={iss.id} value={iss.id}>{iss.title} - {iss.modelName}</option>
+            ))}
           </select>
         </div>
       </div>

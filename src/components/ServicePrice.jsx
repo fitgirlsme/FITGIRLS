@@ -127,6 +127,11 @@ const ServicePrice = () => {
                         <li>네이버 리뷰 작성 시 보정 1장 서비스 제공.</li>
                     </ul>
                 </div>
+                
+                <div style={{ marginTop: '30px', textAlign: 'center', fontSize: '0.8rem', color: '#999', lineHeight: '1.6' }}>
+                    <p style={{ margin: 0, fontWeight: '700' }}>[계약금 및 환불 규정]</p>
+                    <p style={{ margin: '4px 0 0 0' }}>스케줄 변경 시 남은 기간과 관계없이 계약금 환불은 불가합니다.</p>
+                </div>
             </div>
         </section>
     );

@@ -83,7 +83,7 @@ ul, li {
 /* Sections that need internal scrolling */
 #reservation,
 #zone,
-#gallery,
+#article,
 #artist,
 #service,
 #hair-makeup,
@@ -102,12 +102,10 @@ ul, li {
   box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
-  #artist {
-    height: auto !important;
-    min-height: 100dvh;
-    overflow-y: visible !important;
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
-  }
+#artist {
+  height: auto !important;
+  min-height: 100dvh;
+  overflow-y: visible !important;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
 }

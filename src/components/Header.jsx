@@ -13,13 +13,13 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
         { id: 'hero', label: t('nav.home', 'Home'), path: '/' },
         { id: 'artist', label: t('nav.director', 'Artist'), path: '/' },
         {
-            category: t('nav.gallery', 'Gallery'),
+            category: t('nav.gallery', 'ARTICLE'),
             items: [
-                { id: 'gallery', label: 'ALL', path: '/gallery' },
-                { id: 'gallery', label: t('gallery.fitorialist', 'FITORIALIST'), path: '/gallery?main=fitorialist' },
-                { id: 'gallery', label: t('gallery.artist', 'ARTIST'), path: '/gallery?main=artist' },
-                { id: 'gallery', label: t('gallery.fashion_beauty', 'FASHION & BEAUTY'), path: '/gallery?main=fashion' },
-                { id: 'gallery', label: t('gallery.portrait', 'PORTRAIT'), path: '/gallery?main=portrait' },
+                { id: 'article', label: 'ALL', path: '/article' },
+                { id: 'article', label: t('gallery.fitorialist', 'FITORIALIST'), path: '/article?main=fitorialist' },
+                { id: 'article', label: t('gallery.artist', 'ARTIST'), path: '/article?main=artist' },
+                { id: 'article', label: t('gallery.fashion_beauty', 'FASHION & BEAUTY'), path: '/article?main=fashion' },
+                { id: 'article', label: t('gallery.portrait', 'PORTRAIT'), path: '/article?main=portrait' },
             ]
         },
         {
@@ -34,13 +34,13 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
             category: t('nav.info', 'Info'),
             items: [
                 { id: 'hair-makeup', label: t('nav.hairmakeup', 'Hair & Makeup'), path: '/hair-makeup' },
-                { id: 'event-board', label: t('nav.event', 'Event'), path: '/event-board' },
                 { id: 'faq', label: t('nav.faq', 'FAQ'), path: '/faq' },
+                { id: 'event-board', label: t('nav.event', 'Event'), path: '/event-board' },
                 { id: 'location', label: t('nav.location', 'Location'), path: '/location' },
             ]
         },
-        { id: 'reviews', label: t('nav.review', 'Review'), path: '/reviews' },
         { id: 'reservation', label: t('nav.reservation', 'Reservation'), path: '/reservation', isRed: true },
+        { id: 'reviews', label: t('nav.review', 'Review'), path: '/reviews' },
         { id: 'ambassadors', label: t('nav.muses', 'AMBASSADOR'), path: '/' },
         { id: 'amber', label: t('nav.ambassador', 'RECRUIT'), path: '/ambar' },
         { id: 'partners', label: t('nav.partners', 'Partnership'), path: '/partners' },

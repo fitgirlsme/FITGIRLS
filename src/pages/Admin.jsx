@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { db, storage } from '../utils/firebase';
 import { 
     collection, addDoc, getDocs, deleteDoc, doc, updateDoc, 
-    query, orderBy, serverTimestamp 
+    query, orderBy, serverTimestamp, limit 
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import GalleryMultiUploader from '../components/GalleryMultiUploader';
@@ -18,7 +18,9 @@ const STORES = {
     MODELS: 'models',
     LOOKBOOK: 'lookbook',
     PARTNERS: 'partners',
-    DIRECTOR: 'director_activities'
+    DIRECTOR: 'director_activities',
+    GALLERY: 'gallery',
+    ISSUES: 'issues'
 };
 
 // Utilities
@@ -113,6 +115,7 @@ const Admin = () => {
         { id: 'hero', label: 'Hero', icon: '🎬', desc: 'Main slides & Video' },
         { id: 'apply', label: 'Applications', icon: '📥', desc: 'New submissions' },
         { id: 'partners', label: 'Partners', icon: '🤝', desc: 'Partner logos' },
+        { id: 'studios', label: 'Studios', icon: '📸', desc: 'Studio Zones' },
         { id: 'artist', label: 'Artist', icon: '👤', desc: 'Artist profile' },
     ];
 
@@ -169,6 +172,7 @@ const Admin = () => {
                     {activeTab === 'hero' && <HeroTab />}
                     {activeTab === 'apply' && <ApplicationsTab />}
                     {activeTab === 'partners' && <PartnersTab />}
+                    {activeTab === 'studios' && <StudiosTab />}
                     {activeTab === 'artist' && <ArtistTab />}
                 </div>
             </div>
@@ -188,14 +192,407 @@ const Toast = ({ message, sub, onClose }) => (
     </div>
 );
 
-// ===== 1. Gallery Tab =====
+// ===== Photo Manager Sub-component =====
+const PhotoManager = ({ issues }) => {
+    const [photos, setPhotos] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [deletingId, setDeletingId] = useState(null);
+    const [selectedIds, setSelectedIds] = useState([]);
+    const [bulkIssueId, setBulkIssueId] = useState('');
+
+    useEffect(() => { loadPhotos(); }, []);
+
+    const loadPhotos = async () => {
+        setLoading(true);
+        try {
+            const snap = await getDocs(query(collection(db, STORES.GALLERY), orderBy('createdAt', 'desc'), limit(100)));
+            setPhotos(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+        } catch (err) { console.error(err); }
+        setLoading(false);
+    };
+
+    const toggleSelect = (id) => {
+        setSelectedIds(prev => 
+            prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+        );
+    };
+
+    const handleBulkIssueChange = async () => {
+        if (selectedIds.length === 0) return;
+        if (!confirm(`${selectedIds.length}개의 사진에 선택한 이슈를 일괄 적용하시겠습니까?`)) return;
+
+        try {
+            const promises = selectedIds.map(id => 
+                updateDoc(doc(db, STORES.GALLERY, id), { issueId: bulkIssueId })
+            );
+            await Promise.all(promises);
+            
+            setPhotos(prev => prev.map(p => 
+                selectedIds.includes(p.id) ? { ...p, issueId: bulkIssueId } : p
+            ));
+            setSelectedIds([]);
+            alert('일괄 적용되었습니다.');
+        } catch (err) {
+            alert('일괄 적용 실패: ' + err.message);
+        }
+    };
+
+    const handleDelete = async (photo) => {
+        if (!photo.id) return;
+        const confirmed = window.confirm('이 사진을 영구 삭제하시겠습니까? (스토리지 파일도 삭제됩니다)');
+        if (!confirmed) return;
+        
+        setDeletingId(photo.id);
+        try {
+            // 1. Firebase Firestore 삭제
+            await deleteDoc(doc(db, STORES.GALLERY, photo.id));
+            
+            // 2. Firebase Storage 삭제
+            if (photo.storagePath) {
+                await deleteObject(ref(storage, photo.storagePath));
+            }
+
+            // 3. 로컬 IndexedDB 삭제 (동기화)
+            try {
+                const { deleteGalleryItem } = await import('../utils/db');
+                await deleteGalleryItem(photo.id);
+            } catch (err) {
+                console.warn('Local DB delete skip (not critical)');
+            }
+
+            // 4. UI 상태 업데이트
+            setPhotos(prev => prev.filter(p => p.id !== photo.id));
+            setSelectedIds(prev => prev.filter(id => id !== photo.id));
+        } catch (err) {
+            console.error('Delete error:', err);
+            alert('삭제 중 오류 발생: ' + err.message);
+        }
+        setDeletingId(null);
+    };
+
+    const handleIssueChange = async (photoId, newIssueId) => {
+        try {
+            await updateDoc(doc(db, STORES.GALLERY, photoId), { issueId: newIssueId });
+            setPhotos(prev => prev.map(p => p.id === photoId ? { ...p, issueId: newIssueId } : p));
+        } catch (err) {
+            alert('이슈 수정 실패: ' + err.message);
+        }
+    };
+
+    return (
+        <div className="photo-manager-section" style={{ marginTop: '40px', borderTop: '1px solid #eee', paddingTop: '40px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <h4 style={{ margin: 0 }}>최근 업로드 화보 내역 (Photo History)</h4>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                    <button onClick={() => setSelectedIds(photos.map(p => p.id))} style={{ background: '#eee', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem' }}>전체 선택</button>
+                    <button onClick={() => setSelectedIds([])} style={{ background: '#eee', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem' }}>선택 해제</button>
+                    <button onClick={loadPhotos} style={{ background: '#eee', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem' }}>목록 새로고침</button>
+                </div>
+            </div>
+
+            {selectedIds.length > 0 && (
+                <div style={{ 
+                    background: '#f8f9fa', 
+                    padding: '16px', 
+                    borderRadius: '8px', 
+                    marginBottom: '20px', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '12px',
+                    border: '1px solid #dee2e6'
+                }}>
+                    <span style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>{selectedIds.length}개 선택됨:</span>
+                    <select 
+                        value={bulkIssueId} 
+                        onChange={(e) => setBulkIssueId(e.target.value)}
+                        style={{ padding: '6px', fontSize: '0.85rem', borderRadius: '4px', border: '1px solid #ddd' }}
+                    >
+                        <option value="">이슈 미지정</option>
+                        {issues.map(iss => (
+                            <option key={iss.id} value={iss.id}>{iss.title}</option>
+                        ))}
+                    </select>
+                    <button 
+                        onClick={handleBulkIssueChange}
+                        style={{ 
+                            background: '#ff2d2d', 
+                            color: '#fff', 
+                            border: 'none', 
+                            padding: '6px 16px', 
+                            borderRadius: '4px', 
+                            cursor: 'pointer', 
+                            fontWeight: 'bold',
+                            fontSize: '0.85rem'
+                        }}
+                    >
+                        일괄 적용
+                    </button>
+                </div>
+            )}
+            
+            {loading ? <p>로딩 중...</p> : (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '16px' }}>
+                    {photos.map(p => {
+                        const isSelected = selectedIds.includes(p.id);
+                        return (
+                            <div 
+                                key={p.id} 
+                                className={`photo-mgmt-card ${isSelected ? 'selected' : ''}`} 
+                                style={{ 
+                                    background: '#f9f9f9', 
+                                    borderRadius: '8px', 
+                                    overflow: 'hidden', 
+                                    border: isSelected ? '2px solid #ff2d2d' : '1px solid #eee', 
+                                    position: 'relative',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease'
+                                }}
+                                onClick={() => toggleSelect(p.id)}
+                            >
+                                <img src={p.imageUrl || p.img} alt="" style={{ width: '100%', aspectRatio: '1:1', objectFit: 'cover' }} />
+                                {isSelected && (
+                                    <div style={{ 
+                                        position: 'absolute', top: '8px', right: '8px', 
+                                        background: '#ff2d2d', color: '#fff', 
+                                        width: '20px', height: '20px', borderRadius: '50%',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        fontSize: '0.7rem', fontWeight: 'bold'
+                                    }}>✓</div>
+                                )}
+                                <div style={{ padding: '8px' }}>
+                                    {p.tags && p.tags.length > 0 && (
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginBottom: '8px' }}>
+                                            {p.tags.slice(0, 3).map((t, idx) => (
+                                                <span key={idx} style={{ 
+                                                    fontSize: '0.65rem', color: '#888', background: '#eee', 
+                                                    padding: '1px 4px', borderRadius: '3px' 
+                                                }}>{t.startsWith('#') ? t : `#${t}`}</span>
+                                            ))}
+                                            {p.tags.length > 3 && <span style={{ fontSize: '0.65rem', color: '#888' }}>...</span>}
+                                        </div>
+                                    )}
+                                    <select 
+                                        value={p.issueId || ''} 
+                                        onChange={(e) => {
+                                            e.stopPropagation();
+                                            handleIssueChange(p.id, e.target.value);
+                                        }}
+                                        onClick={e => e.stopPropagation()}
+                                        style={{ width: '100%', fontSize: '0.75rem', padding: '4px', marginBottom: '8px', border: '1px solid #ddd', borderRadius: '4px' }}
+                                    >
+                                        <option value="">이슈 미지정</option>
+                                        {issues.map(iss => (
+                                            <option key={iss.id} value={iss.id}>{iss.title}</option>
+                                        ))}
+                                    </select>
+                                    <button 
+                                        disabled={deletingId === p.id}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDelete(p);
+                                        }}
+                                        style={{ width: '100%', background: '#fff', color: '#ff4444', border: '1px solid #ff4444', fontSize: '0.7rem', padding: '4px', borderRadius: '4px', cursor: 'pointer' }}
+                                    >
+                                        {deletingId === p.id ? '삭제 중...' : 'Delete'}
+                                    </button>
+                                </div>
+                            </div>
+                        );
+                    })}
+                    {photos.length === 0 && <p style={{ gridColumn: '1/-1', textAlign: 'center', color: '#888' }}>업로드된 화보가 없습니다.</p>}
+                </div>
+            )}
+        </div>
+    );
+};
+
+// ===== 1. Gallery Tab (Issues & Photos) =====
 const GalleryTab = () => {
+    const [issues, setIssues] = useState([]);
+    const [models, setModels] = useState([]);
+    const [showIssueForm, setShowIssueForm] = useState(false);
+    const [editId, setEditId] = useState(null);
+    const [newIssue, setNewIssue] = useState({ title: '', modelName: '', modelId: '', coverImg: null });
+    const [isSaving, setIsSaving] = useState(false);
+
+    useEffect(() => { 
+        loadIssues(); 
+        loadModels();
+    }, []);
+
+    const loadModels = async () => {
+        try {
+            const snap = await getDocs(query(collection(db, 'models'), orderBy('nameEn', 'asc')));
+            setModels(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+        } catch (err) { console.error('Failed to load models for selector:', err); }
+    };
+
+    const loadIssues = async () => {
+        try {
+            const snap = await getDocs(query(collection(db, STORES.ISSUES), orderBy('createdAt', 'desc')));
+            setIssues(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+        } catch (err) { console.error(err); }
+    };
+
+    const handleSaveIssue = async () => {
+        if (!newIssue.title || !newIssue.coverImg) { alert('제목과 커버 이미지를 모두 등록해주세요.'); return; }
+        setIsSaving(true);
+        try {
+            let finalTitle = newIssue.title.trim();
+            if (/^\d+$/.test(finalTitle)) {
+                finalTitle = `ISSUE ${finalTitle}`;
+            }
+
+            let imageUrl = typeof newIssue.coverImg === 'string' ? newIssue.coverImg : '';
+            let storagePath = '';
+
+            // 1. Handle Image Upload if it's a new file
+            if (newIssue.coverImg instanceof File) {
+                const uploadRes = await uploadToStorage(newIssue.coverImg, 'issues_covers');
+                imageUrl = uploadRes.url;
+                storagePath = uploadRes.path;
+
+                // If editing, delete the old image
+                if (editId) {
+                    const oldIssue = issues.find(i => i.id === editId);
+                    if (oldIssue?.storagePath) {
+                        try { await deleteObject(ref(storage, oldIssue.storagePath)); } catch (e) { console.warn('Old image delete failed:', e); }
+                    }
+                }
+            }
+
+            const data = {
+                title: finalTitle,
+                modelName: newIssue.modelName.trim(),
+                modelId: newIssue.modelId || '',
+                updatedAt: serverTimestamp()
+            };
+
+            if (imageUrl) data.coverImg = imageUrl;
+            if (storagePath) data.storagePath = storagePath;
+
+            if (editId) {
+                // Update
+                await updateDoc(doc(db, STORES.ISSUES, editId), data);
+            } else {
+                // Create
+                await addDoc(collection(db, STORES.ISSUES), {
+                    ...data,
+                    createdAt: serverTimestamp()
+                });
+            }
+
+            handleCloseModal();
+            loadIssues();
+        } catch (err) { alert('저장 실패: ' + err.message); }
+        setIsSaving(false);
+    };
+
+    const startEditIssue = (issue) => {
+        setEditId(issue.id);
+        setNewIssue({
+            title: issue.title,
+            modelName: issue.modelName,
+            modelId: issue.modelId || '',
+            coverImg: issue.coverImg // String URL
+        });
+        setShowIssueForm(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowIssueForm(false);
+        setEditId(null);
+        setNewIssue({ title: '', modelName: '', modelId: '', coverImg: null });
+    };
+
+    const handleDeleteIssue = async (issue) => {
+        if (!confirm(`'${issue.title}' 이슈를 삭제하시겠습니까? (이슈 내 사진은 유지되지만 이슈 정보는 사라집니다)`)) return;
+        try {
+            await deleteDoc(doc(db, STORES.ISSUES, issue.id));
+            if (issue.storagePath) await deleteObject(ref(storage, issue.storagePath));
+            loadIssues();
+        } catch (err) { alert('삭제 실패: ' + err.message); }
+    };
+
     return (
         <div className="upload-section">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
-                <h3 style={{ margin: 0 }}>Gallery Management</h3>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+                <h3 style={{ margin: 0 }}>잡지 이슈 관리 (Magazine Issues)</h3>
+                <button className="add-btn" onClick={() => { setEditId(null); setShowIssueForm(true); }}>+ 신규 이슈 추가</button>
             </div>
-            <GalleryMultiUploader />
+
+            {/* Issue List Grid */}
+            <div className="admin-issue-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '20px', marginBottom: '48px' }}>
+                {issues.map(issue => (
+                    <div key={issue.id} className="admin-issue-card" style={{ background: '#fff', borderRadius: '12px', overflow: 'hidden', border: '1px solid #eee' }}>
+                        <div style={{ aspectRatio: '4/5', position: 'relative' }}>
+                            <img src={issue.coverImg} alt={issue.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        </div>
+                        <div style={{ padding: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <strong style={{ fontSize: '0.9rem' }}>{issue.title}</strong>
+                            <div style={{ display: 'flex', gap: '8px' }}>
+                                <button onClick={() => startEditIssue(issue)} style={{ background: 'none', border: 'none', color: '#444', fontSize: '0.8rem', cursor: 'pointer', textDecoration: 'underline' }}>Edit</button>
+                                <button onClick={() => handleDeleteIssue(issue)} style={{ background: 'none', border: 'none', color: '#ff4444', fontSize: '0.8rem', cursor: 'pointer' }}>Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+                {issues.length === 0 && <p style={{ gridColumn: '1/-1', textAlign: 'center', color: '#888' }}>등록된 이슈가 없습니다.</p>}
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32, borderTop: '1px solid #eee', paddingTop: '32px' }}>
+                <h3 style={{ margin: 0 }}>화보 관리 (Photo Management)</h3>
+            </div>
+            <GalleryMultiUploader issues={issues} />
+            
+            <PhotoManager issues={issues} />
+
+            {/* New Asset/Edit Issue Modal */}
+            {showIssueForm && (
+                <div className="admin-modal-overlay" onClick={handleCloseModal}>
+                    <div className="admin-modal" style={{ maxWidth: '400px' }} onClick={e => e.stopPropagation()}>
+                        <button className="close-x" onClick={handleCloseModal}>×</button>
+                        <h3 className="modal-title">{editId ? '이슈 정보 수정' : '신규 이슈 등록'}</h3>
+                        <div className="admin-form">
+                            <div className="form-group">
+                                <label>이슈 제목 (예: ISSUE 1)</label>
+                                <input type="text" value={newIssue.title} onChange={e => setNewIssue({...newIssue, title: e.target.value})} placeholder="ISSUE 1" />
+                            </div>
+                            <div className="form-group">
+                                <label>기획 모델 선택 (앰버서더 리스트)</label>
+                                <select 
+                                    value={newIssue.modelId} 
+                                    onChange={e => {
+                                        const selectedId = e.target.value;
+                                        const model = models.find(m => m.id === selectedId);
+                                        setNewIssue({
+                                            ...newIssue, 
+                                            modelId: selectedId,
+                                            modelName: model ? model.nameKr : ''
+                                        });
+                                    }}
+                                >
+                                    <option value="">모델을 선택하세요</option>
+                                    {models.map(m => (
+                                        <option key={m.id} value={m.id}>{m.nameKr} ({m.nameEn})</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>매거진 커버 (4:5 추천)</label>
+                                <input type="file" accept="image/*" onChange={e => setNewIssue({...newIssue, coverImg: e.target.files[0]})} />
+                            </div>
+                            <button 
+                                className="submit-btn" 
+                                onClick={handleSaveIssue}
+                                disabled={isSaving}
+                            >
+                                {isSaving ? '저장 중...' : (editId ? '이슈 정보 수정 완료' : '이슈 등록 완료')}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
@@ -1147,6 +1544,154 @@ const ArtistTab = () => {
         <div className="upload-section">
             <h3 style={{ margin: '0 0 32px' }}>Artist Section Management</h3>
             <DirectorPhotoUploader />
+        </div>
+    );
+};
+
+// ===== 8. Studios Tab =====
+const StudiosTab = () => {
+    const [studios, setStudios] = useState([]);
+    const [filterTab, setFilterTab] = useState('fitgirls');
+    const [showForm, setShowForm] = useState(false);
+    const [editId, setEditId] = useState(null);
+    const [form, setForm] = useState({
+        title: '', category: 'fitgirls', description: '', image: '', img: ''
+    });
+    const [saving, setSaving] = useState(false);
+    const [uploadingImage, setUploadingImage] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    useEffect(() => { loadStudios(); }, []);
+
+    const loadStudios = async () => {
+        try {
+            const snap = await getDocs(query(collection(db, 'studios'), orderBy('createdAt', 'desc')));
+            setStudios(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+        } catch (err) { console.error(err); }
+    };
+
+    const resetForm = () => {
+        setForm({ title: '', category: 'fitgirls', description: '', image: '', img: '' });
+        setEditId(null); setShowForm(false); setUploadingImage(false);
+    };
+
+    const handleSave = async () => {
+        if (!form.title) { alert('Title is required.'); return; }
+        setSaving(true);
+        try {
+            const data = { ...form, updatedAt: serverTimestamp(), ...(editId ? {} : { createdAt: serverTimestamp() }) };
+            if (editId) { await updateDoc(doc(db, 'studios', editId), data); }
+            else { await addDoc(collection(db, 'studios'), data); }
+            const { syncCollection } = await import('../utils/syncService');
+            await syncCollection('studios');
+            setShowSuccess(true); setTimeout(() => setShowSuccess(false), 3000);
+            resetForm(); loadStudios();
+        } catch (err) { alert('Save error: ' + err.message); }
+        setSaving(false);
+    };
+
+    const handleDeleteStudio = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this studio zone?')) return;
+        try {
+            await deleteDoc(doc(db, 'studios', id));
+            const { syncCollection } = await import('../utils/syncService');
+            await syncCollection('studios');
+            loadStudios();
+        } catch (err) { alert(err.message); }
+    };
+
+    const startEdit = (s) => { setForm({ ...s }); setEditId(s.id); setShowForm(true); };
+
+    const handlePhoto = async (file) => {
+        if (!file) return;
+        setUploadingImage(true);
+        try {
+            const { url } = await uploadToStorage(file, 'studios');
+            setForm(prev => ({ ...prev, image: url }));
+        } catch (err) {
+            alert('Image upload failed: ' + err.message);
+        } finally {
+            setUploadingImage(false);
+        }
+    };
+
+    return (
+        <div className="upload-section">
+            {showSuccess && <Toast message="Saved successfully!" onClose={() => setShowSuccess(false)} />}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+                <h3 style={{ margin: 0 }}>Studio Zones</h3>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <button className="add-btn" onClick={() => { resetForm(); setShowForm(true); }}>+ Add Studio Zone</button>
+                </div>
+            </div>
+
+            {showForm && (
+                <div className="admin-modal-overlay" onClick={() => resetForm()}>
+                    <div className="admin-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 500 }}>
+                        <button className="close-x" onClick={resetForm}>×</button>
+                        <h3>{editId ? 'Edit Studio Zone' : 'Add New Studio Zone'}</h3>
+                        <div className="admin-modal-form">
+                            <div className="form-group"><label>Title *</label><input type="text" value={form.title} onChange={e => setForm({...form, title: e.target.value})} placeholder="ex) Black Moon" /></div>
+                            <div className="form-group">
+                                <label>Category</label>
+                                <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="admin-select">
+                                    <option value="fitgirls">FITGIRLS & INAFIT (핏걸즈 & INAFIT)</option>
+                                    <option value="mooz">MOOZ SELF Studio (무즈 셀프스튜디오)</option>
+                                </select>
+                            </div>
+                            <div className="form-group"><label>Description (Optional)</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} /></div>
+                            <div className="form-group">
+                                <label>Background Photo</label>
+                                <input type="file" onChange={e => handlePhoto(e.target.files[0])} disabled={uploadingImage} />
+                                {uploadingImage && <p style={{ color: '#007BFF', fontSize: '0.85rem', marginTop: 8 }}>Uploading photo... Please wait.</p>}
+                                {(form.image || form.img) && !uploadingImage && (
+                                    <div style={{ position: 'relative', marginTop: 12, width: 'fit-content' }}>
+                                        <img src={form.image || form.img} alt="" style={{ width: 120, height: 120, objectFit: 'cover', borderRadius: 8 }} />
+                                        <button onClick={() => setForm({...form, image: '', img: ''})} className="remove-thumb-btn">×</button>
+                                    </div>
+                                )}
+                            </div>
+                            <div style={{ marginTop: 32, paddingTop: 24, borderTop: '1px solid #eee' }}>
+                                <button className="submit-btn" onClick={handleSave} disabled={saving || uploadingImage}>
+                                    {saving ? 'Saving...' : uploadingImage ? 'Uploading Image...' : 'Save Studio Zone'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="admin-tabs" style={{ marginBottom: '24px' }}>
+                <button
+                    className={`admin-tab-btn ${filterTab === 'fitgirls' ? 'active' : ''}`}
+                    onClick={() => setFilterTab('fitgirls')}
+                >
+                    FITGIRLS &amp; INAFIT
+                </button>
+                <button
+                    className={`admin-tab-btn ${filterTab === 'mooz' ? 'active' : ''}`}
+                    onClick={() => setFilterTab('mooz')}
+                >
+                    MOOZ SELF Studio
+                </button>
+            </div>
+
+            <div className="admin-item-list">
+                {studios.filter(s => s.category === filterTab).map(s => (
+                    <div key={s.id} className="admin-item-card">
+                        {(s.image || s.img) && <img src={s.image || s.img} alt="" className="admin-item-thumb" />}
+                        <div className="admin-item-info">
+                            <strong>{s.title}</strong>
+                            <span className="admin-item-badge">{s.category === 'fitgirls' ? 'FITGIRLS & INAFIT' : 'MOOZ SELF'}</span>
+                        </div>
+                        <div className="admin-item-actions">
+                            <button onClick={() => startEdit(s)}>Edit</button>
+                            <button onClick={() => handleDeleteStudio(s.id)} className="delete">Delete</button>
+                        </div>
+                    </div>
+                ))}
+                {studios.filter(s => s.category === filterTab).length === 0 && <p style={{ padding: 40, textAlign: 'center', color: '#888' }}>해당 카테고리에 등록된 스튜디오가 없습니다.</p>}
+            </div>
         </div>
     );
 };

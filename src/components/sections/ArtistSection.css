@@ -11,7 +11,9 @@
 
 /* For snap scrolling */
 .snap-section#artist {
-    /* No internal scroll to avoid confusing intersection observer */
+    height: auto;
+    min-height: 100vh;
+    overflow: hidden; /* Or visible, but height: auto prevents overlapping */
 }
 
 .director-bg-overlay {
@@ -100,7 +102,13 @@
     height: 100%;
     display: block;
     object-fit: cover;
-    pointer-events: none;
+    filter: none;
+    transition: opacity 1s ease-in-out;
+    pointer-events: auto; /* Allow hover */
+}
+
+.director-activity-photo:hover {
+    opacity: 1;
 }
 
 .director-bio-text {
@@ -233,6 +241,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    filter: none;
     transition: transform 0.3s ease;
 }
 
