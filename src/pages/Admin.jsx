@@ -767,7 +767,7 @@ const GalleryTab = () => {
     return (
         <div className="upload-section">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-                <h3 style={{ margin: 0 }}>매거진 이슈 관리 (FITORIALIST Issues)</h3>
+                <h3 style={{ margin: 0 }}>잡지 이슈 관리 (Magazine Issues)</h3>
                 <button className="add-btn" onClick={() => { setEditId(null); setShowIssueForm(true); }}>+ 신규 이슈 추가</button>
             </div>
 
