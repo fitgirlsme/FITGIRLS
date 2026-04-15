@@ -357,7 +357,7 @@ const Zone = () => {
                                                 }, 300);
                                             }}
                                         >
-                                            사진 더보기 (View More)
+                                            VIEW MORE
                                         </button>
                                     )}
 
