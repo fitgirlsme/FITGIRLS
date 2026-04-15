@@ -22,7 +22,7 @@
         "ambassador": "大使招募",
         "partners": "合作伙伴",
         "director": "艺术家",
-        "magazine": "FITORIALIST"
+        "magazine": "FITORIALIST+"
     },
     "event": {
         "title": "EVENT & NOTICE",
@@ -139,13 +139,13 @@
     },
     "gallery": {
         "main": {
-            "fitorialist": "FITORIALIST",
+            "fitorialist": "FITORIALIST+",
             "artist": "ARTIST",
             "fashion": "FASHION & BEAUTY",
             "portrait": "PORTRAIT",
             "director": "ARTIST'S ARCHIVE"
         },
-        "fitorialist": "FITORIALIST",
+        "fitorialist": "FITORIALIST+",
         "artist": "ARTIST",
         "fashion_beauty": "FASHION & BEAUTY",
         "portrait": "PORTRAIT",

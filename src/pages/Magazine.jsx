@@ -171,7 +171,7 @@ const Magazine = () => {
                 /* 1. Issue List View */
                 <div className="gallery-magazine-feed">
                     <div className="editorial-giant-logo">
-                        <h1>FITORIALIST</h1>
+                        <h1>FITORIALIST+</h1>
                     </div>
                     
                     <div className="magazine-feed-grid">
@@ -211,7 +211,7 @@ const Magazine = () => {
                         </button>
 
                         <div className="editorial-giant-logo">
-                            <h1>FITORIALIST</h1>
+                            <h1>FITORIALIST+</h1>
                         </div>
 
                         <div className="editorial-hero-section">

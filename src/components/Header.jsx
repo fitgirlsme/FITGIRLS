@@ -41,7 +41,7 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
         },
         { id: 'reservation', label: t('nav.reservation', 'Reservation'), path: '/reservation', isRed: true },
         { id: 'reviews', label: t('nav.review', 'Review'), path: '/reviews' },
-        { label: t('nav.magazine', 'FITORIALIST'), path: '/magazine', isRed: true },
+        { label: t('nav.magazine', 'FITORIALIST+'), path: '/magazine', isRed: true },
         { label: t('nav.muses', 'AMBASSADOR'), path: '/fitorialist' },
         { label: t('nav.ambassador', 'RECRUIT'), path: '/ambar' },
         { label: t('nav.partners', 'Partnership'), path: '/partners' },
