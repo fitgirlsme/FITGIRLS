@@ -101,7 +101,7 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin-top: 4rem;
+    margin-top: 2.5rem;
 }
 
 .studio-tab-btn {
@@ -133,10 +133,15 @@
 @media (max-width: 768px) {
     .studio-tabs-container {
         flex-direction: row;
+        flex-wrap: nowrap;
         gap: 0.5rem;
+        margin-top: 1.5rem;
     }
     .studio-tab-btn {
-        padding: 10px 16px;
-        font-size: 0.8rem;
+        padding: 10px 12px;
+        font-size: 0.75rem;
+        flex: 1;
+        white-space: nowrap;
+        text-align: center;
     }
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { collection, query, getDocs, orderBy, where, limit } from 'firebase/firestore';
+import { useTranslation } from 'react-i18next';
 import { db } from '../utils/firebase';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -12,6 +13,7 @@ const STORES = {
 };
 
 const Magazine = () => {
+    const { i18n } = useTranslation();
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
     const [issues, setIssues] = useState([]);
@@ -21,6 +23,7 @@ const Magazine = () => {
     const [loading, setLoading] = useState(true);
     const [lightboxIndex, setLightboxIndex] = useState(null);
     const [cols, setCols] = useState(2);
+    const [isScrolled, setIsScrolled] = useState(false);
 
     // Responsive columns for gallery
     useEffect(() => {
@@ -87,8 +90,9 @@ const Magazine = () => {
                 const snap = await getDocs(q);
                 let data = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 
-                // 자바스크립트에서 정렬 (createdAt 기준 내림차순)
+                // 자바스크립트에서 정렬 (order 기준 오름차순, 없으면 createdAt 기준 내림차순)
                 data.sort((a, b) => {
+                    if (a.order !== undefined && b.order !== undefined) return a.order - b.order;
                     const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt || 0);
                     const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt || 0);
                     return timeB - timeA;
@@ -154,16 +158,20 @@ const Magazine = () => {
     }
 
     return (
-        <div className={`magazine-page ${selectedIssue ? 'detail-mode' : ''}`}>
-            <Header />
+        <div className={`magazine-page ${selectedIssue ? 'detail-mode' : ''} app-container`} onScroll={(e) => setIsScrolled(e.target.scrollTop > 50)} style={{ overflowY: 'auto', height: '100vh' }}>
+            <Header 
+                isScrolled={isScrolled} 
+                isOnHero={false} 
+                isHidden={false}
+                changeLanguage={(lng) => i18n.changeLanguage(lng)}
+                currentLang={i18n.language}
+            />
 
             {!selectedIssue ? (
                 /* 1. Issue List View */
                 <div className="gallery-magazine-feed">
-                    <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-                        <h1 style={{ fontSize: '1rem', fontWeight: 400, letterSpacing: '0.8em', textTransform: 'uppercase', color: '#111' }}>
-                            MAGAZINES
-                        </h1>
+                    <div className="editorial-giant-logo">
+                        <h1>MAGAZINES</h1>
                     </div>
                     
                     <div className="magazine-feed-grid">

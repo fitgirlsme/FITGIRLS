@@ -149,6 +149,24 @@
   border-bottom: 2px solid #111;
 }
 
+.al-filter.mag-tab {
+  color: #e30613 !important;
+  font-weight: 700;
+}
+
+.al-filter.mag-tab.active {
+  border-bottom: 2px solid #e30613;
+}
+
+.al-filter.mag-tab {
+  color: #ff0000;
+}
+
+.al-filter.mag-tab.active {
+  color: #ff0000;
+  border-bottom-color: #ff0000;
+}
+
 /* Grid */
 .al-grid {
   display: grid;
@@ -239,18 +257,16 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 20px 10px 14px;
-  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+  padding: 15px 12px 10px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%);
   display: flex;
   flex-direction: column;
-  align-items: center; /* Forced flex centering */
-  justify-content: center;
+  align-items: center;
+  justify-content: flex-end;
   text-align: center;
-  gap: 3px;
+  gap: 2px;
   pointer-events: none;
-  box-sizing: border-box; /* Crucial for padding/width */
-
-  /* Hardware acceleration to keep text stable during image transition */
+  box-sizing: border-box;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transform: translateZ(0);
@@ -265,10 +281,12 @@
   margin-bottom: 2px;
 }
 
+/* Nationality styles moved to .al-card-meta section */
+
 .al-card-name {
-  font-size: clamp(16px, 1.8vw, 24px);
+  font-size: clamp(16px, 1.6vw, 22px);
   font-weight: 800;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   font-family: var(--font-family);
   color: #fff;
@@ -276,16 +294,34 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: 1;
+  line-height: 1.1;
   width: 100%;
-  text-align: center;
 }
 
-/* Removed red hover and transform effects for a cleaner look */
+.al-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 1px;
+}
 
 .al-card-name-kr {
-  font-size: 11px;
-  color: #888;
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.05em;
+}
+
+.al-card-nationality {
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  font-weight: 400;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  padding-left: 6px;
 }
 
 .al-card-job {
@@ -430,9 +466,25 @@
   font-family: var(--font-family);
   font-size: clamp(14px, 2.5vw, 24px);
   font-weight: 500;
-  color: #999;
+  color: #111;
   text-transform: none;
   letter-spacing: 0;
+  line-height: 1;
+}
+
+.al-modal-name-group-ford {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.al-modal-nationality-small-ford {
+  font-size: 10px;
+  color: #999;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 400;
 }
 
 .al-modal-stats-ford {

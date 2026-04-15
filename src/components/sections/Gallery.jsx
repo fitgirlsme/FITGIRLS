@@ -35,7 +35,9 @@ const GallerySection = () => {
     const [lightboxIndex, setLightboxIndex] = useState(null);
     const [allItems, setAllItems] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [isAdmin, setIsAdmin] = useState(localStorage.getItem('isAdmin') === 'true');
+    const [isAdmin, setIsAdmin] = useState(() => {
+        return localStorage.getItem('isAdmin') === 'true' || localStorage.getItem('admin_logged_in') === 'true';
+    });
     const [deleteTarget, setDeleteTarget] = useState(null);
     const [editTarget, setEditTarget] = useState(null);
     const [editTags, setEditTags] = useState('');
@@ -72,12 +74,21 @@ const GallerySection = () => {
     // URL query param으로 카테고리 자동 선택
     useEffect(() => {
         const mainParam = searchParams.get('main');
+        const tagParam = searchParams.get('tag');
+
+        if (tagParam) {
+            // 태그 파라미터가 있을 경우 해당 태그 필터링 적용
+            setActiveTag(tagParam.replace('#', '').toUpperCase());
+            setViewMode('detail');
+            // 만약 특정 메인 카테고리가 지정되지 않았다면 기본값 유지 혹은 전체 탐색
+        }
+
         if (mainParam && MAIN_CATEGORIES.some(c => c.id === mainParam)) {
             setMainCategory(mainParam);
             setViewMode('detail');
             setSubCategory('women');
-            setActiveTag('ALL');
-        } else if (!mainParam) {
+            if (!tagParam) setActiveTag('ALL');
+        } else if (!mainParam && !tagParam) {
             // ALL 버튼 클릭 시 (/gallery, main 파라미터 없음) → 첫 페이지로 복귀
             setViewMode('main');
         }

@@ -81,23 +81,25 @@ function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
     
     if (isUploading) return;
 
-    const files = [];
-    if (e.dataTransfer.items) {
-      // Use DataTransferItemList interface to access the file(s)
+    let files = [];
+    
+    // Attempt extraction from items first (modern browsers)
+    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
       for (let i = 0; i < e.dataTransfer.items.length; i++) {
-        if (e.dataTransfer.items[i].kind === 'file') {
-          files.push(e.dataTransfer.items[i].getAsFile());
+        const item = e.dataTransfer.items[i];
+        if (item.kind === 'file') {
+          const file = item.getAsFile();
+          if (file) files.push(file);
         }
       }
-    } else {
-      // Use DataTransfer interface to access the file(s)
-      for (let i = 0; i < e.dataTransfer.files.length; i++) {
-        files.push(e.dataTransfer.files[i]);
-      }
+    } 
+    // Fallback to files list
+    if (files.length === 0 && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      files = Array.from(e.dataTransfer.files);
     }
 
     if (files.length > 0) {
-      processFiles(files.filter(f => f !== null));
+      processFiles(files);
     }
   };
 
@@ -240,8 +242,8 @@ function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
         >
-            <span>📷</span>
-            <p>{selectedFiles.length > 0 ? `${selectedFiles.length}장의 사진 선택됨 (추가 가능)` : '클릭하거나 사진을 여기에 끌어다 대세요'}</p>
+            <span className="dropzone-icon">📷</span>
+            <p className="dropzone-text">{selectedFiles.length > 0 ? `${selectedFiles.length}장의 사진 선택됨 (추가 가능)` : '클릭하거나 사진을 여기에 끌어다 대세요'}</p>
         </label>
       </div>
 

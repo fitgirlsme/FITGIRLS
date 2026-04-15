@@ -21,7 +21,8 @@
         "event": "イベント",
         "ambassador": "アンバサダー応募",
         "partners": "パートナーシップ",
-        "director": "アーティスト"
+        "director": "アーティスト",
+        "magazine": "MAGAZINE"
     },
     "event": {
         "title": "EVENT & NOTICE",
@@ -791,7 +792,8 @@
             "hips": "HIPS",
             "shoes": "SHOES",
             "hair": "HAIR",
-            "eyes": "EYES"
+            "eyes": "EYES",
+            "nationality": "NATIONALITY"
         },
         "labels": {
             "portfolio": "PORTFOLIO",
@@ -815,9 +817,9 @@
             "2001 – 2007 | 祥明大学校写真学科 卒業"
         ],
         "portfolio_title": "KEY PORTFOLIO",
-        "portfolio_fashion": "Fashion: Louis Vuitton, Chanel Jewelry, Gucci, GREEDILOUS, Juun.J, Wooyoungmi Homme, Miss Gee Collection, Pushbutton, KUHO, D.GNAK, Low Classic, 87mm, Yohanix, Munsoo Kwonなど",
-        "portfolio_beauty": "Beauty: YSL Beauty, MAC Cosmetics, ID病院など",
-        "portfolio_broadcast": "Broadcast & Corporate: SidusHQ, 起亜自動車, おいしい奴ら(Delicious Guys)など",
+        "portfolio_fashion": "Fashion: Louis Vuitton, Chanel Jewelry, Gucci, GREEDILOUS, Juun.J, Wooyoungmi Homme, Miss Gee Collection, Pushbutton, KUHO, D.GNAK, Low Classic, 87mm, Yohanix, Munsoo Kwon 外多数",
+        "portfolio_beauty": "Beauty: YSL Beauty, MAC Cosmetics, ID 病院 外多数",
+        "portfolio_broadcast": "Broadcast & Corporate: SidusHQ, 起亜自動車, 美味しい奴ら(Delicious Guys) 外多数",
         "social_impact_title": "SOCIAL IMPACT",
         "social_impact_desc": "2009 – 2024 | NGO '希望のマンゴーの木(HIMANGO)' アフリカ・南スーダン・トンジ(Tonj)地域ボランティアおよびドキュメンタリー撮影（計10回訪問）",
         "vision_title": "NEXT VISION : 2025-2030",

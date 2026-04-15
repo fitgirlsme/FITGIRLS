@@ -3,11 +3,12 @@ import { useSearchParams } from 'react-router-dom';
 import { db, storage } from '../utils/firebase';
 import { 
     collection, addDoc, getDocs, deleteDoc, doc, updateDoc, 
-    query, orderBy, serverTimestamp, limit 
+    query, orderBy, serverTimestamp, limit, where, startAfter 
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import GalleryMultiUploader from '../components/GalleryMultiUploader';
 import DirectorPhotoUploader from '../components/DirectorPhotoUploader';
+import { uploadOptimizedImage } from '../utils/uploadService';
 import './Admin.css';
 import '../components/sections/Gallery.css';
 
@@ -24,42 +25,8 @@ const STORES = {
 };
 
 // Utilities
-const resizeImage = (file, maxSide = 1950) => {
-    return new Promise((resolve) => {
-        if (!file.type.startsWith('image/')) { resolve(file); return; }
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (e) => {
-            const img = new Image();
-            img.src = e.target.result;
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                let width = img.width;
-                let height = img.height;
-                if (width > height) {
-                    if (width > maxSide) { height *= maxSide / width; width = maxSide; }
-                } else {
-                    if (height > maxSide) { width *= maxSide / height; height = maxSide; }
-                }
-                canvas.width = width;
-                canvas.height = height;
-                canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-                canvas.toBlob((blob) => {
-                    resolve(new File([blob], file.name, { type: 'image/jpeg' }));
-                }, 'image/jpeg', 0.9);
-            };
-        };
-    });
-};
+// Legacy upload functions removed to use optimized uploadService
 
-const uploadToStorage = async (file, folder) => {
-    const resizedFile = await resizeImage(file);
-    const fileName = `${Date.now()}_${file.name}`;
-    const storageRef = ref(storage, `${folder}/${fileName}`);
-    await uploadBytes(storageRef, resizedFile);
-    const url = await getDownloadURL(storageRef);
-    return { url, path: `${folder}/${fileName}` };
-};
 
 const Admin = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('admin_logged_in') === 'true');
@@ -79,6 +46,7 @@ const Admin = () => {
         if (trimmedPassword === 'admin123') {
             setIsLoggedIn(true);
             localStorage.setItem('admin_logged_in', 'true');
+            localStorage.setItem('isAdmin', 'true');
         } else {
             alert('Incorrect password');
         }
@@ -138,13 +106,20 @@ const Admin = () => {
                                     key={tab.id}
                                     className={`admin-tab-btn ${activeTab === tab.id ? 'active' : ''}`}
                                     onClick={() => setActiveTab(tab.id)}
+                                    title={tab.label}
+                                    style={{ fontSize: '1.2rem', padding: '8px 16px' }}
                                 >
-                                    {tab.label}
+                                    {tab.icon}
                                 </button>
                             ))}
                         </nav>
                     </div>
-                    <button className="logout-btn" onClick={() => { setIsLoggedIn(false); localStorage.removeItem('admin_logged_in'); }}>Logout</button>
+                    <button className="logout-btn" onClick={() => { 
+                        setIsLoggedIn(false); 
+                        localStorage.removeItem('admin_logged_in'); 
+                        localStorage.removeItem('isAdmin');
+                        window.location.reload(); // Refresh to update all components like SupportCS
+                    }}>Logout</button>
                 </header>
                 <div className="admin-content">
                     {!activeTab && (
@@ -193,22 +168,104 @@ const Toast = ({ message, sub, onClose }) => (
 );
 
 // ===== Photo Manager Sub-component =====
+// ===== Photo Manager Sub-component =====
 const PhotoManager = ({ issues }) => {
     const [photos, setPhotos] = useState([]);
+    const [lastDoc, setLastDoc] = useState(null);
+    const [hasMore, setHasMore] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [isSearching, setIsSearching] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [deletingId, setDeletingId] = useState(null);
     const [selectedIds, setSelectedIds] = useState([]);
     const [bulkIssueId, setBulkIssueId] = useState('');
+    const [deletingId, setDeletingId] = useState(null);
+    const [error, setError] = useState(null);
+    const [indexErrorUrl, setIndexErrorUrl] = useState(null);
 
     useEffect(() => { loadPhotos(); }, []);
 
-    const loadPhotos = async () => {
+    const loadPhotos = async (isMore = false, forceSearchTerm = null, forceIsSearching = null) => {
+        if (loading) return;
         setLoading(true);
+        setError(null);
+        setIndexErrorUrl(null);
+        if (!isMore) setPhotos([]); // 새로운 로딩 시 이전 목록 비우기
+
+        // 검색어 및 검색 상태 결정 (레이스 컨디션 방지)
+        const currentSearchTerm = forceSearchTerm !== null ? forceSearchTerm : searchTerm;
+        const currentIsSearching = forceIsSearching !== null ? forceIsSearching : isSearching;
+
         try {
-            const snap = await getDocs(query(collection(db, STORES.GALLERY), orderBy('createdAt', 'desc'), limit(100)));
-            setPhotos(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-        } catch (err) { console.error(err); }
+            const PAGE_SIZE = 60; // 서버 사이드 쿼리이므로 페이지 사이즈를 적절히 조절
+            let q;
+            const galleryRef = collection(db, STORES.GALLERY);
+
+            if (currentIsSearching && currentSearchTerm.trim()) {
+                const term = currentSearchTerm.trim().startsWith('#') 
+                    ? currentSearchTerm.trim().substring(1) 
+                    : currentSearchTerm.trim();
+                
+                // Firestore array-contains 쿼리 사용 (전체 데이터 대상 검색)
+                q = query(
+                    galleryRef, 
+                    where('tags', 'array-contains', term),
+                    orderBy('createdAt', 'desc'), 
+                    limit(PAGE_SIZE)
+                );
+            } else {
+                q = query(
+                    galleryRef, 
+                    orderBy('createdAt', 'desc'), 
+                    limit(PAGE_SIZE)
+                );
+            }
+
+            if (isMore && lastDoc) {
+                q = query(q, startAfter(lastDoc));
+            }
+
+            const snap = await getDocs(q);
+            const fetchedPhotos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            
+            if (isMore) {
+                setPhotos(prev => [...prev, ...fetchedPhotos]);
+            } else {
+                setPhotos(fetchedPhotos);
+            }
+
+            setLastDoc(snap.docs[snap.docs.length - 1]);
+            setHasMore(snap.docs.length === PAGE_SIZE);
+        } catch (err) { 
+            console.error('Failed to load photos:', err);
+            if (err.message?.includes('index')) {
+                const urlMatch = err.message.match(/https:\/\/console\.firebase\.google\.com[^\s]+/);
+                if (urlMatch) {
+                    setIndexErrorUrl(urlMatch[0]);
+                } else {
+                    alert('검색을 위한 인덱스가 필요합니다. Firebase 콘솔에서 복합 인덱스를 생성해 주세요.');
+                }
+            }
+            setError('사진 내역을 불러오지 못했습니다. (에러: ' + (err.message || 'Unknown Error') + ')');
+            if (!isMore) setPhotos([]);
+        }
         setLoading(false);
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        const trimmed = searchTerm.trim();
+        const searching = !!trimmed;
+        setIsSearching(searching);
+        setLastDoc(null);
+        // 상태 업데이트 완료 전에 loadPhotos를 호출하므로 값을 직접 전달
+        loadPhotos(false, trimmed, searching);
+    };
+
+    const clearSearch = () => {
+        setSearchTerm('');
+        setIsSearching(false);
+        setLastDoc(null);
+        loadPhotos(false, '', false);
     };
 
     const toggleSelect = (id) => {
@@ -281,14 +338,135 @@ const PhotoManager = ({ issues }) => {
 
     return (
         <div className="photo-manager-section" style={{ marginTop: '40px', borderTop: '1px solid #eee', paddingTop: '40px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h4 style={{ margin: 0 }}>최근 업로드 화보 내역 (Photo History)</h4>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                    <button onClick={() => setSelectedIds(photos.map(p => p.id))} style={{ background: '#eee', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem' }}>전체 선택</button>
-                    <button onClick={() => setSelectedIds([])} style={{ background: '#eee', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem' }}>선택 해제</button>
-                    <button onClick={loadPhotos} style={{ background: '#eee', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem' }}>목록 새로고침</button>
+            <div style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                marginBottom: '32px', 
+                flexWrap: 'wrap',
+                gap: '20px',
+                background: '#fff',
+                padding: '24px',
+                borderRadius: '12px',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.03)',
+                border: '1px solid #f0f0f0'
+            }}>
+                <div style={{ flex: '1 1 300px' }}>
+                    <h4 style={{ margin: '0 0 4px', fontSize: '1.1rem', fontWeight: '700', color: '#1a1a1a' }}>최근 업로드 화보 내역</h4>
+                    <p style={{ margin: 0, fontSize: '0.85rem', color: '#666' }}>매거진에 추가할 사진을 검색하고 선택하세요.</p>
+                </div>
+                
+                {/* Search Bar Group */}
+                <div style={{ display: 'flex', alignItems: 'center', flex: '1 1 400px', justifyContent: 'flex-end', gap: '12px' }}>
+                    <form onSubmit={handleSearch} style={{ display: 'flex', flex: '1', maxWidth: '380px', position: 'relative' }}>
+                        <input 
+                            type="text" 
+                            value={searchTerm} 
+                            onChange={e => setSearchTerm(e.target.value)}
+                            placeholder="태그로 검색 (예: #슬기)"
+                            style={{ 
+                                flex: 1, 
+                                padding: '10px 16px', 
+                                paddingRight: '100px',
+                                borderRadius: '8px', 
+                                border: '1px solid #e0e0e0', 
+                                fontSize: '14px',
+                                outline: 'none',
+                                transition: 'all 0.2s ease',
+                                boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.02)'
+                            }}
+                        />
+                        <button 
+                            type="submit" 
+                            className="submit-btn" 
+                            style={{ 
+                                position: 'absolute',
+                                right: '4px',
+                                top: '4px',
+                                bottom: '4px',
+                                width: '80px', 
+                                padding: '0',
+                                borderRadius: '6px',
+                                background: '#1a1a1a',
+                                color: '#fff',
+                                border: 'none',
+                                cursor: 'pointer',
+                                fontSize: '13px',
+                                fontWeight: '600'
+                            }}
+                        >
+                            검색
+                        </button>
+                    </form>
+                    
+                    {isSearching && (
+                        <button 
+                            type="button" 
+                            onClick={clearSearch} 
+                            style={{ 
+                                background: '#f5f5f5', 
+                                color: '#666',
+                                border: '1px solid #e0e0e0', 
+                                padding: '10px 16px', 
+                                borderRadius: '8px', 
+                                cursor: 'pointer', 
+                                fontSize: '13px',
+                                fontWeight: '500',
+                                transition: 'all 0.2s ease'
+                            }}
+                        >
+                            초기화
+                        </button>
+                    )}
+                </div>
+
+                <div style={{ display: 'flex', gap: '6px', flex: '1 1 100%', justifyContent: 'flex-start', paddingTop: '16px', borderTop: '1px solid #f5f5f5' }}>
+                    <button onClick={() => setSelectedIds(photos.map(p => p.id))} style={{ background: '#fff', border: '1px solid #ddd', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '12px', color: '#555' }}>전체 선택</button>
+                    <button onClick={() => setSelectedIds([])} style={{ background: '#fff', border: '1px solid #ddd', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '12px', color: '#555' }}>선택 해제</button>
+                    <button onClick={() => loadPhotos(false)} style={{ background: '#fff', border: '1px solid #ddd', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '12px', color: '#555' }}>목록 새로고침</button>
+                    <div style={{ marginLeft: 'auto', fontSize: '12px', color: '#888', alignSelf: 'center' }}>
+                        총 {photos.length}개 항목
+                    </div>
                 </div>
             </div>
+
+            {/* Index Error Alert */}
+            {indexErrorUrl && (
+                <div className="admin-index-alert" style={{ 
+                    background: '#fff9fa', 
+                    border: '1px solid #ffccd5', 
+                    padding: '16px', 
+                    borderRadius: '8px', 
+                    marginBottom: '24px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }}>
+                    <div style={{ color: '#d00', fontSize: '14px', fontWeight: '500' }}>
+                        검색 기능을 활성화하기 위해 데이터베이스 인덱스 생성이 필요합니다.
+                    </div>
+                    <a 
+                        href={indexErrorUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="admin-index-btn"
+                        style={{ 
+                            background: '#d00', 
+                            color: '#fff', 
+                            textDecoration: 'none', 
+                            padding: '8px 16px', 
+                            borderRadius: '6px', 
+                            fontSize: '13px', 
+                            fontWeight: '600',
+                            marginLeft: '16px'
+                        }}
+                    >
+                        인덱스 자동 생성하러 가기
+                    </a>
+                </div>
+            )}
+
+            {error && <div className="admin-error-msg" style={{ background: '#fff1f0', color: '#ff4d4f', padding: '12px', borderRadius: '6px', marginBottom: '20px', border: '1px solid #ffa39e' }}>{error}</div>}
 
             {selectedIds.length > 0 && (
                 <div style={{ 
@@ -298,10 +476,9 @@ const PhotoManager = ({ issues }) => {
                     marginBottom: '20px', 
                     display: 'flex', 
                     alignItems: 'center', 
-                    gap: '12px',
                     border: '1px solid #dee2e6'
                 }}>
-                    <span style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>{selectedIds.length}개 선택됨:</span>
+                    <span style={{ fontWeight: 'bold', fontSize: '14px', marginRight: '12px' }}>{selectedIds.length}개 선택됨:</span>
                     <select 
                         value={bulkIssueId} 
                         onChange={(e) => setBulkIssueId(e.target.value)}
@@ -330,8 +507,15 @@ const PhotoManager = ({ issues }) => {
                 </div>
             )}
             
-            {loading ? <p>로딩 중...</p> : (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '16px' }}>
+            {loading ? <p style={{ textAlign: 'center', padding: '40px 0', color: '#888' }}>데이터를 불러오는 중입니다...</p> : (
+                photos.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '60px 0', color: '#888', background: '#f9f9f9', borderRadius: '12px', border: '1px dashed #ddd' }}>
+                        <p style={{ fontSize: '1.1rem', marginBottom: '8px' }}>검색 결과가 없습니다.</p>
+                        <p style={{ fontSize: '0.9rem' }}>태그가 정확한지 확인해 주세요. (예: #슬기 또는 슬기)</p>
+                        {isSearching && <button onClick={clearSearch} style={{ marginTop: '12px', background: 'none', border: 'none', color: '#ff2d2d', textDecoration: 'underline', cursor: 'pointer', fontSize: '14px' }}>초기화하고 전체 목록 보기</button>}
+                    </div>
+                ) : (
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '16px' }}>
                     {photos.map(p => {
                         const isSelected = selectedIds.includes(p.id);
                         return (
@@ -399,9 +583,33 @@ const PhotoManager = ({ issues }) => {
                             </div>
                         );
                     })}
-                    {photos.length === 0 && <p style={{ gridColumn: '1/-1', textAlign: 'center', color: '#888' }}>업로드된 화보가 없습니다.</p>}
+                </div>
+            )
+        )}
+
+            {/* Pagination Button */}
+            {hasMore && !loading && (
+                <div style={{ textAlign: 'center', marginTop: '40px' }}>
+                    <button 
+                        onClick={() => loadPhotos(true)}
+                        style={{
+                            background: '#fff',
+                            border: '1px solid #ddd',
+                            padding: '12px 40px',
+                            borderRadius: '30px',
+                            cursor: 'pointer',
+                            fontSize: '0.9rem',
+                            fontWeight: 'bold',
+                            color: '#555',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+                        }}
+                    >
+                        이전 사진 더 불러오기 (Load More)
+                    </button>
                 </div>
             )}
+
+            {loading && photos.length > 0 && <p style={{ textAlign: 'center', marginTop: '20px', color: '#888' }}>추가 데이터를 불러오는 중...</p>}
         </div>
     );
 };
@@ -414,6 +622,8 @@ const GalleryTab = () => {
     const [editId, setEditId] = useState(null);
     const [newIssue, setNewIssue] = useState({ title: '', modelName: '', modelId: '', coverImg: null });
     const [isSaving, setIsSaving] = useState(false);
+    const [issuePhotos, setIssuePhotos] = useState([]);
+    const [loadingPhotos, setLoadingPhotos] = useState(false);
 
     useEffect(() => { 
         loadIssues(); 
@@ -434,6 +644,36 @@ const GalleryTab = () => {
         } catch (err) { console.error(err); }
     };
 
+    const loadIssuePhotos = async (issueId) => {
+        setLoadingPhotos(true);
+        try {
+            const q = query(collection(db, STORES.GALLERY), where('issueId', '==', issueId));
+            const snap = await getDocs(q);
+            const data = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            // Order by 'order' asc, then createdAt desc
+            data.sort((a, b) => {
+                if (a.order !== undefined && b.order !== undefined) return a.order - b.order;
+                const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt || 0);
+                const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt || 0);
+                return timeB - timeA;
+            });
+            setIssuePhotos(data);
+        } catch (err) {
+            console.error('Failed to load issue photos:', err);
+        }
+        setLoadingPhotos(false);
+    };
+
+    const movePhoto = (index, direction) => {
+        const newPhotos = [...issuePhotos];
+        const newIndex = index + direction;
+        if (newIndex < 0 || newIndex >= newPhotos.length) return;
+        
+        const [removed] = newPhotos.splice(index, 1);
+        newPhotos.splice(newIndex, 0, removed);
+        setIssuePhotos(newPhotos);
+    };
+
     const handleSaveIssue = async () => {
         if (!newIssue.title || !newIssue.coverImg) { alert('제목과 커버 이미지를 모두 등록해주세요.'); return; }
         setIsSaving(true);
@@ -448,7 +688,7 @@ const GalleryTab = () => {
 
             // 1. Handle Image Upload if it's a new file
             if (newIssue.coverImg instanceof File) {
-                const uploadRes = await uploadToStorage(newIssue.coverImg, 'issues_covers');
+                const uploadRes = await uploadOptimizedImage(newIssue.coverImg, 'issues_covers');
                 imageUrl = uploadRes.url;
                 storagePath = uploadRes.path;
 
@@ -482,6 +722,14 @@ const GalleryTab = () => {
                 });
             }
 
+            // Update photo orders if editing
+            if (editId && issuePhotos.length > 0) {
+                const updatePromises = issuePhotos.map((photo, idx) => 
+                    updateDoc(doc(db, STORES.GALLERY, photo.id), { order: idx })
+                );
+                await Promise.all(updatePromises);
+            }
+
             handleCloseModal();
             loadIssues();
         } catch (err) { alert('저장 실패: ' + err.message); }
@@ -497,12 +745,14 @@ const GalleryTab = () => {
             coverImg: issue.coverImg // String URL
         });
         setShowIssueForm(true);
+        loadIssuePhotos(issue.id);
     };
 
     const handleCloseModal = () => {
         setShowIssueForm(false);
         setEditId(null);
         setNewIssue({ title: '', modelName: '', modelId: '', coverImg: null });
+        setIssuePhotos([]);
     };
 
     const handleDeleteIssue = async (issue) => {
@@ -525,11 +775,15 @@ const GalleryTab = () => {
             <div className="admin-issue-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '20px', marginBottom: '48px' }}>
                 {issues.map(issue => (
                     <div key={issue.id} className="admin-issue-card" style={{ background: '#fff', borderRadius: '12px', overflow: 'hidden', border: '1px solid #eee' }}>
-                        <div style={{ aspectRatio: '4/5', position: 'relative' }}>
-                            <img src={issue.coverImg} alt={issue.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        </div>
+                        <a href={`/magazine?id=${issue.id}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                            <div style={{ aspectRatio: '4/5', position: 'relative' }}>
+                                <img src={issue.coverImg} alt={issue.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            </div>
+                        </a>
                         <div style={{ padding: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <strong style={{ fontSize: '0.9rem' }}>{issue.title}</strong>
+                            <a href={`/magazine?id=${issue.id}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit', flex: 1, overflow: 'hidden', marginRight: '8px' }}>
+                                <strong style={{ fontSize: '0.9rem', cursor: 'pointer', display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{issue.title}</strong>
+                            </a>
                             <div style={{ display: 'flex', gap: '8px' }}>
                                 <button onClick={() => startEditIssue(issue)} style={{ background: 'none', border: 'none', color: '#444', fontSize: '0.8rem', cursor: 'pointer', textDecoration: 'underline' }}>Edit</button>
                                 <button onClick={() => handleDeleteIssue(issue)} style={{ background: 'none', border: 'none', color: '#ff4444', fontSize: '0.8rem', cursor: 'pointer' }}>Delete</button>
@@ -589,6 +843,31 @@ const GalleryTab = () => {
                             >
                                 {isSaving ? '저장 중...' : (editId ? '이슈 정보 수정 완료' : '이슈 등록 완료')}
                             </button>
+
+                            {editId && (
+                                <div className="issue-photos-list" style={{ marginTop: '20px' }}>
+                                    <p style={{ fontSize: '0.85rem', fontWeight: 'bold', marginBottom: '12px' }}>이슈 포함 사진 ({issuePhotos.length})</p>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+                                        {issuePhotos.map((p, idx) => (
+                                            <div key={p.id} style={{ position: 'relative', border: '1px solid #eee', borderRadius: '4px', overflow: 'hidden', background: '#fff' }}>
+                                                <img src={p.imageUrl || p.img} alt="" style={{ width: '100%', aspectRatio: '1/1', objectFit: 'cover' }} />
+                                                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', justifyContent: 'center', gap: '4px', padding: '2px' }}>
+                                                    <button 
+                                                        onClick={(e) => { e.preventDefault(); movePhoto(idx, -1); }}
+                                                        disabled={idx === 0}
+                                                        style={{ background: 'none', border: 'none', color: '#fff', fontSize: '0.8rem', cursor: 'pointer', padding: '2px' }}
+                                                    >←</button>
+                                                    <button 
+                                                        onClick={(e) => { e.preventDefault(); movePhoto(idx, 1); }}
+                                                        disabled={idx === issuePhotos.length - 1}
+                                                        style={{ background: 'none', border: 'none', color: '#fff', fontSize: '0.8rem', cursor: 'pointer', padding: '2px' }}
+                                                    >→</button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -674,11 +953,11 @@ const ModelsTab = () => {
         try {
             let data = { ...form, updatedAt: serverTimestamp() };
             if (mainImage) {
-                const { url } = await uploadToStorage(mainImage, 'models/main');
+                const { url } = await uploadOptimizedImage(mainImage, 'models/main');
                 data.mainImage = url;
             }
             if (portfolioFiles.length > 0) {
-                const urls = await Promise.all(portfolioFiles.map(f => uploadToStorage(f, 'models/portfolio').then(r => r.url)));
+                const urls = await Promise.all(portfolioFiles.map(f => uploadOptimizedImage(f, 'models/portfolio').then(r => r.url)));
                 data.portfolio = [...(form.portfolio || []), ...urls];
             }
             if (editId) {
@@ -915,7 +1194,7 @@ const ConceptsTab = () => {
             if (editItem) {
                 let data = { outfitName, outfitSize };
                 if (file) {
-                    const { url, path } = await uploadToStorage(file, 'lookbook');
+                    const { url, path } = await uploadOptimizedImage(file, 'lookbook');
                     data.img = url;
                     data.storagePath = path;
                     // Delete old image if it exists
@@ -926,7 +1205,7 @@ const ConceptsTab = () => {
                 await updateDoc(doc(db, 'lookbook', editItem.id), data);
             } else {
                 if (!file) { alert('Please select an image.'); setSaving(false); return; }
-                const { url, path } = await uploadToStorage(file, 'lookbook');
+                const { url, path } = await uploadOptimizedImage(file, 'lookbook');
                 await addDoc(collection(db, 'lookbook'), {
                     outfitName, outfitSize, img: url, storagePath: path,
                     createdAt: Date.now()
@@ -1059,7 +1338,7 @@ const EventsTab = () => {
         try {
             let imageUrls = [...existingImages];
             for (const f of images) {
-                const { url } = await uploadToStorage(f, 'events');
+                const { url } = await uploadOptimizedImage(f, 'events');
                 imageUrls.push(url);
             }
             const data = {
@@ -1169,6 +1448,15 @@ const HeroTab = () => {
     const [ytUrl, setYtUrl] = useState('');
     const [showYtInput, setShowYtInput] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [editingSlide, setEditingSlide] = useState(null);
+    const [tTitle, setTTitle] = useState('');
+    const [tSubtitle, setTSubtitle] = useState('');
+    const [tTitleEn, setTTitleEn] = useState(''); const [tSubtitleEn, setTSubtitleEn] = useState('');
+    const [tTitleJa, setTTitleJa] = useState(''); const [tSubtitleJa, setTSubtitleJa] = useState('');
+    const [tTitleZh, setTTitleZh] = useState(''); const [tSubtitleZh, setTSubtitleZh] = useState('');
+    const [translating, setTranslating] = useState(false);
+    const [updating, setUpdating] = useState(false);
+
     const dragItem = useRef(null);
     const dragOverItem = useRef(null);
 
@@ -1181,11 +1469,63 @@ const HeroTab = () => {
         } catch (err) { console.error(err); }
     };
 
+    const handleEditSlide = (slide) => {
+        setEditingSlide(slide);
+        setTTitle(slide.title || '');
+        setTTitleEn(slide.titleEn || '');
+        setTTitleJa(slide.titleJa || '');
+        setTTitleZh(slide.titleZh || '');
+    };
+
+    const autoTranslateSlide = async () => {
+        if (!tTitle) { alert('Please enter Korean source first.'); return; }
+        setTranslating(true);
+        const translate = async (text, target) => {
+            if (!text) return '';
+            try {
+                const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ko|${target}`);
+                const data = await res.json();
+                return data.responseData?.translatedText || text;
+            } catch { return text; }
+        };
+        const [te, tj, tz] = await Promise.all([
+            translate(tTitle, 'en'),
+            translate(tTitle, 'ja'),
+            translate(tTitle, 'zh-CN'),
+        ]);
+        setTTitleEn(te); setTTitleJa(tj); setTTitleZh(tz);
+        setTranslating(false);
+    };
+
+    const handleUpdateSlideText = async () => {
+        if (!editingSlide) return;
+        setUpdating(true);
+        try {
+            const data = {
+                title: tTitle,
+                titleEn: tTitleEn,
+                titleJa: tTitleJa,
+                titleZh: tTitleZh,
+                updatedAt: serverTimestamp()
+            };
+            await updateDoc(doc(db, 'hero_slides', editingSlide.id), data);
+            
+            const { syncCollection } = await import('../utils/syncService');
+            await syncCollection(STORES.HERO_SLIDES);
+            
+            setEditingSlide(null);
+            setShowSuccess(true);
+            setTimeout(() => setShowSuccess(false), 3000);
+            loadSlides();
+        } catch (err) { alert(err.message); }
+        setUpdating(false);
+    };
+
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
         try {
-            const { url, path } = await uploadToStorage(file, 'hero');
+            const { url, path } = await uploadOptimizedImage(file, 'hero');
             await addDoc(collection(db, 'hero_slides'), {
                 type: 'image', src: url, storagePath: path,
                 order: slides.length, createdAt: serverTimestamp()
@@ -1283,12 +1623,60 @@ const HeroTab = () => {
                             <img src={slide.src} alt="" style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover' }} />
                         )}
                         <div style={{ position: 'absolute', top: 12, right: 12, display: 'flex', gap: 8 }}>
-                            <button onClick={() => handleDelete(slide)} style={{ background: 'rgba(231, 76, 60, 0.9)', color: '#fff', border: 'none', borderRadius: '50%', width: 32, height: 32, cursor: 'pointer' }}>×</button>
+                            <button onClick={() => handleEditSlide(slide)} style={{ background: 'rgba(255, 255, 255, 0.9)', color: '#333', border: 'none', borderRadius: '4px', padding: '4px 8px', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>T EDIT</button>
+                            <button onClick={() => handleDelete(slide)} style={{ background: 'rgba(231, 76, 60, 0.9)', color: '#fff', border: 'none', borderRadius: '50%', width: 26, height: 26, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>×</button>
                         </div>
-                        <span style={{ position: 'absolute', bottom: 12, left: 12, background: '#fff', padding: '4px 10px', borderRadius: 20, fontSize: '0.8rem', fontWeight: 700 }}>#{idx + 1}</span>
+                        <div style={{ position: 'absolute', bottom: 12, left: 12, right: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                            <span style={{ background: '#fff', padding: '4px 10px', borderRadius: 20, fontSize: '0.8rem', fontWeight: 700 }}>#{idx + 1}</span>
+                            {slide.title && <span style={{ background: 'rgba(0,0,0,0.6)', color: '#fff', padding: '4px 8px', borderRadius: 4, fontSize: '0.7rem', maxWidth: '70%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{slide.title}</span>}
+                        </div>
                     </div>
                 ))}
             </div>
+
+            {/* Slide Text Edit Modal */}
+            {editingSlide && (
+                <div className="al-modal-overlay" style={{ zIndex: 2000 }}>
+                    <div className="al-modal" style={{ maxWidth: '800px' }}>
+                        <div className="al-modal-content" style={{ padding: '32px' }}>
+                            <h3 style={{ marginBottom: 24 }}>Edit Slide Text (#{slides.findIndex(s => s.id === editingSlide.id) + 1})</h3>
+                            
+                            <div className="form-grid">
+                                <div className="form-group" style={{ gridColumn: 'span 2' }}>
+                                    <label>Title (KO)</label>
+                                    <input type="text" value={tTitle} onChange={e => setTTitle(e.target.value)} placeholder="Main text on slide" />
+                                </div>
+                            </div>
+
+                            <button type="button" className="secondary-btn" onClick={autoTranslateSlide} disabled={translating} style={{ margin: '16px 0 24px' }}>
+                                {translating ? 'Translating...' : '✨ Auto-translate to Multi-languages'}
+                            </button>
+
+                            <div className="admin-grid-two" style={{ marginBottom: 24, padding: 20, background: '#f9f9f9', borderRadius: 12 }}>
+                                <div>
+                                    <label style={{ fontSize: '0.8rem', color: '#666' }}>English</label>
+                                    <input value={tTitleEn} onChange={e => setTTitleEn(e.target.value)} placeholder="Title EN" />
+                                </div>
+                                <div>
+                                    <label style={{ fontSize: '0.8rem', color: '#666' }}>Japanese</label>
+                                    <input value={tTitleJa} onChange={e => setTTitleJa(e.target.value)} placeholder="Title JA" />
+                                </div>
+                                <div>
+                                    <label style={{ fontSize: '0.8rem', color: '#666' }}>Chinese</label>
+                                    <input value={tTitleZh} onChange={e => setTTitleZh(e.target.value)} placeholder="Title ZH" />
+                                </div>
+                            </div>
+
+                            <div style={{ display: 'flex', gap: 12, marginTop: 24 }}>
+                                <button className="submit-btn" onClick={handleUpdateSlideText} disabled={updating} style={{ width: 'auto', padding: '12px 32px' }}>
+                                    {updating ? 'Saving...' : 'Save Meta Data'}
+                                </button>
+                                <button className="secondary-btn" onClick={() => setEditingSlide(null)} style={{ width: 'auto' }}>Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
@@ -1424,7 +1812,7 @@ const PartnersTab = () => {
     const startEdit = (p) => { setForm({ ...p }); setEditId(p.id); setShowForm(true); };
 
     const handlePartnerPhoto = async (file) => {
-        const { url } = await uploadToStorage(file, 'partners');
+        const { url } = await uploadOptimizedImage(file, 'partners');
         setForm(prev => ({ ...prev, images: [...(prev.images || []), url] }));
     };
 
@@ -1443,7 +1831,7 @@ const PartnersTab = () => {
     };
 
     const handleTrainerPhoto = async (idx, file) => {
-        const { url } = await uploadToStorage(file, 'trainers');
+        const { url } = await uploadOptimizedImage(file, 'trainers');
         updateTrainer(idx, 'image', url);
     };
 
@@ -1555,13 +1943,30 @@ const StudiosTab = () => {
     const [showForm, setShowForm] = useState(false);
     const [editId, setEditId] = useState(null);
     const [form, setForm] = useState({
-        title: '', category: 'fitgirls', description: '', image: '', img: ''
+        title: '', category: 'fitgirls', description: '', image: '', img: '', hashtag: ''
     });
     const [saving, setSaving] = useState(false);
     const [uploadingImage, setUploadingImage] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [allHashtags, setAllHashtags] = useState([]);
+    const [hashtagQuery, setHashtagQuery] = useState('');
 
-    useEffect(() => { loadStudios(); }, []);
+    useEffect(() => { 
+        loadStudios(); 
+        loadAllHashtags();
+    }, []);
+
+    const loadAllHashtags = async () => {
+        try {
+            const snap = await getDocs(collection(db, 'gallery'));
+            const tagSet = new Set();
+            snap.docs.forEach(d => {
+                const tags = d.data().tags || [];
+                tags.forEach(t => tagSet.add(t));
+            });
+            setAllHashtags(Array.from(tagSet));
+        } catch (err) { console.error('Error loading hashtags:', err); }
+    };
 
     const loadStudios = async () => {
         try {
@@ -1571,7 +1976,7 @@ const StudiosTab = () => {
     };
 
     const resetForm = () => {
-        setForm({ title: '', category: 'fitgirls', description: '', image: '', img: '' });
+        setForm({ title: '', category: 'fitgirls', description: '', image: '', img: '', hashtag: '' });
         setEditId(null); setShowForm(false); setUploadingImage(false);
     };
 
@@ -1606,7 +2011,7 @@ const StudiosTab = () => {
         if (!file) return;
         setUploadingImage(true);
         try {
-            const { url } = await uploadToStorage(file, 'studios');
+            const { url } = await uploadOptimizedImage(file, 'studios');
             setForm(prev => ({ ...prev, image: url }));
         } catch (err) {
             alert('Image upload failed: ' + err.message);
@@ -1640,6 +2045,38 @@ const StudiosTab = () => {
                                 </select>
                             </div>
                             <div className="form-group"><label>Description (Optional)</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} /></div>
+                            <div className="form-group" style={{ position: 'relative' }}>
+                                <label>Gallery Hashtag (Optional)</label>
+                                <input 
+                                    type="text" 
+                                    value={form.hashtag} 
+                                    onChange={e => setForm({...form, hashtag: e.target.value})} 
+                                    placeholder="ex) #이너핏 (이 해시태그가 있는 갤러리로 연결됨)" 
+                                />
+                                {form.hashtag && (
+                                    <div className="admin-tag-autocomplete" style={{
+                                        position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 100,
+                                        background: '#fff', border: '1px solid #ddd', borderRadius: '4px',
+                                        maxHeight: '150px', overflowY: 'auto', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+                                    }}>
+                                        {allHashtags
+                                            .filter(tag => tag.toLowerCase().includes(form.hashtag.toLowerCase()) && tag !== form.hashtag)
+                                            .slice(0, 10)
+                                            .map((tag, idx) => (
+                                                <div 
+                                                    key={idx} 
+                                                    onClick={() => setForm({...form, hashtag: tag})}
+                                                    style={{ padding: '8px 12px', cursor: 'pointer', borderBottom: '1px solid #eee', fontSize: '0.85rem', color: '#111' }}
+                                                    onMouseOver={e => e.target.style.background = '#f5f5f5'}
+                                                    onMouseOut={e => e.target.style.background = 'transparent'}
+                                                >
+                                                    {tag}
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                )}
+                            </div>
                             <div className="form-group">
                                 <label>Background Photo</label>
                                 <input type="file" onChange={e => handlePhoto(e.target.files[0])} disabled={uploadingImage} />
@@ -1683,6 +2120,7 @@ const StudiosTab = () => {
                         <div className="admin-item-info">
                             <strong>{s.title}</strong>
                             <span className="admin-item-badge">{s.category === 'fitgirls' ? 'FITGIRLS & INAFIT' : 'MOOZ SELF'}</span>
+                            {s.hashtag && <span style={{ fontSize: '0.75rem', color: '#3a7bd5', fontWeight: 'bold' }}>{s.hashtag}</span>}
                         </div>
                         <div className="admin-item-actions">
                             <button onClick={() => startEdit(s)}>Edit</button>

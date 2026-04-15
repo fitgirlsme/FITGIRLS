@@ -8,8 +8,9 @@ const SupportCS = () => {
     const [showWeChatQR, setShowWeChatQR] = useState(false);
     const language = i18n.language?.slice(0, 2) || 'ko';
 
-    // Hide CS widget for administrators
-    if (localStorage.getItem('isAdmin') === 'true') {
+    // Hide CS widget for administrators (check both common keys used in sessions)
+    const isAdmin = localStorage.getItem('isAdmin') === 'true' || localStorage.getItem('admin_logged_in') === 'true';
+    if (isAdmin) {
         return null;
     }
 

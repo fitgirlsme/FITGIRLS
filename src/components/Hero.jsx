@@ -5,9 +5,23 @@ import './Hero.css';
 import { getData, STORES } from '../utils/db';
 
 const Hero = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [slides, setSlides] = useState([]);
     const [currentSlide, setCurrentSlide] = useState(0);
+
+    const activeSlide = slides[currentSlide];
+
+    const getSlideText = (slide, type) => {
+        if (!slide) return '';
+        const langCode = i18n.language.split('-')[0]; // 'ko', 'en', 'ja', 'zh'
+        const langSuffix = langCode === 'ko' ? '' : langCode.charAt(0).toUpperCase() + langCode.slice(1);
+        const fieldName = `${type}${langSuffix}`;
+        
+        return slide[fieldName] || slide[type] || t(`hero.${type}`);
+    };
+
+    const currentTitle = getSlideText(activeSlide, 'title');
+    const currentSubtitle = "PHOTOGRAPHED BY ANGELO SHIN.";
 
     useEffect(() => {
         const fetchHeroData = async () => {
@@ -37,8 +51,13 @@ const Hero = () => {
 
     useEffect(() => {
         if (slides.length > 1) {
+            console.log(`[Hero] Slides count: ${slides.length}`);
             const timer = setInterval(() => {
-                setCurrentSlide((prev) => (prev + 1) % slides.length);
+                setCurrentSlide((prev) => {
+                    const next = (prev + 1) % slides.length;
+                    console.log(`[Hero] Switching to slide: ${next + 1} (Index: ${next})`);
+                    return next;
+                });
             }, 5000);
             return () => clearInterval(timer);
         }
@@ -85,11 +104,11 @@ const Hero = () => {
                 <div className="gradient-overlay"></div>
             </div>
 
-            <div className={`hero-side-bar ${currentSlide === 0 ? 'branding-active' : ''}`} key={`sidebar-${currentSlide === 0}`}>
-                {currentSlide !== 0 && (
+            <div className={`hero-side-bar ${currentSlide === 0 || currentSlide === 8 ? 'branding-active' : ''}`} key={`sidebar-${currentSlide}`}>
+                {currentSlide !== 0 && currentSlide !== 8 && (
                     <div className="hero-side-bar-inner">
                         <div className="hero-social-links">
-                            <a href="http://instagram.com/fitgirls.me" target="_blank" rel="noopener noreferrer" className="hero-social-link">FITGIRLS & INERFIT</a>
+                            <a href="http://instagram.com/fitgirls.me" target="_blank" rel="noopener noreferrer" className="hero-social-link">FITGIRLS & INAFIT</a>
                             <a href="https://instagram.com/angeloshin_world" target="_blank" rel="noopener noreferrer" className="hero-social-link">@ANGELOSHIN_WORLD</a>
                             <a href="https://www.youtube.com/@핏걸즈" target="_blank" rel="noopener noreferrer" className="hero-social-link">YOUTUBE</a>
                         </div>
@@ -101,20 +120,20 @@ const Hero = () => {
             </div>
 
             <FadeInSection 
-                key={`content-${currentSlide === 0}`}
-                delay={2}
-                className={`hero-content flex-center ${currentSlide === 0 ? 'branding-active' : ''}`}
+                key={`content-${currentSlide}-${currentTitle}`}
+                delay={currentSlide === 0 || currentSlide === 8 ? 0 : 1}
+                className={`hero-content flex-center ${currentSlide === 0 || currentSlide === 8 ? 'branding-active' : ''}`}
             >
-                {currentSlide !== 0 && (
+                {currentSlide !== 0 && currentSlide !== 8 && (
                     <>
-                        <h1 className="hero-title">{t('hero.title')}</h1>
-                        <p className="hero-subtitle">{t('hero.subtitle')}</p>
+                        <h1 className="hero-title">{currentTitle}</h1>
+                        <p className="hero-subtitle">{currentSubtitle}</p>
                     </>
                 )}
             </FadeInSection>
 
-            <div className={`scroll-hint ${currentSlide === 0 ? 'branding-active' : ''}`} key={`scroll-${currentSlide === 0}`}>
-                {currentSlide !== 0 && (
+            <div className={`scroll-hint ${currentSlide === 0 || currentSlide === 8 ? 'branding-active' : ''}`} key={`scroll-${currentSlide}`}>
+                {currentSlide !== 0 && currentSlide !== 8 && (
                     <>
                         <span className="scroll-text">SCROLL</span>
                         <div className="scroll-line"></div>

@@ -4,20 +4,23 @@ import { db } from '../utils/firebase';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import FadeInSection from './FadeInSection';
 import { useTranslation } from 'react-i18next';
+import Header from './Header';
+import Footer from './Footer';
 import './AmbassadorList.css';
 
 
 const AmbassadorList = () => {
-  const { modelName, modelId } = useParams();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { modelName, modelId } = useParams();
   const [ambassadors, setAmbassadors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [activeBatch, setActiveBatch] = useState('ALL');
   const [selected, setSelected] = useState(null);
   const [issues, setIssues] = useState([]);
-  const { t } = useTranslation();
   const [zoomedIndex, setZoomedIndex] = useState(null);
   const [showSwipeGuide, setShowSwipeGuide] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -131,6 +134,11 @@ const AmbassadorList = () => {
     fetchIssues();
   }, []);
 
+  const isStandalone = location.pathname.startsWith('/fitorialist');
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
   // Lock ALL scroll containers when detail modal or zoom is open
   useEffect(() => {
     const snapContainer = document.querySelector('.snap-container');
@@ -191,21 +199,8 @@ const AmbassadorList = () => {
   };
 
 
-  return (
-    <div className="ambassador-list-page">
-      <div className="al-header">
-        <video 
-          className="al-header-video" 
-          autoPlay 
-          muted 
-          loop 
-          playsInline
-        >
-          <source src="https://www.dropbox.com/scl/fi/lc1csyi1fn732m7y40cxv/_users_6e212ede-ab63-4ae3-abb6-4db08c54e15e_generated_44cd10cb-41d4-490b-bc86-584f976202e6_generated_video.MP4?rlkey=uuz3rdmb07hykevkrdnej1g3g&raw=1" type="video/mp4" />
-        </video>
-        <div className="al-header-overlay" />
-      </div>
-
+  const renderContent = () => (
+    <div className={`ambassador-list-page ${isStandalone ? 'standalone' : ''}`}>
       <div className="al-filter-section">
         <div className="al-batch-selector">
           {uniqueBatches.map(b => (
@@ -223,7 +218,7 @@ const AmbassadorList = () => {
             {FILTERS.map(f => (
               <span
                 key={f}
-                className={`al-filter ${activeFilter === f ? 'active' : ''}`}
+                className={`al-filter ${activeFilter === f ? 'active' : ''} ${f === 'MAGAZINE' ? 'mag-tab' : ''}`}
                 onClick={() => setActiveFilter(f)}
               >
                 {f}
@@ -287,7 +282,11 @@ const AmbassadorList = () => {
                 </div>
                 <div className="al-card-info">
                   <span className="al-card-name">{a.nameEn}</span>
-                  {a.job && <span className="al-card-job">{a.job}</span>}
+                  <div className="al-card-meta">
+                    <span className="al-card-name-kr">{a.nameKr}</span>
+                    {a.nationality && <span className="al-card-nationality">{a.nationality}</span>}
+                  </div>
+                  {/* {a.job && <span className="al-card-job">{a.job}</span>} */}
                 </div>
               </div>
             </FadeInSection>
@@ -305,7 +304,7 @@ const AmbassadorList = () => {
           onClick={() => handleSelect(null)}
           ref={modalOverlayRef}
         >
-          <div className="al-modal" onClick={(e) => e.stopPropagation()} id="al-modal-root">
+          <div className="al-modal" id="al-modal-root">
             <button className="al-modal-close" onClick={() => handleSelect(null)}>
               <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -325,7 +324,10 @@ const AmbassadorList = () => {
 
                 <div className="al-modal-label-row-ford">
                   <span className="al-modal-label-ford">1st FITORIALIST+ AMASSADORIST</span>
-                  <span className="al-modal-name-kr-ford">{selected.nameKr}</span>
+                  <div className="al-modal-name-group-ford">
+                    <span className="al-modal-name-kr-ford">{selected.nameKr}</span>
+                    {selected.nationality && <span className="al-modal-nationality-small-ford">{selected.nationality}</span>}
+                  </div>
                 </div>
 
                 <div className="al-modal-stats-ford">
@@ -340,7 +342,7 @@ const AmbassadorList = () => {
 
                 {/* Official Magazine Issue Link Button */}
                 {issues.some(iss => iss.modelName === selected.nameKr) && (
-                  <div className="al-modal-issue-link-box">
+                  <div className="al-modal-issue-link-box" onClick={(e) => e.stopPropagation()}>
                     {issues.filter(iss => iss.modelName === selected.nameKr).map(iss => (
                       <button 
                         key={iss.id}
@@ -370,6 +372,7 @@ const AmbassadorList = () => {
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="al-ig-link-ford"
+                        onClick={(e) => e.stopPropagation()}
                       >
                         @{selected.instagram.replace('@','')}
                       </a>
@@ -387,7 +390,10 @@ const AmbassadorList = () => {
                           delay={(idx % 4) * 0.1} // Balanced delay for natural flow
                         >
                           <div 
-                            onClick={() => setZoomedIndex(idx)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setZoomedIndex(idx);
+                            }}
                             className="al-masonry-img-wrapper"
                           >
                             <img src={img.url || img} alt={`Portfolio ${idx}`} loading="lazy" />
@@ -402,7 +408,10 @@ const AmbassadorList = () => {
               {showScrollTop && (
                 <button 
                   className={`al-scroll-top-btn ${showScrollTop ? 'visible' : ''}`} 
-                  onClick={scrollToTop}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    scrollToTop();
+                  }}
                   aria-label="Scroll to top"
                 >
                   <span className="al-arrow-up">↑</span>
@@ -462,8 +471,28 @@ const AmbassadorList = () => {
         </div>
       )}
 
+      <Footer isHidden={isStandalone ? false : true} />
     </div>
   );
+
+  if (isStandalone) {
+    return (
+      <div className="ambassador-list-page app-container" onScroll={(e) => setIsScrolled(e.target.scrollTop > 50)} style={{ overflowY: 'auto', height: '100vh', background: 'var(--color-bg)' }}>
+        <Header 
+            isScrolled={isScrolled} 
+            isOnHero={false} 
+            isHidden={false} 
+            changeLanguage={(lng) => i18n.changeLanguage(lng)}
+            currentLang={i18n.language}
+        />
+        <div style={{ paddingTop: '80px' }}>
+            {renderContent()}
+        </div>
+      </div>
+    );
+  }
+
+  return renderContent();
 };
 
 export default AmbassadorList;

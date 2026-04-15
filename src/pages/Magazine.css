@@ -78,10 +78,10 @@
     position: absolute;
     inset: 0;
     padding: 24px;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.3); /* Lighter overlay to show photo clearly */
     color: #fff;
     display: flex;
-    align-items: flex-end; /* Bottom alignment for portrait ratio */
+    align-items: center; /* Centered as requested */
     justify-content: center;
     text-align: center;
 }
@@ -205,7 +205,7 @@
 }
 
 .editorial-giant-logo {
-    padding: 60px 20px 20px;
+    padding: 30px 20px 80px; /* Reduced top to move up, increased bottom for space */
     text-align: center;
 }
 

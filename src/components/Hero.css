@@ -75,7 +75,7 @@
     z-index: 10;
     display: flex;
     align-items: center;
-    transition: opacity 0.8s ease, visibility 0.8s;
+    transition: opacity 1.2s ease, visibility 1.2s;
 }
 
 .hero-side-bar.branding-active {
@@ -127,13 +127,15 @@
     z-index: 10;
     text-align: center;
     color: #fff;
-    transition: opacity 0.8s ease;
+    transition: opacity 1.2s ease, visibility 1.2s ease;
+    transition-delay: 0s;
 }
 
 .hero-content.branding-active {
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
+    transition-delay: 1.0s; /* Delay disappearance when logo slide appears */
 }
 
 .hero-title {
@@ -143,32 +145,15 @@
     margin-bottom: 20px;
     color: #fff;
     position: relative;
-    background: linear-gradient(
-        to right,
-        #fff 20%,
-        #aaa 40%,
-        #aaa 60%,
-        #fff 80%
-    );
-    background-size: 200% auto;
-    color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-    animation: shine 5s linear infinite;
-}
-
-@keyframes shine {
-    to {
-        background-position: 200% center;
-    }
 }
 
 .hero-subtitle {
-    font-size: clamp(0.7rem, 2vw, 1rem);
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.8);
-    letter-spacing: 0.15em;
+    font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.25em;
     margin-bottom: 30px;
+    text-transform: uppercase;
 }
 
 .hero-actions {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import FadeInSection from '../FadeInSection';
 import { getGalleries } from '../../utils/galleryService';
 import { db as fireDb } from '../../utils/firebase';
@@ -40,11 +40,13 @@ const ZONE_DATA = [
 const Zone = () => {
     const { t } = useTranslation();
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('zone');
     const [zoneSubTab, setZoneSubTab] = useState('fitgirls');
     const [lookbookItems, setLookbookItems] = useState([]);
     const [studios, setStudios] = useState([]);
     const [visibleCount, setVisibleCount] = useState(18);
+    const [allHashtags, setAllHashtags] = useState([]);
 
     // URL query param으로 탭 자동 선택
     useEffect(() => {
@@ -69,6 +71,7 @@ const Zone = () => {
     const [editStudioTitle, setEditStudioTitle] = useState('');
     const [editStudioCat, setEditStudioCat] = useState('fitgirls');
     const [editStudioImage, setEditStudioImage] = useState('');
+    const [editStudioHashtag, setEditStudioHashtag] = useState('');
     const [isUploadingStudioImg, setIsUploadingStudioImg] = useState(false);
 
     // Delete confirm state
@@ -111,6 +114,20 @@ const Zone = () => {
             }
         };
         fetchStudios();
+
+        // 갤러리 태그 로드 (자동완성용)
+        const fetchTags = async () => {
+            try {
+                const snap = await getDocs(collection(fireDb, 'gallery'));
+                const tagSet = new Set();
+                snap.docs.forEach(d => {
+                    const tags = d.data().tags || [];
+                    tags.forEach(t => tagSet.add(t));
+                });
+                setAllHashtags(Array.from(tagSet));
+            } catch (err) { console.error("Failed to load hashtags", err); }
+        };
+        fetchTags();
     }, []);
 
     // 룩북 아이템 수정
@@ -177,15 +194,17 @@ const Zone = () => {
             await updateDoc(doc(fireDb, 'studios', editStudio.id), {
                 title: editStudioTitle.trim(),
                 category: editStudioCat,
-                image: editStudioImage
+                image: editStudioImage,
+                hashtag: editStudioHashtag.trim()
             });
             setStudios(prev => prev.map(s => 
-                s.id === editStudio.id ? { ...s, title: editStudioTitle.trim(), category: editStudioCat, image: editStudioImage } : s
+                s.id === editStudio.id ? { ...s, title: editStudioTitle.trim(), category: editStudioCat, image: editStudioImage, hashtag: editStudioHashtag.trim() } : s
             ));
             setEditStudio(null);
             setEditStudioTitle('');
             setEditStudioCat('fitgirls');
             setEditStudioImage('');
+            setEditStudioHashtag('');
         } catch(err) {
             alert('수정 중 오류가 발생했습니다.');
             console.error(err);
@@ -318,6 +337,30 @@ const Zone = () => {
                                 <div className="zone-info">
                                     <span className="zone-badge">{zone.category === 'mooz' ? 'MOOZ SELF' : 'STUDIO ZONE'}</span>
                                     <h3 className="zone-name">{zone.title || zone.nameKey}</h3>
+                                    
+                                    {zone.hashtag && (
+                                        <button 
+                                            className="zone-more-gallery-btn"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                const cleanTag = zone.hashtag.replace('#', '');
+                                                navigate(`/gallery?tag=${cleanTag}`);
+                                                // 갤러리 섹션으로 스크롤 이동
+                                                setTimeout(() => {
+                                                    const galleryEl = document.getElementById('article');
+                                                    if (galleryEl) {
+                                                        const container = document.querySelector('.snap-container');
+                                                        if (container) {
+                                                            container.scrollTo({ top: galleryEl.offsetTop, behavior: 'smooth' });
+                                                        }
+                                                    }
+                                                }, 300);
+                                            }}
+                                        >
+                                            사진 더보기 (View More)
+                                        </button>
+                                    )}
+
                                     {isAdmin && (
                                         <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
                                             <button
@@ -328,6 +371,7 @@ const Zone = () => {
                                                     setEditStudioTitle(zone.title || zone.nameKey || '');
                                                     setEditStudioCat(zone.category || 'fitgirls');
                                                     setEditStudioImage(zone.image || zone.img || '');
+                                                    setEditStudioHashtag(zone.hashtag || '');
                                                 }}
                                             >수정</button>
                                             <button
@@ -565,6 +609,46 @@ const Zone = () => {
                                 <option value="fitgirls">FITGIRLS & INAFIT</option>
                                 <option value="mooz">MOOZ SELF Studio</option>
                             </select>
+                        </div>
+                        <div style={{ marginBottom: '16px', position: 'relative' }}>
+                            <p style={{ margin: '0 0 8px', fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)' }}>
+                                연결 해시태그 (Hashtag)
+                            </p>
+                            <input
+                                type="text"
+                                placeholder="예: #이너핏"
+                                value={editStudioHashtag}
+                                onChange={(e) => setEditStudioHashtag(e.target.value)}
+                                style={{
+                                    width: '100%', padding: '10px 12px', borderRadius: '8px',
+                                    border: '1px solid rgba(255,255,255,0.2)',
+                                    background: 'rgba(255,255,255,0.08)', color: '#fff',
+                                    fontSize: '0.95rem', boxSizing: 'border-box',
+                                }}
+                            />
+                            {editStudioHashtag && (
+                                <div className="admin-tag-autocomplete" style={{
+                                    position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 100,
+                                    background: '#1a1a1a', border: '1px solid #444', borderRadius: '4px',
+                                    maxHeight: '150px', overflowY: 'auto', boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
+                                }}>
+                                    {allHashtags
+                                        .filter(tag => tag.toLowerCase().includes(editStudioHashtag.toLowerCase()) && tag !== editStudioHashtag)
+                                        .slice(0, 10)
+                                        .map((tag, idx) => (
+                                            <div 
+                                                key={idx} 
+                                                onClick={() => setEditStudioHashtag(tag)}
+                                                style={{ padding: '8px 12px', cursor: 'pointer', borderBottom: '1px solid #333', fontSize: '0.85rem', color: '#eee' }}
+                                                onMouseOver={e => e.target.style.background = '#333'}
+                                                onMouseOut={e => e.target.style.background = 'transparent'}
+                                            >
+                                                {tag}
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            )}
                         </div>
                         <div style={{ marginBottom: '24px' }}>
                             <p style={{ margin: '0 0 8px', fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)' }}>

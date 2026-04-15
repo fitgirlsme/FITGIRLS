@@ -149,6 +149,30 @@
     margin: 0;
 }
 
+.zone-more-gallery-btn {
+    margin-top: 8px;
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    width: fit-content;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.zone-more-gallery-btn:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+    transform: translateY(-2px);
+}
+
 /* Prevent hover zoom flicker on mobile */
 @media (hover: none) {
     .zone-card:hover .zone-img-wrapper img {
