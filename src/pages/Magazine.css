@@ -18,7 +18,7 @@
 .gallery-magazine-feed {
     width: 100%;
     max-width: 1200px;
-    margin: 40px auto 60px;
+    margin: 10px auto 60px;
     padding: 0 16px;
 }
 
@@ -205,8 +205,12 @@
 }
 
 .editorial-giant-logo {
-    padding: 100px 20px 80px; /* Increased top padding to avoid overlap with fixed back button */
+    padding: 30px 20px 80px; /* Default for list view */
     text-align: center;
+}
+
+.magazine-detail-view-integrated .editorial-giant-logo {
+    padding: 100px 20px 80px; /* Keep more space only for detail view to avoid overlap with fixed button */
 }
 
 .editorial-giant-logo h1 {
@@ -411,7 +415,10 @@
     .issue-model-name { font-size: 1.5rem; }
     .active-issue-model { font-size: 1.8rem; }
     .issue-overlay { padding: 20px; }
-    .magazine-page { padding-top: 60px; }
+    .magazine-page { padding-top: 50px; }
+    .gallery-magazine-feed { margin: 0 auto 40px; }
+    .editorial-giant-logo { padding: 20px 20px 40px; }
+    .magazine-detail-view-integrated .editorial-giant-logo { padding: 80px 20px 40px; }
     
     .editorial-masonry-grid {
         column-count: 1;
