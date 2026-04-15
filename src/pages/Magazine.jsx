@@ -184,7 +184,12 @@ const Magazine = () => {
                                     <div className="issue-info">
                                         <div className="issue-title-group">
                                             <span className="issue-number">ISSUE #{issues.length - index}</span>
-                                            <span className="issue-model-name">{issue.modelName}</span>
+                                            <span className="issue-model-name">
+                                                {(() => {
+                                                    const m = getModelForIssue(issue);
+                                                    return m?.nameEn || issue.modelName;
+                                                })()}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -218,7 +223,7 @@ const Magazine = () => {
                             <h2 className="editorial-title">
                                 {selectedIssue.title}
                                 <span className="editorial-model-name" onClick={(e) => handleModelClick(e, activeModel)} style={{ cursor: 'pointer' }}>
-                                    {selectedIssue.modelName}
+                                    {activeModel?.nameEn || selectedIssue.modelName}
                                 </span>
                             </h2>
 
@@ -287,7 +292,12 @@ const Magazine = () => {
                                             <img src={issue.coverImg} alt={issue.title} />
                                             <div className="mag-related-overlay">
                                                 <div className="mag-related-meta">FITORIALIST DIARY</div>
-                                                <div className="mag-related-issue-title">{issue.title} — {issue.modelName}</div>
+                                                <div className="mag-related-issue-title">
+                                                    {issue.title} — {(() => {
+                                                        const m = getModelForIssue(issue);
+                                                        return m?.nameEn || issue.modelName;
+                                                    })()}
+                                                </div>
                                             </div>
                                         </div>
                                     ))}
