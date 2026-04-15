@@ -205,7 +205,7 @@
 }
 
 .editorial-giant-logo {
-    padding: 30px 20px 80px; /* Reduced top to move up, increased bottom for space */
+    padding: 100px 20px 80px; /* Increased top padding to avoid overlap with fixed back button */
     text-align: center;
 }
 
