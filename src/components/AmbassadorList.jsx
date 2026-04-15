@@ -236,7 +236,7 @@ const AmbassadorList = () => {
         ) : (
           <div className="al-featured-magazine" style={{ width: '100%', borderTop: 'none', paddingTop: 0 }}>
             <div className="al-section-header">
-              <h3 className="al-section-subtitle">THE NEW STORY</h3>
+              <h3 className="al-section-subtitle">NEW GEN of FITGIRLS.</h3>
               <h2 className="al-section-title">MAGAZINES</h2>
               <Link to="/magazine" className="al-view-all-btn">VIEW ALL MAGAZINES →</Link>
             </div>
