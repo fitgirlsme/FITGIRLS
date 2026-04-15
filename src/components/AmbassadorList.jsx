@@ -99,7 +99,7 @@ const AmbassadorList = () => {
   };
 
 
-  const FILTERS = ['ALL', 'WOMAN', 'MAN', 'MAGAZINE'];
+  const FILTERS = ['ALL', 'WOMAN', 'MAN', 'FITORIALIST'];
   
 
   useEffect(() => {
@@ -218,7 +218,7 @@ const AmbassadorList = () => {
             {FILTERS.map(f => (
               <span
                 key={f}
-                className={`al-filter ${activeFilter === f ? 'active' : ''} ${f === 'MAGAZINE' ? 'mag-tab' : ''}`}
+                className={`al-filter ${activeFilter === f ? 'active' : ''} ${f === 'FITORIALIST' ? 'mag-tab' : ''}`}
                 onClick={() => setActiveFilter(f)}
               >
                 {f}
@@ -229,16 +229,16 @@ const AmbassadorList = () => {
       </div>
 
 
-      {/* Magazine Issues View (Only in MAGAZINE tab) */}
-      {activeFilter === 'MAGAZINE' && (
+      {/* Fitorialist Issues View (Only in FITORIALIST tab) */}
+      {activeFilter === 'FITORIALIST' && (
         issues.length === 0 ? (
           <div className="al-placeholder" style={{ padding: '40px 0', textAlign: 'center' }}>등록된 매거진이 없습니다.</div>
         ) : (
           <div className="al-featured-magazine" style={{ width: '100%', borderTop: 'none', paddingTop: 0 }}>
             <div className="al-section-header">
               <h3 className="al-section-subtitle">THE NEW STORY</h3>
-              <h2 className="al-section-title">MAGAZINES</h2>
-              <Link to="/magazine" className="al-view-all-btn">VIEW ALL MAGAZINES →</Link>
+              <h2 className="al-section-title">FITORIALIST</h2>
+              <Link to="/magazine" className="al-view-all-btn">VIEW ALL FITORIALIST →</Link>
             </div>
             <div className="al-magazine-grid">
               {issues.map((issue, idx) => (
@@ -261,7 +261,7 @@ const AmbassadorList = () => {
         )
       )}
 
-      {activeFilter !== 'MAGAZINE' && (
+      {activeFilter !== 'FITORIALIST' && (
         <div className="al-grid">
           {loading ? (
             <div className="al-placeholder">불러오는 중...</div>

@@ -44,7 +44,7 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
         { label: t('nav.muses', 'AMBASSADOR'), path: '/fitorialist' },
         { label: t('nav.ambassador', 'RECRUIT'), path: '/ambar' },
         { label: t('nav.partners', 'Partnership'), path: '/partners' },
-        { label: t('nav.magazine', 'MAGAZINE'), path: '/magazine', isRed: true },
+        { label: t('nav.magazine', 'FITORIALIST'), path: '/magazine', isRed: true },
     ];
 
     const handleNavClick = (path, sectionId) => {

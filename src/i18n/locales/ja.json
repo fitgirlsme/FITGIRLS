@@ -22,7 +22,7 @@
         "ambassador": "アンバサダー応募",
         "partners": "パートナーシップ",
         "director": "アーティスト",
-        "magazine": "MAGAZINE"
+        "magazine": "FITORIALIST"
     },
     "event": {
         "title": "EVENT & NOTICE",
@@ -140,13 +140,13 @@
     },
     "gallery": {
         "main": {
-            "fitorialist": "MAGAZINES",
+            "fitorialist": "FITORIALIST",
             "artist": "ARTIST",
             "fashion": "FASHION & BEAUTY",
             "portrait": "PORTRAIT",
             "director": "ARTIST'S ARCHIVE"
         },
-        "fitorialist": "MAGAZINES",
+        "fitorialist": "FITORIALIST",
         "artist": "ARTIST",
         "fashion_beauty": "FASHION & BEAUTY",
         "portrait": "PORTRAIT",

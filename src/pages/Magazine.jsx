@@ -150,7 +150,7 @@ const Magazine = () => {
             <div className="magazine-page loading">
                 <Header />
                 <div style={{ height: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <p>Loading Magazine...</p>
+                    <p>Loading FITORIALIST...</p>
                 </div>
                 <Footer />
             </div>
@@ -171,7 +171,7 @@ const Magazine = () => {
                 /* 1. Issue List View */
                 <div className="gallery-magazine-feed">
                     <div className="editorial-giant-logo">
-                        <h1>MAGAZINES</h1>
+                        <h1>FITORIALIST</h1>
                     </div>
                     
                     <div className="magazine-feed-grid">
@@ -206,7 +206,7 @@ const Magazine = () => {
                         </button>
 
                         <div className="editorial-giant-logo">
-                            <h1>MAGAZINES</h1>
+                            <h1>FITORIALIST</h1>
                         </div>
 
                         <div className="editorial-hero-section">
@@ -214,7 +214,7 @@ const Magazine = () => {
                         </div>
 
                         <div className="editorial-info-section">
-                            <div className="editorial-label">MAGAZINE DIARY</div>
+                            <div className="editorial-label">FITORIALIST DIARY</div>
                             <h2 className="editorial-title">
                                 {selectedIssue.title}
                                 <span className="editorial-model-name" onClick={(e) => handleModelClick(e, activeModel)} style={{ cursor: 'pointer' }}>
