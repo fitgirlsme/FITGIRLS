@@ -451,7 +451,7 @@ const GallerySection = () => {
                         {/* 현재 카테고리 표시 (좌측) + BACK 버튼 (우측) */}
                         <div className="gallery-detail-header">
                             <h3 className="gallery-current-category">
-                                {t(MAIN_CATEGORIES.find(c => c.id === mainCategory)?.labelKey)}
+                                {mainCategory === 'fitorialist' ? 'FITORIALIST' : t(MAIN_CATEGORIES.find(c => c.id === mainCategory)?.labelKey)}
                             </h3>
                             <button className="back-to-main-btn" onClick={() => setViewMode('main')}>
                                 <span className="back-btn-text">LIST</span>

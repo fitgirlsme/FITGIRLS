@@ -282,11 +282,11 @@ const AmbassadorList = () => {
                 </div>
                 <div className="al-card-info">
                   <span className="al-card-name">{a.nameEn}</span>
+                  {a.job && <span className="al-card-job">{a.job}</span>}
                   <div className="al-card-meta">
                     <span className="al-card-name-kr">{a.nameKr}</span>
                     {a.nationality && <span className="al-card-nationality">{a.nationality}</span>}
                   </div>
-                  {/* {a.job && <span className="al-card-job">{a.job}</span>} */}
                 </div>
               </div>
             </FadeInSection>
@@ -326,6 +326,7 @@ const AmbassadorList = () => {
                   <span className="al-modal-label-ford">1st FITORIALIST+ AMASSADORIST</span>
                   <div className="al-modal-name-group-ford">
                     <span className="al-modal-name-kr-ford">{selected.nameKr}</span>
+                    {selected.job && <span className="al-modal-job-ford">{selected.job}</span>}
                     {selected.nationality && <span className="al-modal-nationality-small-ford">{selected.nationality}</span>}
                   </div>
                 </div>

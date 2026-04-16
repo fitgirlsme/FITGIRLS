@@ -72,18 +72,19 @@
 .al-batch-selector {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
   margin-bottom: 0;
-  padding-bottom: 8px;
+  padding: 0 40px 12px; /* Added side padding and increased bottom padding */
 }
 
 .al-batch-item {
-  font-size: 11px;
-  letter-spacing: 0.35em;
-  color: #ccc;
+  font-size: 14px; /* Increased from 11px */
+  font-weight: 500;
+  letter-spacing: 0.25em; /* Adjusted letter spacing for larger font */
+  color: #888; /* Slightly darker than #ccc for better readability */
   cursor: pointer;
   transition: all 0.2s ease;
-  padding: 0 4px 2px;
+  padding: 4px 12px; /* Added more internal padding */
   border-bottom: 1px solid transparent;
   text-transform: uppercase;
 }
@@ -111,7 +112,7 @@
 /* Filter Section Wraper */
 .al-filter-section {
   max-width: 1280px;
-  margin: 0 auto 48px;
+  margin: 80px auto 48px;
 }
 
 /* Filter Bar */
@@ -171,9 +172,9 @@
 .al-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 2px;
-  padding: 0;
-  max-width: 1600px; /* Increased reach */
+  gap: 20px; /* Increased gap for better separation */
+  padding: 0 60px; /* Generous side padding as requested */
+  max-width: 1800px; /* Increased max-width to accommodate padding */
   margin: 0 auto;
 }
 
@@ -192,7 +193,8 @@
 @media (max-width: 768px) {
   .al-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5px;
+    gap: 10px; /* Increased from 1.5px for cleaner look */
+    padding: 0 20px; /* Reduced side padding for mobile */
   }
 }
 
@@ -298,13 +300,23 @@
   width: 100%;
 }
 
+.al-card-job {
+  font-size: clamp(9px, 0.9vw, 11px);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  margin-top: 2px;
+  line-height: 1;
+}
+
 .al-card-meta {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
   width: 100%;
-  margin-top: 1px;
+  margin-top: 4px;
 }
 
 .al-card-name-kr {
@@ -485,6 +497,14 @@
   letter-spacing: 0.15em;
   text-transform: uppercase;
   font-weight: 400;
+}
+
+.al-modal-job-ford {
+  font-size: 11px;
+  color: #111;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .al-modal-stats-ford {
