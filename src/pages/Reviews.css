@@ -352,6 +352,25 @@
 }
 
 @media (max-width: 768px) {
+  .review-section-container {
+    padding: 20px 0;
+  }
+  .review-section-header {
+    margin-bottom: 30px;
+  }
+  .review-stats-bar {
+    margin-bottom: 30px;
+    gap: 20px;
+  }
+  .stat-value {
+    font-size: 1.8rem;
+  }
+  .review-slider-wrapper {
+    margin-bottom: 20px;
+  }
+  .review-slider-track {
+    padding: 10px 0 20px;
+  }
   .review-slider-container {
     padding: 0 16px;
   }
@@ -379,5 +398,8 @@
   .btn-review {
     width: 100%;
     text-align: center;
+  }
+  .review-footer-actions {
+    padding: 20px 24px 40px;
   }
 }

@@ -4,8 +4,6 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
     const domRef = useRef();
 
     useEffect(() => {
-        const container = document.querySelector('.snap-container');
-        
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -15,15 +13,16 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
             });
         }, {
             threshold: 0.05,
-            root: container || null, // Explicitly observe within snap container if it exists
-            rootMargin: "0px 0px 100px 0px" // Trigger earlier
+            root: null, // Use viewport root for universal compatibility (modals & main sections)
+            rootMargin: "0px 0px 200px 0px" // Trigger earlier for smoother transition
         });
 
         const currentRef = domRef.current;
         if (currentRef) {
             // Immediate check if already in view (safety)
             const rect = currentRef.getBoundingClientRect();
-            if (rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)) {
+            // Faster check: if any part of element is in viewport
+            if (rect.top < (window.innerHeight || document.documentElement.clientHeight) && rect.bottom > 0) {
                 currentRef.classList.add('visible');
             } else {
                 observer.observe(currentRef);

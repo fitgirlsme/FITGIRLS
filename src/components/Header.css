@@ -280,7 +280,7 @@
 /* === MOBILE === */
 @media (max-width: 768px) {
     .app-header {
-        padding: 15px 16px;
+        padding: calc(25px + env(safe-area-inset-top, 0px)) 24px 15px;
     }
 
     .app-header.scrolled {

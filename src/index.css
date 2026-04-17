@@ -173,6 +173,23 @@ body {
     padding-bottom: 0px; 
 }
 
+@media (max-width: 768px) {
+    .snap-section {
+        padding-top: 80px; /* Offset for fixed header for normal sections */
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-start; /* Align to top to prevent cutoff */
+        overflow-y: auto; /* Support internal scrolling for tall sections */
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Hero and Intro should start from the very top to prevent white gap */
+    #hero.snap-section,
+    #hero-intro.snap-section {
+        padding-top: 0;
+    }
+}
+
 .site-footer.footer-hidden {
   opacity: 0;
   transform: translateY(100%);

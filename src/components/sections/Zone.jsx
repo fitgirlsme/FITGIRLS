@@ -299,8 +299,9 @@ const Zone = () => {
                                 color: zoneSubTab === 'fitgirls' ? '#000' : '#aaa', 
                                 cursor: 'pointer', 
                                 transition: 'all 0.3s ease',
-                                fontSize: '0.95rem',
-                                fontWeight: zoneSubTab === 'fitgirls' ? '600' : '400'
+                                fontSize: '0.8rem',
+                                fontWeight: zoneSubTab === 'fitgirls' ? '600' : '400',
+                                whiteSpace: 'nowrap'
                             }}
                         >
                             FITGIRLS & INAFIT
@@ -316,8 +317,9 @@ const Zone = () => {
                                 color: zoneSubTab === 'mooz' ? '#000' : '#aaa', 
                                 cursor: 'pointer', 
                                 transition: 'all 0.3s ease',
-                                fontSize: '0.95rem',
-                                fontWeight: zoneSubTab === 'mooz' ? '600' : '400'
+                                fontSize: '0.8rem',
+                                fontWeight: zoneSubTab === 'mooz' ? '600' : '400',
+                                whiteSpace: 'nowrap'
                             }}
                         >
                             MOOZ SELF스튜디오

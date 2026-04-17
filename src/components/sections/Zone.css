@@ -8,9 +8,16 @@
     min-height: 100%;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
     .zone-full-container {
-        padding: 50px 10vw 40px;
+        padding: 20px 16px 40px;
+    }
+    .zone-header-wrapper {
+        margin-bottom: 15px;
+        padding: 0 10px;
+    }
+    .zone-main-title {
+        font-size: 1.6rem;
     }
 }
 

@@ -41,9 +41,14 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
         },
         { id: 'reservation', label: t('nav.reservation', 'Reservation'), path: '/reservation', isRed: true },
         { id: 'reviews', label: t('nav.review', 'Review'), path: '/reviews' },
-        { label: t('nav.magazine', 'FITORIALIST+'), path: '/magazine', isRed: true },
-        { label: t('nav.muses', 'AMBASSADOR'), path: '/fitorialist' },
-        { label: t('nav.ambassador', 'RECRUIT'), path: '/ambar' },
+        {
+            category: 'CREW',
+            items: [
+                { label: t('nav.magazine', 'FITORIALIST+'), path: '/magazine', isRed: true },
+                { label: t('nav.muses', 'AMBASSADOR'), path: '/fitorialist' },
+                { label: t('nav.ambassador', 'RECRUIT'), path: '/ambar' },
+            ]
+        },
         { label: t('nav.partners', 'Partnership'), path: '/partners' },
     ];
 
@@ -103,7 +108,7 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
                                             {item.items.map((sub, subIdx) => (
                                                 <button
                                                     key={subIdx}
-                                                    className="nav-link-btn nav-sub-item"
+                                                    className={`nav-link-btn nav-sub-item ${sub.isRed ? 'nav-link-red' : ''}`}
                                                     onClick={() => handleNavClick(sub.path, sub.id)}
                                                 >
                                                     {sub.label}

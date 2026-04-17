@@ -319,7 +319,7 @@ const AmbassadorList = () => {
                 </h2>
 
                 <div className="al-modal-hero-ford">
-                  <img src={selected.mainImage || selected.imageUrl} alt={selected.nameEn} />
+                  <img src={selected.mainImage || selected.imageUrl} alt={selected.nameEn} loading="eager" />
                 </div>
 
                 <div className="al-modal-label-row-ford">
@@ -385,21 +385,25 @@ const AmbassadorList = () => {
                 <div className="al-modal-gallery-ford">
                   <div className="al-masonry-grid">
                       {selected.portfolio && selected.portfolio.filter(img => !!img).map((img, idx) => (
-                        <FadeInSection 
-                          key={idx} 
-                          className="al-masonry-item"
-                          delay={(idx % 4) * 0.1} // Balanced delay for natural flow
-                        >
-                          <div 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setZoomedIndex(idx);
-                            }}
-                            className="al-masonry-img-wrapper"
-                          >
-                            <img src={img.url || img} alt={`Portfolio ${idx}`} loading="lazy" />
+                          <div key={idx} className="al-masonry-item">
+                            <div 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setZoomedIndex(idx);
+                              }}
+                              className="al-masonry-img-wrapper al-double-render"
+                              style={{ 
+                                backgroundImage: `url(${img.url || img})`,
+                              }}
+                            >
+                              <img 
+                                src={img.url || img} 
+                                alt={`Portfolio ${idx}`} 
+                                loading={idx < 10 ? "eager" : "lazy"}
+                                decoding={idx < 10 ? "sync" : "async"}
+                              />
+                            </div>
                           </div>
-                        </FadeInSection>
                       ))}
                   </div>
                 </div>

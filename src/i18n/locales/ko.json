@@ -141,13 +141,13 @@
     },
     "gallery": {
         "main": {
-            "fitorialist": "FITORIALIST+",
+            "fitorialist": "FITORIALIST",
             "artist": "ARTIST",
             "fashion": "FASHION & BEAUTY",
             "portrait": "PORTRAIT",
             "director": "ARTIST'S ARCHIVE"
         },
-        "fitorialist": "FITORIALIST+",
+        "fitorialist": "FITORIALIST",
         "artist": "ARTIST",
         "fashion_beauty": "FASHION & BEAUTY",
         "portrait": "PORTRAIT",

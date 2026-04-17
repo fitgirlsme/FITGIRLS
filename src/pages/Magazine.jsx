@@ -24,6 +24,7 @@ const Magazine = () => {
     const [lightboxIndex, setLightboxIndex] = useState(null);
     const [cols, setCols] = useState(2);
     const [isScrolled, setIsScrolled] = useState(false);
+    const scrollRef = useRef(null);
 
     // Responsive columns for gallery
     useEffect(() => {
@@ -106,10 +107,20 @@ const Magazine = () => {
         };
         loadPhotos();
     }, [selectedIssue]);
+    
+    // selectedIssue 변경 시 항상 최상단으로 스크롤
+    useEffect(() => {
+        if (selectedIssue && scrollRef.current) {
+            scrollRef.current.scrollTo({ top: 0, behavior: 'instant' });
+        }
+    }, [selectedIssue]);
 
     const handleIssueClick = (issue) => {
         setSelectedIssue(issue);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setSearchParams({ id: issue.id });
+        if (scrollRef.current) {
+            scrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     };
 
     const handleModelClick = (e, model) => {
@@ -119,7 +130,9 @@ const Magazine = () => {
             navigate(`/fitorialist/${slug}/${model.id}`);
         } else {
             // Fallback: 상세 페이지 상단(컴카드)으로 스크롤
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (scrollRef.current) {
+                scrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
     };
 
@@ -158,7 +171,12 @@ const Magazine = () => {
     }
 
     return (
-        <div className={`magazine-page ${selectedIssue ? 'detail-mode' : ''} app-container`} onScroll={(e) => setIsScrolled(e.target.scrollTop > 50)} style={{ overflowY: 'auto', height: '100vh' }}>
+        <div 
+            ref={scrollRef}
+            className={`magazine-page ${selectedIssue ? 'detail-mode' : ''} app-container`} 
+            onScroll={(e) => setIsScrolled(e.target.scrollTop > 50)} 
+            style={{ overflowY: 'auto', height: '100vh' }}
+        >
             <Header 
                 isScrolled={isScrolled} 
                 isOnHero={false} 
@@ -215,7 +233,7 @@ const Magazine = () => {
                         </div>
 
                         <div className="editorial-hero-section">
-                            <img src={heroPhoto} alt="" className="editorial-hero-image" />
+                            <img src={heroPhoto} alt="" className="editorial-hero-image" loading="eager" />
                         </div>
 
                         <div className="editorial-info-section">
@@ -238,7 +256,7 @@ const Magazine = () => {
 
 
 
-                            {activeModel?.instagram && (
+                            {activeModel?.instagram && selectedIssue.id !== 'sqPBctDkgdFjMFiqEePi' && selectedIssue.id !== 'XIxRZeK19xWwgjxgAklw' && (
                                 <div className="editorial-instagram-link">
                                     <a 
                                         href={`https://instagram.com/${activeModel.instagram.replace('@','')}`} 
@@ -252,15 +270,17 @@ const Magazine = () => {
                             )}
                         </div>
 
-                        <div className="editorial-gallery-container">
-                            {loading && photos.length <= 1 ? (
-                                <div style={{ textAlign: 'center', padding: '100px 0', color: '#999' }}>
-                                    <p style={{ letterSpacing: '0.4em', textTransform: 'uppercase', fontSize: '0.75rem' }}>Loading Gallery...</p>
-                                </div>
-                            ) : (
-                                <>
-                                    <div className="editorial-masonry-grid">
-                                        {galleryPhotos.map((item, index) => (
+                    <div className="editorial-gallery-container">
+                        {loading && photos.length <= 1 ? (
+                            <div style={{ textAlign: 'center', padding: '100px 0', color: '#999' }}>
+                                <p style={{ letterSpacing: '0.4em', textTransform: 'uppercase', fontSize: '0.75rem' }}>Loading Gallery...</p>
+                            </div>
+                        ) : (
+                            <>
+                                <div className="editorial-masonry-grid">
+                                    {/* Left Column */}
+                                    <div className="editorial-masonry-column">
+                                        {galleryPhotos.filter((_, i) => i % 2 === 0).map((item) => (
                                             <div
                                                 key={item.id}
                                                 className="editorial-masonry-item"
@@ -269,10 +289,28 @@ const Magazine = () => {
                                                 <img 
                                                     src={item.imageUrl || item.img} 
                                                     alt="" 
+                                                    loading={galleryPhotos.indexOf(item) < 4 ? "eager" : "lazy"}
                                                 />
                                             </div>
                                         ))}
                                     </div>
+                                    {/* Right Column */}
+                                    <div className="editorial-masonry-column">
+                                        {galleryPhotos.filter((_, i) => i % 2 === 1).map((item) => (
+                                            <div
+                                                key={item.id}
+                                                className="editorial-masonry-item"
+                                                onClick={() => setLightboxIndex(photos.indexOf(item))}
+                                            >
+                                                <img 
+                                                    src={item.imageUrl || item.img} 
+                                                    alt="" 
+                                                    loading={galleryPhotos.indexOf(item) < 4 ? "eager" : "lazy"}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                                     {galleryPhotos.length === 0 && (
                                         <div style={{ textAlign: 'center', padding: '100px 0', color: '#999' }}>
                                             <p>[ CONTENT UNDER CURATION ]</p>

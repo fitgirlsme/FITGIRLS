@@ -639,22 +639,33 @@
 
 .al-masonry-item {
   break-inside: avoid;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
   cursor: zoom-in;
   overflow: hidden;
+  position: relative;
   background: #fdfdfd; 
-  
-  /* Robust animation: start visible but slightly offset */
-  opacity: 1; 
-  transform: translateY(0);
-  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 1 !important; 
+  transform: none !important;
 }
 
-/* Optional: use a class to "prime" the animation if needed, 
-   but base state should be visible for reliability */
-.al-masonry-item.al-animate-item {
-  animation: al-portfolio-fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+.al-double-render {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 200px;
+  background-color: #f6f7f8;
+}
+
+.al-masonry-img-wrapper img {
+  opacity: 1 !important;
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 200px;
+  position: relative;
+  z-index: 10;
+  transform: translateZ(0); /* Force GPU layer */
+  will-change: transform;
 }
 
 @keyframes al-portfolio-fade-up {
@@ -671,7 +682,7 @@
 /* Mobile Adjustments */
 @media (max-width: 900px) {
   .al-modal {
-    padding: 60px 20px;
+    padding: calc(85px + env(safe-area-inset-top, 0px)) 20px 60px;
   }
   .al-modal-name-ford {
     font-size: 48px;
@@ -706,7 +717,7 @@
     margin-bottom: 20px;
   }
   .al-modal-close {
-    top: 20px;
+    top: calc(25px + env(safe-area-inset-top, 0px));
     right: 20px;
   }
 }
@@ -724,17 +735,17 @@
   }
   .al-modal-stats-ford {
     display: flex;
-    flex-wrap: nowrap; /* Return to one line */
-    justify-content: center; /* Center-align as requested */
-    column-gap: 15px; /* Slightly adjusted for balance */
+    flex-wrap: nowrap; 
+    justify-content: space-between; /* Better distribution for mobile */
+    column-gap: 4px; 
     padding: 15px 0;
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
-    overflow-x: auto; /* Enable horizontal scroll */
-    -ms-overflow-style: none; /* Hide scrollbars */
-    scrollbar-width: none;
-    padding-left: 10px;
-    padding-right: 10px;
+    overflow-x: auto; /* Allow scrolling if it truly doesn't fit */
+    -webkit-overflow-scrolling: touch;
+    padding-left: 0;
+    padding-right: 0;
   }
   .al-modal-stats-ford::-webkit-scrollbar {
     display: none;
@@ -742,18 +753,17 @@
   .al-stat-item {
     text-align: center;
     align-items: center;
-    padding: 0 4px;
-    flex-shrink: 0; /* Don't squash text */
+    padding: 0 2px;
+    flex-shrink: 0; /* Keep consistent size */
   }
   .al-stat-item strong {
-    font-size: 13px; /* Slightly larger for clarity */
-    color: #111; /* Higher contrast */
-    white-space: nowrap;
+    font-size: 11px; /* Reduced to fit all items */
+    color: #111;
   }
   .al-stat-item span {
     font-size: 7px;
-    color: #555; /* Darker label for readability */
-    letter-spacing: 0.1em;
+    color: #555; 
+    letter-spacing: 0.05em;
     white-space: nowrap;
     margin-bottom: 2px;
   }
