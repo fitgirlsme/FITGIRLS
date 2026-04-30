@@ -62,7 +62,7 @@
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: 10px 0 40px;
+    padding: 10px 5vw 40px; /* 좌우 여백 5vw 추가 */
 }
 
 .event-slider-track::-webkit-scrollbar {
