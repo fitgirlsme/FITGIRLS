@@ -3,25 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { SiKakaotalk, SiLine, SiWhatsapp, SiWechat } from 'react-icons/si';
 import './SupportCS.css';
 
+import { MESSENGER_LINKS } from '../constants/links';
+
 const SupportCS = () => {
     const { t, i18n } = useTranslation();
     const [showWeChatQR, setShowWeChatQR] = useState(false);
     const language = i18n.language?.slice(0, 2) || 'ko';
 
-    // Hide CS widget for administrators (check both common keys used in sessions)
-    const isAdmin = localStorage.getItem('isAdmin') === 'true' || localStorage.getItem('admin_logged_in') === 'true';
-    if (isAdmin) {
-        return null;
-    }
-
     const getLink = () => {
-        switch (language) {
-            case 'ko': return 'http://pf.kakao.com/_cpxbxnC';
-            case 'ja': return 'https://line.me/ti/p/your_line_id'; // 확인 필요
-            case 'en': return 'https://wa.me/821046961434';
-            case 'zh': return '#wechat';
-            default: return 'http://pf.kakao.com/_cpxbxnC';
-        }
+        if (language === 'zh') return '#wechat';
+        return MESSENGER_LINKS[language] || MESSENGER_LINKS.ko;
     };
 
     const getIcon = () => {
@@ -30,7 +21,7 @@ const SupportCS = () => {
             case 'ja': return <SiLine className="cs-icon" />;
             case 'en': return <SiWhatsapp className="cs-icon" />;
             case 'zh': return <SiWechat className="cs-icon" />;
-            default: return null;
+            default: return <img src="/images/kakao-ch-custom.png" alt="Kakao Channel" className="cs-icon custom-cs-image" />;
         }
     };
 

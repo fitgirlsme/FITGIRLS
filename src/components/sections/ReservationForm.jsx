@@ -10,14 +10,18 @@ const VIDEO_IDS = {
     zh: '1akya079PNI',
 };
 
+import { MESSENGER_LINKS } from '../../constants/links';
+
 const ReservationForm = () => {
     const { t, i18n } = useTranslation();
     const [playing, setPlaying] = useState(false);
 
-    const lang = i18n.language?.slice(0, 2);
+    const lang = i18n.language?.slice(0, 2) || 'ko';
     const videoId = VIDEO_IDS[lang] || VIDEO_IDS.ko;
     const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
     const embedSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&playsinline=1&rel=0${videoId === 'xqBJ8Ep4Ux4' ? '&start=6' : ''}`;
+
+    const currentMessengerLink = MESSENGER_LINKS[lang] || MESSENGER_LINKS.ko;
 
     return (
         <div className="reservation-section-wrapper">
@@ -49,7 +53,7 @@ const ReservationForm = () => {
                                         {t('reservation.button')}
                                     </a>
                                     <a
-                                        href="http://pf.kakao.com/_cpxbxnC"
+                                        href={currentMessengerLink}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="res-channel-btn"

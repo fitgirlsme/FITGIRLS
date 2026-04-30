@@ -133,7 +133,7 @@ const Home = ({ changeLanguage, currentLang }) => {
         <section className="snap-section" id="ambassadors"><AmbassadorList /></section>
       </main>
       <Footer isHidden={!isLastSectionVisible} />
-      {!isHideCS && <SupportCS />}
+      <SupportCS />
     </div>
   );
 };

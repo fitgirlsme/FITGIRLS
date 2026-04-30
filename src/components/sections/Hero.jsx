@@ -12,9 +12,12 @@ const HERO_IMAGES = [
 
 const SLIDE_DURATION = 6000; // 각 슬라이드 표시 시간 (ms)
 
+import { MESSENGER_LINKS } from '../../constants/links';
+
 const Hero = () => {
     const { t, i18n } = useTranslation();
     const [currentSlide, setCurrentSlide] = useState(0);
+    const lang = i18n.language?.slice(0, 2) || 'ko';
 
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
@@ -28,16 +31,18 @@ const Hero = () => {
         return () => clearInterval(timer);
     }, []);
 
+    const currentMessengerLink = MESSENGER_LINKS[lang] || MESSENGER_LINKS.ko;
+
     return (
         <div className="hero-container">
             {/* 첫 화면 전용 헤더 */}
             <header className="app-header">
                 <div className="logo-text">FITGIRLS &amp; INAFIT</div>
                 <div className="lang-switcher">
-                    <button onClick={() => changeLanguage('ko')} className={i18n.language === 'ko' ? 'active' : ''}>KR</button>
-                    <button onClick={() => changeLanguage('en')} className={i18n.language === 'en' ? 'active' : ''}>EN</button>
-                    <button onClick={() => changeLanguage('ja')} className={i18n.language === 'ja' ? 'active' : ''}>JP</button>
-                    <button onClick={() => changeLanguage('zh')} className={i18n.language === 'zh' ? 'active' : ''}>CN</button>
+                    <button onClick={() => changeLanguage('ko')} className={lang === 'ko' ? 'active' : ''}>KR</button>
+                    <button onClick={() => changeLanguage('en')} className={lang === 'en' ? 'active' : ''}>EN</button>
+                    <button onClick={() => changeLanguage('ja')} className={lang === 'ja' ? 'active' : ''}>JP</button>
+                    <button onClick={() => changeLanguage('zh')} className={lang === 'zh' ? 'active' : ''}>CN</button>
                 </div>
             </header>
 
@@ -68,12 +73,12 @@ const Hero = () => {
                         {t('hero.cta')}
                     </a>
                     <a
-                        href="http://pf.kakao.com/_cpxbxnC"
+                        href={currentMessengerLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="hero-btn hero-btn-kakao"
+                        className={`hero-btn hero-btn-kakao messenger-theme-${lang}`}
                     >
-                        {t('reservation.channel_button')}
+                        {t('hero.inquiry')}
                     </a>
                 </div>
             </FadeInSection>
