@@ -1,0 +1,290 @@
+.smodel-container {
+    padding: 120px 20px 60px;
+    max-width: 900px;
+    margin: 0 auto;
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #ffffff;
+    background-color: #080B14;
+    box-sizing: border-box;
+}
+
+.smodel-header {
+    text-align: left;
+    margin-bottom: 40px;
+    border-left: 4px solid #00D4B6;
+    padding-left: 16px;
+}
+
+.smodel-header h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+    color: #00D4B6;
+}
+
+.smodel-tabs {
+    display: flex;
+    justify-content: flex-start;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.smodel-tabs button {
+    background: #212B3B;
+    border: none;
+    color: #8A9BB3;
+    padding: 16px 32px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.smodel-tabs button.active {
+    background: #00D4B6;
+    color: #080B14;
+    font-weight: 700;
+}
+
+.smodel-content {
+    background: transparent;
+    padding: 0;
+}
+
+.smodel-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.smodel-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.smodel-subtitle {
+    font-size: 1.2rem;
+    color: #8A9BB3;
+    margin-bottom: 32px;
+    line-height: 1.5;
+}
+
+.smodel-form {
+    background: #212B3B;
+    padding: 40px;
+    border-radius: 16px;
+}
+
+.smodel-form .form-group {
+    margin-bottom: 32px;
+}
+
+.smodel-form label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.smodel-form input {
+    width: 100%;
+    padding: 20px;
+    font-size: 1.3rem;
+    border-radius: 12px;
+    border: 2px solid #2A3649;
+    background: #151D29;
+    color: #ffffff;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.smodel-form input:focus {
+    outline: none;
+    border-color: #00D4B6;
+}
+
+.smodel-form input[type="file"] {
+    padding: 16px;
+    font-size: 1.1rem;
+    color: #8A9BB3;
+}
+
+.smodel-form input[type="file"]::file-selector-button {
+    background: #00D4B6;
+    color: #080B14;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-right: 16px;
+    transition: opacity 0.3s;
+}
+
+.smodel-form input[type="file"]::file-selector-button:hover {
+    opacity: 0.9;
+}
+
+.smodel-form small {
+    display: block;
+    margin-top: 10px;
+    font-size: 1rem;
+    color: #00D4B6;
+}
+
+.smodel-btn {
+    width: 100%;
+    padding: 24px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #080B14;
+    background: #00D4B6;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: opacity 0.3s, transform 0.1s;
+}
+
+.smodel-btn:active {
+    transform: scale(0.98);
+}
+
+.smodel-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #8A9BB3;
+}
+
+.smodel-btn.cancel {
+    background: #2A3649;
+    color: #ffffff;
+}
+
+.smodel-btn.small {
+    padding: 16px 24px;
+    font-size: 1.2rem;
+    width: auto;
+}
+
+.smodel-btn.logout {
+    margin-top: 40px;
+    background: #2A3649;
+    color: #ffffff;
+    width: auto;
+    padding: 16px 32px;
+}
+
+.btn-group {
+    display: flex;
+    gap: 16px;
+    margin-top: 40px;
+}
+
+.existing-notice {
+    background: rgba(0, 212, 182, 0.1);
+    border: 1px solid rgba(0, 212, 182, 0.3);
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 32px;
+}
+
+.existing-notice p {
+    margin: 0 0 8px;
+    font-size: 1.2rem;
+    color: #ffffff;
+}
+
+.existing-notice p strong {
+    color: #00D4B6;
+    font-size: 1.3rem;
+}
+
+.existing-notice p:last-child {
+    margin: 0;
+    color: #8A9BB3;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.history-item {
+    background: #212B3B;
+    border: 1px solid #2A3649;
+    padding: 24px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.history-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.history-code {
+    font-size: 1rem;
+    color: #00D4B6;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.history-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.waiting-text {
+    color: #8A9BB3;
+    font-size: 1.1rem;
+    padding: 16px;
+    background: #151D29;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .smodel-container {
+        padding: 100px 16px 40px;
+    }
+    .smodel-header h2 {
+        font-size: 1.8rem;
+    }
+    .smodel-tabs button {
+        padding: 12px 20px;
+        font-size: 1.1rem;
+        flex: 1;
+    }
+    .smodel-form {
+        padding: 24px 16px;
+    }
+    .smodel-btn {
+        padding: 20px;
+        font-size: 1.3rem;
+    }
+    .history-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    .history-action {
+        width: 100%;
+    }
+    .history-action .smodel-btn {
+        width: 100%;
+        text-align: center;
+    }
+    .btn-group {
+        flex-direction: column;
+    }
+}

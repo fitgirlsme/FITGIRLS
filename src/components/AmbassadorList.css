@@ -3,7 +3,13 @@
   min-height: 100vh;
   background: var(--color-bg, #fff);
   color: var(--color-text, #111);
-  padding: 0 0 120px; /* 푸터와의 간격 확보를 위해 패딩 증가 */
+  padding: 0 0 120px; /* 푸터와의 간격 확보를 위해 패딩 유지 */
+}
+
+@media (max-width: 768px) {
+  .ambassador-list-page {
+    padding: 0 0 80px; /* 모바일 푸터 높이에 맞춰 여백 축소 */
+  }
 }
 
 /* Header */
@@ -47,6 +53,49 @@
 .al-header-content {
   position: relative;
   z-index: 3;
+}
+
+/* Reusable Editorial Logo */
+.al-editorial-logo {
+  padding: 60px 20px 40px;
+  text-align: center;
+}
+
+.al-editorial-logo h1 {
+  font-size: clamp(3rem, 12vw, 12rem);
+  font-weight: 900;
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 0.8;
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+  
+  /* Light Effect (Smog-like/Misty) - Very slow and soft */
+  background: linear-gradient(
+    110deg, 
+    #111 5%, 
+    #333 25%, 
+    #888 50%, 
+    #333 75%, 
+    #111 95%
+  );
+  background-size: 400% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: logoSmog 10s ease-in-out infinite;
+}
+
+@keyframes logoSmog {
+  0% { background-position: 200% center; }
+  50% { background-position: 0% center; }
+  100% { background-position: -200% center; }
+}
+
+@media (max-width: 768px) {
+  .al-editorial-logo {
+    padding: 40px 16px 20px;
+  }
 }
 
 .al-title {
@@ -614,38 +663,22 @@
   max-width: 100%;
 }
 
-.al-masonry-item {
-  width: 100%;
-  max-width: 100%; /* Ensure it doesn't exceed grid cell */
-  margin-bottom: 24px;
-  break-inside: avoid;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-.al-masonry-img-wrapper {
-  width: 100%;
-  overflow: hidden;
-  border-radius: 4px;
-  background: #fcfcfc;
-}
-
-.al-masonry-item img {
-  width: 100%;
-  height: auto; /* Preserve aspect ratio */
-  display: block;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+@media (max-width: 768px) {
+  .al-masonry-grid {
+    column-count: 1;
+    column-gap: 0;
+  }
 }
 
 .al-masonry-item {
-  break-inside: avoid;
+  width: 100%;
   margin-bottom: 24px;
+  break-inside: avoid;
   cursor: zoom-in;
   overflow: hidden;
   position: relative;
-  background: #fdfdfd; 
-  opacity: 1 !important; 
-  transform: none !important;
+  background: #fdfdfd;
+  border-radius: 4px;
 }
 
 .al-double-render {
@@ -654,18 +687,20 @@
   background-repeat: no-repeat;
   min-height: 200px;
   background-color: #f6f7f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .al-masonry-img-wrapper img {
-  opacity: 1 !important;
-  display: block;
   width: 100% !important;
   height: auto !important;
-  min-height: 200px;
-  position: relative;
-  z-index: 10;
-  transform: translateZ(0); /* Force GPU layer */
+  display: block;
+  opacity: 1 !important;
+  object-fit: cover; /* Prevent squashing if height/width mismatch occurs */
+  transform: translateZ(0); /* Force GPU acceleration */
   will-change: transform;
+  z-index: 10;
 }
 
 @keyframes al-portfolio-fade-up {

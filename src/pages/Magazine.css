@@ -499,3 +499,53 @@
         padding: 0;
     }
 }
+
+/* Editorial Video Section */
+.editorial-video-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 40px;
+}
+
+.editorial-video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    background: #000;
+    border-radius: 4px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.editorial-video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+@media (max-width: 768px) {
+    .editorial-video-section {
+        padding: 0 20px;
+        margin: 40px auto;
+    }
+}
+
+/* Archive Category Video */
+.magazine-archive-video-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto 80px;
+    padding: 0 40px;
+}
+
+@media (max-width: 768px) {
+    .magazine-archive-video-section {
+        padding: 0 20px;
+        margin: 20px auto 40px;
+    }
+}

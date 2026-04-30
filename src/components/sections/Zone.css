@@ -1,6 +1,6 @@
 .zone-full-container {
     width: 100%;
-    padding: 50px 24px 40px;
+    padding: 50px 24px 100px;
     display: flex;
     flex-direction: column;
     background: #fff;
@@ -10,7 +10,7 @@
 
 @media (max-width: 768px) {
     .zone-full-container {
-        padding: 20px 16px 40px;
+        padding: 20px 16px 80px;
     }
     .zone-header-wrapper {
         margin-bottom: 15px;
@@ -24,15 +24,16 @@
 .zone-header-wrapper {
     padding: 0 24px;
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 }
 
 .zone-main-title {
-    font-size: 2rem;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
     font-weight: 800;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     letter-spacing: -0.03em;
     color: #111;
+    text-transform: uppercase;
 }
 
 .zone-subtitle {
@@ -58,7 +59,76 @@
 }
 
 .zone-tabs-container {
+    display: flex;
     justify-content: center;
+    gap: 30px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+/* Tier 1 - Main Categories */
+.tier1-tab {
+    background: none;
+    border: none;
+    padding: 10px 0;
+    font-size: 1rem;
+    font-weight: 800;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.tier1-tab.active {
+    color: #111;
+}
+
+.tier1-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--color-primary, #e53e3e);
+}
+
+/* Tier 2 - Sub Filters */
+.tier2-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    padding: 0 20px;
+    flex-wrap: nowrap; /* Prevent wrapping */
+}
+
+.tier2-tab {
+    padding: 8px 20px;
+    border-radius: 40px;
+    border: 1px solid #eee;
+    background: #fff;
+    color: #777;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.tier2-tab:hover {
+    border-color: #333;
+    color: #111;
+}
+
+.tier2-tab.active {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 @keyframes fadeIn {
@@ -111,12 +181,19 @@
     overflow: hidden;
 }
 
-.zone-img-wrapper img {
+.zone-img-wrapper img,
+.lookbook-img-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.4s ease;
+    transition: transform 0.4s ease, opacity 0.5s ease;
+    opacity: 0; /* Initial state before load */
+}
+
+.zone-img-wrapper img.loaded,
+.lookbook-img-wrapper img.loaded {
+    opacity: 1;
 }
 
 .zone-card:hover .zone-img-wrapper img {
@@ -198,6 +275,19 @@
     .zone-badge {
         font-size: 0.55rem;
     }
+    
+    /* Tier 2 Tabs Mobile Optimization */
+    .tier2-tabs {
+        gap: 6px;
+        padding: 0 10px;
+        margin-bottom: 20px;
+    }
+    .tier2-tab {
+        padding: 7px 12px;
+        font-size: 0.75rem;
+        letter-spacing: 0;
+        white-space: nowrap;
+    }
 }
 
 /* ===== Lookbook Grid ===== */
@@ -206,6 +296,54 @@
     font-size: 0.85rem;
     color: #999;
     text-align: center;
+}
+
+.lookbook-col-toggle {
+    display: none;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+    .lookbook-col-toggle {
+        display: flex;
+    }
+}
+
+.lookbook-col-btn {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.lookbook-col-btn.active {
+    background: #111;
+    border-color: #111;
+}
+
+.col-icon {
+    display: flex;
+    gap: 2px;
+    height: 12px;
+}
+
+.col-bar {
+    width: 6px;
+    height: 100%;
+    background: #999;
+    border-radius: 1px;
+    transition: background 0.2s ease;
+}
+
+.lookbook-col-btn.active .col-bar {
+    background: #fff;
 }
 
 .lookbook-grid {
@@ -230,7 +368,7 @@
 
 @media (max-width: 768px) {
     .lookbook-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(var(--mobile-cols, 2), 1fr);
         gap: 2px;
         padding: 0 2px;
     }

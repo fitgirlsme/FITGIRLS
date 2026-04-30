@@ -47,6 +47,7 @@ const Zone = () => {
     const [studios, setStudios] = useState([]);
     const [visibleCount, setVisibleCount] = useState(18);
     const [allHashtags, setAllHashtags] = useState([]);
+    const [lookbookCols, setLookbookCols] = useState(2);
 
     // URL query param으로 탭 자동 선택
     useEffect(() => {
@@ -65,6 +66,8 @@ const Zone = () => {
     const [editItem, setEditItem] = useState(null);
     const [editName, setEditName] = useState('');
     const [editSize, setEditSize] = useState('');
+    const [editTag, setEditTag] = useState('');
+    const [activeLookbookTag, setActiveLookbookTag] = useState('ALL');
 
     // Edit modal state (Studios)
     const [editStudio, setEditStudio] = useState(null);
@@ -137,15 +140,17 @@ const Zone = () => {
             await updateDoc(doc(fireDb, 'lookbook', editItem.id), {
                 outfitName: editName.trim(),
                 outfitSize: editSize.trim(),
+                tag: editTag.trim(),
             });
             setLookbookItems(prev => prev.map(item =>
                 item.id === editItem.id
-                    ? { ...item, outfitName: editName.trim(), outfitSize: editSize.trim() }
+                    ? { ...item, outfitName: editName.trim(), outfitSize: editSize.trim(), tag: editTag.trim() }
                     : item
             ));
             setEditItem(null);
             setEditName('');
             setEditSize('');
+            setEditTag('');
         } catch (err) {
             alert('수정 중 오류가 발생했습니다.');
             console.error(err);
@@ -237,11 +242,12 @@ const Zone = () => {
                 img: url,
                 outfitName: '',
                 outfitSize: '',
+                tag: '',
                 storagePath: path,
                 createdAt: Date.now(),
             });
 
-            setLookbookItems(prev => [{ id: newDoc.id, img: url, outfitName: '', outfitSize: '', storagePath: path, createdAt: Date.now() }, ...prev]);
+            setLookbookItems(prev => [{ id: newDoc.id, img: url, outfitName: '', outfitSize: '', tag: '', storagePath: path, createdAt: Date.now() }, ...prev]);
         } catch (err) {
             alert(`업로드 실패: ${err.message}`);
             console.error(err);
@@ -269,7 +275,7 @@ const Zone = () => {
                     {t('zone.subtitleInstaEnd')}
                 </p>
 
-                <div className="tier1-tabs zone-tabs-container" style={{ marginTop: '24px', marginBottom: '10px' }}>
+                <div className="tier1-tabs zone-tabs-container">
                     <button
                         className={`tier1-tab ${activeTab === 'zone' ? 'active' : ''}`}
                         onClick={() => setActiveTab('zone')}
@@ -287,51 +293,34 @@ const Zone = () => {
 
             {activeTab === 'zone' ? (
                 <div className="zone-grid-container" style={{ animation: 'fadeIn 0.5s ease' }}>
-                    <div className="tier2-tabs" style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '40px', flexWrap: 'wrap' }}>
+                    <div className="tier2-tabs">
                         <button
                             className={`tier2-tab ${zoneSubTab === 'fitgirls' ? 'active' : ''}`}
                             onClick={() => setZoneSubTab('fitgirls')}
-                            style={{ 
-                                padding: '10px 24px', 
-                                borderRadius: '30px', 
-                                border: '1px solid rgba(255,255,255,0.2)', 
-                                background: zoneSubTab === 'fitgirls' ? '#fff' : 'rgba(255,255,255,0.05)', 
-                                color: zoneSubTab === 'fitgirls' ? '#000' : '#aaa', 
-                                cursor: 'pointer', 
-                                transition: 'all 0.3s ease',
-                                fontSize: '0.8rem',
-                                fontWeight: zoneSubTab === 'fitgirls' ? '600' : '400',
-                                whiteSpace: 'nowrap'
-                            }}
                         >
                             FITGIRLS & INAFIT
                         </button>
                         <button
                             className={`tier2-tab ${zoneSubTab === 'mooz' ? 'active' : ''}`}
                             onClick={() => setZoneSubTab('mooz')}
-                            style={{ 
-                                padding: '10px 24px', 
-                                borderRadius: '30px', 
-                                border: '1px solid rgba(255,255,255,0.2)', 
-                                background: zoneSubTab === 'mooz' ? '#fff' : 'rgba(255,255,255,0.05)', 
-                                color: zoneSubTab === 'mooz' ? '#000' : '#aaa', 
-                                cursor: 'pointer', 
-                                transition: 'all 0.3s ease',
-                                fontSize: '0.8rem',
-                                fontWeight: zoneSubTab === 'mooz' ? '600' : '400',
-                                whiteSpace: 'nowrap'
-                            }}
                         >
                             MOOZ SELF스튜디오
                         </button>
                     </div>
 
                     <div className="zone-grid">
-                        {studios.filter(s => s.category === zoneSubTab).map(zone => (
+                        {studios.filter(s => s.category === zoneSubTab).map((zone, idx) => (
                             <div key={zone.id} className="zone-card">
                                 <div className="zone-img-wrapper" style={{ background: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '200px', position: 'relative' }}>
                                     {(zone.image || zone.img) ? (
-                                        <img src={zone.image || zone.img} alt={zone.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                        <img 
+                                            src={zone.image || zone.img} 
+                                            alt={zone.title} 
+                                            loading={idx < 6 ? "eager" : "lazy"} 
+                                            className="zone-img"
+                                            onLoad={(e) => e.target.classList.add('loaded')}
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                                        />
                                     ) : (
                                         <span style={{ color: '#666', fontSize: '0.9rem' }}>{zone.title}</span>
                                     )}
@@ -346,17 +335,16 @@ const Zone = () => {
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 const cleanTag = zone.hashtag.replace('#', '');
-                                                navigate(`/gallery?tag=${cleanTag}`);
-                                                // 갤러리 섹션으로 스크롤 이동
+                                                // URL 쿼리 파라미터로 태그 전달 (Gallery가 useSearchParams로 읽음)
+                                                navigate(`/?tag=${cleanTag}`);
+                                                // archive 섹션으로 스크롤 이동 (navigate 후 DOM 업데이트 대기)
                                                 setTimeout(() => {
-                                                    const galleryEl = document.getElementById('article');
-                                                    if (galleryEl) {
-                                                        const container = document.querySelector('.snap-container');
-                                                        if (container) {
-                                                            container.scrollTo({ top: galleryEl.offsetTop, behavior: 'smooth' });
-                                                        }
+                                                    const archiveEl = document.getElementById('archive');
+                                                    const container = document.querySelector('.snap-container');
+                                                    if (archiveEl && container) {
+                                                        container.scrollTo({ top: archiveEl.offsetTop, behavior: 'smooth' });
                                                     }
-                                                }, 300);
+                                                }, 200);
                                             }}
                                         >
                                             VIEW MORE
@@ -411,11 +399,69 @@ const Zone = () => {
                         onChange={handleUpload}
                     />
 
-                    <div className="lookbook-grid">
-                        {visibleLookbook.map((item, idx) => (
+                    {/* Column toggle buttons */}
+                    <div className="lookbook-col-toggle">
+                        {[1, 2, 3].map(col => (
+                            <button
+                                key={col}
+                                className={`lookbook-col-btn ${lookbookCols === col ? 'active' : ''}`}
+                                onClick={() => setLookbookCols(col)}
+                                aria-label={`${col}열 보기`}
+                            >
+                                <span className="col-icon">
+                                    {Array.from({ length: col }).map((_, i) => (
+                                        <span key={i} className="col-bar" />
+                                    ))}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Lookbook Tag Filters (Circular) */}
+                    {Array.from(new Set(lookbookItems.map(item => item.tag).filter(Boolean))).length > 0 && (
+                        <div className="tag-circles-scroll" style={{ padding: '0 20px', marginBottom: '20px', justifyContent: 'center' }}>
+                            <div
+                                className={`tag-circle-item ${activeLookbookTag === 'ALL' ? 'active' : ''}`}
+                                onClick={() => { setActiveLookbookTag('ALL'); setVisibleCount(18); }}
+                            >
+                                <div className="tag-circle-img-wrap tag-circle-all">
+                                    <span>ALL</span>
+                                </div>
+                                <span className="tag-circle-label">전체</span>
+                            </div>
+                            {Array.from(new Set(lookbookItems.map(item => item.tag).filter(Boolean))).map(tag => {
+                                const repItem = lookbookItems.find(i => i.tag === tag);
+                                return (
+                                    <div
+                                        key={tag}
+                                        className={`tag-circle-item ${activeLookbookTag === tag ? 'active' : ''}`}
+                                        onClick={() => { setActiveLookbookTag(tag); setVisibleCount(18); }}
+                                    >
+                                        <div className="tag-circle-img-wrap">
+                                            {repItem ? (
+                                                <img src={repItem.img} alt={tag} loading="lazy" />
+                                            ) : (
+                                                <div className="tag-circle-placeholder" />
+                                            )}
+                                        </div>
+                                        <span className="tag-circle-label">{tag}</span>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
+
+                    <div className="lookbook-grid" style={{ '--mobile-cols': lookbookCols }}>
+                        {lookbookItems.filter(item => activeLookbookTag === 'ALL' || item.tag === activeLookbookTag).slice(0, visibleCount).map((item, idx) => (
                             <div key={item.id || idx} className="lookbook-item">
                                 <div className="lookbook-img-wrapper">
-                                    <img src={item.img || item.imageUrl} alt="Lookbook" loading="lazy" />
+                                    <img 
+                                        src={item.img || item.imageUrl} 
+                                        alt="Lookbook" 
+                                        loading={idx < 6 ? "eager" : "lazy"} 
+                                        className="lookbook-img"
+                                        onLoad={(e) => e.target.classList.add('loaded')}
+                                    />
                                 </div>
                                 <div className="lookbook-info">
                                     {item.outfitName && (
@@ -438,11 +484,11 @@ const Zone = () => {
                                                     padding: '4px 12px', borderRadius: '4px',
                                                     cursor: 'pointer', fontSize: '0.8rem'
                                                 }}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
+                                                onClick={() => {
                                                     setEditItem(item);
                                                     setEditName(item.outfitName || '');
                                                     setEditSize(item.outfitSize || '');
+                                                    setEditTag(item.tag || '');
                                                 }}
                                             >
                                                 수정
@@ -505,7 +551,7 @@ const Zone = () => {
 
             {/* 수정 모달 */}
             {editItem && (
-                <div className="delete-confirm-overlay" onClick={() => { setEditItem(null); setEditName(''); setEditSize(''); }}>
+                <div className="delete-confirm-overlay" onClick={() => { setEditItem(null); setEditName(''); setEditSize(''); setEditTag(''); }}>
                     <div className="delete-confirm-box" onClick={(e) => e.stopPropagation()} style={{ minWidth: '320px', textAlign: 'left' }}>
                         <p className="delete-confirm-title" style={{ textAlign: 'center', marginBottom: '20px' }}>
                             의상 정보 수정
@@ -544,8 +590,25 @@ const Zone = () => {
                                 }}
                             />
                         </div>
+                        <div style={{ marginBottom: '24px' }}>
+                            <p style={{ margin: '0 0 8px', fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)' }}>
+                                해시태그/분류 (Tag)
+                            </p>
+                            <input
+                                type="text"
+                                placeholder="예: 상의, 하의, 악세사리"
+                                value={editTag}
+                                onChange={(e) => setEditTag(e.target.value)}
+                                style={{
+                                    width: '100%', padding: '10px 12px', borderRadius: '8px',
+                                    border: '1px solid rgba(255,255,255,0.2)',
+                                    background: 'rgba(255,255,255,0.08)', color: '#fff',
+                                    fontSize: '0.95rem', boxSizing: 'border-box',
+                                }}
+                            />
+                        </div>
                         <div className="delete-confirm-btns">
-                            <button className="delete-btn-cancel" onClick={() => { setEditItem(null); setEditName(''); setEditSize(''); }}>
+                            <button className="delete-btn-cancel" onClick={() => { setEditItem(null); setEditName(''); setEditSize(''); setEditTag(''); }}>
                                 취소
                             </button>
                             <button className="delete-btn-ok" style={{ background: '#3a7bd5' }} onClick={handleEdit}>
@@ -696,6 +759,8 @@ const Zone = () => {
                     </div>
                 </div>
             )}
+            {/* 하단 여백 확보를 위한 스페이서 */}
+            <div className="zone-bottom-spacer" style={{ height: '150px', width: '100%' }}></div>
         </div>
     );
 };

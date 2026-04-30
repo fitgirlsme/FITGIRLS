@@ -24,6 +24,9 @@ import Ambassador from './pages/Ambassador';
 import Partners from './pages/Partners';
 import Magazine from './pages/Magazine';
 import AmbassadorList from './components/AmbassadorList';
+import DirectingPaper from './pages/DirectingPaper';
+import SModel from './pages/SModel';
+import Retouch from './pages/Retouch';
 import { syncAll } from './utils/syncService';
 import './index.css';
 
@@ -66,6 +69,36 @@ const Home = ({ changeLanguage, currentLang }) => {
     return () => observer.disconnect();
   }, []);
 
+  // Update URL based on current section using IntersectionObserver
+  React.useEffect(() => {
+    const container = document.querySelector('.snap-container');
+    const sections = document.querySelectorAll('.snap-section');
+    
+    if (!container || sections.length === 0) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          if (id) {
+            const newPath = (id === 'hero' || id === 'hero-intro') ? '/' : `/${id}`;
+            // Prevent pushing to history, just replace current URL to avoid breaking back button
+            if (window.location.pathname !== newPath) {
+              window.history.replaceState(null, '', newPath);
+            }
+          }
+        }
+      });
+    }, {
+      root: container,
+      threshold: 0.5 // Trigger when at least 50% of the section is visible
+    });
+
+    sections.forEach(section => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
+
   const handleScroll = (e) => {
     const scrollTop = e.target.scrollTop;
     const vh = window.innerHeight;
@@ -88,7 +121,7 @@ const Home = ({ changeLanguage, currentLang }) => {
         <section className="snap-section" id="hero"><Hero /></section>
         <section className="snap-section" id="hero-intro"><Intro /></section>
         <section className="snap-section" id="artist"><ArtistSection /></section>
-        <section className="snap-section" id="article"><Gallery /></section>
+        <section className="snap-section" id="archive"><Gallery /></section>
         <section className="snap-section" id="service"><Service /></section>
         <section className="snap-section" id="zone"><Zone /></section>
         <section className="snap-section" id="hair-makeup"><HM /></section>
@@ -131,6 +164,9 @@ function App() {
           <Route path="/fitorialist/:modelName" element={<AmbassadorList />} />
           <Route path="/fitorialist/:modelName/:modelId" element={<AmbassadorList />} />
           <Route path="/partners" element={<Partners />} />
+          <Route path="/directing" element={<DirectingPaper />} />
+          <Route path="/smodel" element={<SModel />} />
+          <Route path="/retouch" element={<Retouch changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/:section" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/:section/:modelName/:modelId" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
         </Routes>

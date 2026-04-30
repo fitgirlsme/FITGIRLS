@@ -1,0 +1,282 @@
+.smodel-admin-theme {
+    background-color: #080B14;
+    color: #ffffff;
+    padding: 40px;
+    border-radius: 16px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.smodel-admin-theme h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #00D4B6;
+    margin-bottom: 32px;
+    border: none;
+    padding: 0;
+}
+
+.smodel-admin-theme h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+
+.smodel-admin-theme h5 {
+    font-size: 1.1rem;
+    color: #8A9BB3;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.smodel-admin-card {
+    background: #212B3B;
+    padding: 32px;
+    border-radius: 16px;
+    margin-bottom: 32px;
+}
+
+.smodel-admin-theme label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #8A9BB3;
+}
+
+.smodel-admin-theme input[type="text"],
+.smodel-admin-theme input[type="url"],
+.smodel-admin-theme select {
+    width: 100%;
+    padding: 16px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 2px solid #2A3649;
+    background: #151D29;
+    color: #ffffff;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.smodel-admin-theme input:focus,
+.smodel-admin-theme select:focus {
+    outline: none;
+    border-color: #00D4B6;
+}
+
+.smodel-admin-theme .checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 100%;
+    padding-bottom: 8px;
+}
+
+.smodel-admin-theme .checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #00D4B6;
+}
+
+.smodel-admin-btn {
+    background: #00D4B6;
+    color: #080B14;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s, transform 0.1s;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.smodel-admin-btn:active {
+    transform: scale(0.98);
+}
+
+.smodel-admin-btn.secondary {
+    background: #2A3649;
+    color: #ffffff;
+}
+
+.smodel-admin-btn.danger {
+    background: #e1306c;
+    color: #ffffff;
+}
+
+.smodel-admin-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #8A9BB3;
+}
+
+.smodel-admin-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.smodel-admin-badge.active {
+    background: #00D4B6;
+    color: #080B14;
+}
+
+.smodel-admin-badge.inactive {
+    background: #2A3649;
+    color: #8A9BB3;
+}
+
+.smodel-admin-list-item {
+    background: #212B3B;
+    padding: 24px;
+    border-radius: 16px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    border: 1px solid #2A3649;
+}
+
+.smodel-admin-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    object-fit: cover;
+    background: #151D29;
+}
+
+.smodel-admin-avatar.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: #8A9BB3;
+    border: 1px dashed #2A3649;
+}
+
+.smodel-admin-info {
+    flex: 1;
+}
+
+.smodel-admin-info-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.smodel-admin-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: #ffffff;
+}
+
+.smodel-admin-contact {
+    color: #8A9BB3;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.smodel-admin-archive-box {
+    background: #151D29;
+    padding: 16px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 1px solid #2A3649;
+}
+
+.smodel-admin-archive-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.smodel-admin-project-id {
+    width: 60px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #00D4B6;
+}
+
+@media (max-width: 768px) {
+    .smodel-admin-theme {
+        padding: 20px 12px;
+    }
+    .smodel-admin-card {
+        padding: 20px 16px;
+    }
+    .smodel-admin-theme form {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+    .smodel-admin-theme .form-group {
+        width: 100% !important;
+    }
+    .smodel-admin-list-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .smodel-admin-info-header {
+        flex-direction: column;
+        align-items: center;
+    }
+    .smodel-admin-info-header > div {
+        text-align: center !important;
+        justify-content: center;
+    }
+    .smodel-admin-archive-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .smodel-admin-project-id {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 4px;
+    }
+    .smodel-admin-btn {
+        width: 100%;
+    }
+}
+
+/* Tabs styling */
+.smodel-admin-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+
+.smodel-admin-tab {
+    padding: 12px 24px;
+    background: #151D29;
+    color: #8A9BB3;
+    border: 1px solid #2A3649;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.smodel-admin-tab:hover {
+    border-color: #00D4B6;
+    color: #fff;
+}
+
+.smodel-admin-tab.active {
+    background: #00D4B6;
+    color: #080B14;
+    border-color: #00D4B6;
+}

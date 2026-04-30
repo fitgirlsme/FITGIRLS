@@ -171,7 +171,16 @@ function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
       <div className="admin-uploader-selectors">
         <div className="uploader-field">
           <label>대분류</label>
-          <select value={mainCategory} onChange={(e) => setMainCategory(e.target.value)} disabled={isUploading}>
+          <select 
+            value={mainCategory} 
+            onChange={(e) => {
+              const nextCat = e.target.value;
+              setMainCategory(nextCat);
+              if (nextCat === 'fashion') setSubCategory('fashion_item');
+              else setSubCategory('women');
+            }} 
+            disabled={isUploading}
+          >
             <option value="fitorialist">FITORIALIST</option>
             <option value="artist">ARTIST</option>
             <option value="fashion">FASHION & BEAUTY</option>
@@ -181,10 +190,20 @@ function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
         <div className="uploader-field">
           <label>게시판</label>
           <select value={subCategory} onChange={(e) => setSubCategory(e.target.value)} disabled={isUploading}>
-            <option value="women">여자 (Women)</option>
-            <option value="men">남자 (Men)</option>
-            <option value="couple">우정&커플</option>
-            <option value="outdoor">발리프로젝트</option>
+            {mainCategory === 'fashion' ? (
+              <>
+                <option value="fashion_item">패션 (Fashion)</option>
+                <option value="beauty_item">뷰티 (Beauty)</option>
+                <option value="broadcast">방송&기업 (Broadcast)</option>
+              </>
+            ) : (
+              <>
+                <option value="women">여자 (Women)</option>
+                <option value="men">남자 (Men)</option>
+                <option value="couple">우정&커플</option>
+                <option value="outdoor">발리프로젝트</option>
+              </>
+            )}
           </select>
         </div>
         <div className="uploader-field">

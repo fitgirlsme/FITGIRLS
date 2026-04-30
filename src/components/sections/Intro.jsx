@@ -65,7 +65,7 @@ const Intro = () => {
                 )}
             </button>
 
-            <FadeInSection className="hero-intro-inner">
+            <div className="hero-intro-inner visible">
                 <span className="hero-intro-label">FITORIALIST</span>
                 <p className="hero-intro-desc">
                     {t('intro.slogan').split('\n').map((line, i) => (
@@ -76,7 +76,7 @@ const Intro = () => {
                     ))}
                 </p>
                 <p className="hero-intro-sub">{t('intro.desc')}</p>
-            </FadeInSection>
+            </div>
         </div>
     );
 };

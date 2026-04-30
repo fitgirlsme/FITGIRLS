@@ -13,13 +13,13 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
         { id: 'hero', label: t('nav.home', 'Home'), path: '/' },
         { id: 'artist', label: t('nav.director', 'Artist'), path: '/' },
         {
-            category: t('nav.gallery', 'ARTICLE'),
+            category: t('nav.gallery', 'ARCHIVE'),
             items: [
-                { id: 'article', label: 'ALL', path: '/article' },
-                { id: 'article', label: t('gallery.fitorialist', 'FITORIALIST'), path: '/article?main=fitorialist' },
-                { id: 'article', label: t('gallery.artist', 'ARTIST'), path: '/article?main=artist' },
-                { id: 'article', label: t('gallery.fashion_beauty', 'FASHION & BEAUTY'), path: '/article?main=fashion' },
-                { id: 'article', label: t('gallery.portrait', 'PORTRAIT'), path: '/article?main=portrait' },
+                { id: 'archive', label: 'ALL', path: '/archive' },
+                { id: 'archive', label: t('gallery.fitorialist', 'FITORIALIST'), path: '/archive?main=fitorialist' },
+                { id: 'archive', label: t('gallery.artist', 'ARTIST'), path: '/archive?main=artist' },
+                { id: 'archive', label: t('gallery.fashion_beauty', 'FASHION & BEAUTY'), path: '/archive?main=fashion' },
+                { id: 'archive', label: t('gallery.portrait', 'PORTRAIT'), path: '/archive?main=portrait' },
             ]
         },
         {
@@ -40,6 +40,7 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
             ]
         },
         { id: 'reservation', label: t('nav.reservation', 'Reservation'), path: '/reservation', isRed: true },
+        { id: 'retouch', label: 'RETOUCH', path: '/retouch', isRed: true },
         { id: 'reviews', label: t('nav.review', 'Review'), path: '/reviews' },
         {
             category: 'CREW',
@@ -50,6 +51,7 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
             ]
         },
         { label: t('nav.partners', 'Partnership'), path: '/partners' },
+        { label: 'Directing Paper', path: '/directing', isRed: true },
     ];
 
     const handleNavClick = (path, sectionId) => {

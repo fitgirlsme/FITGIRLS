@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { collection, query, getDocs, orderBy, where, limit } from 'firebase/firestore';
+import { collection, query, getDocs, orderBy, where, limit, doc, getDoc } from 'firebase/firestore';
 import { useTranslation } from 'react-i18next';
 import { db } from '../utils/firebase';
 import Header from '../components/Header';
@@ -10,6 +10,13 @@ import './Magazine.css';
 const STORES = {
     ISSUES: 'issues',
     GALLERY: 'gallery'
+};
+
+const getYouTubeId = (url) => {
+    if (!url) return null;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
 };
 
 const Magazine = () => {
@@ -24,6 +31,7 @@ const Magazine = () => {
     const [lightboxIndex, setLightboxIndex] = useState(null);
     const [cols, setCols] = useState(2);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [categoryVideoUrl, setCategoryVideoUrl] = useState('');
     const scrollRef = useRef(null);
 
     // Responsive columns for gallery
@@ -53,6 +61,13 @@ const Magazine = () => {
                 // Models (for Comp Card)
                 const modelSnap = await getDocs(collection(db, 'models'));
                 setAllModels(modelSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+
+                // Category Video
+                const catVidRef = doc(db, 'configs', 'magazine');
+                const catVidSnap = await getDoc(catVidRef);
+                if (catVidSnap.exists()) {
+                    setCategoryVideoUrl(catVidSnap.data().videoUrl || '');
+                }
             } catch (err) {
                 console.error('Error loading initial data:', err);
             }
@@ -189,8 +204,9 @@ const Magazine = () => {
                 /* 1. Issue List View */
                 <div className="gallery-magazine-feed">
                     <div className="editorial-giant-logo">
-                        <h1>FITORIALIST+</h1>
+                        <h1>FITORIALIST</h1>
                     </div>
+
                     
                     <div className="magazine-feed-grid">
                         {issues.map((issue, index) => (
@@ -229,7 +245,7 @@ const Magazine = () => {
                         </button>
 
                         <div className="editorial-giant-logo">
-                            <h1>FITORIALIST+</h1>
+                            <h1>MAGAZINE</h1>
                         </div>
 
                         <div className="editorial-hero-section">
@@ -311,14 +327,14 @@ const Magazine = () => {
                                         ))}
                                     </div>
                                 </div>
-                                    {galleryPhotos.length === 0 && (
-                                        <div style={{ textAlign: 'center', padding: '100px 0', color: '#999' }}>
-                                            <p>[ CONTENT UNDER CURATION ]</p>
-                                        </div>
-                                    )}
-                                </>
-                            )}
-                        </div>
+                                {galleryPhotos.length === 0 && (
+                                    <div style={{ textAlign: 'center', padding: '100px 0', color: '#999' }}>
+                                        <p>[ CONTENT UNDER CURATION ]</p>
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
 
                         {/* More Diary (Related Issues) Section */}
                         {relatedIssues.length > 0 && (

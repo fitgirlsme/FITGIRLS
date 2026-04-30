@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { db, storage } from '../utils/firebase';
 import { 
-    collection, addDoc, getDocs, deleteDoc, doc, updateDoc, 
+    collection, addDoc, getDocs, deleteDoc, doc, updateDoc, getDoc, setDoc,
     query, orderBy, serverTimestamp, limit, where, startAfter 
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
@@ -11,6 +11,8 @@ import DirectorPhotoUploader from '../components/DirectorPhotoUploader';
 import { uploadOptimizedImage } from '../utils/uploadService';
 import './Admin.css';
 import '../components/sections/Gallery.css';
+import SModelAdminTab from '../components/admin/SModelAdminTab';
+import RetouchAdminTab from '../components/admin/RetouchAdminTab';
 
 // Constants
 const MODEL_CATEGORIES = ['WOMAN', 'MAN'];
@@ -76,6 +78,7 @@ const Admin = () => {
     }
 
     const tabs = [
+        { id: 'retouch', label: 'Retouch', icon: '📸', desc: 'Fitgirls & Innerfit Retouch' },
         { id: 'gallery', label: 'Gallery', icon: '🖼️', desc: 'Manage photo grid' },
         { id: 'models', label: 'Ambassadors', icon: '✨', desc: 'Profiles & Portfolio' },
         { id: 'concepts', label: 'Concepts', icon: '👚', desc: 'Lookbook outfits' },
@@ -85,6 +88,7 @@ const Admin = () => {
         { id: 'partners', label: 'Partners', icon: '🤝', desc: 'Partner logos' },
         { id: 'studios', label: 'Studios', icon: '📸', desc: 'Studio Zones' },
         { id: 'artist', label: 'Artist', icon: '👤', desc: 'Artist profile' },
+        { id: 'smodel', label: 'S-Model', icon: '👵', desc: 'Senior Models & Archives' },
     ];
 
     return (
@@ -98,7 +102,7 @@ const Admin = () => {
                                     <span style={{ fontSize: '1.2rem' }}>←</span>
                                 </button>
                             )}
-                            <h2>{activeTab ? tabs.find(t => t.id === activeTab)?.label : 'Admin Panel'}</h2>
+                             <h2>{activeTab ? tabs.find(t => t.id === activeTab)?.label : 'Admin Panel v2024-04-28'}</h2>
                         </div>
                         <nav className="admin-tabs desktop-only">
                             {tabs.map(tab => (
@@ -149,6 +153,8 @@ const Admin = () => {
                     {activeTab === 'partners' && <PartnersTab />}
                     {activeTab === 'studios' && <StudiosTab />}
                     {activeTab === 'artist' && <ArtistTab />}
+                    {activeTab === 'smodel' && <SModelAdminTab />}
+                    {activeTab === 'retouch' && <RetouchAdminTab />}
                 </div>
             </div>
         </div>
@@ -168,7 +174,6 @@ const Toast = ({ message, sub, onClose }) => (
 );
 
 // ===== Photo Manager Sub-component =====
-// ===== Photo Manager Sub-component =====
 const PhotoManager = ({ issues }) => {
     const [photos, setPhotos] = useState([]);
     const [lastDoc, setLastDoc] = useState(null);
@@ -181,8 +186,57 @@ const PhotoManager = ({ issues }) => {
     const [deletingId, setDeletingId] = useState(null);
     const [error, setError] = useState(null);
     const [indexErrorUrl, setIndexErrorUrl] = useState(null);
+    const [videoUrls, setVideoUrls] = useState({});
+    const [selectedVideoCategory, setSelectedVideoCategory] = useState('fitorialist');
+    const [showSuccess, setShowSuccess] = useState(false);
 
-    useEffect(() => { loadPhotos(); }, []);
+    useEffect(() => { 
+        loadPhotos(); 
+        loadCategoryVideo();
+    }, []);
+
+    const loadCategoryVideo = async () => {
+        try {
+            const docSnap = await getDoc(doc(db, 'configs', 'magazine'));
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                const rawUrls = data.videoUrls || {};
+                const normalizedUrls = {};
+                
+                // Ensure every category value is an array
+                ['fitorialist', 'artist', 'fashion', 'portrait'].forEach(cat => {
+                    const val = rawUrls[cat];
+                    if (Array.isArray(val)) {
+                        normalizedUrls[cat] = val;
+                    } else if (typeof val === 'string' && val.trim() !== '') {
+                        normalizedUrls[cat] = [val];
+                    } else {
+                        normalizedUrls[cat] = ['']; // Default to one empty field
+                    }
+                });
+                
+                setVideoUrls(normalizedUrls);
+            } else {
+                // Initialize with empty arrays
+                setVideoUrls({
+                    fitorialist: [''], artist: [''], fashion: [''], portrait: ['']
+                });
+            }
+        } catch (err) { console.error('Failed to load category video:', err); }
+    };
+
+    const handleSaveCategoryVideo = async () => {
+        try {
+            const newVideoUrls = { ...videoUrls };
+            // Empty strings are allowed to clear videos
+            await setDoc(doc(db, 'configs', 'magazine'), {
+                videoUrls: newVideoUrls,
+                updatedAt: serverTimestamp()
+            }, { merge: true });
+            setShowSuccess(true);
+            setTimeout(() => setShowSuccess(false), 3000);
+        } catch (err) { alert('영상 정보 저장 실패: ' + err.message); }
+    };
 
     const loadPhotos = async (isMore = false, forceSearchTerm = null, forceIsSearching = null) => {
         if (loading) return;
@@ -418,6 +472,138 @@ const PhotoManager = ({ issues }) => {
                             초기화
                         </button>
                     )}
+                </div>
+
+                {/* Category Video Management (Category-specific Videos) */}
+                <div style={{ 
+                    flex: '1 1 100%',
+                    marginTop: '20px',
+                    padding: '24px',
+                    background: '#fcfcfc', 
+                    borderRadius: '12px', 
+                    border: '1px solid #eee',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '20px'
+                }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                            <h5 style={{ margin: '0 0 4px', fontSize: '0.95rem', fontWeight: '700', color: '#1a1a1a' }}>매거진 카테고리 영상 관리</h5>
+                            <p style={{ margin: 0, fontSize: '0.8rem', color: '#888' }}>각 대분류 아카이브 상단에 노출될 영상을 설정합니다.</p>
+                        </div>
+                        {showSuccess && <span style={{ color: '#2ecc71', fontSize: '13px', fontWeight: '600' }}>✓ 저장되었습니다.</span>}
+                    </div>
+                    
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                            <select 
+                                value={selectedVideoCategory}
+                                onChange={e => setSelectedVideoCategory(e.target.value)}
+                                style={{
+                                    padding: '10px 16px',
+                                    borderRadius: '8px',
+                                    border: '1px solid #e0e0e0',
+                                    fontSize: '14px',
+                                    background: '#fff',
+                                    minWidth: '200px',
+                                    fontWeight: '600'
+                                }}
+                            >
+                                <option value="fitorialist">FITORIALIST</option>
+                                <option value="artist">ARTIST</option>
+                                <option value="fashion">BEAUTY & FASHION</option>
+                                <option value="portrait">PORTRAIT</option>
+                            </select>
+
+                            <button 
+                                onClick={() => {
+                                    setVideoUrls(prev => ({
+                                        ...prev,
+                                        [selectedVideoCategory]: [...(prev[selectedVideoCategory] || []), '']
+                                    }));
+                                }}
+                                style={{
+                                    padding: '8px 16px',
+                                    borderRadius: '6px',
+                                    background: '#f0f0f0',
+                                    border: '1px solid #ddd',
+                                    fontSize: '13px',
+                                    fontWeight: '600',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                + 영상 추가
+                            </button>
+
+                            <button 
+                                onClick={handleSaveCategoryVideo}
+                                className="submit-btn"
+                                style={{ 
+                                    padding: '10px 24px', 
+                                    borderRadius: '8px',
+                                    background: '#1a1a1a',
+                                    color: '#fff',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    marginLeft: 'auto'
+                                }}
+                            >
+                                전체 저장
+                            </button>
+                        </div>
+                        
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '10px' }}>
+                            {(videoUrls[selectedVideoCategory] || ['']).map((url, idx) => (
+                                <div key={idx} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                    <span style={{ fontSize: '13px', color: '#888', minWidth: '24px' }}>{idx + 1}.</span>
+                                    <input 
+                                        type="text" 
+                                        value={url} 
+                                        onChange={e => {
+                                            const newVal = e.target.value;
+                                            setVideoUrls(prev => {
+                                                const arr = [...(prev[selectedVideoCategory] || [])];
+                                                arr[idx] = newVal;
+                                                return { ...prev, [selectedVideoCategory]: arr };
+                                            });
+                                        }}
+                                        placeholder="유튜브 영상 주소 (https://www.youtube.com/watch?v=...)"
+                                        style={{ 
+                                            flex: 1, 
+                                            padding: '10px 16px', 
+                                            borderRadius: '8px', 
+                                            border: '1px solid #e0e0e0', 
+                                            fontSize: '14px',
+                                            outline: 'none'
+                                        }}
+                                    />
+                                    <button 
+                                        onClick={() => {
+                                            setVideoUrls(prev => {
+                                                const arr = (prev[selectedVideoCategory] || []).filter((_, i) => i !== idx);
+                                                return { ...prev, [selectedVideoCategory]: arr.length ? arr : [''] };
+                                            });
+                                        }}
+                                        style={{
+                                            background: '#fff1f0',
+                                            border: '1px solid #ffa39e',
+                                            color: '#f5222d',
+                                            padding: '8px',
+                                            borderRadius: '6px',
+                                            cursor: 'pointer'
+                                        }}
+                                        title="삭제"
+                                    >
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: '6px', flex: '1 1 100%', justifyContent: 'flex-start', paddingTop: '16px', borderTop: '1px solid #f5f5f5' }}>
@@ -1167,6 +1353,7 @@ const ConceptsTab = () => {
     const [saving, setSaving] = useState(false);
     const [outfitName, setOutfitName] = useState('');
     const [outfitSize, setOutfitSize] = useState('');
+    const [outfitTag, setOutfitTag] = useState('');
     const [file, setFile] = useState(null);
     const [editItem, setEditItem] = useState(null);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -1183,7 +1370,7 @@ const ConceptsTab = () => {
     };
 
     const resetForm = () => {
-        setOutfitName(''); setOutfitSize(''); setFile(null); setEditItem(null);
+        setOutfitName(''); setOutfitSize(''); setOutfitTag(''); setFile(null); setEditItem(null);
     };
 
     const handleSave = async (e) => {
@@ -1192,7 +1379,7 @@ const ConceptsTab = () => {
         setSaving(true);
         try {
             if (editItem) {
-                let data = { outfitName, outfitSize };
+                let data = { outfitName, outfitSize, tag: outfitTag };
                 if (file) {
                     const { url, path } = await uploadOptimizedImage(file, 'lookbook');
                     data.img = url;
@@ -1207,7 +1394,7 @@ const ConceptsTab = () => {
                 if (!file) { alert('Please select an image.'); setSaving(false); return; }
                 const { url, path } = await uploadOptimizedImage(file, 'lookbook');
                 await addDoc(collection(db, 'lookbook'), {
-                    outfitName, outfitSize, img: url, storagePath: path,
+                    outfitName, outfitSize, tag: outfitTag, img: url, storagePath: path,
                     createdAt: Date.now()
                 });
             }
@@ -1244,6 +1431,10 @@ const ConceptsTab = () => {
                     </div>
                 </div>
                 <div className="form-group" style={{ marginTop: '8px' }}>
+                    <label>해시태그 (Hashtag) - 상의, 하의 등</label>
+                    <input type="text" value={outfitTag} onChange={e => setOutfitTag(e.target.value)} placeholder="예: 상의, 하의, 바디수트" />
+                </div>
+                <div className="form-group" style={{ marginTop: '8px' }}>
                     <label>이미지 (Image) {editItem ? '(수정 시에만 사진을 다시 선택하세요)' : '*'}</label>
                     {editItem && (
                         <div style={{ marginBottom: 12, display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -1273,10 +1464,11 @@ const ConceptsTab = () => {
                         <img src={item.img} alt={item.outfitName} className="admin-item-thumb" />
                         <div className="admin-item-info">
                             <h4>{item.outfitName}</h4>
-                            <p style={{ margin: '0 0 12px', fontSize: '0.85rem', color: '#666' }}>Size: {item.outfitSize || 'FREE'}</p>
+                            <p style={{ margin: '0 0 4px', fontSize: '0.85rem', color: '#666' }}>Size: {item.outfitSize || 'FREE'}</p>
+                            <p style={{ margin: '0 0 12px', fontSize: '0.85rem', color: '#3a7bd5', fontWeight: '500' }}>{item.tag ? `#${item.tag}` : '태그 없음'}</p>
                             <div className="admin-item-actions">
                                 <button onClick={() => {
-                                    setEditItem(item); setOutfitName(item.outfitName); setOutfitSize(item.outfitSize || '');
+                                    setEditItem(item); setOutfitName(item.outfitName); setOutfitSize(item.outfitSize || ''); setOutfitTag(item.tag || '');
                                     window.scrollTo({ top: 0, behavior: 'smooth' });
                                 }}>Edit</button>
                                 <button onClick={() => handleDelete(item)} className="delete">Delete</button>

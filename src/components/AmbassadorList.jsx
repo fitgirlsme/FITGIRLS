@@ -201,6 +201,10 @@ const AmbassadorList = () => {
 
   const renderContent = () => (
     <div className={`ambassador-list-page ${isStandalone ? 'standalone' : ''}`}>
+      <div className="al-editorial-logo">
+        <h1>FITORIALIST+</h1>
+      </div>
+      
       <div className="al-filter-section">
         <div className="al-batch-selector">
           {uniqueBatches.map(b => (

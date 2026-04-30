@@ -33,6 +33,11 @@
     font-size: 2rem;
     font-weight: 800;
     letter-spacing: -0.03em;
+    /* Prevent flickering */
+    -webkit-font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translate3d(0,0,0);
 }
 
 
@@ -75,6 +80,12 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
+}
+
+@media (min-width: 1024px) {
+    .main-selection-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
 .main-selection-card {
@@ -136,6 +147,11 @@
     color: #fff;
     letter-spacing: -0.02em;
     line-height: 1.2;
+    /* Prevent flickering */
+    -webkit-font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translate3d(0,0,0);
 }
 
 .card-count {
@@ -218,7 +234,12 @@
     color: #000;
     margin: 0;
     text-transform: uppercase;
-    padding-left: 10px; /* Keep some space for the title on the left */
+    padding-left: 10px;
+    /* Prevent flickering */
+    -webkit-font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translate3d(0,0,0);
 }
 
 .back-to-main-btn {
@@ -301,6 +322,11 @@
     transition: color 0.2s;
     padding: 4px 8px;
     position: relative;
+    /* Prevent flickering */
+    -webkit-font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translate3d(0,0,0);
 }
 
 .tier1-tab.active {
@@ -435,6 +461,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-weight: 600;
+    /* Prevent flickering */
+    -webkit-font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translate3d(0,0,0);
 }
 
 .tag-circle-item.active .tag-circle-label {

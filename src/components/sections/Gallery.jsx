@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 import { ref, deleteObject, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db as fireDb, storage } from '../../utils/firebase';
 import FadeInSection from '../FadeInSection';
@@ -22,7 +22,27 @@ const SUB_CATEGORIES = [
     { id: 'men', labelKey: 'gallery.men' },
     { id: 'couple', labelKey: 'gallery.couple' },
     { id: 'outdoor', labelKey: 'gallery.outdoor' },
+    { id: 'fashion_item', labelKey: 'gallery.fashion_item' },
+    { id: 'beauty_item', labelKey: 'gallery.beauty_item' },
+    { id: 'broadcast', labelKey: 'gallery.broadcast' },
 ];
+
+const FASHION_SUB_IDS = ['fashion_item', 'beauty_item', 'broadcast'];
+
+const getVideoData = (url) => {
+    if (!url) return null;
+    const ytRegExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const ytMatch = url.match(ytRegExp);
+    if (ytMatch && ytMatch[2].length === 11) {
+        return { src: `https://www.youtube.com/embed/${ytMatch[2]}?rel=0` };
+    }
+    const vimeoRegExp = /vimeo\.com\/(?:.*#|.*video\/)?(\d+)/i;
+    const vimeoMatch = url.match(vimeoRegExp);
+    if (vimeoMatch && vimeoMatch[1]) {
+        return { src: `https://player.vimeo.com/video/${vimeoMatch[1]}` };
+    }
+    return null;
+};
 
 const GallerySection = () => {
     const { t } = useTranslation();
@@ -63,7 +83,16 @@ const GallerySection = () => {
     const galleryRef = useRef(null);
     const loadMoreSentinelRef = useRef(null);
     const itemRefs = useRef([]);
+    const videoScrollRef = useRef(null);
+
+    const scrollVideos = (direction) => {
+        if (videoScrollRef.current) {
+            const scrollAmount = window.innerWidth > 1024 ? 720 : window.innerWidth * 0.85 + 20; 
+            videoScrollRef.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+        }
+    };
     const [showScrollTop, setShowScrollTop] = useState(false);
+    const [categoryVideoUrls, setCategoryVideoUrls] = useState({});
     
     // Pagination & Optimization States
     const [paginatedItems, setPaginatedItems] = useState([]);
@@ -86,7 +115,12 @@ const GallerySection = () => {
         if (mainParam && MAIN_CATEGORIES.some(c => c.id === mainParam)) {
             setMainCategory(mainParam);
             setViewMode('detail');
-            setSubCategory('women');
+            // 카테고리에 따른 기본 중분류 설정
+            if (mainParam === 'fashion') {
+                setSubCategory('fashion_item');
+            } else {
+                setSubCategory('women');
+            }
             if (!tagParam) setActiveTag('ALL');
         } else if (!mainParam && !tagParam) {
             // ALL 버튼 클릭 시 (/gallery, main 파라미터 없음) → 첫 페이지로 복귀
@@ -103,6 +137,25 @@ const GallerySection = () => {
             return () => clearTimeout(timer);
         }
     }, [lightboxIndex, hasShownSwipeGuide]);
+
+    // Disable scroll-snap when gallery detail view is active so content can scroll freely
+    useEffect(() => {
+        const section = document.getElementById('archive');
+        const snapContainer = document.querySelector('.snap-container');
+        
+        if (viewMode === 'detail') {
+            if (section) section.classList.add('gallery-detail-active');
+            if (snapContainer) snapContainer.classList.add('gallery-detail-active');
+        } else {
+            if (section) section.classList.remove('gallery-detail-active');
+            if (snapContainer) snapContainer.classList.remove('gallery-detail-active');
+        }
+        
+        return () => {
+            if (section) section.classList.remove('gallery-detail-active');
+            if (snapContainer) snapContainer.classList.remove('gallery-detail-active');
+        };
+    }, [viewMode]);
 
     // Lock body scroll and hide SupportCS when any modal is open or in detail view
     useEffect(() => {
@@ -138,9 +191,9 @@ const GallerySection = () => {
         };
     }, [lightboxIndex, editTarget, deleteTarget, viewMode]);
 
-    // 이슈 목록 로드
     useEffect(() => {
-        const loadIssues = async () => {
+        const loadInitialData = async () => {
+            // Load Issues
             try {
                 const { getDocs, collection, query, orderBy } = await import('firebase/firestore');
                 const snap = await getDocs(query(collection(fireDb, 'issues'), orderBy('createdAt', 'desc')));
@@ -148,8 +201,39 @@ const GallerySection = () => {
             } catch (err) {
                 console.error('Error loading issues:', err);
             }
+
+            // Load Category Video Map
+            try {
+                const docSnap = await getDoc(doc(fireDb, 'configs', 'magazine'));
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    const rawUrls = data.videoUrls || {};
+                    const normalized = {};
+                    
+                    // Possible categories: ensure they are all arrays
+                    ['fitorialist', 'artist', 'fashion', 'portrait'].forEach(cat => {
+                        const val = rawUrls[cat];
+                        if (Array.isArray(val)) {
+                            normalized[cat] = val;
+                        } else if (typeof val === 'string' && val.trim() !== "") {
+                            normalized[cat] = [val];
+                        } else {
+                            normalized[cat] = [];
+                        }
+                    });
+                    
+                    // Legacy support for single videoUrl field at root
+                    if (data.videoUrl && (!normalized.fitorialist || normalized.fitorialist.length === 0)) {
+                        normalized.fitorialist = [data.videoUrl];
+                    }
+                    
+                    setCategoryVideoUrls(normalized);
+                }
+            } catch (err) {
+                console.error('Error loading category video:', err);
+            }
         };
-        loadIssues();
+        loadInitialData();
     }, []);
 
     // Firebase + IndexedDB에서 갤러리 데이터 로드
@@ -165,10 +249,26 @@ const GallerySection = () => {
                         else if (typeof item.createdAt === 'number') ts = item.createdAt;
                         else if (typeof item.createdAt === 'string') ts = new Date(item.createdAt).getTime();
                     }
+                    
+                    let mainCat = (item.mainCategory || 'fitorialist').toLowerCase();
+                    let subCat = (item.type || 'women').toLowerCase();
+                    
+                    // Normalizing mainCategory: Catch variants like 'fashion & beauty', 'fashion_beauty', etc.
+                    if (mainCat.includes('fashion') || mainCat.includes('beauty')) {
+                        mainCat = 'fashion';
+                    }
+                    
+                    // Data Migration Mapping for Fashion & Beauty:
+                    // If old sub-categories (women, men, etc.) are found in 'fashion' mainCategory,
+                    // map them to 'fashion_item' for compatibility.
+                    if (mainCat === 'fashion' && !FASHION_SUB_IDS.includes(subCat)) {
+                        subCat = 'fashion_item';
+                    }
+
                     return {
                         id: item.id,
-                        mainCategory: (item.mainCategory || 'fitorialist').toLowerCase(),
-                        type: (item.type || 'women').toLowerCase(),
+                        mainCategory: mainCat,
+                        type: subCat,
                         tags: item.tags || [],
                         img: item.imageUrl || item.img || item.url || '',
                         storagePath: item.storagePath || '',
@@ -183,11 +283,23 @@ const GallerySection = () => {
                 console.warn('Gallery load failed, falling back to IndexedDB:', err);
                 try {
                     const items = await getGalleryItems();
-                    setAllItems(items.map(item => ({
-                        ...item,
-                        mainCategory: item.mainCategory || item.type || 'fitorialist',
-                        type: item.type || 'women',
-                    })));
+                    setAllItems(items.map(item => {
+                        let mainCat = (item.mainCategory || item.type || 'fitorialist').toLowerCase();
+                        let subCat = (item.type || 'women').toLowerCase();
+                        
+                        if (mainCat.includes('fashion') || mainCat.includes('beauty')) {
+                            mainCat = 'fashion';
+                        }
+                        
+                        if (mainCat === 'fashion' && !FASHION_SUB_IDS.includes(subCat)) {
+                            subCat = 'fashion_item';
+                        }
+                        return {
+                            ...item,
+                            mainCategory: mainCat,
+                            type: subCat,
+                        };
+                    }));
                 } catch (err2) {
                     console.warn('IndexedDB load also failed:', err2);
                 }
@@ -274,7 +386,12 @@ const GallerySection = () => {
             .map(item => item.type)
             .filter(Boolean)
     );
-    const visibleSubCategories = SUB_CATEGORIES.filter(sc => availableSubCategories.has(sc.id));
+    const visibleSubCategories = SUB_CATEGORIES.filter(sc => {
+        if (mainCategory === 'fashion') {
+            return FASHION_SUB_IDS.includes(sc.id);
+        }
+        return !FASHION_SUB_IDS.includes(sc.id) && availableSubCategories.has(sc.id);
+    });
 
     // mainCategory + subCategory로 필터된 아이템
     const categoryFiltered = allItems.filter(item => {
@@ -338,7 +455,7 @@ const GallerySection = () => {
     // Scroll-to-top button visibility
     useEffect(() => {
         if (viewMode !== 'detail') { setShowScrollTop(false); return; }
-        const container = document.getElementById('gallery');
+        const container = document.getElementById('archive');
         if (!container) return;
         const handleScroll = () => {
             setShowScrollTop(container.scrollTop > 600);
@@ -348,7 +465,7 @@ const GallerySection = () => {
     }, [viewMode]);
 
     const scrollToTop = () => {
-        const container = document.getElementById('gallery');
+        const container = document.getElementById('archive');
         if (container) container.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -382,7 +499,7 @@ const GallerySection = () => {
                 <>
                     <div className="gallery-title-header-wrap">
                         <FadeInSection className="section-header">
-                            <h2 className="section-title">ARTICLE</h2>
+                            <h2 className="section-title">ARCHIVE</h2>
                         </FadeInSection>
                     </div>
                     <div className="main-selection-grid">
@@ -399,9 +516,9 @@ const GallerySection = () => {
                                     onClick={() => {
                                         setMainCategory(cat.id);
                                         setViewMode('detail');
-                                        setSubCategory('women');
+                                        setSubCategory(cat.id === 'fashion' ? 'fashion_item' : 'women');
                                         setActiveTag('ALL');
-                                        const el = document.getElementById('article');
+                                        const el = document.getElementById('archive');
                                         if (el) el.scrollTop = 0;
                                     }}
                                 >
@@ -451,7 +568,11 @@ const GallerySection = () => {
                         {/* 현재 카테고리 표시 (좌측) + BACK 버튼 (우측) */}
                         <div className="gallery-detail-header">
                             <h3 className="gallery-current-category">
-                                {mainCategory === 'fitorialist' ? 'FITORIALIST' : t(MAIN_CATEGORIES.find(c => c.id === mainCategory)?.labelKey)}
+                                {(() => {
+                                    if (mainCategory === 'fitorialist') return 'FITORIALIST';
+                                    const cat = MAIN_CATEGORIES.find(c => c.id === mainCategory);
+                                    return cat ? t(cat.labelKey) : (mainCategory?.toUpperCase() || '');
+                                })()}
                             </h3>
                             <button className="back-to-main-btn" onClick={() => setViewMode('main')}>
                                 <span className="back-btn-text">LIST</span>
@@ -461,6 +582,79 @@ const GallerySection = () => {
                             </button>
                         </div>
 
+                        {/* Global Category Videos (horizontal scroll) */}
+                        {categoryVideoUrls[mainCategory] && Array.isArray(categoryVideoUrls[mainCategory]) && categoryVideoUrls[mainCategory].length > 0 && categoryVideoUrls[mainCategory].some(url => getVideoData(url)) && (
+                            <div style={{ position: 'relative', marginBottom: '40px' }}>
+                                <div 
+                                    className="magazine-video-scroll-wrapper" 
+                                    ref={videoScrollRef}
+                                    style={{ 
+                                        display: 'flex', 
+                                        overflowX: 'auto', 
+                                        gap: '20px', 
+                                        padding: '0 0 10px',
+                                        scrollSnapType: 'x mandatory',
+                                        scrollbarWidth: 'none', /* Firefox */
+                                        msOverflowStyle: 'none' /* IE/Edge */
+                                    }}
+                                >
+                                    {categoryVideoUrls[mainCategory].map((url, idx) => {
+                                        const videoData = getVideoData(url);
+                                        if (!videoData) return null;
+                                        return (
+                                            <div key={idx} className="magazine-archive-video-section" style={{ 
+                                                flex: '0 0 85%', 
+                                                maxWidth: '700px',
+                                                scrollSnapAlign: 'start'
+                                            }}>
+                                                <div className="editorial-video-container" style={{ borderRadius: '12px', overflow: 'hidden' }}>
+                                                    <iframe 
+                                                        src={videoData.src}
+                                                        title={`Video player ${idx + 1}`} 
+                                                        frameBorder="0" 
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                                        allowFullScreen
+                                                    ></iframe>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <style>{`.magazine-video-scroll-wrapper::-webkit-scrollbar { display: none; }`}</style>
+                                
+                                {categoryVideoUrls[mainCategory].filter(u => getVideoData(u)).length > 1 && (
+                                    <>
+                                        <button 
+                                            className="video-nav-arrow left"
+                                            onClick={() => scrollVideos('left')}
+                                            style={{
+                                                position: 'absolute', top: 'calc(50% - 5px)', left: '10px', transform: 'translateY(-50%)',
+                                                background: 'rgba(0,0,0,0.6)', border: 'none', color: '#fff', borderRadius: '50%',
+                                                width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                cursor: 'pointer', zIndex: 10, backdropFilter: 'blur(4px)'
+                                            }}
+                                            aria-label="Previous Video"
+                                        >
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                                        </button>
+                                        <button 
+                                            className="video-nav-arrow right"
+                                            onClick={() => scrollVideos('right')}
+                                            style={{
+                                                position: 'absolute', top: 'calc(50% - 5px)', right: '10px', transform: 'translateY(-50%)',
+                                                background: 'rgba(0,0,0,0.6)', border: 'none', color: '#fff', borderRadius: '50%',
+                                                width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                cursor: 'pointer', zIndex: 10, backdropFilter: 'blur(4px)'
+                                            }}
+                                            aria-label="Next Video"
+                                        >
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                                        </button>
+                                    </>
+                                )}
+                            </div>
+                        )}
+
                         {/* Sub-category tabs (women/men/couple/outdoor) */}
                         {!searchQuery && (
                             <div className="tier1-tabs sub-category-tabs">
@@ -469,13 +663,16 @@ const GallerySection = () => {
                                         const age = item.createdAt || 0;
                                         const isRecent = Date.now() - age < 48 * 60 * 60 * 1000;
                                         const matchMain = item.mainCategory === mainCategory || (!item.mainCategory && mainCategory === 'fitorialist');
-                                        return isRecent && matchMain && item.type === sc.id;
+                                        return isRecent && matchMain && String(item.type).toLowerCase() === String(sc.id).toLowerCase();
                                     });
                                     return (
                                         <button
                                             key={sc.id}
                                             className={`tier1-tab ${subCategory === sc.id ? 'active' : ''} ${hasNew ? 'has-new' : ''}`}
-                                            onClick={() => { setSubCategory(sc.id); setActiveTag('ALL'); }}
+                                            onClick={() => { 
+                                                setSubCategory(sc.id); 
+                                                setActiveTag('ALL'); 
+                                            }}
                                         >
                                             {t(sc.labelKey)}
                                             {hasNew && <span className="tab-new-badge">NEW</span>}
@@ -497,18 +694,18 @@ const GallerySection = () => {
                                     <div className="tag-circle-img-wrap tag-circle-all">
                                         <span>ALL</span>
                                     </div>
-                                    {categoryFiltered.some(item => (Date.now() - (item.createdAt || 0)) < 48 * 60 * 60 * 1000) && (
+                                    {Array.isArray(categoryFiltered) && categoryFiltered.some(item => (Date.now() - (item.createdAt || 0)) < 48 * 60 * 60 * 1000) && (
                                         <span className="tag-new-dot" />
                                     )}
                                     <span className="tag-circle-label">{t('gallery.hashtags.ALL', '전체')}</span>
                                 </div>
                                 {dynamicTags.filter(tag => tag !== 'ALL').map((tag, idx) => {
                                     const displayTag = tag;
-                                    const repItems = categoryFiltered
-                                        .filter(item => item.tags && item.tags.some(t => t.replace('#', '').toUpperCase() === tag.toUpperCase()));
+                                    const repItems = (categoryFiltered || [])
+                                        .filter(item => Array.isArray(item.tags) && item.tags.some(t => t.replace('#', '').toUpperCase() === tag.toUpperCase()));
                                     const repItem = [...repItems].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))[0];
                                     
-                                    const tagHasNew = repItems.some(item => {
+                                    const tagHasNew = Array.isArray(repItems) && repItems.some(item => {
                                         const age = item.createdAt || 0;
                                         return Date.now() - age < 48 * 60 * 60 * 1000;
                                     });
@@ -718,7 +915,16 @@ const GallerySection = () => {
 
                         <div className="edit-field">
                             <label className="edit-label">대분류 영역</label>
-                            <select className="edit-select" value={editMainCat} onChange={e => setEditMainCat(e.target.value)}>
+                            <select 
+                                className="edit-select" 
+                                value={editMainCat} 
+                                onChange={e => {
+                                    const nextCat = e.target.value;
+                                    setEditMainCat(nextCat);
+                                    if (nextCat === 'fashion') setEditType('fashion_item');
+                                    else if (['women', 'men', 'couple', 'outdoor'].indexOf(editType) === -1) setEditType('women');
+                                }}
+                            >
                                 <option value="fitorialist">FITORIALIST</option>
                                 <option value="artist">ARTIST</option>
                                 <option value="fashion">FASHION & BEAUTY</option>
@@ -729,10 +935,20 @@ const GallerySection = () => {
                         <div className="edit-field">
                             <label className="edit-label">중분류 타겟</label>
                             <select className="edit-select" value={editType} onChange={e => setEditType(e.target.value)}>
-                                <option value="women">여자 (Women)</option>
-                                <option value="men">남자 (Men)</option>
-                                <option value="couple">우정&커플 (Couple)</option>
-                                <option value="outdoor">발리프로젝트 (Bali Project)</option>
+                                {editMainCat === 'fashion' ? (
+                                    <>
+                                        <option value="fashion_item">패션 (Fashion)</option>
+                                        <option value="beauty_item">뷰티 (Beauty)</option>
+                                        <option value="broadcast">방송&기업 (Broadcast)</option>
+                                    </>
+                                ) : (
+                                    <>
+                                        <option value="women">여자 (Women)</option>
+                                        <option value="men">남자 (Men)</option>
+                                        <option value="couple">우정&커플 (Couple)</option>
+                                        <option value="outdoor">발리프로젝트 (Bali Project)</option>
+                                    </>
+                                )}
                             </select>
                         </div>
 
