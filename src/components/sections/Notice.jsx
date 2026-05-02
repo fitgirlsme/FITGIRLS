@@ -344,14 +344,14 @@ const Notice = () => {
                 <div className="event-detail-overlay" onClick={() => setSelectedEvent(null)}>
                     <div className="event-detail-modal" onClick={e => e.stopPropagation()}>
                         <button className="event-modal-close" onClick={() => setSelectedEvent(null)}>✕</button>
-                        <div className="event-modal-header">
+                        <div className="event-modal-header" onClick={() => setSelectedEvent(null)} style={{ cursor: 'pointer' }}>
                             <span className="event-modal-date">{formatDate(selectedEvent)}</span>
                             <h2 className="event-modal-title">{getTitle(selectedEvent)}</h2>
                         </div>
-                        <div className="event-modal-body">
+                        <div className="event-modal-body" onClick={() => setSelectedEvent(null)} style={{ cursor: 'pointer' }}>
                             <p className="event-modal-content">{getContent(selectedEvent)}</p>
                             {selectedEvent.images && selectedEvent.images.length > 0 && (
-                                <div className="event-modal-carousel">
+                                <div className="event-modal-carousel" onClick={e => e.stopPropagation()} style={{ cursor: 'default' }}>
                                     <div 
                                         className="carousel-view"
                                         onTouchStart={onTouchStart}
