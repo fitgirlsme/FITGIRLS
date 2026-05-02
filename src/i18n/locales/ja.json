@@ -386,15 +386,15 @@
                 ]
             },
             {
-                "question": "🪒 除毛やスキンケア（ワックス/タンニング）のガイドが知りたいです！",
+                "question": "除毛やスキンケア（ワックス/タンニング）のガイドが知りたいです！",
                 "answer": "タンニングは撮影の3〜5日前までに終えるのが自然で、ワックスや除毛は肌の鎮静時間を考慮して撮影の2〜3日前をお勧めします。きれいな肌の状態が、作家のレタッチのクオリティをさらに高めてくれます。"
             },
             {
-                "question": "🐶 ペットや知人と一緒に撮影することは可能ですか？",
+                "question": "ペットや知人と一緒に撮影することは可能ですか？",
                 "answer": "もちろん可能です！大切な存在と一緒に過ごす瞬間は、より特別な記録になります。ただし、ペット同伴の場合は、作家が快適な撮影環境を準備できるよう、事前にお知らせください。（同伴撮影の際、所定の追加費用が発生する場合があります。）"
             },
             {
-                "question": "💃 撮影が初めてなのですが、ポーズの練習は必ずしていかなければなりませんか？",
+                "question": "撮影が初めてなのですが、ポーズの練習は必ずしていかなければなりませんか？",
                 "answer": "全く心配いりません！1万人以上の撮影データを保有する作家が、指先一つ、視線の処理一つまで詳細にディレクティングいたします。体一つでお越しいただいても、モデルのような仕上がりをお作りします。"
             }
         ],
@@ -415,7 +415,7 @@
                 ]
             },
             {
-                "question": "🖱️ 写真のセレクトは自分で行いますか、それとも作家が選んでくれますか？",
+                "question": "️ 写真のセレクトは自分で行いますか、それとも作家が選んでくれますか？",
                 "answer": "ご自宅でゆっくりお選びいただけるよう、オンラインセレクトリンクを提供しております。作家の視点とお客様の好みが重なる最高のカットを選んでみてください。"
             },
             {
@@ -427,7 +427,7 @@
                 "answer": "肌の質感、ボディライン、グラビア의ムードを活かしつつ自然な仕上がりにします。1回まで再修正が可能です。"
             },
             {
-                "question": "🙋🏻‍♂️ 補正本を受け取った後、追加の修正は可能ですか？",
+                "question": "‍️ 補正本を受け取った後、追加の修正は可能ですか？",
                 "answer": "はい、可能です！1次補正本を受け取った後、作家にフィードバックをいただければ、詳細な2次修正をお手伝いいたします。仕上がりへの満足度を最優先に考えております。"
             },
             {
@@ -874,54 +874,201 @@
         "preset_vivid": "エネルギッシュに",
         "preset_noir": "映画のように",
         "preset_minimal": "ミニマルに",
-        "mood": { "label": "MOOD", "name": "ムード" },
-        "color": { "label": "COLOR", "name": "色味" },
-        "expression": { "label": "EXPRESSION", "name": "表情" },
-        "focus": { "label": "BODY FOCUS", "name": "強調したい部位" },
-        "texture": { "label": "SKIN TEXTURE", "name": "肌の質感" },
-        "opt_deep": { "name": "DEEP & DARK", "sub": "Heavy mood using deep shadows and darkness" },
-        "opt_sunday": { "name": "SUNDAY MORNING", "sub": "Natural everyday life like lazy weekend morning sunshine" },
-        "opt_highkey": { "name": "HIGH-KEY & VIVID", "sub": "Clear and energetic feeling like a magazine cover" },
-        "opt_grunge": { "name": "GRUNGE & RAW", "sub": "Rough and rebellious street sentiment in its raw form" },
-        "opt_architectural": { "name": "ARCHITECTURAL", "sub": "Modern mood emphasizing structural beauty and lines of space" },
-        "opt_noir": { "name": "CINEMATIC NOIR", "sub": "Dramatic narrative like a main character in a movie" },
-        "opt_elegance": { "name": "CLASSIC ELEGANCE", "sub": "Understated elegance that remains timeless" },
-        "opt_vintage": { "name": "VINTAGE ANALOG", "sub": "Faded nostalgia unique to film cameras" },
-        "opt_mono": { "name": "CLASSIC MONO", "sub": "Aesthetics of black and white focusing on the essence of the subject" },
-        "opt_sunlight": { "name": "NATURAL SUNLIGHT", "sub": "Warm-toned light that beautifully highlights skin tones" },
-        "opt_cyber": { "name": "CYBER COLD", "sub": "Futuristic colors mixing cold blue and fluorescent light" },
-        "opt_pop": { "name": "POP VIVID", "sub": "Intense primary colors that instantly catch the eye" },
-        "opt_earthy": { "name": "NEUTRAL EARTHY", "sub": "Calm and luxurious tones centered around beige, khaki, and brown" },
-        "opt_y2k": { "name": "Y2K MAGAZINE", "sub": "Kitschy and colorful aesthetic like a 90s teen magazine" },
-        "opt_midnight": { "name": "MIDNIGHT BLUE", "sub": "Alluring and mysterious blue light of late night" },
-        "opt_desert": { "name": "DESERT SAND", "sub": "Sophisticated colors resembling soft, dry sand" },
-        "opt_playful": { "name": "PLAYFUL", "sub": "Free, playful, and witty expression" },
-        "opt_relaxed": { "name": "RELAXED", "sub": "Natural gaze and comfortable expression without tension" },
-        "opt_fierce": { "name": "FIERCE", "sub": "Intense charisma that seems to pierce through the screen" },
-        "opt_dreamy": { "name": "DREAMY", "sub": "Dreamy and faint gaze processing" },
-        "opt_chic": { "name": "CHIC & COLD", "sub": "Restrained, expressionless face of a high-fashion model" },
-        "opt_raw_emotion": { "name": "RAW EMOTION", "sub": "Unadorned, instinctive, and honest momentary expression" },
-        "opt_radiant": { "name": "RADIANT VIBE", "sub": "A smile radiating health and positive energy" },
-        "opt_mysterious": { "name": "MYSTERIOUS", "sub": "A subtle gaze that seems to hold a secret story" },
-        "opt_abs": { "name": "Abs", "sub": "腹筋" },
-        "opt_back": { "name": "Back", "sub": "背中" },
-        "opt_arms": { "name": "Arms", "sub": "腕" },
-        "opt_legs": { "name": "Legs", "sub": "脚" },
-        "opt_glutes": { "name": "Glutes", "sub": "お尻" },
-        "opt_shoulders": { "name": "Shoulders", "sub": "肩" },
-        "opt_sline": { "name": "S-Line", "sub": "シルエットライン" },
-        "opt_fullbody": { "name": "Full Body", "sub": "全身" },
-        "opt_glossy": { "name": "HEAVY GLOSSY", "sub": "Glamorous gloss that maximizes sensual volume" },
-        "opt_peachy": { "name": "PEACHY", "sub": "Smooth and soft texture like peach fuzz" },
-        "opt_matte": { "name": "MATTE FINISH", "sub": "Clean, modern matte texture without any excess" },
-        "opt_sweaty": { "name": "SWEATY & WET", "sub": "Realistic sweat and moisture as if just finished working out" },
-        "opt_velvet": { "name": "VELVET GLOW", "sub": "Silk-like skin texture with a subtle glow" },
-        "opt_sunkissed": { "name": "SUN-KISSED", "sub": "Healthy, tanned, and firm texture from the sun" },
-        "opt_raw_tex": { "name": "RAW TEXTURE", "sub": "Rough texture that highlights every muscle fiber" },
-        "opt_metallic": { "name": "METALLIC SHINE", "sub": "Strong highlights shining like metal under lighting" },
-        "skintone": { "label": "SKIN TONE", "name": "肌のトーン" },
-        "opt_white": { "name": "White", "sub": "白い肌" },
-        "opt_natural": { "name": "Natural Skin", "sub": "ナチュラル肌色" },
-        "opt_tanning": { "name": "Tanning", "sub": "日焼け肌" }
+        "mood": {
+            "label": "MOOD",
+            "name": "ムード"
+        },
+        "color": {
+            "label": "COLOR",
+            "name": "色味"
+        },
+        "expression": {
+            "label": "EXPRESSION",
+            "name": "表情"
+        },
+        "focus": {
+            "label": "BODY FOCUS",
+            "name": "強調したい部位"
+        },
+        "texture": {
+            "label": "SKIN TEXTURE",
+            "name": "肌の質感"
+        },
+        "opt_deep": {
+            "name": "DEEP & DARK",
+            "sub": "Heavy mood using deep shadows and darkness"
+        },
+        "opt_sunday": {
+            "name": "SUNDAY MORNING",
+            "sub": "Natural everyday life like lazy weekend morning sunshine"
+        },
+        "opt_highkey": {
+            "name": "HIGH-KEY & VIVID",
+            "sub": "Clear and energetic feeling like a magazine cover"
+        },
+        "opt_grunge": {
+            "name": "GRUNGE & RAW",
+            "sub": "Rough and rebellious street sentiment in its raw form"
+        },
+        "opt_architectural": {
+            "name": "ARCHITECTURAL",
+            "sub": "Modern mood emphasizing structural beauty and lines of space"
+        },
+        "opt_noir": {
+            "name": "CINEMATIC NOIR",
+            "sub": "Dramatic narrative like a main character in a movie"
+        },
+        "opt_elegance": {
+            "name": "CLASSIC ELEGANCE",
+            "sub": "Understated elegance that remains timeless"
+        },
+        "opt_vintage": {
+            "name": "VINTAGE ANALOG",
+            "sub": "Faded nostalgia unique to film cameras"
+        },
+        "opt_mono": {
+            "name": "CLASSIC MONO",
+            "sub": "Aesthetics of black and white focusing on the essence of the subject"
+        },
+        "opt_sunlight": {
+            "name": "NATURAL SUNLIGHT",
+            "sub": "Warm-toned light that beautifully highlights skin tones"
+        },
+        "opt_cyber": {
+            "name": "CYBER COLD",
+            "sub": "Futuristic colors mixing cold blue and fluorescent light"
+        },
+        "opt_pop": {
+            "name": "POP VIVID",
+            "sub": "Intense primary colors that instantly catch the eye"
+        },
+        "opt_earthy": {
+            "name": "NEUTRAL EARTHY",
+            "sub": "Calm and luxurious tones centered around beige, khaki, and brown"
+        },
+        "opt_y2k": {
+            "name": "Y2K MAGAZINE",
+            "sub": "Kitschy and colorful aesthetic like a 90s teen magazine"
+        },
+        "opt_midnight": {
+            "name": "MIDNIGHT BLUE",
+            "sub": "Alluring and mysterious blue light of late night"
+        },
+        "opt_desert": {
+            "name": "DESERT SAND",
+            "sub": "Sophisticated colors resembling soft, dry sand"
+        },
+        "opt_playful": {
+            "name": "PLAYFUL",
+            "sub": "Free, playful, and witty expression"
+        },
+        "opt_relaxed": {
+            "name": "RELAXED",
+            "sub": "Natural gaze and comfortable expression without tension"
+        },
+        "opt_fierce": {
+            "name": "FIERCE",
+            "sub": "Intense charisma that seems to pierce through the screen"
+        },
+        "opt_dreamy": {
+            "name": "DREAMY",
+            "sub": "Dreamy and faint gaze processing"
+        },
+        "opt_chic": {
+            "name": "CHIC & COLD",
+            "sub": "Restrained, expressionless face of a high-fashion model"
+        },
+        "opt_raw_emotion": {
+            "name": "RAW EMOTION",
+            "sub": "Unadorned, instinctive, and honest momentary expression"
+        },
+        "opt_radiant": {
+            "name": "RADIANT VIBE",
+            "sub": "A smile radiating health and positive energy"
+        },
+        "opt_mysterious": {
+            "name": "MYSTERIOUS",
+            "sub": "A subtle gaze that seems to hold a secret story"
+        },
+        "opt_abs": {
+            "name": "Abs",
+            "sub": "腹筋"
+        },
+        "opt_back": {
+            "name": "Back",
+            "sub": "背中"
+        },
+        "opt_arms": {
+            "name": "Arms",
+            "sub": "腕"
+        },
+        "opt_legs": {
+            "name": "Legs",
+            "sub": "脚"
+        },
+        "opt_glutes": {
+            "name": "Glutes",
+            "sub": "お尻"
+        },
+        "opt_shoulders": {
+            "name": "Shoulders",
+            "sub": "肩"
+        },
+        "opt_sline": {
+            "name": "S-Line",
+            "sub": "シルエットライン"
+        },
+        "opt_fullbody": {
+            "name": "Full Body",
+            "sub": "全身"
+        },
+        "opt_glossy": {
+            "name": "HEAVY GLOSSY",
+            "sub": "Glamorous gloss that maximizes sensual volume"
+        },
+        "opt_peachy": {
+            "name": "PEACHY",
+            "sub": "Smooth and soft texture like peach fuzz"
+        },
+        "opt_matte": {
+            "name": "MATTE FINISH",
+            "sub": "Clean, modern matte texture without any excess"
+        },
+        "opt_sweaty": {
+            "name": "SWEATY & WET",
+            "sub": "Realistic sweat and moisture as if just finished working out"
+        },
+        "opt_velvet": {
+            "name": "VELVET GLOW",
+            "sub": "Silk-like skin texture with a subtle glow"
+        },
+        "opt_sunkissed": {
+            "name": "SUN-KISSED",
+            "sub": "Healthy, tanned, and firm texture from the sun"
+        },
+        "opt_raw_tex": {
+            "name": "RAW TEXTURE",
+            "sub": "Rough texture that highlights every muscle fiber"
+        },
+        "opt_metallic": {
+            "name": "METALLIC SHINE",
+            "sub": "Strong highlights shining like metal under lighting"
+        },
+        "skintone": {
+            "label": "SKIN TONE",
+            "name": "肌のトーン"
+        },
+        "opt_white": {
+            "name": "White",
+            "sub": "白い肌"
+        },
+        "opt_natural": {
+            "name": "Natural Skin",
+            "sub": "ナチュラル肌色"
+        },
+        "opt_tanning": {
+            "name": "Tanning",
+            "sub": "日焼け肌"
+        }
     }
 }

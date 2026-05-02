@@ -386,15 +386,15 @@
                 ]
             },
             {
-                "question": "🪒 I'm curious about hair removal and skin care (waxing/tanning) guidelines!",
+                "question": "I'm curious about hair removal and skin care (waxing/tanning) guidelines!",
                 "answer": "It is natural to finish tanning 3-5 days before the shoot, and waxing or shaving is recommended 2-3 days before the shoot to allow for skin recovery. Clean skin conditions further enhance the quality of the photographer's retouching."
             },
             {
-                "question": "🐶 Can I shoot with my pet or a friend?",
+                "question": "Can I shoot with my pet or a friend?",
                 "answer": "Of course! Moments with your loved ones make for even more special records. However, please let us know in advance if you're bringing a pet so the photographer can prepare a comfortable environment. (A small additional fee may apply for accompanied shoots.)"
             },
             {
-                "question": "💃 It's my first time shooting. Do I really need to practice poses?",
+                "question": "It's my first time shooting. Do I really need to practice poses?",
                 "answer": "Don't worry at all! Our photographer, who has data from over 10,000 shoots, will provide detailed directing, down to every fingertip and gaze. Just bring yourself, and we'll create model-like results for you."
             }
         ],
@@ -415,7 +415,7 @@
                 ]
             },
             {
-                "question": "🖱️ Do I select the photos myself, or does the photographer?",
+                "question": "️ Do I select the photos myself, or does the photographer?",
                 "answer": "We provide an online selection link so you can choose at your leisure from home. Find the point where the photographer's perspective meets your taste and pick the best cuts."
             },
             {
@@ -427,7 +427,7 @@
                 "answer": "We focus on skin texture, body lines, and pictorial mood while preserving natural charm. You can request one round of further retouching after seeing the results."
             },
             {
-                "question": "🙋🏻‍♂️ Can I request further edits after receiving retouched photos?",
+                "question": "‍️ Can I request further edits after receiving retouched photos?",
                 "answer": "Yes, it is possible! After receiving the first round of retouched photos, if you provide feedback to the photographer, we will help with detailed second-round corrections. We prioritize your satisfaction with the final results."
             },
             {
@@ -860,54 +860,201 @@
         "preset_vivid": "Vivid",
         "preset_noir": "Cinematic",
         "preset_minimal": "Minimal",
-        "mood": { "label": "MOOD", "name": "Mood" },
-        "color": { "label": "COLOR", "name": "Color" },
-        "expression": { "label": "EXPRESSION", "name": "Expression" },
-        "focus": { "label": "BODY FOCUS", "name": "Body Focus" },
-        "texture": { "label": "SKIN TEXTURE", "name": "Skin Texture" },
-        "opt_deep": { "name": "DEEP & DARK", "sub": "Heavy mood using deep shadows and darkness" },
-        "opt_sunday": { "name": "SUNDAY MORNING", "sub": "Natural everyday life like lazy weekend morning sunshine" },
-        "opt_highkey": { "name": "HIGH-KEY & VIVID", "sub": "Clear and energetic feeling like a magazine cover" },
-        "opt_grunge": { "name": "GRUNGE & RAW", "sub": "Rough and rebellious street sentiment in its raw form" },
-        "opt_architectural": { "name": "ARCHITECTURAL", "sub": "Modern mood emphasizing structural beauty and lines of space" },
-        "opt_noir": { "name": "CINEMATIC NOIR", "sub": "Dramatic narrative like a main character in a movie" },
-        "opt_elegance": { "name": "CLASSIC ELEGANCE", "sub": "Understated elegance that remains timeless" },
-        "opt_vintage": { "name": "VINTAGE ANALOG", "sub": "Faded nostalgia unique to film cameras" },
-        "opt_mono": { "name": "CLASSIC MONO", "sub": "Aesthetics of black and white focusing on the essence of the subject" },
-        "opt_sunlight": { "name": "NATURAL SUNLIGHT", "sub": "Warm-toned light that beautifully highlights skin tones" },
-        "opt_cyber": { "name": "CYBER COLD", "sub": "Futuristic colors mixing cold blue and fluorescent light" },
-        "opt_pop": { "name": "POP VIVID", "sub": "Intense primary colors that instantly catch the eye" },
-        "opt_earthy": { "name": "NEUTRAL EARTHY", "sub": "Calm and luxurious tones centered around beige, khaki, and brown" },
-        "opt_y2k": { "name": "Y2K MAGAZINE", "sub": "Kitschy and colorful aesthetic like a 90s teen magazine" },
-        "opt_midnight": { "name": "MIDNIGHT BLUE", "sub": "Alluring and mysterious blue light of late night" },
-        "opt_desert": { "name": "DESERT SAND", "sub": "Sophisticated colors resembling soft, dry sand" },
-        "opt_playful": { "name": "PLAYFUL", "sub": "Free, playful, and witty expression" },
-        "opt_relaxed": { "name": "RELAXED", "sub": "Natural gaze and comfortable expression without tension" },
-        "opt_fierce": { "name": "FIERCE", "sub": "Intense charisma that seems to pierce through the screen" },
-        "opt_dreamy": { "name": "DREAMY", "sub": "Dreamy and faint gaze processing" },
-        "opt_chic": { "name": "CHIC & COLD", "sub": "Restrained, expressionless face of a high-fashion model" },
-        "opt_raw_emotion": { "name": "RAW EMOTION", "sub": "Unadorned, instinctive, and honest momentary expression" },
-        "opt_radiant": { "name": "RADIANT VIBE", "sub": "A smile radiating health and positive energy" },
-        "opt_mysterious": { "name": "MYSTERIOUS", "sub": "A subtle gaze that seems to hold a secret story" },
-        "opt_abs": { "name": "Abs", "sub": "Abs" },
-        "opt_back": { "name": "Back", "sub": "Back" },
-        "opt_arms": { "name": "Arms", "sub": "Arms" },
-        "opt_legs": { "name": "Legs", "sub": "Legs" },
-        "opt_glutes": { "name": "Glutes", "sub": "Glutes" },
-        "opt_shoulders": { "name": "Shoulders", "sub": "Shoulders" },
-        "opt_sline": { "name": "S-Line", "sub": "Silhouette line" },
-        "opt_fullbody": { "name": "Full Body", "sub": "Full body" },
-        "opt_glossy": { "name": "HEAVY GLOSSY", "sub": "Glamorous gloss that maximizes sensual volume" },
-        "opt_peachy": { "name": "PEACHY", "sub": "Smooth and soft texture like peach fuzz" },
-        "opt_matte": { "name": "MATTE FINISH", "sub": "Clean, modern matte texture without any excess" },
-        "opt_sweaty": { "name": "SWEATY & WET", "sub": "Realistic sweat and moisture as if just finished working out" },
-        "opt_velvet": { "name": "VELVET GLOW", "sub": "Silk-like skin texture with a subtle glow" },
-        "opt_sunkissed": { "name": "SUN-KISSED", "sub": "Healthy, tanned, and firm texture from the sun" },
-        "opt_raw_tex": { "name": "RAW TEXTURE", "sub": "Rough texture that highlights every muscle fiber" },
-        "opt_metallic": { "name": "METALLIC SHINE", "sub": "Strong highlights shining like metal under lighting" },
-        "skintone": { "label": "SKIN TONE", "name": "Skin Tone" },
-        "opt_white": { "name": "White", "sub": "Fair skin" },
-        "opt_natural": { "name": "Natural Skin", "sub": "Natural tone" },
-        "opt_tanning": { "name": "Tanning", "sub": "Tanned skin" }
+        "mood": {
+            "label": "MOOD",
+            "name": "Mood"
+        },
+        "color": {
+            "label": "COLOR",
+            "name": "Color"
+        },
+        "expression": {
+            "label": "EXPRESSION",
+            "name": "Expression"
+        },
+        "focus": {
+            "label": "BODY FOCUS",
+            "name": "Body Focus"
+        },
+        "texture": {
+            "label": "SKIN TEXTURE",
+            "name": "Skin Texture"
+        },
+        "opt_deep": {
+            "name": "DEEP & DARK",
+            "sub": "Heavy mood using deep shadows and darkness"
+        },
+        "opt_sunday": {
+            "name": "SUNDAY MORNING",
+            "sub": "Natural everyday life like lazy weekend morning sunshine"
+        },
+        "opt_highkey": {
+            "name": "HIGH-KEY & VIVID",
+            "sub": "Clear and energetic feeling like a magazine cover"
+        },
+        "opt_grunge": {
+            "name": "GRUNGE & RAW",
+            "sub": "Rough and rebellious street sentiment in its raw form"
+        },
+        "opt_architectural": {
+            "name": "ARCHITECTURAL",
+            "sub": "Modern mood emphasizing structural beauty and lines of space"
+        },
+        "opt_noir": {
+            "name": "CINEMATIC NOIR",
+            "sub": "Dramatic narrative like a main character in a movie"
+        },
+        "opt_elegance": {
+            "name": "CLASSIC ELEGANCE",
+            "sub": "Understated elegance that remains timeless"
+        },
+        "opt_vintage": {
+            "name": "VINTAGE ANALOG",
+            "sub": "Faded nostalgia unique to film cameras"
+        },
+        "opt_mono": {
+            "name": "CLASSIC MONO",
+            "sub": "Aesthetics of black and white focusing on the essence of the subject"
+        },
+        "opt_sunlight": {
+            "name": "NATURAL SUNLIGHT",
+            "sub": "Warm-toned light that beautifully highlights skin tones"
+        },
+        "opt_cyber": {
+            "name": "CYBER COLD",
+            "sub": "Futuristic colors mixing cold blue and fluorescent light"
+        },
+        "opt_pop": {
+            "name": "POP VIVID",
+            "sub": "Intense primary colors that instantly catch the eye"
+        },
+        "opt_earthy": {
+            "name": "NEUTRAL EARTHY",
+            "sub": "Calm and luxurious tones centered around beige, khaki, and brown"
+        },
+        "opt_y2k": {
+            "name": "Y2K MAGAZINE",
+            "sub": "Kitschy and colorful aesthetic like a 90s teen magazine"
+        },
+        "opt_midnight": {
+            "name": "MIDNIGHT BLUE",
+            "sub": "Alluring and mysterious blue light of late night"
+        },
+        "opt_desert": {
+            "name": "DESERT SAND",
+            "sub": "Sophisticated colors resembling soft, dry sand"
+        },
+        "opt_playful": {
+            "name": "PLAYFUL",
+            "sub": "Free, playful, and witty expression"
+        },
+        "opt_relaxed": {
+            "name": "RELAXED",
+            "sub": "Natural gaze and comfortable expression without tension"
+        },
+        "opt_fierce": {
+            "name": "FIERCE",
+            "sub": "Intense charisma that seems to pierce through the screen"
+        },
+        "opt_dreamy": {
+            "name": "DREAMY",
+            "sub": "Dreamy and faint gaze processing"
+        },
+        "opt_chic": {
+            "name": "CHIC & COLD",
+            "sub": "Restrained, expressionless face of a high-fashion model"
+        },
+        "opt_raw_emotion": {
+            "name": "RAW EMOTION",
+            "sub": "Unadorned, instinctive, and honest momentary expression"
+        },
+        "opt_radiant": {
+            "name": "RADIANT VIBE",
+            "sub": "A smile radiating health and positive energy"
+        },
+        "opt_mysterious": {
+            "name": "MYSTERIOUS",
+            "sub": "A subtle gaze that seems to hold a secret story"
+        },
+        "opt_abs": {
+            "name": "Abs",
+            "sub": "Abs"
+        },
+        "opt_back": {
+            "name": "Back",
+            "sub": "Back"
+        },
+        "opt_arms": {
+            "name": "Arms",
+            "sub": "Arms"
+        },
+        "opt_legs": {
+            "name": "Legs",
+            "sub": "Legs"
+        },
+        "opt_glutes": {
+            "name": "Glutes",
+            "sub": "Glutes"
+        },
+        "opt_shoulders": {
+            "name": "Shoulders",
+            "sub": "Shoulders"
+        },
+        "opt_sline": {
+            "name": "S-Line",
+            "sub": "Silhouette line"
+        },
+        "opt_fullbody": {
+            "name": "Full Body",
+            "sub": "Full body"
+        },
+        "opt_glossy": {
+            "name": "HEAVY GLOSSY",
+            "sub": "Glamorous gloss that maximizes sensual volume"
+        },
+        "opt_peachy": {
+            "name": "PEACHY",
+            "sub": "Smooth and soft texture like peach fuzz"
+        },
+        "opt_matte": {
+            "name": "MATTE FINISH",
+            "sub": "Clean, modern matte texture without any excess"
+        },
+        "opt_sweaty": {
+            "name": "SWEATY & WET",
+            "sub": "Realistic sweat and moisture as if just finished working out"
+        },
+        "opt_velvet": {
+            "name": "VELVET GLOW",
+            "sub": "Silk-like skin texture with a subtle glow"
+        },
+        "opt_sunkissed": {
+            "name": "SUN-KISSED",
+            "sub": "Healthy, tanned, and firm texture from the sun"
+        },
+        "opt_raw_tex": {
+            "name": "RAW TEXTURE",
+            "sub": "Rough texture that highlights every muscle fiber"
+        },
+        "opt_metallic": {
+            "name": "METALLIC SHINE",
+            "sub": "Strong highlights shining like metal under lighting"
+        },
+        "skintone": {
+            "label": "SKIN TONE",
+            "name": "Skin Tone"
+        },
+        "opt_white": {
+            "name": "White",
+            "sub": "Fair skin"
+        },
+        "opt_natural": {
+            "name": "Natural Skin",
+            "sub": "Natural tone"
+        },
+        "opt_tanning": {
+            "name": "Tanning",
+            "sub": "Tanned skin"
+        }
     }
 }

@@ -387,15 +387,15 @@
                 ]
             },
             {
-                "question": "🪒 제모나 피부 관리(왁싱/태닝) 가이드가 궁금해요!",
+                "question": "제모나 피부 관리(왁싱/태닝) 가이드가 궁금해요!",
                 "answer": "태닝은 촬영 3~5일 전까지 마치는 것이 자연스럽고, 왁싱이나 제모는 피부 진정 시간을 고려해 촬영 2~3일 전을 권장합니다. 깨끗한 피부 상태가 작가님의 리터칭 퀄리티를 더욱 높여줍니다."
             },
             {
-                "question": "🐶 반려동물이나 지인과 동반 촬영이 가능한가요?",
+                "question": "반려동물이나 지인과 동반 촬영이 가능한가요?",
                 "answer": "물론이죠! 소중한 존재와 함께하는 순간은 더 특별한 기록이 됩니다. 다만, 반려동물 동반 시 미리 말씀해 주시면 작가님이 쾌적한 촬영 환경을 준비해 드릴 수 있습니다. (동반 촬영 시 소정의 추가 비용이 발생할 수 있습니다.)"
             },
             {
-                "question": "💃 촬영이 처음인데 포즈 연습, 꼭 해가야 할까요?",
+                "question": "촬영이 처음인데 포즈 연습, 꼭 해가야 할까요?",
                 "answer": "전혀 걱정 마세요! 1만 명 이상의 촬영 데이터를 보유한 작가님이 손끝 하나, 시선 처리 하나까지 디테일하게 디렉팅해 드립니다. 몸만 오셔도 모델 같은 결과물을 만들어 드릴게요."
             }
         ],
@@ -416,7 +416,7 @@
                 ]
             },
             {
-                "question": "🖱️ 사진 셀렉은 직접 하나요, 작가님이 해주시나요?",
+                "question": "️ 사진 셀렉은 직접 하나요, 작가님이 해주시나요?",
                 "answer": "여유롭게 집에서 선택하실 수 있도록 온라인 셀렉 링크를 제공해 드립니다. 작가님의 시선과 고객님의 취향이 만나는 접점을 찾아 베스트 컷을 골라보세요."
             },
             {
@@ -428,7 +428,7 @@
                 "answer": "본연의 매력을 살리면서 피부 결, 체형 라인, 화보 무드를 극대화하는 리터칭이 진행됩니다.\n\n1차 수정 완료 후 결과물을 보시고 1회에 한하여 재수정 요청이 가능합니다.\n\n보정이 완료되면 핏걸즈 & 이너핏만의 감각적인 매거진 커버도 제작하여 보내드립니다."
             },
             {
-                "question": "🙋🏻‍♂️ 보정본을 받고 나서 추가 수정이 가능한가요?",
+                "question": "‍️ 보정본을 받고 나서 추가 수정이 가능한가요?",
                 "answer": "네, 가능합니다! 1차 보정본 수령 후 작가님에게 피드백을 주시면 세밀하게 2차 수정을 도와드립니다. 결과물에 대한 만족도를 최우선으로 생각합니다."
             },
             {
@@ -876,54 +876,201 @@
         "preset_vivid": "에너제틱하게",
         "preset_noir": "영화처럼",
         "preset_minimal": "미니멀하게",
-        "mood": { "label": "MOOD", "name": "무드" },
-        "color": { "label": "COLOR", "name": "색감" },
-        "expression": { "label": "EXPRESSION", "name": "표정" },
-        "focus": { "label": "BODY FOCUS", "name": "살리고 싶은 부위" },
-        "texture": { "label": "SKIN TEXTURE", "name": "피부 질감" },
-        "opt_deep": { "name": "DEEP & DARK", "sub": "깊은 그림자와 어둠을 활용한 묵직한 무드" },
-        "opt_sunday": { "name": "SUNDAY MORNING", "sub": "나른한 주말 오전의 햇살처럼 자연스러운 일상" },
-        "opt_highkey": { "name": "HIGH-KEY & VIVID", "sub": "잡지 커버처럼 선명하고 에너제틱한 느낌" },
-        "opt_grunge": { "name": "GRUNGE & RAW", "sub": "날것 그대로의 거칠고 반항적인 스트릿 감성" },
-        "opt_architectural": { "name": "ARCHITECTURAL", "sub": "공간의 구조미와 선을 강조한 모던한 무드" },
-        "opt_noir": { "name": "CINEMATIC NOIR", "sub": "영화 속 주인공 같은 드라마틱한 서사" },
-        "opt_elegance": { "name": "CLASSIC ELEGANCE", "sub": "시간이 흘러도 변치 않는 절제된 우아함" },
-        "opt_vintage": { "name": "VINTAGE ANALOG", "sub": "필름 카메라 특유의 바랜 듯한 노스텔지어" },
-        "opt_mono": { "name": "CLASSIC MONO", "sub": "피사체의 본질에 집중하는 흑백의 미학" },
-        "opt_sunlight": { "name": "NATURAL SUNLIGHT", "sub": "피부 톤을 가장 예쁘게 살려주는 따스한 온도의 빛" },
-        "opt_cyber": { "name": "CYBER COLD", "sub": "차가운 블루와 형광광이 섞인 미래지향적 색감" },
-        "opt_pop": { "name": "POP VIVID", "sub": "시선을 단번에 사로잡는 강렬한 원색 포인트" },
-        "opt_earthy": { "name": "NEUTRAL EARTHY", "sub": "베이지, 카키, 브라운 중심의 차분하고 고급스러운 톤" },
-        "opt_y2k": { "name": "Y2K MAGAZINE", "sub": "90년대 하이틴 잡지 같은 키치하고 화려한 색감" },
-        "opt_midnight": { "name": "MIDNIGHT BLUE", "sub": "고혹적이고 신비로운 심야의 푸른 빛" },
-        "opt_desert": { "name": "DESERT SAND", "sub": "건조한 듯 부드러운 모래 빛의 세련된 색감" },
-        "opt_playful": { "name": "PLAYFUL", "sub": "자유롭고 장난기 넘치는 위트 있는 표정" },
-        "opt_relaxed": { "name": "RELAXED", "sub": "힘을 뺀 자연스러운 눈빛과 편안한 표정" },
-        "opt_fierce": { "name": "FIERCE", "sub": "화면을 뚫고 나올 듯한 강렬한 카리스마" },
-        "opt_dreamy": { "name": "DREAMY", "sub": "몽환적이고 아련한 분위기의 시선 처리" },
-        "opt_chic": { "name": "CHIC & COLD", "sub": "감정을 절제한 하이패션 모델의 무표정" },
-        "opt_raw_emotion": { "name": "RAW EMOTION", "sub": "꾸며지지 않은 본능적이고 솔직한 찰나의 표정" },
-        "opt_radiant": { "name": "RADIANT VIBE", "sub": "건강하고 긍정적인 에너지가 느껴지는 미소" },
-        "opt_mysterious": { "name": "MYSTERIOUS", "sub": "비밀스러운 이야기를 간직한 듯한 묘한 눈빛" },
-        "opt_abs": { "name": "Abs", "sub": "복근" },
-        "opt_back": { "name": "Back", "sub": "등" },
-        "opt_arms": { "name": "Arms", "sub": "팔" },
-        "opt_legs": { "name": "Legs", "sub": "다리" },
-        "opt_glutes": { "name": "Glutes", "sub": "힙" },
-        "opt_shoulders": { "name": "Shoulders", "sub": "어깨" },
-        "opt_sline": { "name": "S-Line", "sub": "실루엣 라인" },
-        "opt_fullbody": { "name": "Full Body", "sub": "전신" },
-        "opt_glossy": { "name": "HEAVY GLOSSY", "sub": "육감적인 볼륨감을 극대화하는 화려한 광택" },
-        "opt_peachy": { "name": "PEACHY", "sub": "보송보송하고 매끄러운 솜털 같은 질감" },
-        "opt_matte": { "name": "MATTE FINISH", "sub": "군더더기 없이 깔끔하고 모던한 매트 텍스처" },
-        "opt_sweaty": { "name": "SWEATY & WET", "sub": "방금 운동을 끝낸 듯한 리얼한 땀과 수분감" },
-        "opt_velvet": { "name": "VELVET GLOW", "sub": "은은한 광택이 감도는 실크 같은 피부 결" },
-        "opt_sunkissed": { "name": "SUN-KISSED", "sub": "햇볕에 건강하게 그을린 듯한 탄력 있는 텍스처" },
-        "opt_raw_tex": { "name": "RAW TEXTURE", "sub": "근육의 결 하나하나를 살린 거친 질감" },
-        "opt_metallic": { "name": "METALLIC SHINE", "sub": "조명 아래에서 금속처럼 빛나는 강한 하이라이트" },
-        "skintone": { "label": "SKIN TONE", "name": "피부톤" },
-        "opt_white": { "name": "White", "sub": "흰 피부" },
-        "opt_natural": { "name": "Natural Skin", "sub": "살색" },
-        "opt_tanning": { "name": "Tanning", "sub": "태닝" }
+        "mood": {
+            "label": "MOOD",
+            "name": "무드"
+        },
+        "color": {
+            "label": "COLOR",
+            "name": "색감"
+        },
+        "expression": {
+            "label": "EXPRESSION",
+            "name": "표정"
+        },
+        "focus": {
+            "label": "BODY FOCUS",
+            "name": "살리고 싶은 부위"
+        },
+        "texture": {
+            "label": "SKIN TEXTURE",
+            "name": "피부 질감"
+        },
+        "opt_deep": {
+            "name": "DEEP & DARK",
+            "sub": "깊은 그림자와 어둠을 활용한 묵직한 무드"
+        },
+        "opt_sunday": {
+            "name": "SUNDAY MORNING",
+            "sub": "나른한 주말 오전의 햇살처럼 자연스러운 일상"
+        },
+        "opt_highkey": {
+            "name": "HIGH-KEY & VIVID",
+            "sub": "잡지 커버처럼 선명하고 에너제틱한 느낌"
+        },
+        "opt_grunge": {
+            "name": "GRUNGE & RAW",
+            "sub": "날것 그대로의 거칠고 반항적인 스트릿 감성"
+        },
+        "opt_architectural": {
+            "name": "ARCHITECTURAL",
+            "sub": "공간의 구조미와 선을 강조한 모던한 무드"
+        },
+        "opt_noir": {
+            "name": "CINEMATIC NOIR",
+            "sub": "영화 속 주인공 같은 드라마틱한 서사"
+        },
+        "opt_elegance": {
+            "name": "CLASSIC ELEGANCE",
+            "sub": "시간이 흘러도 변치 않는 절제된 우아함"
+        },
+        "opt_vintage": {
+            "name": "VINTAGE ANALOG",
+            "sub": "필름 카메라 특유의 바랜 듯한 노스텔지어"
+        },
+        "opt_mono": {
+            "name": "CLASSIC MONO",
+            "sub": "피사체의 본질에 집중하는 흑백의 미학"
+        },
+        "opt_sunlight": {
+            "name": "NATURAL SUNLIGHT",
+            "sub": "피부 톤을 가장 예쁘게 살려주는 따스한 온도의 빛"
+        },
+        "opt_cyber": {
+            "name": "CYBER COLD",
+            "sub": "차가운 블루와 형광광이 섞인 미래지향적 색감"
+        },
+        "opt_pop": {
+            "name": "POP VIVID",
+            "sub": "시선을 단번에 사로잡는 강렬한 원색 포인트"
+        },
+        "opt_earthy": {
+            "name": "NEUTRAL EARTHY",
+            "sub": "베이지, 카키, 브라운 중심의 차분하고 고급스러운 톤"
+        },
+        "opt_y2k": {
+            "name": "Y2K MAGAZINE",
+            "sub": "90년대 하이틴 잡지 같은 키치하고 화려한 색감"
+        },
+        "opt_midnight": {
+            "name": "MIDNIGHT BLUE",
+            "sub": "고혹적이고 신비로운 심야의 푸른 빛"
+        },
+        "opt_desert": {
+            "name": "DESERT SAND",
+            "sub": "건조한 듯 부드러운 모래 빛의 세련된 색감"
+        },
+        "opt_playful": {
+            "name": "PLAYFUL",
+            "sub": "자유롭고 장난기 넘치는 위트 있는 표정"
+        },
+        "opt_relaxed": {
+            "name": "RELAXED",
+            "sub": "힘을 뺀 자연스러운 눈빛과 편안한 표정"
+        },
+        "opt_fierce": {
+            "name": "FIERCE",
+            "sub": "화면을 뚫고 나올 듯한 강렬한 카리스마"
+        },
+        "opt_dreamy": {
+            "name": "DREAMY",
+            "sub": "몽환적이고 아련한 분위기의 시선 처리"
+        },
+        "opt_chic": {
+            "name": "CHIC & COLD",
+            "sub": "감정을 절제한 하이패션 모델의 무표정"
+        },
+        "opt_raw_emotion": {
+            "name": "RAW EMOTION",
+            "sub": "꾸며지지 않은 본능적이고 솔직한 찰나의 표정"
+        },
+        "opt_radiant": {
+            "name": "RADIANT VIBE",
+            "sub": "건강하고 긍정적인 에너지가 느껴지는 미소"
+        },
+        "opt_mysterious": {
+            "name": "MYSTERIOUS",
+            "sub": "비밀스러운 이야기를 간직한 듯한 묘한 눈빛"
+        },
+        "opt_abs": {
+            "name": "Abs",
+            "sub": "복근"
+        },
+        "opt_back": {
+            "name": "Back",
+            "sub": "등"
+        },
+        "opt_arms": {
+            "name": "Arms",
+            "sub": "팔"
+        },
+        "opt_legs": {
+            "name": "Legs",
+            "sub": "다리"
+        },
+        "opt_glutes": {
+            "name": "Glutes",
+            "sub": "힙"
+        },
+        "opt_shoulders": {
+            "name": "Shoulders",
+            "sub": "어깨"
+        },
+        "opt_sline": {
+            "name": "S-Line",
+            "sub": "실루엣 라인"
+        },
+        "opt_fullbody": {
+            "name": "Full Body",
+            "sub": "전신"
+        },
+        "opt_glossy": {
+            "name": "HEAVY GLOSSY",
+            "sub": "육감적인 볼륨감을 극대화하는 화려한 광택"
+        },
+        "opt_peachy": {
+            "name": "PEACHY",
+            "sub": "보송보송하고 매끄러운 솜털 같은 질감"
+        },
+        "opt_matte": {
+            "name": "MATTE FINISH",
+            "sub": "군더더기 없이 깔끔하고 모던한 매트 텍스처"
+        },
+        "opt_sweaty": {
+            "name": "SWEATY & WET",
+            "sub": "방금 운동을 끝낸 듯한 리얼한 땀과 수분감"
+        },
+        "opt_velvet": {
+            "name": "VELVET GLOW",
+            "sub": "은은한 광택이 감도는 실크 같은 피부 결"
+        },
+        "opt_sunkissed": {
+            "name": "SUN-KISSED",
+            "sub": "햇볕에 건강하게 그을린 듯한 탄력 있는 텍스처"
+        },
+        "opt_raw_tex": {
+            "name": "RAW TEXTURE",
+            "sub": "근육의 결 하나하나를 살린 거친 질감"
+        },
+        "opt_metallic": {
+            "name": "METALLIC SHINE",
+            "sub": "조명 아래에서 금속처럼 빛나는 강한 하이라이트"
+        },
+        "skintone": {
+            "label": "SKIN TONE",
+            "name": "피부톤"
+        },
+        "opt_white": {
+            "name": "White",
+            "sub": "흰 피부"
+        },
+        "opt_natural": {
+            "name": "Natural Skin",
+            "sub": "살색"
+        },
+        "opt_tanning": {
+            "name": "Tanning",
+            "sub": "태닝"
+        }
     }
 }
