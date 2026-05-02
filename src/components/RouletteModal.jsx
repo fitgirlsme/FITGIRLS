@@ -28,9 +28,17 @@ const RouletteModal = ({ onClose, event }) => {
     const spin = () => {
         if (isSpinning) return;
         setIsSpinning(true);
+        setShowResult(false);
+        setShowContactForm(false);
+
         const prizeIndex = Math.floor(Math.random() * PRIZES.length);
-        const extraDegree = (360 - (prizeIndex * 60)) - 30;
-        const totalSpin = rotation + (360 * 5) + extraDegree;
+        const segmentAngle = 360 / PRIZES.length;
+        // Calculate the angle to center the prize at the top indicator (which is at 0 degrees)
+        // Since our segments start from 0, the prizeIndex-th segment is at [prizeIndex * angle, (prizeIndex + 1) * angle]
+        // To put it at the top, we rotate by 360 - (center of segment)
+        const extraDegree = 360 - (prizeIndex * segmentAngle + segmentAngle / 2);
+        const totalSpin = rotation + (360 * 8) + extraDegree - (rotation % 360);
+        
         setRotation(totalSpin);
 
         setTimeout(() => {
@@ -39,11 +47,8 @@ const RouletteModal = ({ onClose, event }) => {
             setResult(selectedPrize);
             setShowResult(true);
             
-            // If they won something, show the contact form after a small delay
             if (selectedPrize.value !== 'NONE') {
-                setTimeout(() => {
-                    setShowContactForm(true);
-                }, 1500);
+                setShowContactForm(true);
             }
         }, 5000);
     };
@@ -104,16 +109,16 @@ const RouletteModal = ({ onClose, event }) => {
                     <div className="wheel-indicator">▼</div>
                     <div 
                         className="wheel" 
-                        style={{ transform: `rotate(${rotation}deg)` }}
+                        style={{ 
+                            transform: `rotate(${rotation}deg)`,
+                            background: `conic-gradient(${PRIZES.map((p, i) => `${p.color} ${i * 60}deg ${(i + 1) * 60}deg`).join(', ')})`
+                        }}
                     >
                         {PRIZES.map((prize, idx) => (
                             <div 
                                 key={prize.id} 
-                                className="wheel-segment"
-                                style={{ 
-                                    transform: `rotate(${idx * 60}deg)`,
-                                    backgroundColor: prize.color 
-                                }}
+                                className="prize-label-container"
+                                style={{ transform: `rotate(${idx * 60 + 30}deg)` }}
                             >
                                 <span className="prize-label">{prize.label}</span>
                             </div>
@@ -128,57 +133,52 @@ const RouletteModal = ({ onClose, event }) => {
                     </button>
                 </div>
 
-                {showResult && !showContactForm && (
+                {showResult && (
                     <div className="roulette-result-overlay">
-                        <div className="result-card">
-                            <div className="result-icon">
-                                {result.value === 'NONE' ? '😢' : '🎉'}
-                            </div>
-                            <h3>{result.value === 'NONE' ? '아쉬워요!' : '축하합니다!'}</h3>
-                            <p className="result-label">{result.label}</p>
-                            {result.value === 'NONE' && (
+                        {showContactForm ? (
+                            <form className="result-card contact-form" onSubmit={handleSubmitClaim}>
+                                <div className="result-icon">🎉</div>
+                                <h3>{result.label} 당첨!</h3>
+                                <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '20px' }}>
+                                    혜택 안내를 받으실 정보를 입력해 주세요.
+                                </p>
+                                
+                                <div className="input-group">
+                                    <input 
+                                        type="text" 
+                                        placeholder="성함" 
+                                        value={name}
+                                        onChange={e => setName(e.target.value)}
+                                        required
+                                    />
+                                    <input 
+                                        type="tel" 
+                                        placeholder="전화번호" 
+                                        value={phone}
+                                        onChange={e => setPhone(e.target.value)}
+                                        required
+                                    />
+                                </div>
+
+                                <button 
+                                    type="submit" 
+                                    className="claim-btn" 
+                                    disabled={isSubmitting}
+                                >
+                                    {isSubmitting ? '발송 중...' : '쿠폰 받기'}
+                                </button>
+                            </form>
+                        ) : (
+                            <div className="result-card">
+                                <div className="result-icon">😢</div>
+                                <h3>아쉬워요!</h3>
+                                <p className="result-label">다음 기회에 도전하세요.</p>
                                 <button className="retry-btn" onClick={onClose}>닫기</button>
-                            )}
-                        </div>
-                    </div>
-                )}
-
-                {showContactForm && (
-                    <div className="roulette-result-overlay">
-                        <form className="result-card contact-form" onSubmit={handleSubmitClaim}>
-                            <div className="result-icon">✨</div>
-                            <h3>당첨을 축하드립니다!</h3>
-                            <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '20px' }}>
-                                혜택 안내를 받으실 정보를 입력해 주세요.
-                            </p>
-                            
-                            <div className="input-group">
-                                <input 
-                                    type="text" 
-                                    placeholder="성함" 
-                                    value={name}
-                                    onChange={e => setName(e.target.value)}
-                                    required
-                                />
-                                <input 
-                                    type="tel" 
-                                    placeholder="전화번호 (01012345678)" 
-                                    value={phone}
-                                    onChange={e => setPhone(e.target.value)}
-                                    required
-                                />
                             </div>
-
-                            <button 
-                                type="submit" 
-                                className="claim-btn" 
-                                disabled={isSubmitting}
-                            >
-                                {isSubmitting ? '발송 중...' : '쿠폰 받기'}
-                            </button>
-                        </form>
+                        )}
                     </div>
                 )}
+
             </div>
         </div>
     );
