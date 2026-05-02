@@ -166,10 +166,10 @@ export const getAlimtalkTemplate = (type, params) => {
                 }
             };
 
-        case 'UH_5800': // 쿠폰발급_안내 (고객용)
+        case 'UH_5901': // 쿠폰발급_안내 (고객용)
             return {
-                code: 'UH_5800',
-                title: '이벤트당첨',
+                code: 'UH_5901',
+                title: '이벤트당첨안내',
                 subtitle: '핏걸즈&이너핏 이벤트 당첨안내',
                 message: `안녕하세요, ${name}님!\n핏걸즈 이벤트 쿠폰 발급이 완료되었습니다. 축하드립니다! ✨\n지정된 기한 내에 촬영 예약 시 [${params.discount || '50%'}] 할인이 적용됩니다.\n■ 발급 코드: ${params.issuedCode}\n예약 상담이나 궁금하신 점은 지금 보고 계신 이 채팅창에 바로 메시지를 남겨주세요! 😊\n담당 작가가 확인 후 친절히 안내해 드리겠습니다.\n고객님의 아름다운 순간을 위해 정성을 다하겠습니다. 감사합니다!`,
                 button: null

@@ -60,7 +60,7 @@ const CouponModal = ({ event, onClose }) => {
 
             // Send Alimtalk notification
             try {
-                const template = getAlimtalkTemplate('UH_5800', {
+                const template = getAlimtalkTemplate('UH_5901', {
                     name,
                     phone,
                     discount: event.discount,
