@@ -130,6 +130,15 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
                                 </button>
                             );
                         })}
+
+                        {localStorage.getItem('isAdmin') === 'true' && (
+                            <button
+                                className="nav-link-btn nav-admin-link"
+                                onClick={() => handleNavClick('/admin')}
+                            >
+                                ADMIN DASHBOARD
+                            </button>
+                        )}
                     </div>
                 </nav>
 
