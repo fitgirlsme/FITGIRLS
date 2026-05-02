@@ -11,6 +11,10 @@ const FloatingCoupon = () => {
     const [position, setPosition] = useState({ top: '20%', left: '10%' });
 
     useEffect(() => {
+        // Check if user has already dismissed the coupon in this session
+        const isDismissed = sessionStorage.getItem('coupon_dismissed');
+        if (isDismissed) return;
+
         const fetchActiveEvent = async () => {
             try {
                 const q = query(
@@ -44,6 +48,12 @@ const FloatingCoupon = () => {
         setPosition({ top: `${t}%`, left: `${l}%` });
     };
 
+    const handleDismiss = (e) => {
+        e.stopPropagation(); // Prevent opening the modal
+        setIsVisible(false);
+        sessionStorage.setItem('coupon_dismissed', 'true');
+    };
+
     if (!activeEvent || !isVisible) return null;
 
     return (
@@ -54,6 +64,7 @@ const FloatingCoupon = () => {
                 onClick={() => setShowModal(true)}
             >
                 <div className="coupon-ticket-wrapper">
+                    <button className="coupon-close-btn" onClick={handleDismiss}>✕</button>
                     <div className="coupon-ticket">
                         <div className="ticket-content">
                             <span className="ticket-label">SPECIAL</span>
