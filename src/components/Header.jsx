@@ -8,6 +8,14 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
     const [expandedCategory, setExpandedCategory] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    // Sync admin status when menu opens
+    React.useEffect(() => {
+        if (menuOpen) {
+            setIsAdmin(localStorage.getItem('isAdmin') === 'true' || localStorage.getItem('admin_logged_in') === 'true');
+        }
+    }, [menuOpen]);
 
     const navItems = [
         { id: 'hero', label: t('nav.home', 'Home'), path: '/' },
@@ -131,7 +139,7 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
                             );
                         })}
 
-                        {localStorage.getItem('isAdmin') === 'true' && (
+                        {isAdmin && (
                             <button
                                 className="nav-link-btn nav-admin-link"
                                 onClick={() => handleNavClick('/admin')}
