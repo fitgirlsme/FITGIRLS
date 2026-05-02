@@ -411,6 +411,11 @@
                         "label": "inafit@daum.net",
                         "url": "mailto:inafit@daum.net",
                         "type": "email"
+                    },
+                    {
+                        "label": "レタッチ状況を確認する",
+                        "url": "http://fitgirls.me/retouch",
+                        "type": "retouch"
                     }
                 ]
             },

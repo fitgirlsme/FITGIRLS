@@ -412,6 +412,11 @@
                         "label": "inafit@daum.net",
                         "url": "mailto:inafit@daum.net",
                         "type": "email"
+                    },
+                    {
+                        "label": "실시간 보정 현황 확인하기",
+                        "url": "http://fitgirls.me/retouch",
+                        "type": "retouch"
                     }
                 ]
             },
