@@ -100,17 +100,7 @@ const Notice = () => {
     useEffect(() => {
         fetchData(STORES.NOTICES, 'createdAt', 'desc', 30)
             .then(data => {
-                // Initial sort: Active first, then by date
-                const sorted = (data || []).sort((a, b) => {
-                    const aClosed = a.isClosed ? 1 : 0;
-                    const bClosed = b.isClosed ? 1 : 0;
-                    if (aClosed !== bClosed) return aClosed - bClosed;
-                    
-                    const aDate = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt);
-                    const bDate = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt);
-                    return bDate - aDate;
-                });
-                setEvents(sorted);
+                setEvents(sortEvents(data || []));
                 setLoading(false);
             })
             .catch(() => setLoading(false));
@@ -122,9 +112,15 @@ const Notice = () => {
             const bClosed = b.isClosed ? 1 : 0;
             if (aClosed !== bClosed) return aClosed - bClosed;
             
-            const aDate = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt);
-            const bDate = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt);
-            return bDate - aDate;
+            const getTime = (item) => {
+                if (!item.createdAt) return 0;
+                if (item.createdAt.seconds) return item.createdAt.seconds * 1000;
+                if (item.createdAt.toDate) return item.createdAt.toDate().getTime();
+                const d = new Date(item.createdAt);
+                return isNaN(d.getTime()) ? 0 : d.getTime();
+            };
+
+            return getTime(b) - getTime(a);
         });
     };
 
