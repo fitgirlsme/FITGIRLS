@@ -295,26 +295,43 @@ const RetouchAdminTab = () => {
                 </div>
 
                 <div className="status-tab-row">
-                    {['ALL', ...statuses].map(s => {
-                        let statusClass = "";
-                        if (s.includes('보정대기')) statusClass = "status-waiting";
-                        else if (s.includes('선보정')) statusClass = "status-pre-retouch";
-                        else if (s.includes('보정중')) statusClass = "status-processing";
-                        else if (s.includes('1차보정완료')) statusClass = "status-1st-done";
-                        else if (s.includes('2차보정')) statusClass = "status-2nd-processing";
-                        else if (s.includes('최종컴펌완료')) statusClass = "status-confirm";
-                        else if (s.includes('최종보정완료')) statusClass = "status-final-done";
+                    {(() => {
+                        const counts = { ALL: 0 };
+                        statuses.forEach(s => counts[s] = 0);
+                        customers.forEach(c => {
+                            if (c.projectStatuses) {
+                                Object.values(c.projectStatuses).forEach(status => {
+                                    counts.ALL++;
+                                    if (counts[status] !== undefined) {
+                                        counts[status]++;
+                                    }
+                                });
+                            }
+                        });
 
-                        return (
-                            <button 
-                                key={s} 
-                                onClick={() => setFilterStatus(s)} 
-                                className={`tab-btn ${filterStatus === s ? 'active' : ''} ${statusClass}`}
-                            >
-                                {s.replace('(피드백요청)', '')}
-                            </button>
-                        );
-                    })}
+                        return ['ALL', ...statuses].map(s => {
+                            let statusClass = "";
+                            if (s.includes('보정대기')) statusClass = "status-waiting";
+                            else if (s.includes('선보정')) statusClass = "status-pre-retouch";
+                            else if (s.includes('보정중')) statusClass = "status-processing";
+                            else if (s.includes('1차보정완료')) statusClass = "status-1st-done";
+                            else if (s.includes('2차보정')) statusClass = "status-2nd-processing";
+                            else if (s.includes('최종컴펌완료')) statusClass = "status-confirm";
+                            else if (s.includes('최종보정완료')) statusClass = "status-final-done";
+
+                            const count = counts[s] || 0;
+
+                            return (
+                                <button 
+                                    key={s} 
+                                    onClick={() => setFilterStatus(s)} 
+                                    className={`tab-btn ${filterStatus === s ? 'active' : ''} ${statusClass}`}
+                                >
+                                    {s.replace('(피드백요청)', '')} <span className="tab-count">({count})</span>
+                                </button>
+                            );
+                        });
+                    })()}
                 </div>
 
                 <div className="insta-toggle" onClick={() => setShowInstaOnly(!showInstaOnly)}>

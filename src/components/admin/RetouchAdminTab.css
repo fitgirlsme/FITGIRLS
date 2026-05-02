@@ -215,6 +215,17 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
+.tab-count {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    margin-left: 4px;
+    font-weight: 500;
+}
+
+.tab-btn.active .tab-count {
+    opacity: 1;
+}
+
 .tab-btn.active.status-waiting { background: #8a9bb3; }
 .tab-btn.active.status-pre-retouch { background: #f59e0b; }
 .tab-btn.active.status-processing { background: #f97316; }
