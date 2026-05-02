@@ -428,14 +428,27 @@ const RetouchAdminTab = () => {
                                             </div>
 
                                             <div className="p-insta-id-edit-row">
-                                                <span className="label">📸 인스타 ID (수정 가능):</span>
-                                                <input 
-                                                    type="text" 
-                                                    className="insta-id-input-small" 
-                                                    defaultValue={c.instaIds?.[pId] || ''} 
-                                                    onBlur={e => handleUpdateInstaId(c.id, pId, e.target.value)}
-                                                    placeholder="@아이디 입력"
-                                                />
+                                                <span className="label">📸 인스타 ID:</span>
+                                                <div className="insta-input-wrapper">
+                                                    <input 
+                                                        type="text" 
+                                                        className="insta-id-input-small" 
+                                                        defaultValue={c.instaIds?.[pId] || ''} 
+                                                        onBlur={e => handleUpdateInstaId(c.id, pId, e.target.value)}
+                                                        placeholder="@아이디 입력"
+                                                    />
+                                                    {c.instaIds?.[pId] && (
+                                                        <a 
+                                                            href={`https://www.instagram.com/${c.instaIds[pId].replace('@', '')}/`} 
+                                                            target="_blank" 
+                                                            rel="noreferrer" 
+                                                            className="insta-link-btn"
+                                                            title="인스타그램 방문하기"
+                                                        >
+                                                            🔗
+                                                        </a>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
                                     );
