@@ -29,6 +29,15 @@ const EventCard = ({ ev, isAdmin, onOpen, onEdit, onDelete, t, i18n }) => {
     return (
         <div className="event-card" onClick={() => onOpen(ev)}>
             <div className="event-card-image" style={{ backgroundImage: mainImg ? `url(${mainImg})` : 'none' }}>
+                {ev.images && ev.images.length > 1 && (
+                    <div className="multi-image-badge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        <span className="image-count">{ev.images.length}</span>
+                    </div>
+                )}
                 <div className="event-card-overlay">
                     <span className="event-card-date">{formatDate()}</span>
                     <h3 className="event-card-title">{getTitle()}</h3>
@@ -52,6 +61,8 @@ const Notice = () => {
     const [isAdmin] = useState(localStorage.getItem('isAdmin') === 'true');
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [currentImgIdx, setCurrentImgIdx] = useState(0);
+    const touchStart = useRef(null);
+    const touchEnd = useRef(null);
 
     // Admin states
     const [deleteTarget, setDeleteTarget] = useState(null);
@@ -114,6 +125,31 @@ const Notice = () => {
             if (!isNaN(d)) return d.toLocaleDateString('ko-KR').replace(/\. /g, '.').replace(/\.$/, '');
         }
         return '';
+    };
+
+    // Swipe handlers
+    const minSwipeDistance = 50;
+
+    const onTouchStart = (e) => {
+        touchEnd.current = null;
+        touchStart.current = e.targetTouches[0].clientX;
+    };
+
+    const onTouchMove = (e) => {
+        touchEnd.current = e.targetTouches[0].clientX;
+    };
+
+    const onTouchEnd = () => {
+        if (!touchStart.current || !touchEnd.current) return;
+        const distance = touchStart.current - touchEnd.current;
+        const isLeftSwipe = distance > minSwipeDistance;
+        const isRightSwipe = distance < -minSwipeDistance;
+
+        if (isLeftSwipe) {
+            setCurrentImgIdx(prev => Math.min(selectedEvent.images.length - 1, prev + 1));
+        } else if (isRightSwipe) {
+            setCurrentImgIdx(prev => Math.max(0, prev - 1));
+        }
     };
 
     const handleScroll = (direction) => {
@@ -316,7 +352,12 @@ const Notice = () => {
                             <p className="event-modal-content">{getContent(selectedEvent)}</p>
                             {selectedEvent.images && selectedEvent.images.length > 0 && (
                                 <div className="event-modal-carousel">
-                                    <div className="carousel-view">
+                                    <div 
+                                        className="carousel-view"
+                                        onTouchStart={onTouchStart}
+                                        onTouchMove={onTouchMove}
+                                        onTouchEnd={onTouchEnd}
+                                    >
                                         <div 
                                             className="carousel-track" 
                                             style={{ transform: `translateX(-${currentImgIdx * 100}%)` }}
