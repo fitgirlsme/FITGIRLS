@@ -185,6 +185,33 @@
 
 .event-admin-btn.edit { background: rgba(255,255,255,0.8); color: #000; }
 .event-admin-btn.del { background: rgba(211,47,47,0.8); color: #fff; }
+.event-admin-btn.close-toggle { background: #000; color: #fff; }
+
+/* Closed Event Styles */
+.event-card.closed {
+    filter: grayscale(100%);
+    opacity: 0.6;
+}
+
+.event-card.closed:hover {
+    filter: grayscale(80%);
+    opacity: 0.8;
+}
+
+.event-closed-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    z-index: 4;
+}
+
 
 /* Detail Modal */
 .event-detail-overlay {

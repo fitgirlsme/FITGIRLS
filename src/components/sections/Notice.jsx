@@ -25,10 +25,13 @@ const EventCard = ({ ev, isAdmin, onOpen, onEdit, onDelete, t, i18n }) => {
     };
 
     const mainImg = ev.images && ev.images.length > 0 ? ev.images[0] : null;
+    const isClosed = ev.isClosed === true;
+    const title = getTitle();
 
     return (
-        <div className="event-card" onClick={() => onOpen(ev)}>
+        <div className={`event-card ${isClosed ? 'closed' : ''}`} onClick={() => onOpen(ev)}>
             <div className="event-card-image" style={{ backgroundImage: mainImg ? `url(${mainImg})` : 'none' }}>
+                {isClosed && <div className="event-closed-overlay">CLOSED</div>}
                 {ev.images && ev.images.length > 1 && (
                     <div className="multi-image-badge">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -46,6 +49,9 @@ const EventCard = ({ ev, isAdmin, onOpen, onEdit, onDelete, t, i18n }) => {
             </div>
             {isAdmin && (
                 <div className="event-admin-tools" onClick={e => e.stopPropagation()}>
+                    <button className="event-admin-btn close-toggle" onClick={() => onToggleClose(ev)}>
+                        {isClosed ? 'OPEN' : '마감'}
+                    </button>
                     <button className="event-admin-btn edit" onClick={() => onEdit(ev)}>EDIT</button>
                     <button className="event-admin-btn del" onClick={() => onDelete(ev)}>DEL</button>
                 </div>
@@ -92,13 +98,35 @@ const Notice = () => {
     const [newPreviews, setNewPreviews] = useState([]);
 
     useEffect(() => {
-        fetchData(STORES.NOTICES, 'createdAt', 'desc', 20)
+        fetchData(STORES.NOTICES, 'createdAt', 'desc', 30)
             .then(data => {
-                setEvents(data || []);
+                // Initial sort: Active first, then by date
+                const sorted = (data || []).sort((a, b) => {
+                    const aClosed = a.isClosed ? 1 : 0;
+                    const bClosed = b.isClosed ? 1 : 0;
+                    if (aClosed !== bClosed) return aClosed - bClosed;
+                    
+                    const aDate = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt);
+                    const bDate = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt);
+                    return bDate - aDate;
+                });
+                setEvents(sorted);
                 setLoading(false);
             })
             .catch(() => setLoading(false));
     }, []);
+
+    const sortEvents = (list) => {
+        return [...list].sort((a, b) => {
+            const aClosed = a.isClosed ? 1 : 0;
+            const bClosed = b.isClosed ? 1 : 0;
+            if (aClosed !== bClosed) return aClosed - bClosed;
+            
+            const aDate = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt);
+            const bDate = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt);
+            return bDate - aDate;
+        });
+    };
 
     const getTitle = (ev) => {
         if (!ev) return '';
@@ -181,6 +209,17 @@ const Notice = () => {
             if (selectedEvent?.id === deleteTarget.id) setSelectedEvent(null);
         } catch (err) {
             alert('삭제 오류: ' + err.message);
+        }
+    };
+
+    const handleToggleClose = async (ev) => {
+        const newStatus = !ev.isClosed;
+        try {
+            const docRef = doc(fireDb, 'events', ev.id);
+            await updateDoc(docRef, { isClosed: newStatus });
+            setEvents(prev => sortEvents(prev.map(e => e.id === ev.id ? { ...e, isClosed: newStatus } : e)));
+        } catch (err) {
+            alert('상태 변경 오류: ' + err.message);
         }
     };
 
@@ -316,6 +355,7 @@ const Notice = () => {
                                         setSelectedEvent(ev);
                                         setCurrentImgIdx(0);
                                     }}
+                                    onToggleClose={handleToggleClose}
                                     onEdit={(ev) => {
                                         setEditTarget(ev);
                                         setEditTitle(ev.title || '');
