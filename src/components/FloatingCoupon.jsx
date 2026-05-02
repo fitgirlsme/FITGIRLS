@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../utils/firebase';
 import CouponModal from './CouponModal';
 import './FloatingCoupon.css';
 
 const FloatingCoupon = () => {
+    const location = useLocation();
     const [activeEvent, setActiveEvent] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [position, setPosition] = useState({ top: '20%', left: '10%' });
 
     useEffect(() => {
-        // Check if user has already dismissed the coupon in this session
+        // Don't show if already dismissed in this session
         const isDismissed = sessionStorage.getItem('coupon_dismissed');
-        if (isDismissed) return;
+        if (isDismissed || isVisible) return;
 
-        const fetchActiveEvent = async () => {
+        // "Random Page" logic: 30% chance to trigger on each page/section visit
+        const shouldTrigger = Math.random() < 0.3;
+        if (!shouldTrigger) return;
+
+        const fetchAndShow = async () => {
             try {
                 const q = query(
                     collection(db, 'coupon_events'), 
@@ -27,11 +33,8 @@ const FloatingCoupon = () => {
                     // Only show if limit not reached
                     if (eventData.claimedCount < eventData.totalLimit) {
                         setActiveEvent(eventData);
-                        // Delay appearance for "surprise" effect
-                        setTimeout(() => {
-                            setIsVisible(true);
-                            randomizePosition();
-                        }, 5000);
+                        setIsVisible(true);
+                        randomizePosition();
                     }
                 }
             } catch (err) {
@@ -39,8 +42,12 @@ const FloatingCoupon = () => {
             }
         };
 
-        fetchActiveEvent();
-    }, []);
+        // Delayed appearance (8 seconds) for engagement
+        const timer = setTimeout(fetchAndShow, 8000);
+        
+        return () => clearTimeout(timer);
+    }, [location.pathname, isVisible]);
+
 
     const randomizePosition = () => {
         const t = Math.floor(Math.random() * 60) + 20; // 20% to 80%
