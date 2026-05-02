@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../utils/firebase';
-import CouponModal from './CouponModal';
+import RouletteModal from './RouletteModal';
 import './FloatingCoupon.css';
 
 const FloatingCoupon = () => {
@@ -48,7 +48,6 @@ const FloatingCoupon = () => {
         return () => clearTimeout(timer);
     }, [location.pathname, isVisible]);
 
-
     const randomizePosition = () => {
         const t = Math.floor(Math.random() * 60) + 20; // 20% to 80%
         const l = Math.floor(Math.random() * 60) + 20; // 20% to 80%
@@ -74,20 +73,20 @@ const FloatingCoupon = () => {
                     <button className="coupon-close-btn" onClick={handleDismiss}>✕</button>
                     <div className="coupon-ticket">
                         <div className="ticket-content">
-                            <span className="ticket-label">SPECIAL</span>
-                            <span className="ticket-discount">{activeEvent.discount}</span>
-                            <span className="ticket-sub">OFF</span>
+                            <span className="ticket-label">LUCKY</span>
+                            <span className="ticket-discount">SPIN</span>
+                            <span className="ticket-sub">GO!</span>
                         </div>
                     </div>
                     <div className="coupon-sparkles">
                         <span>✨</span><span>⭐</span><span>✨</span>
                     </div>
                 </div>
-                <div className="coupon-tooltip">쿠폰을 잡으세요!</div>
+                <div className="coupon-tooltip">기회를 잡으세요!</div>
             </div>
 
             {showModal && (
-                <CouponModal 
+                <RouletteModal 
                     event={activeEvent} 
                     onClose={() => setShowModal(false)} 
                 />
@@ -95,5 +94,6 @@ const FloatingCoupon = () => {
         </>
     );
 };
+
 
 export default FloatingCoupon;
