@@ -271,14 +271,14 @@
     color: var(--color-text-secondary);
     display: flex;
     align-items: center;
-    margin-right: 14px;
+    margin-right: 18px; /* 여백 증가 */
     flex-shrink: 0;
 }
 
 .faq-search-input {
     flex: 1;
     padding: 14px 0;
-    padding-left: 4px;
+    padding-left: 8px; /* 여백 증가 */
     background: none;
     border: none;
     outline: none;
