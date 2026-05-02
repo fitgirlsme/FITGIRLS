@@ -1,0 +1,180 @@
+.coupon-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20000;
+    padding: 20px;
+}
+
+.coupon-modal-content {
+    background: #111;
+    border: 1px solid rgba(255, 0, 60, 0.2);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 420px;
+    padding: 40px 30px;
+    position: relative;
+    color: #fff;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    text-align: center;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #555;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.modal-close-btn:hover {
+    color: #fff;
+}
+
+.modal-header h2 {
+    font-size: 1.6rem;
+    margin: 15px 0 10px;
+    font-weight: 800;
+}
+
+.modal-header p {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 30px;
+}
+
+.modal-badge {
+    background: #FF003C;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 900;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+}
+
+.coupon-form {
+    text-align: left;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: #aaa;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.input-group input {
+    width: 100%;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 14px 18px;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #FF003C;
+    background: #222;
+}
+
+.submit-btn {
+    width: 100%;
+    background: #FF003C;
+    color: #fff;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s;
+}
+
+.submit-btn:disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
+.modal-error {
+    color: #FF003C;
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+    background: rgba(255, 0, 60, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Success State */
+.success-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.code-display-box {
+    background: #fff;
+    color: #000;
+    padding: 20px;
+    border-radius: 16px;
+    margin: 25px 0;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.code-display-box:hover {
+    transform: scale(1.02);
+}
+
+.code-text {
+    display: block;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    font-family: monospace;
+}
+
+.copy-hint {
+    font-size: 0.7rem;
+    color: #888;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.footer-note {
+    font-size: 0.75rem;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.finish-btn {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}

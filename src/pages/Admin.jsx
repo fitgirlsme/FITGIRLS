@@ -13,6 +13,13 @@ import './Admin.css';
 import '../components/sections/Gallery.css';
 import SModelAdminTab from '../components/admin/SModelAdminTab';
 import RetouchAdminTab from '../components/admin/RetouchAdminTab';
+import CouponAdminTab from '../components/admin/CouponAdminTab';
+import { 
+    MdCameraAlt, MdPhotoLibrary, MdPeople, MdShoppingBag, 
+    MdEventAvailable, MdMovie, MdMoveToInbox, MdHandshake, 
+    MdCamera, MdPerson, MdElderly, MdLogout, MdArrowBack,
+    MdChevronRight, MdGridView, MdCollections, MdCardGiftcard
+} from 'react-icons/md';
 
 // Constants
 const MODEL_CATEGORIES = ['WOMAN', 'MAN'];
@@ -78,84 +85,112 @@ const Admin = () => {
     }
 
     const tabs = [
-        { id: 'retouch', label: 'Retouch', icon: '📸', desc: 'Fitgirls & Innerfit Retouch' },
-        { id: 'gallery', label: 'Gallery', icon: '🖼️', desc: 'Manage photo grid' },
-        { id: 'models', label: 'Ambassadors', icon: '✨', desc: 'Profiles & Portfolio' },
-        { id: 'concepts', label: 'Concepts', icon: '👚', desc: 'Lookbook outfits' },
-        { id: 'events', label: 'Events', icon: '📅', desc: 'Notices & Promos' },
-        { id: 'hero', label: 'Hero', icon: '🎬', desc: 'Main slides & Video' },
-        { id: 'apply', label: 'Applications', icon: '📥', desc: 'New submissions' },
-        { id: 'partners', label: 'Partners', icon: '🤝', desc: 'Partner logos' },
-        { id: 'studios', label: 'Studios', icon: '📸', desc: 'Studio Zones' },
-        { id: 'artist', label: 'Artist', icon: '👤', desc: 'Artist profile' },
-        { id: 'smodel', label: 'S-Model', icon: '👵', desc: 'Senior Models & Archives' },
+        { id: 'retouch', label: 'Retouch', icon: <MdCameraAlt />, desc: 'Fitgirls & Innerfit Retouch' },
+        { id: 'gallery', label: 'Gallery', icon: <MdPhotoLibrary />, desc: 'Manage photo grid' },
+        { id: 'models', label: 'Ambassadors', icon: <MdPeople />, desc: 'Profiles & Portfolio' },
+        { id: 'concepts', label: 'Lookbook', icon: <MdCollections />, desc: 'Lookbook outfits' },
+        { id: 'events', label: 'Events', icon: <MdEventAvailable />, desc: 'Notices & Promos' },
+        { id: 'hero', label: 'Hero', icon: <MdMovie />, desc: 'Main slides & Video' },
+        { id: 'apply', label: 'Applications', icon: <MdMoveToInbox />, desc: 'New submissions' },
+        { id: 'partners', label: 'Partners', icon: <MdHandshake />, desc: 'Partner logos' },
+        { id: 'studios', label: 'Studios', icon: <MdCamera />, desc: 'Studio Zones' },
+        { id: 'artist', label: 'Artist', icon: <MdPerson />, desc: 'Artist profile' },
+        { id: 'smodel', label: 'S-Model', icon: <MdElderly />, desc: 'Senior Models & Archives' },
+        { id: 'coupon', label: 'Coupon', icon: <MdCardGiftcard />, desc: 'Event Coupons' },
     ];
 
     return (
         <div className={`admin-page ${activeTab ? 'dashboard-active' : 'menu-active'}`}>
-            <div className="admin-container">
-                <header className="admin-header">
-                    <div className="admin-header-left">
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                            {activeTab && window.innerWidth <= 768 && (
-                                <button className="mobile-back-btn" onClick={() => setActiveTab(null)}>
-                                    <span style={{ fontSize: '1.2rem' }}>←</span>
-                                </button>
-                            )}
-                             <h2>{activeTab ? tabs.find(t => t.id === activeTab)?.label : 'Admin Panel v2024-04-28'}</h2>
-                        </div>
-                        <nav className="admin-tabs desktop-only">
-                            {tabs.map(tab => (
-                                <button
-                                    key={tab.id}
-                                    className={`admin-tab-btn ${activeTab === tab.id ? 'active' : ''}`}
-                                    onClick={() => setActiveTab(tab.id)}
-                                    title={tab.label}
-                                    style={{ fontSize: '1.2rem', padding: '8px 16px' }}
-                                >
-                                    {tab.icon}
-                                </button>
-                            ))}
-                        </nav>
-                    </div>
-                    <button className="logout-btn" onClick={() => { 
+            {/* Desktop Sidebar */}
+            <aside className="admin-sidebar desktop-only">
+                <div className="sidebar-logo">
+                    <MdGridView className="logo-icon" />
+                    <span>ADMIN <strong>PANEL</strong></span>
+                </div>
+                <nav className="sidebar-nav">
+                    {tabs.map(tab => (
+                        <button
+                            key={tab.id}
+                            className={`sidebar-item ${activeTab === tab.id ? 'active' : ''}`}
+                            onClick={() => setActiveTab(tab.id)}
+                        >
+                            <span className="sidebar-icon">{tab.icon}</span>
+                            <span className="sidebar-label">{tab.label}</span>
+                        </button>
+                    ))}
+                </nav>
+                <div className="sidebar-footer">
+                    <button className="sidebar-logout" onClick={() => { 
                         setIsLoggedIn(false); 
                         localStorage.removeItem('admin_logged_in'); 
                         localStorage.removeItem('isAdmin');
-                        window.location.reload(); // Refresh to update all components like SupportCS
-                    }}>Logout</button>
+                        window.location.reload();
+                    }}>
+                        <MdLogout />
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </aside>
+
+            <div className="admin-main">
+                <header className="admin-top-bar">
+                    <div className="top-bar-left">
+                        {activeTab && (
+                            <button className="mobile-only back-btn" onClick={() => setActiveTab(null)}>
+                                <MdArrowBack />
+                            </button>
+                        )}
+                        <h2>{activeTab ? tabs.find(t => t.id === activeTab)?.label : 'Dashboard Overview'}</h2>
+                    </div>
+                    <div className="top-bar-right mobile-only">
+                        <button className="mobile-logout" onClick={() => { 
+                            setIsLoggedIn(false); 
+                            localStorage.removeItem('admin_logged_in'); 
+                            localStorage.removeItem('isAdmin');
+                            window.location.reload();
+                        }}>
+                            <MdLogout />
+                        </button>
+                    </div>
                 </header>
-                <div className="admin-content">
+
+                <main className="admin-content-area">
                     {!activeTab && (
                         <div className="admin-mobile-menu">
-                            {tabs.map(tab => (
-                                <button 
-                                    key={tab.id} 
-                                    className="menu-box-card"
-                                    onClick={() => setActiveTab(tab.id)}
-                                >
-                                    <span className="box-icon">{tab.icon}</span>
-                                    <div className="box-text">
-                                        <span className="box-label">{tab.label}</span>
-                                        <span className="box-desc">{tab.desc}</span>
-                                    </div>
-                                    <span className="box-arrow">→</span>
-                                </button>
-                            ))}
+                            <div className="menu-grid">
+                                {tabs.map(tab => (
+                                    <button 
+                                        key={tab.id} 
+                                        className="menu-card"
+                                        onClick={() => setActiveTab(tab.id)}
+                                    >
+                                        <div className="card-icon-wrapper">{tab.icon}</div>
+                                        <div className="card-info">
+                                            <span className="card-title">{tab.label}</span>
+                                            <span className="card-subtitle">{tab.desc}</span>
+                                        </div>
+                                        <MdChevronRight className="card-arrow" />
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     )}
-                    {activeTab === 'gallery' && <GalleryTab />}
-                    {activeTab === 'models' && <ModelsTab />}
-                    {activeTab === 'concepts' && <ConceptsTab />}
-                    {activeTab === 'events' && <EventsTab />}
-                    {activeTab === 'hero' && <HeroTab />}
-                    {activeTab === 'apply' && <ApplicationsTab />}
-                    {activeTab === 'partners' && <PartnersTab />}
-                    {activeTab === 'studios' && <StudiosTab />}
-                    {activeTab === 'artist' && <ArtistTab />}
-                    {activeTab === 'smodel' && <SModelAdminTab />}
-                    {activeTab === 'retouch' && <RetouchAdminTab />}
-                </div>
+                    
+                    <div className="tab-content-wrapper">
+                        {activeTab === 'gallery' && <GalleryTab />}
+                        {activeTab === 'models' && <ModelsTab />}
+                        {activeTab === 'concepts' && <ConceptsTab />}
+                        {activeTab === 'events' && <EventsTab />}
+                        {activeTab === 'hero' && <HeroTab />}
+                        {activeTab === 'apply' && <ApplicationsTab />}
+                        {activeTab === 'partners' && <PartnersTab />}
+                        {activeTab === 'studios' && <StudiosTab />}
+                        {activeTab === 'artist' && <ArtistTab />}
+                        {activeTab === 'smodel' && <SModelAdminTab />}
+                        {activeTab === 'retouch' && <RetouchAdminTab />}
+                        {activeTab === 'coupon' && <CouponAdminTab />}
+                    </div>
+                </main>
             </div>
         </div>
     );
@@ -1416,10 +1451,10 @@ const ConceptsTab = () => {
     return (
         <div className="upload-section">
             {showSuccess && <Toast message="Saved successfully!" onClose={() => setShowSuccess(false)} />}
-            <h3>Concepts (Lookbook)</h3>
+            <h3>Lookbook Management</h3>
 
             <form onSubmit={handleSave} className="admin-form" style={{ background: '#fff', padding: '32px', borderRadius: '16px', border: '1px solid #f0f0f0', marginBottom: '40px' }}>
-                <h4 style={{ margin: '0 0 24px', fontFamily: 'Playfair Display, serif', fontSize: '1.2rem' }}>{editItem ? '컨셉 수정 (Edit Concept)' : '새 컨셉 추가 (Add New Concept)'}</h4>
+                <h4 style={{ margin: '0 0 24px', fontFamily: 'Playfair Display, serif', fontSize: '1.2rem' }}>{editItem ? '룩북 아이템 수정 (Edit Lookbook)' : '새 룩북 아이템 추가 (Add New Lookbook Item)'}</h4>
                 <div className="form-grid">
                     <div className="form-group">
                         <label>의상 이름 (Outfit Name) *</label>
@@ -1452,7 +1487,7 @@ const ConceptsTab = () => {
                 </div>
                 <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
                     <button type="submit" className="submit-btn" style={{ width: 'auto', paddingLeft: '40px', paddingRight: '40px' }} disabled={saving}>
-                        {saving ? '저장 중...' : editItem ? '컨셉 정보 업데이트' : '새 컨셉 등록'}
+                        {saving ? '저장 중...' : editItem ? '룩북 정보 업데이트' : '새 룩북 등록'}
                     </button>
                     {editItem && <button type="button" className="secondary-btn" style={{ width: 'auto', marginTop: 0 }} onClick={resetForm}>취소</button>}
                 </div>

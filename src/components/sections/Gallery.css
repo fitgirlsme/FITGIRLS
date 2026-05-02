@@ -1199,7 +1199,7 @@ body.lightbox-active {
 /* ===== Floating Action Button (FAB) for Admin Upload ===== */
 .admin-fab-container {
     position: fixed;
-    bottom: 30px;
+    bottom: 100px;
     right: 30px;
     z-index: 1000;
     display: flex;

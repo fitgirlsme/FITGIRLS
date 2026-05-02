@@ -70,7 +70,7 @@ export const sendAlimtalk = async (receiver, templateCode, message, options = {}
  */
 export const getAlimtalkTemplate = (type, params) => {
     const { name, phone, projectTitle, link, feedback, date } = params;
-    const cleanPhone = phone ? phone.replace(/-/g, '') : '';
+    const cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
     const phoneLast4 = cleanPhone ? cleanPhone.slice(-4) : '0000';
     
     switch (type) {
@@ -79,7 +79,7 @@ export const getAlimtalkTemplate = (type, params) => {
                 code: 'UH_5024',
                 title: '촬영완료',
                 subtitle: '',
-                message: `안녕하세요, ${name}님!\n오늘 촬영하시느라 너무나도 고생 많으셨습니다. 😊\n원활한 보정 작업을 위해 아래 내용을 확인해 주세요!\n1. 메일에서 [원본파일]을 꼭 다운로드해 주세요.\n2. 이쁜 사진들을 골라 inafit@daum.net으로 답장 메일을 보내주시면 보정 작업이 시작됩니다. ✨\n■ 보정 현황 확인: https://fitgirls.me/retouch\n■ 로그인 ID: \n${cleanPhone} (전화번호)\n■ 초기 PW: \n${phoneLast4} (전화번호 뒤 4자리)\n🎁 [리뷰 이벤트]\n네이버 또는 구글 리뷰를 작성해 주시면 '서비스 보정 1장'을 추가로 해드립니다! 많은 참여 부탁드려요. 🙏\n멋진 사진으로 보답하겠습니다. 감사합니다!`,
+                message: `안녕하세요, ${name}님!\n오늘 촬영하시느라 너무나도 고생 많으셨습니다. 😊\n원활한 보정 작업을 위해 아래 내용을 확인해 주세요!\n1. 메일에서 [원본파일]을 꼭 다운로드해 주세요.\n2. 이쁜 사진들을 골라 inafit@daum.net으로 답장 메일을 보내주시면 보정 작업이 시작됩니다. ✨\n■ 보정 현황 확인: https://fitgirls.me/retouch\n■ 로그인 ID:\n${cleanPhone} (전화번호)\n■ 초기 PW:\n${phoneLast4} (전화번호 뒤 4자리)\n🎁 [리뷰 이벤트]\n네이버 또는 구글 리뷰를 작성해 주시면 '서비스 보정 1장'을 추가로 해드립니다! 많은 참여 부탁드려요. 🙏\n멋진 사진으로 보답하겠습니다. 감사합니다!`,
                 button: {
                     button: [{
                         name: '보정 현황 보기',
@@ -135,11 +135,29 @@ export const getAlimtalkTemplate = (type, params) => {
                 code: 'UH_5403',
                 title: '최종보정완료',
                 subtitle: '멋진 사진이 완성되었습니다! ✨',
-                message: `안녕하세요, ${name}님!\n기다려주신 최종 보정본이 완성되었습니다. 😊\n보정본과 함께 멋진 매거진 커버를 같이 보내드렸습니다.\n\n아래 링크의 대시보드에서 최종본을 확인하고 고화질로 다운로드하실 수 있습니다.\n(파일 보관 기한이 있으니 가급적 빨리 저장해 주세요!)\n\n그동안 핏걸즈 & 이너핏을\n믿고 기다려 주셔서 감사합니다.\n완성된 사진이 고객님께 소중한 추억이\n되길 바랍니다.\n\n더욱 멋진 컨셉과 모습으로 다음 촬영에서도 또 뵙기를 기대하겠습니다! ✨\n\n감사합니다.`,
+                message: `안녕하세요, ${name}님!\n요청하신 최종 보정본이 완성되었습니다. 😊\n보정본과 함께 멋진 매거진 커버를 같이 보내드렸습니다.\n\n아래 링크의 대시보드에서 최종본을 확인하고 고화질로 다운로드하실 수 있습니다.\n(파일 보관 기한이 있으니 가급적 빨리 저장해 주세요!)\n\n그동안 핏걸즈 & 이너핏을\n믿고 기다려 주셔서 감사합니다.\n완성된 사진이 고객님께 소중한 추억이 \n되길 바랍니다.\n\n더욱 멋진 컨셉과 모습으로 다음 촬영에서도 또 뵙기를 기대하겠습니다! ✨\n\n감사합니다.`,
                 button: {
                     button: [
                         {
                             name: '최종보정다운로드받기',
+                            linkType: 'WL',
+                            linkMo: 'https://fitgirls.me/retouch',
+                            linkPc: 'https://fitgirls.me/retouch'
+                        }
+                    ]
+                }
+            };
+
+        case 'UH_5710': // 선보정완료_안내 (고객용)
+            return {
+                code: 'UH_5710',
+                title: '선보정완료',
+                subtitle: '요청하신 선보정본 전송 안내',
+                message: `안녕하세요, ${name}님!\n요청하신 촬영본 중 [선보정본]이 먼저 완성되어 전송되었습니다. 😊\n지금 바로 아래 대시보드에서 선보정본을 확인하실 수 있습니다.\n남은 사진들도 정성껏 작업하여 빠르게 전달드리겠습니다! ✨\n■ 보정 현황 확인:\nhttps://fitgirls.me/retouch\n감사합니다.`,
+                button: {
+                    button: [
+                        {
+                            name: '선보정사진다운로드',
                             linkType: 'WL',
                             linkMo: 'https://fitgirls.me/retouch',
                             linkPc: 'https://fitgirls.me/retouch'

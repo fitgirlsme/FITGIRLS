@@ -3,6 +3,12 @@
     right: 25px;
     bottom: 25px;
     z-index: 9999;
+    transition: bottom 0.3s ease;
+}
+
+/* Admin floating offset to avoid overlap with Gallery Admin FAB */
+.support-cs-container.admin-offset {
+    bottom: 100px;
 }
 
 @media (max-width: 768px) {
@@ -11,9 +17,9 @@
         bottom: 20px;
     }
     
-    .cs-button {
-        width: 54px;
-        height: 54px;
+    .support-cs-container.admin-offset {
+        bottom: 90px;
+    }
     }
 }
 
@@ -34,6 +40,13 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+@media (max-width: 768px) {
+    .cs-button {
+        width: 54px;
+        height: 54px;
+    }
+}
+
 .custom-cs-image {
     width: 100%;
     height: 100%;
@@ -44,7 +57,6 @@
 .cs-button:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-    background-color: #111;
 }
 
 /* Theme based colors */
@@ -66,9 +78,11 @@
     flex-shrink: 0;
 }
 
-.cs-label {
-    font-size: 1rem;
-    letter-spacing: -0.02em;
+@media (max-width: 768px) {
+    .cs-icon {
+        width: 28px;
+        height: 28px;
+    }
 }
 
 /* Modal for WeChat QR */

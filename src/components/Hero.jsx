@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import FadeInSection from './FadeInSection';
 import './Hero.css';
 import { getData, STORES } from '../utils/db';
+import { MESSENGER_LINKS } from '../constants/links';
 
 const Hero = () => {
     const { t, i18n } = useTranslation();
@@ -10,10 +11,10 @@ const Hero = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const activeSlide = slides[currentSlide];
+    const langCode = i18n.language.split('-')[0];
 
     const getSlideText = (slide, type) => {
         if (!slide) return '';
-        const langCode = i18n.language.split('-')[0]; // 'ko', 'en', 'ja', 'zh'
         const langSuffix = langCode === 'ko' ? '' : langCode.charAt(0).toUpperCase() + langCode.slice(1);
         const fieldName = `${type}${langSuffix}`;
         
@@ -27,7 +28,6 @@ const Hero = () => {
         const fetchHeroData = async () => {
             try {
                 const data = await getData(STORES.HERO_SLIDES);
-                // Hardcode the branding slide as the absolute first slide
                 const brandingSlide = { 
                     id: 'branding-intro', 
                     src: '/branding-logo.jpg', 
@@ -42,7 +42,6 @@ const Hero = () => {
                 }
             } catch (error) {
                 console.error('Failed to fetch hero slides:', error);
-                // Fallback to at least show the branding logo
                 setSlides([{ id: 'branding-intro', src: '/branding-logo.jpg', type: 'image' }]);
             }
         };
@@ -51,17 +50,14 @@ const Hero = () => {
 
     useEffect(() => {
         if (slides.length > 1) {
-            console.log(`[Hero] Slides count: ${slides.length}`);
             const timer = setInterval(() => {
-                setCurrentSlide((prev) => {
-                    const next = (prev + 1) % slides.length;
-                    console.log(`[Hero] Switching to slide: ${next + 1} (Index: ${next})`);
-                    return next;
-                });
+                setCurrentSlide((prev) => (prev + 1) % slides.length);
             }, 5000);
             return () => clearInterval(timer);
         }
     }, [slides]);
+
+    const currentMessengerLink = MESSENGER_LINKS[langCode] || MESSENGER_LINKS.ko;
 
     return (
         <div className="hero-container">
@@ -93,7 +89,7 @@ const Hero = () => {
                                     backgroundImage: `url(${slide.src})`,
                                     backgroundSize: isBrandingSlide ? 'contain' : 'cover',
                                     backgroundRepeat: 'no-repeat',
-                                    backgroundColor: isBrandingSlide ? '#e30613' : 'transparent' // Using a vibrant Fitgirls red
+                                    backgroundColor: isBrandingSlide ? '#e30613' : 'transparent'
                                 }}
                             ></div>
                         );

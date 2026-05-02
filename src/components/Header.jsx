@@ -40,18 +40,18 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
             ]
         },
         { id: 'reservation', label: t('nav.reservation', 'Reservation'), path: '/reservation', isRed: true },
-        { id: 'retouch', label: 'RETOUCH', path: '/retouch', isRed: true },
+        { id: 'retouch', label: 'RETOUCH', path: '/retouch' },
         { id: 'reviews', label: t('nav.review', 'Review'), path: '/reviews' },
         {
             category: 'CREW',
             items: [
-                { label: t('nav.magazine', 'FITORIALIST+'), path: '/magazine', isRed: true },
+                { label: t('nav.magazine', 'FITORIALIST+'), path: '/magazine' },
                 { label: t('nav.muses', 'AMBASSADOR'), path: '/fitorialist' },
                 { label: t('nav.ambassador', 'RECRUIT'), path: '/ambar' },
             ]
         },
         { label: t('nav.partners', 'Partnership'), path: '/partners' },
-        { label: 'Directing Paper', path: '/directing', isRed: true },
+        { label: 'Directing Paper', path: '/directing' },
     ];
 
     const handleNavClick = (path, sectionId) => {

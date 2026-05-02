@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SiKakaotalk, SiLine, SiWhatsapp, SiWechat } from 'react-icons/si';
-import './SupportCS.css';
-
 import { MESSENGER_LINKS } from '../constants/links';
+import './SupportCS.css';
 
 const SupportCS = () => {
     const { t, i18n } = useTranslation();
     const [showWeChatQR, setShowWeChatQR] = useState(false);
     const language = i18n.language?.slice(0, 2) || 'ko';
+    const isAdmin = localStorage.getItem('isAdmin') === 'true' || localStorage.getItem('admin_logged_in') === 'true';
 
     const getLink = () => {
         if (language === 'zh') return '#wechat';

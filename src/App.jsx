@@ -28,6 +28,7 @@ import DirectingPaper from './pages/DirectingPaper';
 import SModel from './pages/SModel';
 import Retouch from './pages/Retouch';
 import { syncAll } from './utils/syncService';
+import FloatingCoupon from './components/FloatingCoupon';
 import './index.css';
 
 const Home = ({ changeLanguage, currentLang }) => {
@@ -170,6 +171,7 @@ function App() {
           <Route path="/:section" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/:section/:modelName/:modelId" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
         </Routes>
+        <FloatingCoupon />
       </React.Suspense>
     </div>
   );

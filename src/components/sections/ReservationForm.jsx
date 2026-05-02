@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { MESSENGER_LINKS } from '../../constants/links';
 import FadeInSection from '../FadeInSection';
 import './Reservation.css';
 

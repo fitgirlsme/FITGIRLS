@@ -1,6 +1,6 @@
 .smodel-admin-theme {
-    background-color: #080B14;
-    color: #ffffff;
+    background-color: var(--admin-bg);
+    color: var(--admin-text);
     padding: 40px;
     border-radius: 16px;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -18,23 +18,25 @@
 .smodel-admin-theme h4 {
     font-size: 1.4rem;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--admin-text);
     margin-bottom: 20px;
     margin-top: 0;
 }
 
 .smodel-admin-theme h5 {
     font-size: 1.1rem;
-    color: #8A9BB3;
+    color: var(--admin-text-dim);
     margin-bottom: 12px;
     font-weight: 600;
 }
 
 .smodel-admin-card {
-    background: #212B3B;
+    background: var(--admin-card);
     padding: 32px;
     border-radius: 16px;
     margin-bottom: 32px;
+    border: 1px solid var(--admin-border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 }
 
 .smodel-admin-theme label {
@@ -42,7 +44,7 @@
     margin-bottom: 8px;
     font-size: 1rem;
     font-weight: 600;
-    color: #8A9BB3;
+    color: var(--admin-text-dim);
 }
 
 .smodel-admin-theme input[type="text"],
@@ -52,9 +54,9 @@
     padding: 16px;
     font-size: 1rem;
     border-radius: 8px;
-    border: 2px solid #2A3649;
-    background: #151D29;
-    color: #ffffff;
+    border: 2px solid var(--admin-border);
+    background: #fff;
+    color: var(--admin-text);
     box-sizing: border-box;
     transition: border-color 0.3s;
 }
@@ -100,8 +102,9 @@
 }
 
 .smodel-admin-btn.secondary {
-    background: #2A3649;
-    color: #ffffff;
+    background: #f1f5f9;
+    color: var(--admin-text);
+    border: 1px solid var(--admin-border);
 }
 
 .smodel-admin-btn.danger {
@@ -129,18 +132,19 @@
 }
 
 .smodel-admin-badge.inactive {
-    background: #2A3649;
-    color: #8A9BB3;
+    background: #f1f5f9;
+    color: var(--admin-text-dim);
 }
 
 .smodel-admin-list-item {
-    background: #212B3B;
+    background: var(--admin-card);
     padding: 24px;
     border-radius: 16px;
     display: flex;
     gap: 24px;
     align-items: flex-start;
-    border: 1px solid #2A3649;
+    border: 1px solid var(--admin-border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 }
 
 .smodel-admin-avatar {
@@ -148,7 +152,7 @@
     height: 100px;
     border-radius: 12px;
     object-fit: cover;
-    background: #151D29;
+    background: #f1f5f9;
 }
 
 .smodel-admin-avatar.empty {
@@ -156,8 +160,8 @@
     align-items: center;
     justify-content: center;
     font-size: 0.8rem;
-    color: #8A9BB3;
-    border: 1px dashed #2A3649;
+    color: var(--admin-text-dim);
+    border: 1px dashed var(--admin-border);
 }
 
 .smodel-admin-info {
@@ -176,23 +180,23 @@
     font-size: 1.4rem;
     font-weight: 700;
     margin: 0 0 8px 0;
-    color: #ffffff;
+    color: var(--admin-text);
 }
 
 .smodel-admin-contact {
-    color: #8A9BB3;
+    color: var(--admin-text-dim);
     font-size: 1rem;
     margin: 0;
 }
 
 .smodel-admin-archive-box {
-    background: #151D29;
+    background: #f8fafc;
     padding: 16px;
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    border: 1px solid #2A3649;
+    border: 1px solid var(--admin-border);
 }
 
 .smodel-admin-archive-row {
@@ -260,9 +264,9 @@
 
 .smodel-admin-tab {
     padding: 12px 24px;
-    background: #151D29;
-    color: #8A9BB3;
-    border: 1px solid #2A3649;
+    background: #f1f5f9;
+    color: var(--admin-text-dim);
+    border: 1px solid var(--admin-border);
     border-radius: 8px;
     font-size: 1rem;
     font-weight: 600;
