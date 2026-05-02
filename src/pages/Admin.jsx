@@ -85,18 +85,18 @@ const Admin = () => {
     }
 
     const tabs = [
-        { id: 'retouch', label: 'Retouch', icon: <MdCameraAlt />, desc: 'Fitgirls & Innerfit Retouch' },
-        { id: 'gallery', label: 'Gallery', icon: <MdPhotoLibrary />, desc: 'Manage photo grid' },
-        { id: 'models', label: 'Ambassadors', icon: <MdPeople />, desc: 'Profiles & Portfolio' },
-        { id: 'concepts', label: 'Lookbook', icon: <MdCollections />, desc: 'Lookbook outfits' },
-        { id: 'events', label: 'Events', icon: <MdEventAvailable />, desc: 'Notices & Promos' },
-        { id: 'hero', label: 'Hero', icon: <MdMovie />, desc: 'Main slides & Video' },
-        { id: 'apply', label: 'Applications', icon: <MdMoveToInbox />, desc: 'New submissions' },
-        { id: 'partners', label: 'Partners', icon: <MdHandshake />, desc: 'Partner logos' },
-        { id: 'studios', label: 'Studios', icon: <MdCamera />, desc: 'Studio Zones' },
         { id: 'artist', label: 'Artist', icon: <MdPerson />, desc: 'Artist profile' },
+        { id: 'gallery', label: 'Gallery', icon: <MdPhotoLibrary />, desc: 'Manage photo grid' },
+        { id: 'concepts', label: 'Lookbook', icon: <MdCollections />, desc: 'Lookbook outfits' },
+        { id: 'studios', label: 'Studios', icon: <MdCamera />, desc: 'Studio Zones' },
+        { id: 'events', label: 'Events', icon: <MdEventAvailable />, desc: 'Notices & Promos' },
+        { id: 'retouch', label: 'Retouch', icon: <MdCameraAlt />, desc: 'Fitgirls & Innerfit Retouch' },
+        { id: 'models', label: 'Ambassadors', icon: <MdPeople />, desc: 'Profiles & Portfolio' },
         { id: 'smodel', label: 'S-Model', icon: <MdElderly />, desc: 'Senior Models & Archives' },
+        { id: 'partners', label: 'Partners', icon: <MdHandshake />, desc: 'Partner logos' },
+        { id: 'hero', label: 'Hero', icon: <MdMovie />, desc: 'Main slides & Video' },
         { id: 'coupon', label: 'Coupon', icon: <MdCardGiftcard />, desc: 'Event Coupons' },
+        { id: 'apply', label: 'Applications', icon: <MdMoveToInbox />, desc: 'New submissions' },
     ];
 
     return (
