@@ -141,6 +141,7 @@ const Home = ({ changeLanguage, currentLang }) => {
 
 function App() {
   const { i18n } = useTranslation();
+  const location = useLocation();
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
@@ -150,6 +151,11 @@ function App() {
   React.useEffect(() => {
     syncAll().catch(console.error);
   }, []);
+
+  // Hide floating coupon on admin-related pages
+  const isAdminPage = location.pathname.startsWith('/admin') || 
+                      location.pathname.startsWith('/smodel') || 
+                      location.pathname.startsWith('/retouch');
 
   return (
     <div className="root-layout">
@@ -171,7 +177,7 @@ function App() {
           <Route path="/:section" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/:section/:modelName/:modelId" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
         </Routes>
-        <FloatingCoupon />
+        {!isAdminPage && <FloatingCoupon />}
       </React.Suspense>
     </div>
   );
