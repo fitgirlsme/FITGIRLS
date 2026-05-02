@@ -51,6 +51,7 @@ const Notice = () => {
     const [loading, setLoading] = useState(true);
     const [isAdmin] = useState(localStorage.getItem('isAdmin') === 'true');
     const [selectedEvent, setSelectedEvent] = useState(null);
+    const [currentImgIdx, setCurrentImgIdx] = useState(0);
 
     // Admin states
     const [deleteTarget, setDeleteTarget] = useState(null);
@@ -275,7 +276,10 @@ const Notice = () => {
                                     key={ev.id}
                                     ev={ev}
                                     isAdmin={isAdmin}
-                                    onOpen={setSelectedEvent}
+                                    onOpen={(ev) => {
+                                        setSelectedEvent(ev);
+                                        setCurrentImgIdx(0);
+                                    }}
                                     onEdit={(ev) => {
                                         setEditTarget(ev);
                                         setEditTitle(ev.title || '');
@@ -311,10 +315,44 @@ const Notice = () => {
                         <div className="event-modal-body">
                             <p className="event-modal-content">{getContent(selectedEvent)}</p>
                             {selectedEvent.images && selectedEvent.images.length > 0 && (
-                                <div className="event-modal-images">
-                                    {selectedEvent.images.map((img, i) => (
-                                        <img key={i} src={img} alt={`event-${i}`} />
-                                    ))}
+                                <div className="event-modal-carousel">
+                                    <div className="carousel-view">
+                                        <div 
+                                            className="carousel-track" 
+                                            style={{ transform: `translateX(-${currentImgIdx * 100}%)` }}
+                                        >
+                                            {selectedEvent.images.map((img, i) => (
+                                                <div key={i} className="carousel-slide">
+                                                    <img src={img} alt={`event-${i}`} />
+                                                </div>
+                                            ))}
+                                        </div>
+                                        
+                                        {selectedEvent.images.length > 1 && (
+                                            <>
+                                                <button 
+                                                    className="carousel-arrow prev" 
+                                                    onClick={() => setCurrentImgIdx(prev => Math.max(0, prev - 1))}
+                                                    disabled={currentImgIdx === 0}
+                                                >⟨</button>
+                                                <button 
+                                                    className="carousel-arrow next" 
+                                                    onClick={() => setCurrentImgIdx(prev => Math.min(selectedEvent.images.length - 1, prev + 1))}
+                                                    disabled={currentImgIdx === selectedEvent.images.length - 1}
+                                                >⟩</button>
+                                                
+                                                <div className="carousel-dots">
+                                                    {selectedEvent.images.map((_, i) => (
+                                                        <span 
+                                                            key={i} 
+                                                            className={`dot ${i === currentImgIdx ? 'active' : ''}`}
+                                                            onClick={() => setCurrentImgIdx(i)}
+                                                        />
+                                                    ))}
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
                                 </div>
                             )}
                         </div>

@@ -257,17 +257,102 @@
     margin-bottom: 40px;
 }
 
-.event-modal-images {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+/* Event Modal Carousel (Instagram Style) */
+.event-modal-carousel {
+    width: 100%;
+    margin-top: 30px;
+    background: #f9f9f9;
+    border-radius: 25px;
+    overflow: hidden;
 }
 
-.event-modal-images img {
+.carousel-view {
+    position: relative;
     width: 100%;
-    border-radius: 25px;
-    display: block;
+    overflow: hidden;
+    aspect-ratio: 1 / 1; /* Square like Instagram */
 }
+
+.carousel-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.carousel-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0 !important; /* Overriding previous modal-images img radius */
+}
+
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(5px);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+}
+
+.carousel-arrow:hover:not(:disabled) {
+    background: #fff;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-arrow:disabled {
+    opacity: 0;
+    cursor: default;
+}
+
+.carousel-arrow.prev { left: 15px; }
+.carousel-arrow.next { right: 15px; }
+
+.carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 5;
+}
+
+.carousel-dots .dot {
+    width: 6px;
+    height: 6px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.carousel-dots .dot.active {
+    background: #fff;
+    transform: scale(1.3);
+}
+
 
 /* Shared Admin Modals (Create/Edit/Del) */
 .delete-confirm-overlay {
