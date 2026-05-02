@@ -84,23 +84,24 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 50%;
+    width: 45%; /* Slightly shorter to move text inward */
     height: 0;
     transform-origin: 0 50%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-right: 30px;
+    padding-right: 15px; /* Adjust to move text away from edge */
     pointer-events: none;
 }
 
 .prize-label {
     color: #fff;
     font-weight: 900;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     white-space: nowrap;
     text-transform: uppercase;
+    /* Optional: Slightly rotate the text to match the wedge curve better if needed */
 }
 
 .spin-button {
