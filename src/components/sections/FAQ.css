@@ -257,7 +257,7 @@
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--color-border);
     border-radius: 12px;
-    padding: 0 16px;
+    padding: 0 16px 0 50px; /* 왼쪽 패딩 대폭 증가 (아이콘 공간 확보) */
     transition: all 0.3s var(--ease-smooth);
 }
 
@@ -268,17 +268,20 @@
 }
 
 .search-icon {
+    position: absolute; /* 절대 위치로 고정 */
+    left: 18px; /* 왼쪽 여백 고정 */
+    top: 50%;
+    transform: translateY(-50%);
     color: var(--color-text-secondary);
     display: flex;
     align-items: center;
-    margin-right: 18px; /* 여백 증가 */
     flex-shrink: 0;
+    pointer-events: none; /* 클릭 방해 금지 */
 }
 
 .faq-search-input {
     flex: 1;
     padding: 14px 0;
-    padding-left: 8px; /* 여백 증가 */
     background: none;
     border: none;
     outline: none;
@@ -286,6 +289,7 @@
     color: var(--color-text);
     font-weight: 500;
 }
+
 
 
 .search-clear {
