@@ -708,8 +708,8 @@
     }
 }
 
-/* Instagram ID Display */
-.p-insta-id-display {
+/* Instagram ID Display & Edit */
+.p-insta-id-edit-row {
     margin-top: 12px;
     padding: 10px 14px;
     background: rgba(255, 0, 60, 0.05);
@@ -720,13 +720,30 @@
     gap: 8px;
 }
 
-.p-insta-id-display .label {
+.p-insta-id-edit-row .label {
     font-size: 0.75rem;
     color: #8a9bb3;
+    white-space: nowrap;
 }
 
-.p-insta-id-display .val {
-    font-size: 0.85rem;
+.insta-id-input-small {
+    background: transparent;
+    border: none;
+    border-bottom: 1px dashed rgba(255, 0, 60, 0.3);
     color: #FF003C;
+    font-size: 0.85rem;
     font-weight: bold;
+    width: 100%;
+    outline: none;
+    padding: 2px 0;
 }
+
+.insta-id-input-small:focus {
+    border-bottom-style: solid;
+    border-bottom-color: #FF003C;
+}
+
+.insta-id-input-small::placeholder {
+    color: rgba(255, 0, 60, 0.3);
+}
+

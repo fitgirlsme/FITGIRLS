@@ -229,6 +229,13 @@ const RetouchAdminTab = () => {
         } catch (err) { console.error(err); }
     };
 
+    const handleUpdateInstaId = async (customerId, projectId, instaId) => {
+        try {
+            await updateDoc(doc(db, 'retouch_masters', customerId), { [`instaIds.${projectId}`]: instaId });
+            loadData();
+        } catch (err) { console.error(err); }
+    };
+
     const handleUpdateConcept = async (customerId, projectId, concept) => {
         if (!concept) return;
         try {
@@ -420,12 +427,16 @@ const RetouchAdminTab = () => {
                                                 <div className={`consent-chip review-chip ${c.reviewConsents?.[pId] ? 'on' : ''}`} onClick={() => updateDoc(doc(db, 'retouch_masters', c.id), { [`reviewConsents.${pId}`]: !c.reviewConsents?.[pId] }).then(loadData)}>리뷰 완료</div>
                                             </div>
 
-                                            {c.instaIds?.[pId] && (
-                                                <div className="p-insta-id-display">
-                                                    <span className="label">📸 프로젝트 인스타:</span>
-                                                    <span className="val">{c.instaIds[pId].startsWith('@') ? c.instaIds[pId] : `@${c.instaIds[pId]}`}</span>
-                                                </div>
-                                            )}
+                                            <div className="p-insta-id-edit-row">
+                                                <span className="label">📸 인스타 ID (수정 가능):</span>
+                                                <input 
+                                                    type="text" 
+                                                    className="insta-id-input-small" 
+                                                    defaultValue={c.instaIds?.[pId] || ''} 
+                                                    onBlur={e => handleUpdateInstaId(c.id, pId, e.target.value)}
+                                                    placeholder="@아이디 입력"
+                                                />
+                                            </div>
                                         </div>
                                     );
                                 })}
