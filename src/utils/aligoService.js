@@ -166,6 +166,24 @@ export const getAlimtalkTemplate = (type, params) => {
                 }
             };
 
+        case 'UH_5800': // 쿠폰발급_안내 (고객용)
+            return {
+                code: 'UH_5800',
+                title: '쿠폰 발급 완료',
+                subtitle: '이벤트 당첨을 축하드립니다! 🎉',
+                message: `안녕하세요, ${name}님!\n핏걸즈 이벤트 쿠폰 발급이 완료되었습니다. 축하드립니다! ✨\n\n지정된 기한 내에 촬영 예약 시 [${params.discount || '50%'}] 할인이 적용됩니다.\n\n■ 발급 코드: ${params.issuedCode}\n■ 상담 및 촬영 문의:\n카카오채널 '핏걸즈'\n\n아래 [상담하기] 버튼을 눌러 바로 예약 상담을 진행하실 수 있습니다. 😊\n\n고객님의 아름다운 순간을 위해 정성을 다하겠습니다. 감사합니다!`,
+                button: {
+                    button: [
+                        {
+                            name: '상담하기 (카톡)',
+                            linkType: 'WL',
+                            linkMo: 'https://pf.kakao.com/_txnxaxdxj',
+                            linkPc: 'https://pf.kakao.com/_txnxaxdxj'
+                        }
+                    ]
+                }
+            };
+
         default:
             return null;
     }

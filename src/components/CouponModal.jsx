@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { doc, runTransaction, serverTimestamp } from 'firebase/firestore';
 import { db } from '../utils/firebase';
+import { getAlimtalkTemplate, sendAlimtalk } from '../utils/aligoService';
 import './CouponModal.css';
 
 const CouponModal = ({ event, onClose }) => {
@@ -56,6 +57,25 @@ const CouponModal = ({ event, onClose }) => {
             });
 
             setClaimedCode(result);
+
+            // Send Alimtalk notification
+            try {
+                const template = getAlimtalkTemplate('UH_5800', {
+                    name,
+                    phone,
+                    discount: event.discount,
+                    issuedCode: result
+                });
+                if (template) {
+                    await sendAlimtalk(phone, template.code, template.message, {
+                        title: template.title,
+                        button: template.button
+                    });
+                }
+            } catch (alimError) {
+                console.error("Alimtalk send failed:", alimError);
+                // We don't block the UI for Alimtalk failure since the coupon is already issued
+            }
         } catch (err) {
             console.error(err);
             setError(err.message);
