@@ -13,19 +13,18 @@ const FloatingCoupon = () => {
     const [position, setPosition] = useState({ top: '20%', left: '10%' });
 
     useEffect(() => {
-        // Don't show on admin pages or if logged in as admin
-        const isAdmin = localStorage.getItem('isAdmin') === 'true' || localStorage.getItem('admin_logged_in') === 'true';
+        // Don't show on admin-specific paths, but allow admins to see it on regular pages
         const excludedPaths = ['/admin', '/smodel', '/retouch'];
-        const isExcluded = excludedPaths.some(path => location.pathname.startsWith(path));
+        const isExcludedPath = excludedPaths.some(path => location.pathname.startsWith(path));
 
-        if (isAdmin || isExcluded) return;
+        if (isExcludedPath) return;
 
         // Don't show if already dismissed in this session
         const isDismissed = sessionStorage.getItem('coupon_dismissed');
         if (isDismissed || isVisible) return;
 
-        // "Random Page" logic: 30% chance to trigger on each page visit
-        const shouldTrigger = Math.random() < 0.3;
+        // Temporary 100% trigger for testing (change back to 0.3 later)
+        const shouldTrigger = true; 
         if (!shouldTrigger) return;
 
         const fetchAndShow = async () => {
