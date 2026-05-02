@@ -93,10 +93,10 @@ const Admin = () => {
         { id: 'events', label: 'Events', icon: <MdEventAvailable />, desc: 'Notices & Promos' },
         { id: 'retouch', label: 'Retouch', icon: <MdCameraAlt />, desc: 'Fitgirls & Innerfit Retouch' },
         { id: 'models', label: 'Ambassadors', icon: <MdPeople />, desc: 'Profiles & Portfolio' },
-        { id: 'smodel', label: 'S-Model', icon: <MdElderly />, desc: 'Senior Models & Archives' },
+        { id: 'apply', label: 'Applications', icon: <MdMoveToInbox />, desc: 'New submissions' },
         { id: 'partners', label: 'Partners', icon: <MdHandshake />, desc: 'Partner logos' },
         { id: 'coupon', label: 'Coupon', icon: <MdCardGiftcard />, desc: 'Event Coupons' },
-        { id: 'apply', label: 'Applications', icon: <MdMoveToInbox />, desc: 'New submissions' },
+        { id: 'smodel', label: 'S-Model', icon: <MdElderly />, desc: 'Senior Models & Archives' },
     ];
 
     return (
