@@ -163,10 +163,15 @@ const CouponAdminTab = () => {
                         <tbody>
                             {claims.map(claim => (
                                 <tr key={claim.id}>
-                                    <td>{claim.claimedAt?.toDate()?.toLocaleString()}</td>
+                                    <td>{claim.claimedAt?.toDate() ? claim.claimedAt.toDate().toLocaleString('ko-KR') : '-'}</td>
                                     <td>{claim.name}</td>
                                     <td>{claim.phone}</td>
-                                    <td>{events.find(e => e.id === claim.eventId)?.title || '삭제된 이벤트'}</td>
+                                    <td>
+                                        {claim.source === 'roulette' 
+                                            ? <span style={{ color: '#ff4d4d', fontWeight: 'bold' }}>[룰렛] {claim.discount}</span>
+                                            : (events.find(e => e.id === claim.eventId)?.title || '삭제된 이벤트')
+                                        }
+                                    </td>
                                     <td className="issued-code">{claim.issuedCode}</td>
                                 </tr>
                             ))}

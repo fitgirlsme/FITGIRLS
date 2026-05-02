@@ -195,6 +195,36 @@
     color: #666;
 }
 
+/* Contact Form Styles */
+.contact-form {
+    width: 100%;
+    max-width: 320px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s;
+    background: #f9f9f9;
+}
+
+.input-group input:focus {
+    border-color: #ff4d4d;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(255, 77, 77, 0.1);
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.9); }
     to { opacity: 1; transform: scale(1); }
