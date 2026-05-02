@@ -384,6 +384,18 @@
                         "type": "map"
                     }
                 ]
+            },
+            {
+                "question": "🪒 I'm curious about hair removal and skin care (waxing/tanning) guidelines!",
+                "answer": "It is natural to finish tanning 3-5 days before the shoot, and waxing or shaving is recommended 2-3 days before the shoot to allow for skin recovery. Clean skin conditions further enhance the quality of the photographer's retouching."
+            },
+            {
+                "question": "🐶 Can I shoot with my pet or a friend?",
+                "answer": "Of course! Moments with your loved ones make for even more special records. However, please let us know in advance if you're bringing a pet so the photographer can prepare a comfortable environment. (A small additional fee may apply for accompanied shoots.)"
+            },
+            {
+                "question": "💃 It's my first time shooting. Do I really need to practice poses?",
+                "answer": "Don't worry at all! Our photographer, who has data from over 10,000 shoots, will provide detailed directing, down to every fingertip and gaze. Just bring yourself, and we'll create model-like results for you."
             }
         ],
         "after_shoot": [
@@ -403,12 +415,20 @@
                 ]
             },
             {
+                "question": "🖱️ Do I select the photos myself, or does the photographer?",
+                "answer": "We provide an online selection link so you can choose at your leisure from home. Find the point where the photographer's perspective meets your taste and pick the best cuts."
+            },
+            {
                 "question": "How long does retouching take?",
                 "answer": "One photo will be retouched and sent back on the day of selection. The remaining photos take about 4 weeks for final results."
             },
             {
                 "question": "What is the retouching level?",
                 "answer": "We focus on skin texture, body lines, and pictorial mood while preserving natural charm. You can request one round of further retouching after seeing the results."
+            },
+            {
+                "question": "🙋🏻‍♂️ Can I request further edits after receiving retouched photos?",
+                "answer": "Yes, it is possible! After receiving the first round of retouched photos, if you provide feedback to the photographer, we will help with detailed second-round corrections. We prioritize your satisfaction with the final results."
             },
             {
                 "question": "Can I get extra retouched photos?",

@@ -383,6 +383,18 @@
                         "type": "map"
                     }
                 ]
+            },
+            {
+                "question": "🪒 我想了解除毛和皮肤护理（脱毛/美黑）的指南！",
+                "answer": "美黑最好在拍摄前3-5天完成效果最自然，脱毛或除毛建议在拍摄前2-3天进行，以预留皮肤舒缓时间。整洁的皮肤状态将进一步提升摄影师的后期修图质量。"
+            },
+            {
+                "question": "🐶 可以带宠物或朋友一起拍摄吗？",
+                "answer": "当然可以！与心爱之物在一起的时刻会成为更特别的记录。不过，如果您要带宠物，请提前告知，以便摄影师为您准备舒适的拍摄环境。（陪同拍摄可能会产生少量的额外费用。）"
+            },
+            {
+                "question": "💃 我是第一次拍摄，一定要练习动作吗？",
+                "answer": "完全不用担心！拥有1万次以上拍摄经验的摄影师将为您提供细致的指导，从指尖到眼神。哪怕您只是空手而来，我们也能为您打造模特般大片效果。"
             }
         ],
         "after_shoot": [
@@ -402,12 +414,20 @@
                 ]
             },
             {
+                "question": "🖱️ 照片是由我亲自挑选，还是摄影师帮忙挑选？",
+                "answer": "我们会提供在线选片链接，让您可以轻松地在家挑选。在摄影师的视角与您的品味交汇点，选出最佳照片。"
+            },
+            {
                 "question": "精修需要多长时间？",
                 "answer": "选片当天会先发回一张，其余照片约在4周内完成。"
             },
             {
                 "question": "精修的程度如何？",
                 "answer": "在保留自然魅力的同时，优化皮肤纹理、身材线条和画报氛围。可申请一次免费再修改。"
+            },
+            {
+                "question": "🙋🏻‍♂️ 收到精修图后可以申请追加修改吗？",
+                "answer": "是的，可以！收到初稿后如果您给摄影师提供反馈，我们将协助进行细致的二次修改。我们始终把对成片的满意度放在首位。"
             },
             {
                 "question": "可以获得额外的精修吗？",
@@ -853,54 +873,201 @@
         "preset_vivid": "活力风",
         "preset_noir": "电影感",
         "preset_minimal": "极简风",
-        "mood": { "label": "MOOD", "name": "氛围" },
-        "color": { "label": "COLOR", "name": "色调" },
-        "expression": { "label": "EXPRESSION", "name": "表情" },
-        "focus": { "label": "BODY FOCUS", "name": "想突出的部位" },
-        "texture": { "label": "SKIN TEXTURE", "name": "皮肤质感" },
-        "opt_deep": { "name": "DEEP & DARK", "sub": "Heavy mood using deep shadows and darkness" },
-        "opt_sunday": { "name": "SUNDAY MORNING", "sub": "Natural everyday life like lazy weekend morning sunshine" },
-        "opt_highkey": { "name": "HIGH-KEY & VIVID", "sub": "Clear and energetic feeling like a magazine cover" },
-        "opt_grunge": { "name": "GRUNGE & RAW", "sub": "Rough and rebellious street sentiment in its raw form" },
-        "opt_architectural": { "name": "ARCHITECTURAL", "sub": "Modern mood emphasizing structural beauty and lines of space" },
-        "opt_noir": { "name": "CINEMATIC NOIR", "sub": "Dramatic narrative like a main character in a movie" },
-        "opt_elegance": { "name": "CLASSIC ELEGANCE", "sub": "Understated elegance that remains timeless" },
-        "opt_vintage": { "name": "VINTAGE ANALOG", "sub": "Faded nostalgia unique to film cameras" },
-        "opt_mono": { "name": "CLASSIC MONO", "sub": "Aesthetics of black and white focusing on the essence of the subject" },
-        "opt_sunlight": { "name": "NATURAL SUNLIGHT", "sub": "Warm-toned light that beautifully highlights skin tones" },
-        "opt_cyber": { "name": "CYBER COLD", "sub": "Futuristic colors mixing cold blue and fluorescent light" },
-        "opt_pop": { "name": "POP VIVID", "sub": "Intense primary colors that instantly catch the eye" },
-        "opt_earthy": { "name": "NEUTRAL EARTHY", "sub": "Calm and luxurious tones centered around beige, khaki, and brown" },
-        "opt_y2k": { "name": "Y2K MAGAZINE", "sub": "Kitschy and colorful aesthetic like a 90s teen magazine" },
-        "opt_midnight": { "name": "MIDNIGHT BLUE", "sub": "Alluring and mysterious blue light of late night" },
-        "opt_desert": { "name": "DESERT SAND", "sub": "Sophisticated colors resembling soft, dry sand" },
-        "opt_playful": { "name": "PLAYFUL", "sub": "Free, playful, and witty expression" },
-        "opt_relaxed": { "name": "RELAXED", "sub": "Natural gaze and comfortable expression without tension" },
-        "opt_fierce": { "name": "FIERCE", "sub": "Intense charisma that seems to pierce through the screen" },
-        "opt_dreamy": { "name": "DREAMY", "sub": "Dreamy and faint gaze processing" },
-        "opt_chic": { "name": "CHIC & COLD", "sub": "Restrained, expressionless face of a high-fashion model" },
-        "opt_raw_emotion": { "name": "RAW EMOTION", "sub": "Unadorned, instinctive, and honest momentary expression" },
-        "opt_radiant": { "name": "RADIANT VIBE", "sub": "A smile radiating health and positive energy" },
-        "opt_mysterious": { "name": "MYSTERIOUS", "sub": "A subtle gaze that seems to hold a secret story" },
-        "opt_abs": { "name": "Abs", "sub": "腹肌" },
-        "opt_back": { "name": "Back", "sub": "背部" },
-        "opt_arms": { "name": "Arms", "sub": "手臂" },
-        "opt_legs": { "name": "Legs", "sub": "腿" },
-        "opt_glutes": { "name": "Glutes", "sub": "臀部" },
-        "opt_shoulders": { "name": "Shoulders", "sub": "肩膀" },
-        "opt_sline": { "name": "S-Line", "sub": "轮廓线" },
-        "opt_fullbody": { "name": "Full Body", "sub": "全身" },
-        "opt_glossy": { "name": "HEAVY GLOSSY", "sub": "Glamorous gloss that maximizes sensual volume" },
-        "opt_peachy": { "name": "PEACHY", "sub": "Smooth and soft texture like peach fuzz" },
-        "opt_matte": { "name": "MATTE FINISH", "sub": "Clean, modern matte texture without any excess" },
-        "opt_sweaty": { "name": "SWEATY & WET", "sub": "Realistic sweat and moisture as if just finished working out" },
-        "opt_velvet": { "name": "VELVET GLOW", "sub": "Silk-like skin texture with a subtle glow" },
-        "opt_sunkissed": { "name": "SUN-KISSED", "sub": "Healthy, tanned, and firm texture from the sun" },
-        "opt_raw_tex": { "name": "RAW TEXTURE", "sub": "Rough texture that highlights every muscle fiber" },
-        "opt_metallic": { "name": "METALLIC SHINE", "sub": "Strong highlights shining like metal under lighting" },
-        "skintone": { "label": "SKIN TONE", "name": "肤色" },
-        "opt_white": { "name": "White", "sub": "白皙肌肤" },
-        "opt_natural": { "name": "Natural Skin", "sub": "自然肤色" },
-        "opt_tanning": { "name": "Tanning", "sub": "古铜色" }
+        "mood": {
+            "label": "MOOD",
+            "name": "氛围"
+        },
+        "color": {
+            "label": "COLOR",
+            "name": "色调"
+        },
+        "expression": {
+            "label": "EXPRESSION",
+            "name": "表情"
+        },
+        "focus": {
+            "label": "BODY FOCUS",
+            "name": "想突出的部位"
+        },
+        "texture": {
+            "label": "SKIN TEXTURE",
+            "name": "皮肤质感"
+        },
+        "opt_deep": {
+            "name": "DEEP & DARK",
+            "sub": "Heavy mood using deep shadows and darkness"
+        },
+        "opt_sunday": {
+            "name": "SUNDAY MORNING",
+            "sub": "Natural everyday life like lazy weekend morning sunshine"
+        },
+        "opt_highkey": {
+            "name": "HIGH-KEY & VIVID",
+            "sub": "Clear and energetic feeling like a magazine cover"
+        },
+        "opt_grunge": {
+            "name": "GRUNGE & RAW",
+            "sub": "Rough and rebellious street sentiment in its raw form"
+        },
+        "opt_architectural": {
+            "name": "ARCHITECTURAL",
+            "sub": "Modern mood emphasizing structural beauty and lines of space"
+        },
+        "opt_noir": {
+            "name": "CINEMATIC NOIR",
+            "sub": "Dramatic narrative like a main character in a movie"
+        },
+        "opt_elegance": {
+            "name": "CLASSIC ELEGANCE",
+            "sub": "Understated elegance that remains timeless"
+        },
+        "opt_vintage": {
+            "name": "VINTAGE ANALOG",
+            "sub": "Faded nostalgia unique to film cameras"
+        },
+        "opt_mono": {
+            "name": "CLASSIC MONO",
+            "sub": "Aesthetics of black and white focusing on the essence of the subject"
+        },
+        "opt_sunlight": {
+            "name": "NATURAL SUNLIGHT",
+            "sub": "Warm-toned light that beautifully highlights skin tones"
+        },
+        "opt_cyber": {
+            "name": "CYBER COLD",
+            "sub": "Futuristic colors mixing cold blue and fluorescent light"
+        },
+        "opt_pop": {
+            "name": "POP VIVID",
+            "sub": "Intense primary colors that instantly catch the eye"
+        },
+        "opt_earthy": {
+            "name": "NEUTRAL EARTHY",
+            "sub": "Calm and luxurious tones centered around beige, khaki, and brown"
+        },
+        "opt_y2k": {
+            "name": "Y2K MAGAZINE",
+            "sub": "Kitschy and colorful aesthetic like a 90s teen magazine"
+        },
+        "opt_midnight": {
+            "name": "MIDNIGHT BLUE",
+            "sub": "Alluring and mysterious blue light of late night"
+        },
+        "opt_desert": {
+            "name": "DESERT SAND",
+            "sub": "Sophisticated colors resembling soft, dry sand"
+        },
+        "opt_playful": {
+            "name": "PLAYFUL",
+            "sub": "Free, playful, and witty expression"
+        },
+        "opt_relaxed": {
+            "name": "RELAXED",
+            "sub": "Natural gaze and comfortable expression without tension"
+        },
+        "opt_fierce": {
+            "name": "FIERCE",
+            "sub": "Intense charisma that seems to pierce through the screen"
+        },
+        "opt_dreamy": {
+            "name": "DREAMY",
+            "sub": "Dreamy and faint gaze processing"
+        },
+        "opt_chic": {
+            "name": "CHIC & COLD",
+            "sub": "Restrained, expressionless face of a high-fashion model"
+        },
+        "opt_raw_emotion": {
+            "name": "RAW EMOTION",
+            "sub": "Unadorned, instinctive, and honest momentary expression"
+        },
+        "opt_radiant": {
+            "name": "RADIANT VIBE",
+            "sub": "A smile radiating health and positive energy"
+        },
+        "opt_mysterious": {
+            "name": "MYSTERIOUS",
+            "sub": "A subtle gaze that seems to hold a secret story"
+        },
+        "opt_abs": {
+            "name": "Abs",
+            "sub": "腹肌"
+        },
+        "opt_back": {
+            "name": "Back",
+            "sub": "背部"
+        },
+        "opt_arms": {
+            "name": "Arms",
+            "sub": "手臂"
+        },
+        "opt_legs": {
+            "name": "Legs",
+            "sub": "腿"
+        },
+        "opt_glutes": {
+            "name": "Glutes",
+            "sub": "臀部"
+        },
+        "opt_shoulders": {
+            "name": "Shoulders",
+            "sub": "肩膀"
+        },
+        "opt_sline": {
+            "name": "S-Line",
+            "sub": "轮廓线"
+        },
+        "opt_fullbody": {
+            "name": "Full Body",
+            "sub": "全身"
+        },
+        "opt_glossy": {
+            "name": "HEAVY GLOSSY",
+            "sub": "Glamorous gloss that maximizes sensual volume"
+        },
+        "opt_peachy": {
+            "name": "PEACHY",
+            "sub": "Smooth and soft texture like peach fuzz"
+        },
+        "opt_matte": {
+            "name": "MATTE FINISH",
+            "sub": "Clean, modern matte texture without any excess"
+        },
+        "opt_sweaty": {
+            "name": "SWEATY & WET",
+            "sub": "Realistic sweat and moisture as if just finished working out"
+        },
+        "opt_velvet": {
+            "name": "VELVET GLOW",
+            "sub": "Silk-like skin texture with a subtle glow"
+        },
+        "opt_sunkissed": {
+            "name": "SUN-KISSED",
+            "sub": "Healthy, tanned, and firm texture from the sun"
+        },
+        "opt_raw_tex": {
+            "name": "RAW TEXTURE",
+            "sub": "Rough texture that highlights every muscle fiber"
+        },
+        "opt_metallic": {
+            "name": "METALLIC SHINE",
+            "sub": "Strong highlights shining like metal under lighting"
+        },
+        "skintone": {
+            "label": "SKIN TONE",
+            "name": "肤色"
+        },
+        "opt_white": {
+            "name": "White",
+            "sub": "白皙肌肤"
+        },
+        "opt_natural": {
+            "name": "Natural Skin",
+            "sub": "自然肤色"
+        },
+        "opt_tanning": {
+            "name": "Tanning",
+            "sub": "古铜色"
+        }
     }
 }
