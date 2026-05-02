@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import './RouletteModal.css';
 
 const PRIZES = [
-    { id: 1, label: '5% OFF', color: '#ff4d4d', value: '5%' },
-    { id: 2, label: '10% OFF', color: '#111', value: '10%' },
-    { id: 3, label: 'FREE 1 CUT', color: '#ff4d4d', value: 'FREE' },
-    { id: 4, label: 'TRY AGAIN', color: '#333', value: 'NONE' },
-    { id: 5, label: '20% OFF', color: '#ff4d4d', value: '20%' },
-    { id: 6, label: 'GIFT', color: '#111', value: 'GIFT' },
+    { id: 1, label: '10% OFF', color: '#111', value: '10%' },
+    { id: 2, label: '20% OFF', color: '#ff4d4d', value: '20%' },
+    { id: 3, label: '30% OFF', color: '#111', value: '30%' },
+    { id: 4, label: '50% OFF', color: '#ff4d4d', value: '50%' },
+    { id: 5, label: '10% OFF', color: '#111', value: '10%' },
+    { id: 6, label: 'TRY AGAIN', color: '#333', value: 'NONE' },
 ];
 
 const RouletteModal = ({ onClose, event }) => {
