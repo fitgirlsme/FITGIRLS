@@ -405,7 +405,7 @@
             },
             {
                 "question": "How do I select photos for retouching?",
-                "answer": "Select the photos you want retouched and reply to inafit@daum.net.\nPlease do not change the file numbers to prevent errors. Selection must be made within 20 days.",
+                "answer": "Select the photos you want retouched and reply to inafit@daum.net.\nPlease do not change the file numbers to prevent errors. Selection must be made within 20 days.\n\nYou can check the real-time progress of your retouching at http://fitgirls.me/retouch. (ID: Phone number / PW: Last 4 digits of phone number)",
                 "links": [
                     {
                         "label": "inafit@daum.net",

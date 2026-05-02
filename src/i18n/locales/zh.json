@@ -404,7 +404,7 @@
             },
             {
                 "question": "如何选片？",
-                "answer": "在接收到的原片中选择希望精修的照片并回复至 inafit@daum.net。\n请勿更改文件编号，并在20天内完成选片。",
+                "answer": "在接收到的原片中选择希望精修的照片并回复至 inafit@daum.net。\n请勿更改文件编号，并在20天内完成选片。\n\n您可以在 http://fitgirls.me/retouch 实时查看所有修图进度。（账号：手机号码 / 密码：手机号码后4位）",
                 "links": [
                     {
                         "label": "inafit@daum.net",
