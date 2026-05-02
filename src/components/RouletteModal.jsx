@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { db } from '../utils/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { 
+    collection, addDoc, serverTimestamp, getDocs, 
+    query, where, updateDoc, doc 
+} from 'firebase/firestore';
 import { sendAlimtalk, getAlimtalkTemplate } from '../utils/aligoService';
 import './RouletteModal.css';
 
@@ -59,10 +62,29 @@ const RouletteModal = ({ onClose, event }) => {
         
         setIsSubmitting(true);
         try {
-            // 1. Generate a simple code
-            const issuedCode = `LUCKY-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+            // 1. Find matching event from dashboard
+            const eventsSnap = await getDocs(query(
+                collection(db, 'coupon_events'), 
+                where('isActive', '==', true)
+            ));
             
-            // 2. Save to Firestore
+            const activeEvents = eventsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+            // Match by finding the discount percentage in the string (e.g., "50" in "50% OFF")
+            const targetDiscount = result.value.replace(/[^0-9]/g, '');
+            const matchedEvent = activeEvents.find(ev => ev.discount.includes(targetDiscount));
+
+            // 2. Generate code and update event count
+            const codeBase = matchedEvent?.couponCodeBase || 'LUCKY';
+            const issuedCode = `${codeBase}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+            
+            if (matchedEvent) {
+                const eventRef = doc(db, 'coupon_events', matchedEvent.id);
+                await updateDoc(eventRef, {
+                    claimedCount: (matchedEvent.claimedCount || 0) + 1
+                });
+            }
+
+            // 3. Save to Firestore
             await addDoc(collection(db, 'coupon_claims'), {
                 name,
                 phone,
@@ -70,10 +92,11 @@ const RouletteModal = ({ onClose, event }) => {
                 issuedCode,
                 status: 'unused',
                 claimedAt: serverTimestamp(),
-                source: 'roulette'
+                source: 'roulette',
+                eventId: matchedEvent?.id || 'none'
             });
 
-            // 3. Send Alimtalk
+            // 4. Send Alimtalk
             const alimParams = {
                 name,
                 phone,
