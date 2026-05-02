@@ -335,7 +335,6 @@ const Notice = () => {
                 </FadeInSection>
 
                 <div className="event-slider-wrapper">
-                    <button className="event-slider-arrow left" onClick={() => handleScroll('left')}>⟨</button>
                     <div className="event-slider-container">
                         <div className="event-slider-track">
                             {loading ? (
@@ -371,7 +370,6 @@ const Notice = () => {
                             ))}
                         </div>
                     </div>
-                    <button className="event-slider-arrow right" onClick={() => handleScroll('right')}>⟩</button>
                 </div>
             </div>
 
