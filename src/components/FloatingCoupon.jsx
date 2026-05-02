@@ -70,26 +70,28 @@ const FloatingCoupon = () => {
 
     return (
         <>
-            <div 
-                className="floating-coupon-container"
-                style={{ top: position.top, left: position.left }}
-                onClick={() => setShowModal(true)}
-            >
-                <div className="coupon-ticket-wrapper">
-                    <button className="coupon-close-btn" onClick={handleDismiss}>✕</button>
-                    <div className="coupon-ticket">
-                        <div className="ticket-content">
-                            <span className="ticket-label">LUCKY</span>
-                            <span className="ticket-discount">SPIN</span>
-                            <span className="ticket-sub">GO!</span>
+            {!showModal && (
+                <div 
+                    className="floating-coupon-container"
+                    style={{ top: position.top, left: position.left }}
+                    onClick={() => setShowModal(true)}
+                >
+                    <div className="coupon-ticket-wrapper">
+                        <button className="coupon-close-btn" onClick={handleDismiss}>✕</button>
+                        <div className="coupon-ticket">
+                            <div className="ticket-content">
+                                <span className="ticket-label">LUCKY</span>
+                                <span className="ticket-discount">SPIN</span>
+                                <span className="ticket-sub">GO!</span>
+                            </div>
+                        </div>
+                        <div className="coupon-sparkles">
+                            <span>✨</span><span>⭐</span><span>✨</span>
                         </div>
                     </div>
-                    <div className="coupon-sparkles">
-                        <span>✨</span><span>⭐</span><span>✨</span>
-                    </div>
+                    <div className="coupon-tooltip">기회를 잡으세요!</div>
                 </div>
-                <div className="coupon-tooltip">기회를 잡으세요!</div>
-            </div>
+            )}
 
             {showModal && (
                 <RouletteModal 
