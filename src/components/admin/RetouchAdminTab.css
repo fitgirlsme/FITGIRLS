@@ -1,140 +1,732 @@
-.retouch-admin-theme {
-    background-color: #080B14;
-    color: #ffffff;
-    padding: 40px;
+/* Retouch Admin Dashboard - Premium Dark Theme */
+.retouch-admin-container {
+    background: var(--admin-bg);
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--admin-text);
+    font-family: 'Inter', sans-serif;
+}
+
+/* Header Section */
+.retouch-admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--admin-card);
+    padding: 16px 24px;
     border-radius: 16px;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    border: 1px solid var(--admin-border);
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 }
 
-.retouch-admin-theme h3 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #00D4B6;
-    margin-bottom: 32px;
+.admin-logo {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 900;
+    letter-spacing: 0.5px;
 }
 
-.retouch-admin-theme h4 {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 20px;
+.admin-logo span {
+    color: #FF003C;
 }
 
-.retouch-admin-card {
-    background: #212B3B;
-    padding: 32px;
+.project-select {
+    background: #f8fafc;
+    border: 1px solid var(--admin-border);
+    color: var(--admin-text);
+    padding: 8px 36px 8px 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234b5563'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 14px;
+    transition: all 0.2s;
+}
+
+.project-select:focus {
+    outline: none;
+    border-color: #FF003C;
+    box-shadow: 0 0 0 3px rgba(255, 0, 60, 0.1);
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    font-size: 0.9rem;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.name-search-input {
+    background: #f8fafc;
+    border: 1px solid var(--admin-border);
+    color: var(--admin-text);
+    padding: 10px 16px 10px 40px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    width: 200px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.name-search-input:focus {
+    outline: none;
+    border-color: var(--admin-accent);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(255, 0, 60, 0.1);
+    width: 300px;
+}
+
+.name-search-input::placeholder {
+    color: #4b5563;
+}
+
+/* Common Card Styles */
+.admin-card {
+    background: var(--admin-card);
     border-radius: 16px;
-    margin-bottom: 32px;
+    border: 1px solid var(--admin-border);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
 }
 
-.retouch-admin-theme label {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #8A9BB3;
+.card-label {
+    margin: 0 0 16px 0;
+    font-size: 0.85rem;
+    color: #8a9bb3;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.retouch-admin-theme input[type="text"],
-.retouch-admin-theme input[type="url"],
-.retouch-admin-theme select {
+/* Registration Form */
+.reg-form-flex {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px 12px;
+}
+
+.reg-form-flex input, 
+.reg-form-flex select {
     width: 100%;
-    padding: 16px;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 2px solid #2A3649;
-    background: #151D29;
-    color: #ffffff;
+    background: #f8fafc;
+    border: 1px solid var(--admin-border);
+    color: var(--admin-text);
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    transition: all 0.2s;
     box-sizing: border-box;
 }
 
-.retouch-admin-btn {
-    background: #00D4B6;
-    color: #080B14;
-    padding: 16px 32px;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    border: none;
+.reg-form-flex select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234b5563'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
     cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
 }
 
-.retouch-admin-btn.secondary {
-    background: #2A3649;
-    color: #ffffff;
+.reg-form-flex input:focus, 
+.reg-form-flex select:focus {
+    outline: none;
+    border-color: var(--admin-accent);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(255, 0, 60, 0.1);
 }
 
-.retouch-admin-list-item {
-    background: #212B3B;
-    padding: 24px;
-    border-radius: 16px;
+.date-input-group {
+    position: relative;
+    width: 100%;
+}
+
+.date-input-group small {
+    position: absolute;
+    bottom: -22px;
+    left: 4px;
+    font-size: 0.7rem;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: #FF003C;
+    color: #fff;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(255, 0, 60, 0.2);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255, 0, 60, 0.3);
+    background: #ff1a4d;
+}
+
+/* Status Tabs */
+.status-tab-row {
     display: flex;
-    gap: 24px;
-    align-items: flex-start;
-    border: 1px solid #2A3649;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+}
+
+.status-tab-row::-webkit-scrollbar {
+    height: 4px;
+}
+
+.status-tab-row::-webkit-scrollbar-thumb {
+    background: var(--admin-border);
+    border-radius: 2px;
+}
+
+.tab-btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    background: #f1f5f9;
+    color: var(--admin-text-dim);
+    border: 1px solid var(--admin-border);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tab-btn.active {
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.tab-btn.active.status-waiting { background: #8a9bb3; }
+.tab-btn.active.status-pre-retouch { background: #f59e0b; }
+.tab-btn.active.status-processing { background: #f97316; }
+.tab-btn.active.status-1st-done { background: #8b5cf6; }
+.tab-btn.active.status-2nd-processing { background: #3b82f6; }
+.tab-btn.active.status-confirm { background: #10b981; }
+.tab-btn.active.status-final-done { background: #64748b; }
+
+/* Insta Toggle */
+.insta-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     margin-bottom: 24px;
+    cursor: pointer;
+    width: fit-content;
 }
 
-.retouch-admin-info {
-    flex: 1;
+.checkbox {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 2px solid #FF003C;
+    position: relative;
 }
 
-.retouch-admin-name {
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin-bottom: 4px;
+.checkbox.checked::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    background: #FF003C;
+    border-radius: 1px;
 }
 
-.retouch-admin-contact {
-    color: #8A9BB3;
+.insta-toggle span {
+    font-size: 0.85rem;
+    color: #FF003C;
+    font-weight: bold;
+}
+
+/* List Area */
+.admin-list-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.customer-card {
+    padding: 20px;
+}
+
+.customer-header {
     margin-bottom: 16px;
 }
 
-.retouch-admin-archive-box {
-    background: #151D29;
-    padding: 16px;
-    border-radius: 12px;
+.c-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.c-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.c-phone {
+    font-size: 0.85rem;
+    color: var(--admin-text-dim);
+}
+
+.c-insta-id-header {
+    margin-left: 12px;
+    background: rgba(255, 0, 60, 0.1);
+    color: #FF003C;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    border: 1px solid rgba(255, 0, 60, 0.2);
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    color: #8a9bb3;
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    background: #252b3d;
+    border-radius: 4px;
+}
+
+/* Project Item Box */
+.project-stack {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
 }
 
-.retouch-admin-archive-row {
+.project-item-box {
+    background: #0d111a;
+    border: 1px solid #1f2535;
+    border-top: 3px solid #252b3d;
+    border-radius: 12px;
+    padding: 16px;
+    transition: all 0.3s ease;
+}
+
+.project-item-box.status-waiting { border-top-color: #8a9bb3; }
+.project-item-box.status-processing { border-top-color: #f59e0b; }
+.project-item-box.status-1st-done { border-top-color: #8b5cf6; }
+.project-item-box.status-2nd-processing { border-top-color: #3b82f6; }
+.project-item-box.status-confirm { border-top-color: #10b981; }
+.project-item-box.status-final-done { border-top-color: #4b5563; }
+
+.status-tag {
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: #fff;
+    text-transform: uppercase;
+    margin-right: 4px;
+}
+
+.status-tag.status-waiting { background: #8a9bb3; }
+.status-tag.status-pre-retouch { background: #ec4899; }
+.status-tag.status-processing { background: #f59e0b; }
+.status-tag.status-1st-done { background: #8b5cf6; }
+.status-tag.status-2nd-processing { background: #3b82f6; }
+.status-tag.status-confirm { background: #10b981; }
+.status-tag.status-final-done { background: #4b5563; }
+
+.project-item-box.completed {
+    background: #1a1f2e;
+    border-color: #2d3548;
+    box-shadow: none;
+}
+
+/* 최종보정완료 시 다른 요소들 흐리게 */
+.project-item-box.completed .p-meta,
+.project-item-box.completed .p-date-row,
+.project-item-box.completed .p-action-grid,
+.project-item-box.completed .p-status-row select,
+.project-item-box.completed .pre-retouch-check,
+.project-item-box.completed .p-link-box,
+.project-item-box.completed .p-feedback-box,
+.project-item-box.completed .p-count {
+    opacity: 0.3;
+    filter: grayscale(0.8);
+    transition: all 0.3s ease;
+}
+
+/* 마우스 올리면 다시 선명하게 */
+.project-item-box.completed:hover .p-meta,
+.project-item-box.completed:hover .p-date-row,
+.project-item-box.completed:hover .p-action-grid,
+.project-item-box.completed:hover .p-status-row select,
+.project-item-box.completed:hover .pre-retouch-check,
+.project-item-box.completed:hover .p-link-box,
+.project-item-box.completed:hover .p-feedback-box,
+.project-item-box.completed:hover .p-count {
+    opacity: 1;
+    filter: grayscale(0);
+}
+
+/* 인스타 관련 정보는 선명하게 유지 */
+.project-item-box.completed .p-consent-row,
+.project-item-box.completed .p-insta-id-display {
+    opacity: 1 !important;
+    filter: grayscale(0) !important;
+}
+
+.p-item-top {
     display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
 }
 
-.retouch-admin-tabs {
+.p-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.p-id {
+    color: #FF003C;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.d-day-badge {
+    background: #252b3d;
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.d-day-badge.danger {
+    background: #FF003C;
+}
+
+.p-count {
+    text-align: right;
+}
+
+.p-count strong {
+    color: #FF003C;
+    font-size: 1rem;
+    display: block;
+}
+
+.p-count small {
+    color: #5a6b83;
+    font-size: 0.7rem;
+}
+
+.p-date-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.p-date-row .label {
+    font-size: 0.75rem;
+    color: #8a9bb3;
+}
+
+.inline-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #252b3d;
+    color: #fff;
+    font-size: 0.85rem;
+    width: 80px;
+    font-weight: bold;
+    padding: 2px 0;
+}
+
+.date-hint {
+    font-size: 0.75rem;
+    color: #8a9bb3;
+    font-weight: bold;
+}
+
+.p-action-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.p-action-grid select {
+    flex: 1;
+    background: #0d111a;
+    border: 1px solid #2d3548;
+    color: #fff;
+    padding: 10px 36px 10px 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234b5563'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.p-action-grid select:focus {
+    outline: none;
+    border-color: #FF003C;
+    box-shadow: 0 0 0 3px rgba(255, 0, 60, 0.1);
+}
+
+.p-action-grid button {
+    background: #1a1f2e;
+    border: 1px solid #2d3548;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-alimtalk {
+    background: #252b3d !important;
+}
+
+.p-consent-row {
     display: flex;
     gap: 8px;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
+    margin-top: 12px;
+    justify-content: flex-end;
 }
 
-.retouch-admin-tab {
-    padding: 12px 24px;
-    background: #151D29;
-    color: #8A9BB3;
-    border: 1px solid #2A3649;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
+.consent-chip {
+    padding: 4px 10px;
+    background: #1a1f2e;
+    border: 1px solid #2d3548;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    color: #667085;
     cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
 }
 
-.retouch-admin-tab.active {
-    background: #00D4B6;
-    color: #080B14;
-    border-color: #00D4B6;
+.consent-chip.on {
+    border-color: #FF003C;
+    color: #fff;
+    background: rgba(255, 0, 60, 0.05);
+    font-weight: bold;
 }
 
-@media (max-width: 768px) {
-    .retouch-admin-list-item {
+/* 최종보정완료 시 리뷰 완료 칩 채도 낮추기 */
+.project-item-box.completed .review-chip.on {
+    border-color: #3f475a;
+    color: #5a6b83;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* 인스타 칩은 강조 유지 */
+.project-item-box.completed .insta-chip.on {
+    border-color: #FF003C;
+    color: #fff;
+    background: rgba(255, 0, 60, 0.1);
+    box-shadow: 0 0 10px rgba(255, 0, 60, 0.2);
+}
+
+.p-status-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.extra-count {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #1a1f2e;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid #2d3548;
+}
+
+.extra-count span {
+    font-size: 0.75rem;
+    color: #8a9bb3;
+}
+
+.extra-count input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    width: 30px;
+    text-align: center;
+}
+
+.p-status-row select {
+    flex: 1;
+    background: #0d111a;
+    border: 1px solid #2d3548;
+    color: #fff;
+    padding: 10px 36px 10px 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%234b5563'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.p-status-row select:focus {
+    outline: none;
+    border-color: #FF003C;
+    box-shadow: 0 0 0 3px rgba(255, 0, 60, 0.1);
+}
+
+.pre-retouch-check {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #1a1f2e;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid #2d3548;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pre-retouch-check input {
+    cursor: pointer;
+    margin: 0;
+}
+
+.pre-retouch-check label {
+    font-size: 0.75rem;
+    color: #8a9bb3;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.pre-retouch-check:has(input:checked) {
+    border-color: #10b981;
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.pre-retouch-check:has(input:checked) label {
+    color: #10b981;
+    font-weight: bold;
+}
+
+.p-link-box input {
+    width: 100%;
+    background: #0a0d16;
+    border: 1px solid #1f2535;
+    padding: 10px;
+    border-radius: 8px;
+    color: #8a9bb3;
+    font-size: 0.8rem;
+}
+
+.p-feedback-box {
+    margin-top: 12px;
+    padding: 12px;
+    background: rgba(255, 0, 60, 0.03);
+    border: 1px solid rgba(255, 0, 60, 0.1);
+    border-radius: 8px;
+}
+
+.f-label {
+    display: block;
+    font-size: 0.7rem;
+    color: #FF003C;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.f-content-edit {
+    width: 100%;
+    background: #0d111a;
+    border: 1px solid #2d3548;
+    border-radius: 6px;
+    padding: 10px;
+    color: #e0e0e0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    min-height: 60px;
+    resize: vertical;
+    outline: none;
+    transition: all 0.2s;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.f-content-edit:focus {
+    border-color: #FF003C;
+    background: #1a1f2e;
+}
+
+
+@media (max-width: 600px) {
+    .retouch-admin-header {
         flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
     }
+    .project-select {
+        width: 100%;
+    }
+    .reg-form-flex {
+        grid-template-columns: 1fr;
+    }
+    .p-action-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Instagram ID Display */
+.p-insta-id-display {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: rgba(255, 0, 60, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 0, 60, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.p-insta-id-display .label {
+    font-size: 0.75rem;
+    color: #8a9bb3;
+}
+
+.p-insta-id-display .val {
+    font-size: 0.85rem;
+    color: #FF003C;
+    font-weight: bold;
 }
