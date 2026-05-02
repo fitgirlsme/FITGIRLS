@@ -129,6 +129,32 @@
     color: var(--admin-accent);
 }
 
+.sidebar-home {
+    margin-bottom: 8px;
+    background: #fff !important;
+    border: 1px solid var(--admin-border) !important;
+    color: var(--admin-accent) !important;
+    font-weight: 700 !important;
+}
+
+.sidebar-home:hover {
+    background: var(--admin-accent) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 12px rgba(255, 0, 60, 0.2);
+}
+
+.mobile-home {
+    background: transparent;
+    border: none;
+    color: var(--admin-accent);
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+
 /* Main Content Area */
 .admin-main {
     flex: 1;

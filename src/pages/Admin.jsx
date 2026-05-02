@@ -18,7 +18,7 @@ import {
     MdCameraAlt, MdPhotoLibrary, MdPeople, MdShoppingBag, 
     MdEventAvailable, MdMovie, MdMoveToInbox, MdHandshake, 
     MdCamera, MdPerson, MdElderly, MdLogout, MdArrowBack,
-    MdChevronRight, MdGridView, MdCollections, MdCardGiftcard
+    MdChevronRight, MdGridView, MdCollections, MdCardGiftcard, MdHome
 } from 'react-icons/md';
 
 // Constants
@@ -120,6 +120,10 @@ const Admin = () => {
                     ))}
                 </nav>
                 <div className="sidebar-footer">
+                    <button className="sidebar-item sidebar-home" onClick={() => window.location.href = '/'}>
+                        <MdHome />
+                        <span>Go to Site</span>
+                    </button>
                     <button className="sidebar-logout" onClick={() => { 
                         setIsLoggedIn(false); 
                         localStorage.removeItem('admin_logged_in'); 
@@ -143,6 +147,9 @@ const Admin = () => {
                         <h2>{activeTab ? tabs.find(t => t.id === activeTab)?.label : 'Dashboard Overview'}</h2>
                     </div>
                     <div className="top-bar-right mobile-only">
+                        <button className="mobile-home" onClick={() => window.location.href = '/'}>
+                            <MdHome />
+                        </button>
                         <button className="mobile-logout" onClick={() => { 
                             setIsLoggedIn(false); 
                             localStorage.removeItem('admin_logged_in'); 
