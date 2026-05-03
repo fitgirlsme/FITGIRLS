@@ -118,3 +118,31 @@
 .claims-table th, .claims-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
 .claims-table th { background: #f9f9f9; color: #666; font-weight: bold; }
 .issued-code { font-family: monospace; font-weight: bold; color: #FF003C; }
+@media (max-width: 600px) {
+    .coupon-admin-container {
+        padding: 12px;
+    }
+    .admin-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
+    .event-admin-card {
+        padding: 16px;
+    }
+    .event-stats {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .admin-modal-box {
+        padding: 20px;
+        margin: 0 16px;
+    }
+    .form-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+}

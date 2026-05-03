@@ -703,19 +703,64 @@
 
 
 @media (max-width: 600px) {
+    .retouch-admin-container {
+        padding: 12px;
+    }
     .retouch-admin-header {
         flex-direction: column;
-        gap: 16px;
+        gap: 12px;
+        padding: 16px;
         align-items: flex-start;
     }
-    .project-select {
+    .header-right {
         width: 100%;
+    }
+    .search-container {
+        width: 100%;
+    }
+    .name-search-input {
+        width: 100% !important;
     }
     .reg-form-flex {
         grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .status-tab-row {
+        gap: 4px;
+    }
+    .tab-btn {
+        padding: 6px 12px;
+        font-size: 0.75rem;
     }
     .p-action-grid {
         grid-template-columns: 1fr;
+    }
+    .p-status-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .pre-retouch-check, .extra-count, .p-status-row select {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+    .p-item-top {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .p-count {
+        text-align: left;
+    }
+    .customer-header .c-info {
+        gap: 8px;
+    }
+    .c-name {
+        font-size: 1rem;
+    }
+    .c-insta-id-header {
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
     }
 }
 

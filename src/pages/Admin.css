@@ -10,13 +10,15 @@
 }
 
 .admin-page {
-    width: 100vw;
+    width: 100%;
+    max-width: 100vw;
     height: 100vh;
     background-color: var(--admin-bg);
     color: var(--admin-text);
     display: flex;
     overflow: hidden;
     font-family: 'Inter', -apple-system, sans-serif;
+    position: relative;
 }
 
 /* Sidebar */
@@ -185,6 +187,7 @@
 .admin-content-area {
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 40px;
     position: relative;
     background: var(--admin-bg);
@@ -322,18 +325,25 @@
     .desktop-only { display: none !important; }
     
     .admin-top-bar {
-        padding: 0 20px;
+        padding: 0 16px;
+        height: 64px;
     }
     
     .admin-content-area {
-        padding: 20px;
+        padding: 16px;
+        min-height: calc(100vh - 64px);
     }
     
+    .admin-content h3 {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+    }
+
     .back-btn {
         background: transparent;
         border: none;
         color: var(--admin-text);
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         padding: 0;
         margin-right: 12px;
         display: flex;
@@ -344,9 +354,28 @@
         background: transparent;
         border: none;
         color: var(--admin-text-dim);
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         display: flex;
         align-items: center;
+    }
+
+    .tab-content-wrapper {
+        padding-bottom: 40px;
+    }
+
+    .admin-tabs {
+        width: 100%;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 24px;
+    }
+
+    .admin-tab-btn {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        white-space: nowrap;
     }
 }
 
@@ -855,6 +884,8 @@
     z-index: 2000;
     box-shadow: 0 20px 40px rgba(0,0,0,0.1);
     animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: calc(100% - 32px);
+    max-width: 400px;
 }
 
 @keyframes slideUp {

@@ -434,7 +434,9 @@ const PhotoManager = ({ issues }) => {
 
     return (
         <div className="photo-manager-section" style={{ marginTop: '40px', borderTop: '1px solid #eee', paddingTop: '40px' }}>
-            <div style={{ 
+    return (
+        <div className="photo-manager-section" style={{ marginTop: '40px', borderTop: '1px solid #eee', paddingTop: '40px' }}>
+            <div className="photo-manager-header" style={{ 
                 display: 'flex', 
                 justifyContent: 'space-between', 
                 alignItems: 'center', 
@@ -447,14 +449,14 @@ const PhotoManager = ({ issues }) => {
                 boxShadow: '0 2px 12px rgba(0,0,0,0.03)',
                 border: '1px solid #f0f0f0'
             }}>
-                <div style={{ flex: '1 1 300px' }}>
+                <div className="header-title-box" style={{ flex: '1 1 300px' }}>
                     <h4 style={{ margin: '0 0 4px', fontSize: '1.1rem', fontWeight: '700', color: '#1a1a1a' }}>최근 업로드 화보 내역</h4>
                     <p style={{ margin: 0, fontSize: '0.85rem', color: '#666' }}>매거진에 추가할 사진을 검색하고 선택하세요.</p>
                 </div>
                 
                 {/* Search Bar Group */}
-                <div style={{ display: 'flex', alignItems: 'center', flex: '1 1 400px', justifyContent: 'flex-end', gap: '12px' }}>
-                    <form onSubmit={handleSearch} style={{ display: 'flex', flex: '1', maxWidth: '380px', position: 'relative' }}>
+                <div className="header-search-box" style={{ display: 'flex', alignItems: 'center', flex: '1 1 300px', justifyContent: 'flex-end', gap: '12px' }}>
+                    <form onSubmit={handleSearch} style={{ display: 'flex', flex: '1', maxWidth: '100%', position: 'relative' }}>
                         <input 
                             type="text" 
                             value={searchTerm} 
@@ -463,10 +465,11 @@ const PhotoManager = ({ issues }) => {
                             style={{ 
                                 flex: 1, 
                                 padding: '10px 16px', 
-                                paddingRight: '100px',
+                                paddingRight: '80px',
                                 borderRadius: '8px', 
                                 border: '1px solid #e0e0e0', 
                                 fontSize: '14px',
+                                width: '100%',
                                 outline: 'none',
                                 transition: 'all 0.2s ease',
                                 boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.02)'
@@ -480,7 +483,7 @@ const PhotoManager = ({ issues }) => {
                                 right: '4px',
                                 top: '4px',
                                 bottom: '4px',
-                                width: '80px', 
+                                width: '70px', 
                                 padding: '0',
                                 borderRadius: '6px',
                                 background: '#1a1a1a',
@@ -488,7 +491,8 @@ const PhotoManager = ({ issues }) => {
                                 border: 'none',
                                 cursor: 'pointer',
                                 fontSize: '13px',
-                                fontWeight: '600'
+                                fontWeight: '600',
+                                margin: 0
                             }}
                         >
                             검색
@@ -517,7 +521,7 @@ const PhotoManager = ({ issues }) => {
                 </div>
 
                 {/* Category Video Management (Category-specific Videos) */}
-                <div style={{ 
+                <div className="video-mgmt-box" style={{ 
                     flex: '1 1 100%',
                     marginTop: '20px',
                     padding: '24px',
@@ -528,7 +532,7 @@ const PhotoManager = ({ issues }) => {
                     flexDirection: 'column',
                     gap: '20px'
                 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
                         <div>
                             <h5 style={{ margin: '0 0 4px', fontSize: '0.95rem', fontWeight: '700', color: '#1a1a1a' }}>매거진 카테고리 영상 관리</h5>
                             <p style={{ margin: 0, fontSize: '0.8rem', color: '#888' }}>각 대분류 아카이브 상단에 노출될 영상을 설정합니다.</p>
@@ -537,7 +541,7 @@ const PhotoManager = ({ issues }) => {
                     </div>
                     
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
                             <select 
                                 value={selectedVideoCategory}
                                 onChange={e => setSelectedVideoCategory(e.target.value)}
@@ -547,7 +551,8 @@ const PhotoManager = ({ issues }) => {
                                     border: '1px solid #e0e0e0',
                                     fontSize: '14px',
                                     background: '#fff',
-                                    minWidth: '200px',
+                                    minWidth: '150px',
+                                    flex: '1 1 auto',
                                     fontWeight: '600'
                                 }}
                             >
@@ -565,16 +570,17 @@ const PhotoManager = ({ issues }) => {
                                     }));
                                 }}
                                 style={{
-                                    padding: '8px 16px',
+                                    padding: '10px 16px',
                                     borderRadius: '6px',
                                     background: '#f0f0f0',
                                     border: '1px solid #ddd',
                                     fontSize: '13px',
                                     fontWeight: '600',
-                                    cursor: 'pointer'
+                                    cursor: 'pointer',
+                                    flex: '1 1 auto'
                                 }}
                             >
-                                + 영상 추가
+                                + 추가
                             </button>
 
                             <button 
@@ -589,7 +595,8 @@ const PhotoManager = ({ issues }) => {
                                     cursor: 'pointer',
                                     fontSize: '14px',
                                     fontWeight: '600',
-                                    marginLeft: 'auto'
+                                    flex: '1 1 auto',
+                                    margin: 0
                                 }}
                             >
                                 전체 저장
