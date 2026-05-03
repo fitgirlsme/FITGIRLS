@@ -97,7 +97,7 @@
     bottom: -35px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0,0,0,0.8);
+    background: #ff0000; /* Debugging: Change to red to confirm source */
     color: #fff;
     padding: 4px 10px;
     border-radius: 20px;
@@ -106,11 +106,13 @@
     font-weight: bold;
     pointer-events: none;
     opacity: 0;
+    display: none;
     transition: opacity 0.3s;
 }
 
 .floating-coupon-container:hover .coupon-tooltip {
     opacity: 1;
+    display: block;
 }
 
 @keyframes float {

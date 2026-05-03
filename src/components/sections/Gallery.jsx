@@ -413,6 +413,7 @@ const GallerySection = () => {
 
     // JS Masonry chunking (가로(좌->우) 정렬을 위한 라운드로빈 분배)
     const [cols, setCols] = useState(2);
+    const [mobileCols, setMobileCols] = useState(2);
     useEffect(() => {
         const updateCols = () => {
             const w = window.innerWidth;
@@ -421,12 +422,12 @@ const GallerySection = () => {
             else if (w >= 1440) setCols(5);
             else if (w >= 1024) setCols(4);
             else if (w >= 768) setCols(3);
-            else setCols(2);
+            else setCols(mobileCols);
         };
         updateCols();
         window.addEventListener('resize', updateCols);
         return () => window.removeEventListener('resize', updateCols);
-    }, []);
+    }, [mobileCols]);
 
     // Pagination: handled by visibleItems state
 
@@ -727,11 +728,29 @@ const GallerySection = () => {
                                             {tagHasNew && <span className="tag-new-dot" />}
                                             <span className="tag-circle-label">{displayTag}</span>
                                         </div>
-                                    );
-                                })}
-                            </div>
-                        )}
+                                );
+                            })}
+                        </div>
+                    )}
+
+                    {/* Column toggle for Mobile */}
+                    <div className="lookbook-col-toggle" style={{ display: window.innerWidth < 1024 ? 'flex' : 'none', justifyContent: 'center', marginBottom: '15px' }}>
+                        {[1, 2, 3].map(c => (
+                            <button
+                                key={c}
+                                className={`lookbook-col-btn ${mobileCols === c ? 'active' : ''}`}
+                                onClick={() => setMobileCols(c)}
+                                aria-label={`${c}열 보기`}
+                            >
+                                <span className="col-icon">
+                                    {Array.from({ length: c }).map((_, i) => (
+                                        <span key={i} className="col-bar" />
+                                    ))}
+                                </span>
+                            </button>
+                        ))}
                     </div>
+                </div>
 
                     {/* Gallery Grid */}
                     <div className="gallery-masonry-wrapper">

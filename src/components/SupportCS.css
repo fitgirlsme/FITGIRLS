@@ -7,8 +7,9 @@
 }
 
 /* Admin floating offset to avoid overlap with Gallery Admin FAB */
+/* Admin floating offset removed as per user request to have + above Kakao */
 .support-cs-container.admin-offset {
-    bottom: 100px;
+    bottom: 25px;
 }
 
 @media (max-width: 768px) {
@@ -18,8 +19,7 @@
     }
     
     .support-cs-container.admin-offset {
-        bottom: 90px;
-    }
+        bottom: 20px;
     }
 }
 
@@ -32,18 +32,17 @@
     padding: 0;
     border-radius: 50%;
     overflow: hidden;
-    background-color: #000;
+    background-color: #fff;
     color: #fff;
-    text-decoration: none;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: none;
 }
 
 @media (max-width: 768px) {
     .cs-button {
-        width: 54px;
-        height: 54px;
+        width: 56px;
+        height: 56px;
     }
 }
 
@@ -55,22 +54,21 @@
 }
 
 .cs-button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 /* Theme based colors */
-.cs-button--ko { background-color: #FEE500; color: #000; border-color: #FEE500; }
-.cs-button--ko:hover { background-color: #FEE000; border-color: #FEE000; }
+.cs-button--ko { background-color: transparent; } 
 
-.cs-button--ja { background-color: #06C755; color: #fff; border-color: #06C755; }
-.cs-button--ja:hover { background-color: #05B54D; border-color: #05B54D; }
+.cs-button--ja { background-color: #06C755; color: #fff; }
+.cs-button--ja:hover { background-color: #05B54D; }
 
-.cs-button--en { background-color: #25D366; color: #fff; border-color: #25D366; }
-.cs-button--en:hover { background-color: #22BF5C; border-color: #22BF5C; }
+.cs-button--en { background-color: #25D366; color: #fff; }
+.cs-button--en:hover { background-color: #22BF5C; }
 
-.cs-button--zh { background-color: #07C160; color: #fff; border-color: #07C160; }
-.cs-button--zh:hover { background-color: #06B057; border-color: #06B057; }
+.cs-button--zh { background-color: #07C160; color: #fff; }
+.cs-button--zh:hover { background-color: #06B057; }
 
 .cs-icon {
     width: 32px;

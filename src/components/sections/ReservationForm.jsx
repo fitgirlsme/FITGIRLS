@@ -11,7 +11,6 @@ const VIDEO_IDS = {
     zh: '1akya079PNI',
 };
 
-import { MESSENGER_LINKS } from '../../constants/links';
 
 const ReservationForm = () => {
     const { t, i18n } = useTranslation();

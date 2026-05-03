@@ -49,6 +49,19 @@ const Admin = () => {
         return 'gallery';
     });
 
+    useEffect(() => {
+        // Force hide floating coupon on admin pages
+        const style = document.createElement('style');
+        style.id = 'hide-floating-coupon';
+        style.innerHTML = '.floating-coupon-container { display: none !important; pointer-events: none !important; visibility: hidden !important; opacity: 0 !important; }';
+        document.head.appendChild(style);
+        
+        return () => {
+            const existingStyle = document.getElementById('hide-floating-coupon');
+            if (existingStyle) document.head.removeChild(existingStyle);
+        };
+    }, []);
+
     const handleLogin = (e) => {
         e.preventDefault();
         const trimmedPassword = password.trim();
@@ -432,8 +445,6 @@ const PhotoManager = ({ issues }) => {
         }
     };
 
-    return (
-        <div className="photo-manager-section" style={{ marginTop: '40px', borderTop: '1px solid #eee', paddingTop: '40px' }}>
     return (
         <div className="photo-manager-section" style={{ marginTop: '40px', borderTop: '1px solid #eee', paddingTop: '40px' }}>
             <div className="photo-manager-header" style={{ 

@@ -7,7 +7,7 @@ const HM = () => {
     const { t } = useTranslation();
 
     return (
-        <section className="snap-section hairmakeup-container" id="hair-makeup">
+        <div className="hairmakeup-container">
             <div className="container-inner hairmakeup-inner">
                 <header className="hairmakeup-header">
                     <div className="hairmakeup-header-left">
@@ -71,7 +71,7 @@ const HM = () => {
                     </div>
                 </FadeInSection>
             </div>
-        </section>
+        </div>
     );
 };
 

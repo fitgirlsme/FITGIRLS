@@ -17,11 +17,11 @@ const SupportCS = () => {
 
     const getIcon = () => {
         switch (language) {
-            case 'ko': return <img src="/images/kakao-ch-custom.png" alt="Kakao Channel" className="cs-icon custom-cs-image" />;
-            case 'ja': return <SiLine className="cs-icon" />;
-            case 'en': return <SiWhatsapp className="cs-icon" />;
-            case 'zh': return <SiWechat className="cs-icon" />;
-            default: return <img src="/images/kakao-ch-custom.png" alt="Kakao Channel" className="cs-icon custom-cs-image" />;
+            case 'ko': return <img src="/images/kakao-ch-custom.png" alt="Kakao Channel" className="custom-cs-image" />;
+            case 'ja': return <SiLine size={32} />;
+            case 'en': return <SiWhatsapp size={32} />;
+            case 'zh': return <SiWechat size={32} />;
+            default: return <img src="/images/kakao-ch-custom.png" alt="Kakao Channel" className="custom-cs-image" />;
         }
     };
 
@@ -34,7 +34,7 @@ const SupportCS = () => {
 
     return (
         <>
-            <div className={`support-cs-container cs-theme-${language}`}>
+            <div className={`support-cs-container cs-theme-${language} ${isAdmin ? 'admin-offset' : ''}`}>
                 <a 
                     href={getLink()}
                     target="_blank"

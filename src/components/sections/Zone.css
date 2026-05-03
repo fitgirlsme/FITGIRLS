@@ -163,7 +163,7 @@
 
 @media (max-width: 768px) {
     .zone-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(var(--mobile-cols, 2), 1fr);
         gap: 2px;
         padding: 0 2px;
     }
@@ -298,53 +298,7 @@
     text-align: center;
 }
 
-.lookbook-col-toggle {
-    display: none;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 12px;
-}
-
-@media (max-width: 768px) {
-    .lookbook-col-toggle {
-        display: flex;
-    }
-}
-
-.lookbook-col-btn {
-    background: none;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-}
-
-.lookbook-col-btn.active {
-    background: #111;
-    border-color: #111;
-}
-
-.col-icon {
-    display: flex;
-    gap: 2px;
-    height: 12px;
-}
-
-.col-bar {
-    width: 6px;
-    height: 100%;
-    background: #999;
-    border-radius: 1px;
-    transition: background 0.2s ease;
-}
-
-.lookbook-col-btn.active .col-bar {
-    background: #fff;
-}
+/* Column toggle UI now in index.css */
 
 .lookbook-grid {
     display: grid;

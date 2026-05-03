@@ -46,15 +46,14 @@ const Home = ({ changeLanguage, currentLang }) => {
       // Use a small timeout to ensure DOM is ready
       setTimeout(() => {
         const el = document.getElementById(section);
-        const container = document.querySelector('.snap-container');
-        if (el && container) {
-          container.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       }, 100);
     } else if (location.pathname === '/') {
-      const container = document.querySelector('.snap-container');
-      if (container) {
-        container.scrollTo({ top: 0, behavior: 'smooth' });
+      const el = document.getElementById('hero');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
   }, [section, location.pathname]);
@@ -155,7 +154,9 @@ function App() {
   // Hide floating coupon on admin-related pages
   const isAdminPage = location.pathname.startsWith('/admin') || 
                       location.pathname.startsWith('/smodel') || 
-                      location.pathname.startsWith('/retouch');
+                      location.pathname.startsWith('/retouch') ||
+                      location.pathname.startsWith('/report') ||
+                      location.pathname.startsWith('/directing');
 
   return (
     <div className="root-layout">

@@ -108,6 +108,62 @@ body {
   height: 100%;
 }
 
+/* ===== Global Column Toggle UI (used in Zone, Gallery, etc.) ===== */
+.lookbook-col-toggle {
+    display: none;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+@media (max-width: 1024px) {
+    .lookbook-col-toggle {
+        display: flex;
+    }
+}
+
+.lookbook-col-btn {
+    background: #fff;
+    border: 1.5px solid #eee;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.lookbook-col-btn.active {
+    background: #111;
+    border-color: #111;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.col-icon {
+    display: flex;
+    gap: 3px;
+    height: 14px;
+}
+
+.col-bar {
+    width: 4px;
+    height: 100%;
+    background: #bbb;
+    border-radius: 1px;
+    transition: background 0.2s ease;
+}
+
+.lookbook-col-btn.active .col-bar {
+    background: #fff;
+}
+
+/* Specific button icons for 1, 2, 3 cols */
+.lookbook-col-btn:nth-child(1) .col-icon { width: 4px; }
+.lookbook-col-btn:nth-child(2) .col-icon { width: 11px; }
+.lookbook-col-btn:nth-child(3) .col-icon { width: 18px; }
+
 /* ===== Global Premium UI: HOME Button ===== */
 .back-to-main-btn {
     display: flex;
@@ -150,6 +206,7 @@ body {
 .back-to-main-btn:active {
     transform: translateY(0);
 }
+
 
 /* Site footer - Fixed at the bottom */
 .site-footer {

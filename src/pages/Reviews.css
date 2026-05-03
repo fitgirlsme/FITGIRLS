@@ -350,20 +350,35 @@
   color: #1e1e1e;
   border: 1px solid #ddd;
 }
-
 @media (max-width: 768px) {
+  .review-stats-bar {
+    margin-bottom: 30px;
+    gap: 0;
+    justify-content: space-between;
+    padding: 0 16px;
+    flex-wrap: nowrap;
+  }
+  .stat-item {
+    flex: 1;
+  }
+  .stat-value {
+    font-size: 1rem;
+    margin-bottom: 2px;
+  }
+  .stat-label {
+    font-size: 0.6rem;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+  .stat-divider {
+    height: 15px;
+    margin: 0 5px;
+  }
   .review-section-container {
     padding: 20px 0;
   }
   .review-section-header {
     margin-bottom: 30px;
-  }
-  .review-stats-bar {
-    margin-bottom: 30px;
-    gap: 20px;
-  }
-  .stat-value {
-    font-size: 1.8rem;
   }
   .review-slider-wrapper {
     margin-bottom: 20px;

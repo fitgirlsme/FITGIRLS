@@ -48,6 +48,7 @@ const Zone = () => {
     const [visibleCount, setVisibleCount] = useState(18);
     const [allHashtags, setAllHashtags] = useState([]);
     const [lookbookCols, setLookbookCols] = useState(2);
+    const [zoneCols, setZoneCols] = useState(2);
 
     // URL query param으로 탭 자동 선택
     useEffect(() => {
@@ -254,8 +255,9 @@ const Zone = () => {
         }
     };
 
-    const visibleLookbook = lookbookItems.slice(0, visibleCount);
-    const hasMore = visibleCount < lookbookItems.length;
+    const filteredItems = lookbookItems.filter(item => activeLookbookTag === 'ALL' || item.tag === activeLookbookTag);
+    const visibleLookbook = filteredItems.slice(0, visibleCount);
+    const hasMore = visibleCount < filteredItems.length;
 
     return (
         <div className="zone-full-container">
@@ -307,8 +309,26 @@ const Zone = () => {
                             MOOZ SELF스튜디오
                         </button>
                     </div>
+                    
+                    {/* Zone Column toggle buttons */}
+                    <div className="lookbook-col-toggle">
+                        {[1, 2, 3].map(col => (
+                            <button
+                                key={col}
+                                className={`lookbook-col-btn ${zoneCols === col ? 'active' : ''}`}
+                                onClick={() => setZoneCols(col)}
+                                aria-label={`${col}열 보기`}
+                            >
+                                <span className="col-icon">
+                                    {Array.from({ length: col }).map((_, i) => (
+                                        <span key={i} className="col-bar" />
+                                    ))}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
 
-                    <div className="zone-grid">
+                    <div className="zone-grid" style={{ '--mobile-cols': zoneCols }}>
                         {studios.filter(s => s.category === zoneSubTab).map((zone, idx) => (
                             <div key={zone.id} className="zone-card">
                                 <div className="zone-img-wrapper" style={{ background: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '200px', position: 'relative' }}>
@@ -340,9 +360,8 @@ const Zone = () => {
                                                 // archive 섹션으로 스크롤 이동 (navigate 후 DOM 업데이트 대기)
                                                 setTimeout(() => {
                                                     const archiveEl = document.getElementById('archive');
-                                                    const container = document.querySelector('.snap-container');
-                                                    if (archiveEl && container) {
-                                                        container.scrollTo({ top: archiveEl.offsetTop, behavior: 'smooth' });
+                                                    if (archiveEl) {
+                                                        archiveEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                                     }
                                                 }, 200);
                                             }}

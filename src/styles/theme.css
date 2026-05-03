@@ -71,6 +71,8 @@ ul, li {
 
 .snap-section {
   height: 100dvh;
+  min-height: 100dvh;
+  max-height: 100dvh;
   width: 100%;
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -78,6 +80,10 @@ ul, li {
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  flex: none;
+  isolation: isolate;
+  background-color: #fff;
+  contain: paint;
 }
 
 /* Sections that need internal scrolling */
@@ -94,7 +100,7 @@ ul, li {
 #event-board,
 #ambar,
 #ambassadors {
-  overflow-y: auto;
+  overflow-y: auto !important;
   -webkit-overflow-scrolling: touch;
 }
 /* Push service section content below fixed header */

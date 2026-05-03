@@ -16,8 +16,9 @@ const FloatingCoupon = () => {
         // Don't show on admin-specific paths, but allow admins to see it on regular pages
         const excludedPaths = ['/admin', '/smodel', '/retouch'];
         const isExcludedPath = excludedPaths.some(path => location.pathname.startsWith(path));
+        const isAdminLoggedIn = localStorage.getItem('admin_logged_in') === 'true';
 
-        if (isExcludedPath) return;
+        if (isExcludedPath || isAdminLoggedIn) return;
 
         // Don't show if already dismissed in this session
         const isDismissed = sessionStorage.getItem('coupon_dismissed');
@@ -66,7 +67,8 @@ const FloatingCoupon = () => {
         sessionStorage.setItem('coupon_dismissed', 'true');
     };
 
-    if (!activeEvent || !isVisible) return null;
+    const isAdminLoggedIn = localStorage.getItem('admin_logged_in') === 'true';
+    if (!activeEvent || !isVisible || isAdminLoggedIn) return null;
 
     return (
         <>
@@ -89,7 +91,7 @@ const FloatingCoupon = () => {
                             <span>✨</span><span>⭐</span><span>✨</span>
                         </div>
                     </div>
-                    <div className="coupon-tooltip">기회를 잡으세요!</div>
+                    <div className="coupon-tooltip">DEBUG: COUPON</div>
                 </div>
             )}
 
