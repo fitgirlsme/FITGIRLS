@@ -442,13 +442,15 @@
 
 .p-count strong {
     color: #FF003C;
-    font-size: 1rem;
+    font-size: 1.4rem;
     display: block;
+    line-height: 1.2;
 }
 
 .p-count small {
-    color: #5a6b83;
-    font-size: 0.7rem;
+    color: #8a9bb3;
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 .p-date-row {

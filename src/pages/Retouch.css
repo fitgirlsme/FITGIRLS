@@ -1,4 +1,8 @@
-/* Retouch Dashboard Styles */
+/* =============================================
+   Retouch Dashboard Styles
+   ============================================= */
+
+/* Login */
 .retouch-login-wrapper {
     display: flex;
     justify-content: center;
@@ -25,9 +29,7 @@
     margin-bottom: 8px;
 }
 
-.login-title span {
-    color: #FF003C;
-}
+.login-title span { color: #FF003C; }
 
 .login-subtitle {
     color: #8a9bb3;
@@ -35,22 +37,11 @@
     margin-bottom: 32px;
 }
 
-.login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
+.login-form { display: flex; flex-direction: column; gap: 20px; }
 
-.form-input {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
+.form-input { display: flex; flex-direction: column; gap: 8px; }
 
-.form-input label {
-    font-size: 0.85rem;
-    color: #8a9bb3;
-}
+.form-input label { font-size: 0.85rem; color: #8a9bb3; }
 
 .form-input input {
     background: #0d111a;
@@ -73,7 +64,9 @@
     margin-top: 10px;
 }
 
-/* Main Dashboard */
+/* =============================================
+   Main Dashboard
+   ============================================= */
 .retouch-dashboard-main {
     background: #0a0d16;
     min-height: 100vh;
@@ -90,20 +83,10 @@
     border-bottom: 1px solid #252b3d;
 }
 
-.logo-text {
-    font-size: 1.2rem;
-    font-weight: 900;
-}
+.logo-text { font-size: 1.2rem; font-weight: 900; }
+.logo-text span { color: #FF003C; }
 
-.logo-text span {
-    color: #FF003C;
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
+.user-info { display: flex; align-items: center; gap: 16px; }
 
 .logout-button {
     background: #252b3d;
@@ -115,10 +98,7 @@
     font-size: 0.8rem;
 }
 
-.dashboard-container {
-    max-width: 800px;
-    margin: 0 auto;
-}
+.dashboard-container { max-width: 800px; margin: 0 auto; }
 
 .welcome-banner h2 {
     font-size: 1.8rem;
@@ -137,6 +117,9 @@
     gap: 24px;
 }
 
+/* =============================================
+   Project Card
+   ============================================= */
 .project-item-card {
     background: #151926;
     border-radius: 24px;
@@ -146,7 +129,7 @@
 }
 
 .project-item-card.completed {
-    background: #242936;
+    background: #1a1f2e;
     border-color: #3f475a;
 }
 
@@ -158,9 +141,9 @@
 }
 
 .p-id {
-    color: #FF003C;
-    font-weight: bold;
-    font-size: 0.9rem;
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.1rem;
 }
 
 .p-status-badge {
@@ -168,21 +151,30 @@
     color: #fff;
     padding: 4px 12px;
     border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: bold;
+    font-size: 0.75rem;
+    font-weight: 900;
+    white-space: nowrap;
 }
 
-/* Stepper Styles */
+.p-title {
+    font-size: 1.4rem;
+    font-weight: 900;
+    margin-bottom: 24px;
+    color: #fff;
+}
+
+/* =============================================
+   Stepper
+   ============================================= */
 .p-stepper-container {
     margin-bottom: 32px;
-    margin-top: 10px;
     position: relative;
     padding: 10px 0;
 }
 
 .stepper-track {
     position: absolute;
-    top: 15px;
+    top: 17px;
     left: 5px;
     right: 5px;
     height: 4px;
@@ -213,35 +205,36 @@
     width: 60px;
 }
 
+/* Status color variables */
+.step-item.status-waiting          { --step-color: #8a9bb3; }
+.step-item.status-pre-retouch      { --step-color: #ec4899; }
+.step-item.status-processing       { --step-color: #f59e0b; }
+.step-item.status-1st-done         { --step-color: #8b5cf6; }
+.step-item.status-2nd-processing   { --step-color: #3b82f6; }
+.step-item.status-confirm          { --step-color: #10b981; }
+.step-item.status-final-done       { --step-color: #4b5563; }
+
 .step-dot {
     width: 14px;
     height: 14px;
     border-radius: 50%;
     background: #151926;
-    border: 3px solid #252b3d;
+    border: 3px solid #FF003C;
+    position: relative;
     transition: all 0.3s ease;
 }
 
-.step-item.active.status-waiting .step-dot { background: #8a9bb3; }
-.step-item.active.status-pre-retouch .step-dot { background: #ec4899; }
-.step-item.active.status-processing .step-dot { background: #f59e0b; }
-.step-item.active.status-1st-done .step-dot { background: #8b5cf6; }
-.step-item.active.status-2nd-processing .step-dot { background: #3b82f6; }
-.step-item.active.status-confirm .step-dot { background: #10b981; }
-.step-item.active.status-final-done .step-dot { background: #4b5563; }
+/* 지나온 단계 */
+.step-item.selected .step-dot {
+    background: var(--step-color) !important;
+    transform: scale(1.1);
+}
 
-.step-item.selected.status-waiting .step-dot { box-shadow: 0 0 15px rgba(138, 155, 179, 0.6); }
-.step-item.selected.status-pre-retouch .step-dot { box-shadow: 0 0 15px rgba(236, 72, 153, 0.6); }
-.step-item.selected.status-processing .step-dot { box-shadow: 0 0 15px rgba(245, 158, 11, 0.6); }
-.step-item.selected.status-1st-done .step-dot { box-shadow: 0 0 15px rgba(139, 92, 246, 0.6); }
-.step-item.selected.status-2nd-processing .step-dot { box-shadow: 0 0 15px rgba(59, 130, 246, 0.6); }
-.step-item.selected.status-confirm .step-dot { box-shadow: 0 0 15px rgba(16, 185, 129, 0.6); }
-.step-item.selected.status-final-done .step-dot { box-shadow: 0 0 15px rgba(75, 85, 99, 0.6); }
-
+/* 현재 단계 - 크기만 살짝 강조 */
 .step-item.active .step-dot {
-    background: #FF003C;
-    border-color: #FF003C;
-    box-shadow: 0 0 10px rgba(255, 0, 60, 0.4);
+    background: var(--step-color) !important;
+    transform: scale(1.3);
+    box-shadow: none;
 }
 
 .step-label {
@@ -253,116 +246,107 @@
     transition: color 0.3s ease;
 }
 
+/* 현재 단계 라벨: 흰색 */
 .step-item.active .step-label {
     color: #fff;
+    font-weight: 900;
 }
 
-.step-item.selected .step-dot {
-    transform: scale(1.3);
+/* 최종보정완료 단계일 때만 위아래 float 효과 */
+@keyframes labelFloat {
+    0%   { transform: translateY(0px); }
+    50%  { transform: translateY(-3px); }
+    100% { transform: translateY(0px); }
 }
 
-.step-item.selected.status-waiting .step-dot { box-shadow: 0 0 15px rgba(138, 155, 179, 0.6); }
-.step-item.selected.status-processing .step-dot { box-shadow: 0 0 15px rgba(245, 158, 11, 0.6); }
-.step-item.selected.status-1st-done .step-dot { box-shadow: 0 0 15px rgba(139, 92, 246, 0.6); }
-.step-item.selected.status-2nd-processing .step-dot { box-shadow: 0 0 15px rgba(59, 130, 246, 0.6); }
-.step-item.selected.status-confirm .step-dot { box-shadow: 0 0 15px rgba(16, 185, 129, 0.6); }
-.step-item.selected.status-final-done .step-dot { box-shadow: 0 0 15px rgba(75, 85, 99, 0.6); }
+.step-item.active.status-final-done .step-label {
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 900;
+    animation: labelFloat 1.8s ease-in-out infinite;
+    display: inline-block;
+}
 
+/* =============================================
+   Status Guide Box
+   ============================================= */
 .p-status-guide-box {
     background: rgba(255, 0, 60, 0.05);
     border: 1px solid rgba(255, 0, 60, 0.1);
     padding: 16px;
     border-radius: 12px;
     margin-bottom: 24px;
-    position: relative;
     animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .guide-text {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: #8a9bb3;
     line-height: 1.6;
     margin: 0;
     text-align: center;
 }
 
-.p-title {
-    font-size: 1.4rem;
-    font-weight: bold;
-    margin-bottom: 24px;
-}
-
-@media (max-width: 600px) {
-    .step-label {
-        font-size: 0.5rem;
-        transform: scale(0.85);
-        white-space: normal;
-        word-break: keep-all;
-        line-height: 1.2;
-        width: 100%;
-        max-width: 50px;
-    }
-    .step-item {
-        width: 14%; /* Distribute evenly across 7 steps */
-        min-width: 40px;
-    }
-    .stepper-steps {
-        gap: 0;
-    }
-}
-
+/* =============================================
+   Timeline (보정 요청일 / 진행 기간)
+   ============================================= */
 .p-timeline {
     display: flex;
     gap: 16px;
     background: rgba(255, 255, 255, 0.03);
-    padding: 16px;
-    border-radius: 12px;
-    flex-wrap: wrap; /* Allow wrapping on small screens */
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    border: 1px solid #252b3d;
 }
 
-.time-col {
-    flex: 1 1 120px; /* Allow items to wrap and take full width if needed */
-}
+.time-col { flex: 1; }
 
 .time-label {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     color: #8a9bb3;
-    text-transform: uppercase;
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .time-val {
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: #fff;
     display: block;
 }
 
-.time-val.highlight {
-    color: #FF003C;
+.time-val.highlight { color: #FF003C; }
+
+/* =============================================
+   Card Stats (수량 박스 + 보정본 버튼)
+   ============================================= */
+.card-stats {
+    display: flex;
+    flex-direction: column;
+    background: #111520;
+    border-radius: 24px;
+    margin-bottom: 24px;
+    border: 1px solid #252b3d;
+    overflow: hidden;
 }
 
-.card-stats {
+.stats-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background: #0d111a;
-    border-radius: 16px;
-    margin-bottom: 24px;
-    margin-top: 24px;
-    flex-wrap: wrap;
-    gap: 12px;
+    padding: 24px 24px 16px 24px;
 }
 
-.stats-main {
-    flex: 1 1 auto;
-}
+.stats-main { flex: 0 0 auto; }
 
 .stats-label {
     font-size: 0.75rem;
@@ -372,75 +356,92 @@
 }
 
 .stats-num {
-    font-size: 1.5rem;
+    font-size: 2.4rem;
     font-weight: 900;
     color: #FF003C;
+    line-height: 1;
 }
 
 .stats-num span {
-    font-size: 0.9rem;
-    margin-left: 2px;
+    font-size: 1.2rem;
+    margin-left: 4px;
 }
 
 .stats-breakdown {
     text-align: right;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: #5a6b83;
-    flex: 1 1 100%; /* Push breakdown to next line on small screens */
+    font-weight: 700;
 }
 
+/* 보정본 확인하기 버튼 - 박스 하단 내부 */
 .dropbox-btn {
     display: block;
     text-align: center;
     background: #fff;
     color: #000;
-    padding: 18px;
-    border-radius: 12px;
-    font-weight: bold;
+    padding: 20px;
+    margin: 0 16px 16px 16px;
+    border-radius: 16px;
+    font-weight: 900;
     text-decoration: none;
-    margin-bottom: 20px;
-    transition: opacity 0.2s;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.dropbox-btn:hover {
-    opacity: 0.9;
-}
-
-.consent-options {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.opt-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 16px;
-    background: #1a1f2e;
-    border-radius: 12px;
-    border: 1px solid #2d3548;
-    cursor: pointer;
-    font-size: 0.85rem;
-    color: #8a9bb3;
+    font-size: 1.15rem;
     transition: all 0.2s;
     box-sizing: border-box;
 }
 
-.opt-item input {
-    margin: 0;
+.dropbox-btn:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+/* =============================================
+   Card Actions (동의 체크박스)
+   ============================================= */
+.card-actions { margin-bottom: 0; }
+
+.action-ready { display: flex; flex-direction: column; gap: 0; }
+
+.consent-options {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.opt-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 16px 14px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    border: 1px solid #2d3548;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #8a9bb3;
+    transition: all 0.2s;
+    box-sizing: border-box;
+    word-break: keep-all;
+    line-height: 1.3;
+}
+
+.opt-item input { 
+    width: 16px;
+    height: 16px;
+    accent-color: #FF003C;
+    flex-shrink: 0;
 }
 
 .opt-item.checked {
     border-color: #FF003C;
+    color: #fff;
 }
 
-.opt-item.checked span {
-    color: #FF003C;
-}
-
+/* 대기 중 액션 */
 .action-waiting {
     text-align: center;
     padding: 40px;
@@ -448,10 +449,7 @@
     border-radius: 16px;
 }
 
-.wait-icon {
-    font-size: 2rem;
-    margin-bottom: 16px;
-}
+.wait-icon { font-size: 2rem; margin-bottom: 16px; }
 
 .action-waiting p {
     color: #8a9bb3;
@@ -459,34 +457,113 @@
     font-size: 0.9rem;
 }
 
-@media (max-width: 600px) {
-    .project-item-card {
-        padding: 16px;
-    }
-    .p-title {
-        font-size: 1.1rem;
-        word-break: keep-all;
-    }
-    .card-stats {
-        padding: 16px;
-    }
-    .stats-breakdown {
-        text-align: left;
-    }
-    .welcome-banner h2 {
-        font-size: 1.4rem;
-    }
-    .welcome-banner p {
-        font-size: 0.9rem;
-    }
+/* =============================================
+   Instagram ID Input
+   ============================================= */
+.insta-id-input-box {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 0, 60, 0.08);
+    border-radius: 16px;
+    border: 1px dashed rgba(255, 0, 60, 0.3);
+    animation: fadeIn 0.4s ease;
 }
 
-/* Dashboard Footer & Status Guide */
+.insta-guide {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.insta-input-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.insta-input-group input {
+    flex: 1 1 150px;
+    background: #0d111a;
+    border: 1px solid rgba(255, 0, 60, 0.2);
+    padding: 14px 16px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.insta-input-group input:focus {
+    border-color: #FF003C;
+    box-shadow: 0 0 10px rgba(255, 0, 60, 0.2);
+}
+
+.insta-save-btn {
+    background: #2d3548;
+    color: #fff;
+    border: 1px solid #3f475a;
+    padding: 14px 24px;
+    border-radius: 10px;
+    font-weight: 900;
+    font-size: 0.95rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.insta-save-btn:hover { background: #3f475a; }
+
+/* =============================================
+   Extra Purchase (네이버 스마트스토어)
+   ============================================= */
+.extra-purchase-box {
+    margin-top: 24px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 16px;
+    border: 1px solid #252b3d;
+    text-align: center;
+}
+
+.extra-guide-text {
+    font-size: 0.85rem;
+    color: #5a6b83;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.extra-purchase-btn {
+    display: inline-block;
+    width: 100%;
+    background: #03C75A;
+    color: #fff;
+    padding: 16px 24px;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 900;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(3, 199, 90, 0.2);
+}
+
+.extra-purchase-btn:hover {
+    background: #02b351;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(3, 199, 90, 0.3);
+}
+
+/* =============================================
+   Dashboard Footer
+   ============================================= */
 .dashboard-footer {
     margin-top: 60px;
+    padding-top: 40px;
     padding-bottom: 40px;
     border-top: 1px solid #252b3d;
-    padding-top: 40px;
 }
 
 .status-guide-box {
@@ -521,10 +598,7 @@
     border-radius: 6px;
 }
 
-.status-separator {
-    color: #252b3d;
-    font-size: 0.8rem;
-}
+.status-separator { color: #252b3d; font-size: 0.8rem; }
 
 .guide-notice {
     font-size: 0.7rem;
@@ -532,108 +606,21 @@
     line-height: 1.5;
 }
 
+/* =============================================
+   Responsive
+   ============================================= */
 @media (max-width: 600px) {
-    .status-steps-text {
-        gap: 4px;
-    }
-    .status-text-item {
-        font-size: 0.65rem;
-        padding: 2px 6px;
-    }
+    .project-item-card { padding: 20px; }
+    .p-title { font-size: 1.1rem; word-break: keep-all; }
+    .stats-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .stats-breakdown { text-align: left; }
+    .welcome-banner h2 { font-size: 1.4rem; }
+    .step-label { font-size: 0.5rem; white-space: normal; word-break: keep-all; line-height: 1.2; max-width: 50px; }
+    .step-item { width: 14%; min-width: 40px; }
+    .stepper-steps { gap: 0; }
+    .status-steps-text { gap: 4px; }
+    .status-text-item { font-size: 0.65rem; padding: 2px 6px; }
+    .p-timeline { flex-direction: column; gap: 12px; }
+    .consent-options { gap: 6px; }
+    .opt-item { padding: 12px 8px; font-size: 0.75rem; gap: 6px; }
 }
-
-/* Instagram ID Input */
-.insta-id-input-box {
-    margin-top: 20px;
-    padding: 20px;
-    background: rgba(255, 0, 60, 0.08);
-    border-radius: 16px;
-    border: 1px dashed rgba(255, 0, 60, 0.3);
-    animation: fadeIn 0.4s ease;
-}
-
-.insta-guide {
-    font-size: 0.85rem;
-    font-weight: bold;
-    color: #fff;
-    margin-bottom: 12px;
-    line-height: 1.4;
-}
-
-.insta-input-group {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.insta-input-group input {
-    flex: 1 1 150px;
-    background: #0d111a;
-    border: 1px solid rgba(255, 0, 60, 0.2);
-    padding: 14px 16px;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 0.95rem;
-    outline: none;
-    transition: all 0.2s;
-}
-
-.insta-input-group input:focus {
-    border-color: #FF003C;
-    box-shadow: 0 0 10px rgba(255, 0, 60, 0.2);
-}
-
-.insta-save-btn {
-    flex: 1 1 auto;
-    background: #FF003C;
-    color: #fff;
-    border: none;
-    padding: 14px 20px;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: opacity 0.2s;
-}
-
-.insta-save-btn:hover {
-    opacity: 0.9;
-}
-
-/* Extra Purchase Box */
-.extra-purchase-box {
-    margin-top: 24px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 16px;
-    border: 1px solid #252b3d;
-    text-align: center;
-}
-
-.extra-guide-text {
-    font-size: 0.85rem;
-    color: #8a9bb3;
-    margin-bottom: 12px;
-}
-
-.extra-purchase-btn {
-    display: inline-block;
-    background: #252b3d;
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    text-decoration: none;
-    transition: all 0.2s;
-    border: 1px solid #3f475a;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.extra-purchase-btn:hover {
-    background: #FF003C;
-    border-color: #FF003C;
-    transform: translateY(-2px);
-}
-

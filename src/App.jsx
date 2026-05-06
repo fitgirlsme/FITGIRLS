@@ -1,6 +1,16 @@
 import React from 'react';
 import { Routes, Route, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+
+// GA4 페이지뷰 추적 함수
+const trackPageView = (path) => {
+  if (window.gtag) {
+    window.gtag('config', 'G-65N5ETKRN5', { page_path: path });
+  }
+};
+
+import { trackVisit } from './utils/analyticsTracker';
+
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
@@ -104,7 +114,7 @@ const Home = ({ changeLanguage, currentLang }) => {
     const vh = window.innerHeight;
     setIsScrolled(scrollTop > 50);
     setIsOnHero(scrollTop < vh * 0.5);
-    setIsHideCS(scrollTop < vh * 1.5); // Hide on first two sections (hero & intro)
+    setIsHideCS(scrollTop < vh * 2.5); // Hide on first three sections (hero, intro, artist)
     setIsHeaderHidden(scrollTop < vh * 1.5); // Hide header on first two sections
   };
 
@@ -122,7 +132,7 @@ const Home = ({ changeLanguage, currentLang }) => {
         <section className="snap-section" id="hero-intro"><Intro /></section>
         <section className="snap-section" id="artist"><ArtistSection /></section>
         <section className="snap-section" id="archive"><Gallery /></section>
-        <section className="snap-section" id="service"><Service /></section>
+        <Service />
         <section className="snap-section" id="zone"><Zone /></section>
         <section className="snap-section" id="hair-makeup"><HM /></section>
         <section className="snap-section" id="faq"><FAQ /></section>
@@ -133,7 +143,7 @@ const Home = ({ changeLanguage, currentLang }) => {
         <section className="snap-section" id="ambassadors"><AmbassadorList /></section>
       </main>
       <Footer isHidden={!isLastSectionVisible} />
-      <SupportCS />
+      <SupportCS isHidden={isHideCS} />
     </div>
   );
 };
@@ -145,6 +155,14 @@ function App() {
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };
+
+  // GA4: 페이지 이동 시마다 자동 추적
+  React.useEffect(() => {
+    trackPageView(location.pathname);
+    trackVisit(location.pathname); // Firestore 방문 카운트
+  }, [location.pathname]);
+
+
 
   // Fetch initial data (galleries, partners, notices)
   React.useEffect(() => {

@@ -4,7 +4,7 @@ import { SiKakaotalk, SiLine, SiWhatsapp, SiWechat } from 'react-icons/si';
 import { MESSENGER_LINKS } from '../constants/links';
 import './SupportCS.css';
 
-const SupportCS = () => {
+const SupportCS = ({ isHidden }) => {
     const { t, i18n } = useTranslation();
     const [showWeChatQR, setShowWeChatQR] = useState(false);
     const language = i18n.language?.slice(0, 2) || 'ko';
@@ -17,7 +17,7 @@ const SupportCS = () => {
 
     const getIcon = () => {
         switch (language) {
-            case 'ko': return <img src="/images/kakao-ch-custom.png" alt="Kakao Channel" className="custom-cs-image" />;
+            case 'ko': return <img src="/images/kakao-ch-custom.png" alt="Kakao Channel" className="custom-cs-image kakao-scaled" />;
             case 'ja': return <SiLine size={32} />;
             case 'en': return <SiWhatsapp size={32} />;
             case 'zh': return <SiWechat size={32} />;
@@ -34,7 +34,7 @@ const SupportCS = () => {
 
     return (
         <>
-            <div className={`support-cs-container cs-theme-${language} ${isAdmin ? 'admin-offset' : ''}`}>
+            <div className={`support-cs-container cs-theme-${language} ${isAdmin ? 'admin-offset' : ''} ${isHidden ? 'hidden' : ''}`}>
                 <a 
                     href={getLink()}
                     target="_blank"

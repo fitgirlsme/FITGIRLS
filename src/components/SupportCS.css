@@ -3,7 +3,13 @@
     right: 25px;
     bottom: 25px;
     z-index: 9999;
-    transition: bottom 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.support-cs-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
 }
 
 /* Admin floating offset to avoid overlap with Gallery Admin FAB */
@@ -59,8 +65,16 @@
 }
 
 /* Theme based colors */
-.cs-button--ko { background-color: transparent; } 
+.cs-button--ko { 
+    background-color: #FEE500 !important; 
+} 
 
+.custom-cs-image.kakao-scaled {
+    width: 50% !important;
+    height: 50% !important;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
 .cs-button--ja { background-color: #06C755; color: #fff; }
 .cs-button--ja:hover { background-color: #05B54D; }
 

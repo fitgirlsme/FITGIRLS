@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── 방문자 통계 ──────────────────────────────────────
+    // 누구나 쓰기 가능 (방문자 카운트), 읽기는 차단 (Admin은 코드로 읽음)
+    match /analytics_daily/{docId} {
+      allow write: if true;
+      allow read:  if false;
+    }
+    match /analytics_monthly/{docId} {
+      allow write: if true;
+      allow read:  if false;
+    }
+
+    // ── 나머지 모든 컬렉션 ───────────────────────────────
+    // 기존 동작 유지 (읽기/쓰기 허용)
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

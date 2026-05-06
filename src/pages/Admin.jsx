@@ -14,11 +14,13 @@ import '../components/sections/Gallery.css';
 import SModelAdminTab from '../components/admin/SModelAdminTab';
 import RetouchAdminTab from '../components/admin/RetouchAdminTab';
 import CouponAdminTab from '../components/admin/CouponAdminTab';
+import AnalyticsWidget from '../components/AnalyticsWidget';
+
 import { 
     MdCameraAlt, MdPhotoLibrary, MdPeople, MdShoppingBag, 
     MdEventAvailable, MdMovie, MdMoveToInbox, MdHandshake, 
     MdCamera, MdPerson, MdElderly, MdLogout, MdArrowBack,
-    MdChevronRight, MdGridView, MdCollections, MdCardGiftcard, MdHome
+    MdChevronRight, MdGridView, MdCollections, MdCardGiftcard, MdHome, MdDashboard
 } from 'react-icons/md';
 
 // Constants
@@ -44,9 +46,8 @@ const Admin = () => {
     const [activeTab, setActiveTab] = useState(() => {
         const param = searchParams.get('tab');
         if (param) return param;
-        // On mobile, default to menu view (null)
-        if (window.innerWidth <= 768) return null;
-        return 'gallery';
+        // 로그인 후 항상 대시보드 홈(통계 위젯) 먼저 표시
+        return null;
     });
 
     useEffect(() => {
@@ -121,8 +122,16 @@ const Admin = () => {
                     <span>ADMIN <strong>PANEL</strong></span>
                 </div>
                 <nav className="sidebar-nav">
+                    <button
+                        className={`sidebar-item ${!activeTab ? 'active' : ''}`}
+                        onClick={() => setActiveTab(null)}
+                    >
+                        <span className="sidebar-icon"><MdDashboard /></span>
+                        <span className="sidebar-label">대시보드 홈</span>
+                    </button>
                     {tabs.map(tab => (
                         <button
+
                             key={tab.id}
                             className={`sidebar-item ${activeTab === tab.id ? 'active' : ''}`}
                             onClick={() => setActiveTab(tab.id)}
@@ -176,7 +185,9 @@ const Admin = () => {
 
                 <main className="admin-content-area">
                     {!activeTab && (
-                        <div className="admin-mobile-menu">
+                        <>
+                        <AnalyticsWidget />
+                        <div className="admin-mobile-menu mobile-only">
                             <div className="menu-grid">
                                 {tabs.map(tab => (
                                     <button 
@@ -194,6 +205,7 @@ const Admin = () => {
                                 ))}
                             </div>
                         </div>
+                        </>
                     )}
                     
                     <div className="tab-content-wrapper">
@@ -239,6 +251,8 @@ const PhotoManager = ({ issues }) => {
     const [selectedIds, setSelectedIds] = useState([]);
     const [bulkIssueId, setBulkIssueId] = useState('');
     const [deletingId, setDeletingId] = useState(null);
+    const [editingTagsId, setEditingTagsId] = useState(null);
+    const [editTagsValue, setEditTagsValue] = useState('');
     const [error, setError] = useState(null);
     const [indexErrorUrl, setIndexErrorUrl] = useState(null);
     const [videoUrls, setVideoUrls] = useState({});
@@ -368,6 +382,35 @@ const PhotoManager = ({ issues }) => {
         setLastDoc(null);
         // 상태 업데이트 완료 전에 loadPhotos를 호출하므로 값을 직접 전달
         loadPhotos(false, trimmed, searching);
+    };
+
+    const handleUpdateTags = async (photoId, newTagsStr) => {
+        try {
+            const newTags = newTagsStr.split(',').map(t => t.trim().replace(/^#/, '')).filter(t => t !== '');
+            await updateDoc(doc(db, 'gallery', photoId), { tags: newTags });
+            setPhotos(photos.map(p => p.id === photoId ? { ...p, tags: newTags } : p));
+            setEditingTagsId(null);
+        } catch (e) {
+            alert('Failed to update tags: ' + e.message);
+        }
+    };
+
+    // 자동완성 로직
+    const availableTags = Array.from(new Set(photos.flatMap(p => p.tags || []).map(t => `#${t.replace(/^#/, '')}`)));
+    const editTokens = editTagsValue.split(/,\s*/);
+    const currentToken = editTokens[editTokens.length - 1] || '';
+    const currentTokenNorm = currentToken.trim().toLowerCase();
+    
+    const tagSuggestions = (currentTokenNorm && currentTokenNorm !== '#')
+        ? availableTags.filter(tag => tag.toLowerCase().includes(currentTokenNorm.replace('#', '')) && tag !== currentToken.trim()).slice(0, 10)
+        : [];
+
+    const handleTagSuggestionClick = (suggestion) => {
+        const tokens = [...editTokens];
+        tokens[tokens.length - 1] = suggestion;
+        let result = tokens.join(', ');
+        if (!result.endsWith(', ')) result += ', ';
+        setEditTagsValue(result);
     };
 
     const clearSearch = () => {
@@ -790,15 +833,55 @@ const PhotoManager = ({ issues }) => {
                                     }}>✓</div>
                                 )}
                                 <div style={{ padding: '8px' }}>
-                                    {p.tags && p.tags.length > 0 && (
-                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginBottom: '8px' }}>
-                                            {p.tags.slice(0, 3).map((t, idx) => (
+                                    {editingTagsId === p.id ? (
+                                        <div style={{ marginBottom: '8px', position: 'relative' }}>
+                                            <input 
+                                                type="text" 
+                                                value={editTagsValue}
+                                                onChange={e => setEditTagsValue(e.target.value)}
+                                                onClick={e => e.stopPropagation()}
+                                                style={{ width: '100%', fontSize: '0.75rem', padding: '4px', marginBottom: '4px', border: '1px solid #ddd', borderRadius: '4px' }}
+                                                placeholder="#태그, #태그"
+                                            />
+                                            {tagSuggestions.length > 0 && (
+                                                <div style={{ position: 'absolute', top: '28px', left: 0, right: 0, background: '#fff', border: '1px solid #ddd', borderRadius: '4px', zIndex: 10, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', maxHeight: '150px', overflowY: 'auto' }}>
+                                                    {tagSuggestions.map((tag, idx) => (
+                                                        <div 
+                                                            key={idx} 
+                                                            onClick={(e) => { e.stopPropagation(); handleTagSuggestionClick(tag); }}
+                                                            style={{ padding: '6px 8px', fontSize: '0.75rem', cursor: 'pointer', borderBottom: '1px solid #f0f0f0' }}
+                                                            onMouseEnter={e => e.target.style.background = '#f5f5f5'}
+                                                            onMouseLeave={e => e.target.style.background = '#fff'}
+                                                        >
+                                                            {tag}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                            <div style={{ display: 'flex', gap: '4px' }}>
+                                                <button onClick={(e) => { e.stopPropagation(); handleUpdateTags(p.id, editTagsValue); }} style={{ flex: 1, padding: '4px', fontSize: '0.7rem', background: '#1a1a1a', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>저장</button>
+                                                <button onClick={(e) => { e.stopPropagation(); setEditingTagsId(null); }} style={{ flex: 1, padding: '4px', fontSize: '0.7rem', background: '#f5f5f5', border: '1px solid #ddd', borderRadius: '4px', cursor: 'pointer' }}>취소</button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginBottom: '8px', alignItems: 'center' }}>
+                                            {p.tags && p.tags.slice(0, 3).map((t, idx) => (
                                                 <span key={idx} style={{ 
                                                     fontSize: '0.65rem', color: '#888', background: '#eee', 
                                                     padding: '1px 4px', borderRadius: '3px' 
                                                 }}>{t.startsWith('#') ? t : `#${t}`}</span>
                                             ))}
-                                            {p.tags.length > 3 && <span style={{ fontSize: '0.65rem', color: '#888' }}>...</span>}
+                                            {p.tags && p.tags.length > 3 && <span style={{ fontSize: '0.65rem', color: '#888' }}>...</span>}
+                                            <button 
+                                                onClick={(e) => { 
+                                                    e.stopPropagation(); 
+                                                    setEditingTagsId(p.id); 
+                                                    setEditTagsValue(p.tags ? p.tags.map(t => `#${t.replace(/^#/, '')}`).join(', ') : '');
+                                                }}
+                                                style={{ padding: '0', background: 'none', border: 'none', color: '#0066cc', fontSize: '0.7rem', cursor: 'pointer', marginLeft: 'auto', textDecoration: 'underline' }}
+                                            >
+                                                수정
+                                            </button>
                                         </div>
                                     )}
                                     <select 
@@ -1842,13 +1925,19 @@ const HeroTab = () => {
         <div className="upload-section">
             {showSuccess && <Toast message="Order saved successfully!" onClose={() => setShowSuccess(false)} />}
             <h3>Hero Slides</h3>
-            <div style={{ display: 'flex', gap: 12, marginBottom: 32 }}>
-                <label className="add-btn" style={{ cursor: 'pointer' }}>
-                    📷 Add Image Slide
+            <div style={{ display: 'flex', gap: 12, marginBottom: 32, flexWrap: 'wrap' }}>
+                <label className="add-btn" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <MdPhotoLibrary size={16} /> Add Image Slide
                     <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
                 </label>
-                <button className="add-btn" onClick={() => setShowYtInput(!showYtInput)}>▶ Add Video Slide</button>
-                {slides.length > 1 && <button className="add-btn" onClick={saveOrder}>Save Order</button>}
+                <button className="add-btn" style={{ display: 'flex', alignItems: 'center', gap: '6px' }} onClick={() => setShowYtInput(!showYtInput)}>
+                    <MdMovie size={16} /> Add Video Slide
+                </button>
+                {slides.length > 1 && (
+                    <button className="add-btn" style={{ display: 'flex', alignItems: 'center', gap: '6px' }} onClick={saveOrder}>
+                        <MdCamera size={16} style={{ visibility: 'hidden', width: 0 }} /> Save Order
+                    </button>
+                )}
             </div>
 
             {showYtInput && (

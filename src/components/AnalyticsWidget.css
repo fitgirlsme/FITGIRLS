@@ -1,0 +1,314 @@
+.analytics-widget {
+    background: #ffffff;
+    border: 1px solid #e8ecf0;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    font-family: 'Inter', sans-serif;
+}
+
+.aw-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.aw-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #1a1a2e;
+    letter-spacing: -0.02em;
+}
+
+/* ─── 캡슐 탭 (하이 컨트라스트) ─── */
+.aw-capsule-tabs {
+    display: flex;
+    gap: 8px;
+    background: transparent;
+}
+
+.aw-capsule-btn {
+    padding: 8px 16px;
+    border-radius: 100px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.aw-capsule-btn:hover {
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+.aw-capsule-btn.active {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.aw-loading {
+    text-align: center;
+    padding: 60px;
+    color: #aaa;
+    font-size: 0.85rem;
+}
+
+/* ─── 요약 카드 ─── */
+.aw-summary-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.aw-card {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #f1f5f9;
+}
+
+.aw-card.accent {
+    background: #ff003c;
+    color: white;
+}
+
+.aw-card-label {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+.aw-card.accent .aw-card-label {
+    color: rgba(255,255,255,0.8);
+}
+
+.aw-card-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1;
+}
+.aw-card-value.text-value {
+    font-size: 1.4rem;
+}
+.aw-card.accent .aw-card-value {
+    color: #ffffff;
+}
+
+/* ─── 섹션 공통 ─── */
+.aw-bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.aw-section {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.aw-section-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #334155;
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+}
+
+/* ─── 도넛 차트 ─── */
+.aw-donut-wrap {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.aw-donut {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.aw-donut-hole {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.aw-donut-main {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1;
+}
+.aw-donut-sub {
+    font-size: 0.6rem;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.aw-donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.aw-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: #475569;
+}
+
+.aw-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.aw-legend-item strong {
+    font-weight: 800;
+    color: #0f172a;
+    margin-left: auto;
+}
+
+/* ─── 트렌드 차트 (막대) ─── */
+.aw-trend-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 120px;
+    padding-bottom: 24px;
+    position: relative;
+    border-bottom: 1px dashed #e2e8f0;
+}
+
+.aw-trend-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    position: relative;
+}
+
+.aw-trend-bar {
+    width: 100%;
+    max-width: 20px;
+    background: #cbd5e1;
+    border-radius: 4px 4px 0 0;
+    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: absolute;
+    bottom: 0;
+}
+.aw-trend-item:hover .aw-trend-bar {
+    background: #ff003c;
+}
+
+.aw-trend-label {
+    position: absolute;
+    bottom: -20px;
+    font-size: 0.6rem;
+    color: #94a3b8;
+    white-space: nowrap;
+}
+
+/* ─── 리스트 (페이지, 유입 경로 등) ─── */
+.aw-empty { font-size: 0.8rem; color: #94a3b8; text-align: center; padding: 30px 0; }
+
+.aw-page-list { display: flex; flex-direction: column; gap: 12px; }
+
+.aw-page-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.aw-page-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.aw-page-rank { 
+    font-size: 0.8rem; 
+    color: #0f172a; 
+    font-weight: 800; 
+    width: 20px;
+    text-align: center;
+}
+
+.aw-page-name {
+    font-size: 0.85rem;
+    color: #334155;
+    font-weight: 600;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.aw-page-count {
+    font-size: 0.8rem;
+    color: #ff003c;
+    font-weight: 800;
+}
+
+/* ─── 더보기 버튼 ─── */
+.aw-show-more-btn {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px;
+    background: #f8fafc;
+    border: 1px solid #f1f5f9;
+    border-radius: 8px;
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.aw-show-more-btn:hover {
+    background: #f1f5f9;
+    color: #334155;
+}
+
+/* ─── 반응형 ─── */
+@media (max-width: 768px) {
+    .aw-summary-cards { grid-template-columns: 1fr; }
+    .aw-bottom-grid { grid-template-columns: 1fr; }
+    .analytics-widget { padding: 16px; }
+    .aw-donut-wrap { flex-direction: column; align-items: flex-start; }
+    .aw-capsule-tabs {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 8px;
+    }
+    .aw-capsule-btn { white-space: nowrap; }
+}

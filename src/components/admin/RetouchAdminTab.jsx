@@ -26,8 +26,8 @@ const RetouchAdminTab = () => {
 
     useEffect(() => { loadData(); }, []);
 
-    const loadData = async () => {
-        setLoading(true);
+    const loadData = async (silent = false) => {
+        if (!silent) setLoading(true);
         try {
             const mSnap = await getDocs(query(collection(db, 'retouch_masters')));
             const mList = mSnap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -37,7 +37,7 @@ const RetouchAdminTab = () => {
             const pList = pSnap.docs.map(d => ({ id: d.id, ...d.data() }));
             setProjects(pList.sort((a,b) => b.id.localeCompare(a.id)));
         } catch (err) { console.error(err); }
-        setLoading(false);
+        if (!silent) setLoading(false);
     };
 
     const getRetouchCount = (concept) => {
@@ -113,7 +113,9 @@ const RetouchAdminTab = () => {
                     instaConsents: {}, reviewConsents: {}, dropboxArchives: {}, clientFeedbacks: {}
                 });
             }
-            alert('등록 완료!'); setCName(''); setCPhone(''); setCProject(''); setCRequestDate(todayStr); loadData();
+            await loadData(true); // 알럿 띄우기 전에 데이터를 먼저 (조용히) 갱신
+            setCName(''); setCPhone(''); setCProject(''); setCRequestDate(todayStr); 
+            alert('등록 완료!'); 
         } catch (err) { console.error(err); alert(`오류: ${err.message}`); }
     };
 
@@ -124,7 +126,19 @@ const RetouchAdminTab = () => {
     const handleUpdateStatus = async (customerId, projectId, status) => {
         try {
             await updateDoc(doc(db, 'retouch_masters', customerId), { [`projectStatuses.${projectId}`]: status });
-            alert('상태 변경 완료'); loadData();
+            await loadData(true);
+            
+            // 최종보정완료로 변경 시 알림톡 발송 여부 확인 (선보정과 동일한 경험 제공)
+            if (status === '최종보정완료') {
+                if (window.confirm('상태가 "최종보정완료"로 변경되었습니다.\n고객에게 최종본 완료 안내 알림톡을 지금 발송하시겠습니까?')) {
+                    const snap = await getDoc(doc(db, 'retouch_masters', customerId));
+                    if (snap.exists()) {
+                        handleSendAlimtalk({ id: snap.id, ...snap.data() }, projectId, status);
+                    }
+                }
+            } else {
+                alert('상태 변경 완료');
+            }
         } catch (err) { console.error(err); }
     };
 
@@ -133,13 +147,17 @@ const RetouchAdminTab = () => {
         const link = customer.dropboxArchives?.[projectTitle] || '';
         let type = '';
         
-        // 상태값에 따른 템플릿 타입 매칭 (명칭 통일화 반영)
-        if (status.includes('1차보정완료')) type = 'UH_5021';
-        else if (status.includes('최종보정완료')) type = 'UH_5403';
-        else if (status.includes('보정대기')) type = 'UH_5024';
+        // 상태값에 따른 템플릿 타입 매칭 (더 포괄적으로 변경)
+        if (status.includes('1차보정완료') || status.includes('2차보정') || status.includes('피드백요청')) {
+            type = 'UH_5021'; // 보정본 확인 요청
+        } else if (status.includes('최종보정완료')) {
+            type = 'UH_5403'; // 최종보정완료_안내
+        } else if (status.includes('보정대기')) {
+            type = 'UH_5024'; // 촬영완료
+        }
 
         if (!type) { 
-            alert(`매칭된 템플릿이 없습니다. (현재 상태: ${status})`); 
+            alert(`매칭된 알림톡 템플릿이 없는 상태입니다. (현재 상태: ${status})\n직접 발송이 필요한 경우 상태를 확인해 주세요.`); 
             return; 
         }
 
@@ -205,7 +223,7 @@ const RetouchAdminTab = () => {
                     else alert(`알림톡 발송 실패: ${res.error}`);
                 }
             }
-            loadData();
+            await loadData(true);
         } catch (err) {
             console.error(err);
             alert('데이터 업데이트 중 오류가 발생했습니다.');
@@ -219,20 +237,20 @@ const RetouchAdminTab = () => {
     const handleUpdateDate = async (customerId, projectId, date) => {
         let finalDate = date;
         if (date.startsWith('0')) finalDate = '26' + date.substring(2);
-        try { await updateDoc(doc(db, 'retouch_masters', customerId), { [`requestDates.${projectId}`]: finalDate }); alert('업데이트 완료'); loadData(); } catch (err) { console.error(err); }
+        try { await updateDoc(doc(db, 'retouch_masters', customerId), { [`requestDates.${projectId}`]: finalDate }); await loadData(true); alert('업데이트 완료'); } catch (err) { console.error(err); }
     };
 
     const handleUpdateFeedback = async (customerId, projectId, feedback) => {
         try { 
             await updateDoc(doc(db, 'retouch_masters', customerId), { [`clientFeedbacks.${projectId}`]: feedback }); 
-            loadData();
+            await loadData(true);
         } catch (err) { console.error(err); }
     };
 
     const handleUpdateInstaId = async (customerId, projectId, instaId) => {
         try {
             await updateDoc(doc(db, 'retouch_masters', customerId), { [`instaIds.${projectId}`]: instaId });
-            loadData();
+            await loadData(true);
         } catch (err) { console.error(err); }
     };
 
@@ -240,7 +258,7 @@ const RetouchAdminTab = () => {
         if (!concept) return;
         try {
             await updateDoc(doc(db, 'retouch_masters', customerId), { [`projectConcepts.${projectId}`]: concept, [`projectBaseRetouchCounts.${projectId}`]: getRetouchCount(concept) });
-            loadData();
+            await loadData(true);
         } catch (err) { console.error(err); }
     };
 

@@ -73,7 +73,7 @@ const ServicePrice = () => {
     const [activeTab, setActiveTab] = useState('PORTRAIT');
 
     return (
-        <section id="price" className="snap-section service-container">
+        <section id="service" className="snap-section service-container">
             <div className="container-inner">
                 <header className="service-main-header">
                     <span className="service-main-subtitle">PRICING & SERVICES</span>

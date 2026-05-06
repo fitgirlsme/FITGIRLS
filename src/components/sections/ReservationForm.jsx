@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MESSENGER_LINKS } from '../../constants/links';
 import FadeInSection from '../FadeInSection';
+import { trackReservationClick } from '../../utils/analyticsTracker';
 import './Reservation.css';
 
 const VIDEO_IDS = {
@@ -49,6 +50,7 @@ const ReservationForm = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="res-naver-btn"
+                                        onClick={() => trackReservationClick()}
                                     >
                                         {t('reservation.button')}
                                     </a>
@@ -57,6 +59,7 @@ const ReservationForm = () => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="res-channel-btn"
+                                        onClick={() => trackReservationClick()}
                                     >
                                         {t('reservation.channel_button')}
                                     </a>

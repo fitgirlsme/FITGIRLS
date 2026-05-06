@@ -36,7 +36,8 @@ export const sendAlimtalk = async (receiver, templateCode, message, options = {}
 
     // Emphasis Type (강조표기형) parameters
     if (options.title) formData.append('emtitle_1', options.title);
-    // Subtitle is handled automatically by Aligo based on the template registration
+    if (options.subtitle) formData.append('emsubtitle_1', options.subtitle);
+    // Subtitle is now explicitly sent for Emphasis Type templates
 
     if (options.button) {
         formData.append('button_1', JSON.stringify(options.button));
@@ -130,12 +131,12 @@ export const getAlimtalkTemplate = (type, params) => {
                 button: null
             };
 
-        case 'UH_5403': // 최종보정완료_안내 (고객용)
+        case 'UH_6228': // 최종보정완료_안내2 (승인 대기/완료)
             return {
-                code: 'UH_5403',
+                code: 'UH_6228',
                 title: '최종보정완료',
-                subtitle: '멋진 사진이 완성되었습니다! ✨',
-                message: `안녕하세요, ${name}님!\n요청하신 최종 보정본이 완성되었습니다. 😊\n보정본과 함께 멋진 매거진 커버를 같이 보내드렸습니다.\n\n아래 링크의 대시보드에서 최종본을 확인하고 고화질로 다운로드하실 수 있습니다.\n(파일 보관 기한이 있으니 가급적 빨리 저장해 주세요!)\n\n그동안 핏걸즈 & 이너핏을\n믿고 기다려 주셔서 감사합니다.\n완성된 사진이 고객님께 소중한 추억이 \n되길 바랍니다.\n\n더욱 멋진 컨셉과 모습으로 다음 촬영에서도 또 뵙기를 기대하겠습니다! ✨\n\n감사합니다.`,
+                subtitle: '보정사진다운로드',
+                message: `안녕하세요, ${name}님!\n요청하신 최종 보정본이 완성되었습니다. 😊\n보정본과 함께 멋진 매거진 커버를 같이 보내드렸습니다.\n아래 링크의 대시보드에서 최종본을 확인하고 고화질로 다운로드하실 수 있습니다.\n(파일 보관 기한이 있으니 가급적 빨리 저장해 주세요!)\n그동안 핏걸즈 & 이너핏을\n믿고 기다려 주셔서 감사합니다.\n완성된 사진이 고객님께 소중한 추억이 \n되길 바랍니다.\n더욱 멋진 컨셉과 모습으로 다음 촬영에서도 또 뵙기를 기대하겠습니다! ✨\n감사합니다.`,
                 button: {
                     button: [
                         {
@@ -143,6 +144,24 @@ export const getAlimtalkTemplate = (type, params) => {
                             linkType: 'WL',
                             linkMo: 'https://fitgirls.me/retouch',
                             linkPc: 'https://fitgirls.me/retouch'
+                        }
+                    ]
+                }
+            };
+
+        case 'UH_5901': // 이벤트당첨안내 (쿠폰발급)
+            return {
+                code: 'UH_5901',
+                title: '이벤트당첨',
+                subtitle: '핏걸즈&이너핏 이벤트 당첨안내',
+                message: `안녕하세요, ${name}님!\n핏걸즈 이벤트 쿠폰 발급이 완료되었습니다. 축하드립니다! ✨\n지정된 기한 내에 촬영 예약 시 [${options.discount || ''}] 할인이 적용됩니다.\n■ 발급 코드: ${options.issuedCode || ''}\n예약 상담이나 궁금하신 점은 지금 보고 계신 이 채팅창에 바로 메시지를 남겨주세요! 😊\n담당 작가가 확인 후 친절히 안내해 드리겠습니다.\n고객님의 아름다운 순간을 위해 정성을 다하겠습니다. 감사합니다!\n※ 이 메시지는 고객님이 다운로드 받으신 쿠폰 안내 메시지입니다.`,
+                button: {
+                    button: [
+                        {
+                            name: '쿠폰 확인하기',
+                            linkType: 'WL',
+                            linkMo: 'https://fitgirls.me/mypage',
+                            linkPc: 'https://fitgirls.me/mypage'
                         }
                     ]
                 }

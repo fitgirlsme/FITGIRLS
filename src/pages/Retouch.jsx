@@ -28,11 +28,23 @@ const Retouch = () => {
     const formatDate = (dateStr) => {
         if (!dateStr) return '-';
         const str = String(dateStr).replace(/[^0-9]/g, '');
-        if (str.length !== 6) return dateStr;
-        const year = '20' + str.substring(0, 2);
-        const month = str.substring(2, 4);
-        const day = str.substring(4, 6);
-        return `${year}. ${month}. ${day}`;
+        
+        // MMDD (4자리) 처리
+        if (str.length === 4) {
+            const month = str.substring(0, 2);
+            const day = str.substring(2, 4);
+            return `2026.${month}.${day}`;
+        }
+        
+        // YYMMDD (6자리) 처리
+        if (str.length === 6) {
+            const year = '20' + str.substring(0, 2);
+            const month = str.substring(2, 4);
+            const day = str.substring(4, 6);
+            return `${year}.${month}.${day}`;
+        }
+        
+        return dateStr;
     };
 
     // Helper to calculate days passed
@@ -157,7 +169,7 @@ const Retouch = () => {
                             <div key={pId} className={`project-item-card ${status === '최종보정완료' ? 'completed' : ''}`}>
                                 <div className="card-top">
                                     <div className="p-header">
-                                        <span className="p-id">{formatDate(pId)}</span>
+                                        <span className="p-id">촬영일: {formatDate(pId)}</span>
                                         <div className="p-status-badge" data-status={status}>{status}</div>
                                     </div>
                                     <h3 className="p-title">{customer.name} 님 FITORIAL PROJECT</h3>
@@ -214,66 +226,70 @@ const Retouch = () => {
                                 </div>
 
                                 <div className="card-stats">
-                                    <div className="stats-main">
-                                        <span className="stats-label">전체 보정 수량</span>
-                                        <span className="stats-num">{total}<span>장</span></span>
+                                    <div className="stats-header">
+                                        <div className="stats-main">
+                                            <span className="stats-label">전체 보정 수량</span>
+                                            <span className="stats-num">{total}<span>장</span></span>
+                                        </div>
+                                        <div className="stats-breakdown">
+                                            기본 {base} {bonus > 0 && `+ 이벤트 ${bonus}`} {extra > 0 && `+ 추가 ${extra}`}
+                                        </div>
                                     </div>
-                                    <div className="stats-breakdown">
-                                        기본 {base} {bonus > 0 && `+ 이벤트 ${bonus}`} {extra > 0 && `+ 추가 ${extra}`}
-                                    </div>
+                                    {link && (
+                                        <a href={link} target="_blank" rel="noreferrer" className="dropbox-btn">보정본 확인하기</a>
+                                    )}
                                 </div>
 
                                 <div className="card-actions">
-                                    {link ? (
-                                        <div className="action-ready">
-                                            <a href={link} target="_blank" rel="noreferrer" className="dropbox-btn">보정본 확인하기</a>
-                                            <div className="consent-options">
-                                                <label className={`opt-item ${insta ? 'checked' : ''}`}>
-                                                    <input type="checkbox" checked={insta} onChange={async (e) => {
-                                                        await updateDoc(doc(db, 'retouch_masters', customer.id), { [`instaConsents.${pId}`]: e.target.checked });
-                                                    }} />
-                                                    인스타그램 업로드 동의 (서비스 +1장)
-                                                </label>
-                                                <label className={`opt-item ${review ? 'checked' : ''}`}>
-                                                    <input type="checkbox" checked={review} onChange={async (e) => {
-                                                        await updateDoc(doc(db, 'retouch_masters', customer.id), { [`reviewConsents.${pId}`]: e.target.checked });
-                                                    }} />
-                                                    리뷰 작성 완료 (서비스 +1장)
-                                                </label>
-                                            </div>
+                                    <div className="action-ready">
+                                        <div className="consent-options">
+                                            <label className={`opt-item ${insta ? 'checked' : ''}`}>
+                                                <input type="checkbox" checked={insta} onChange={async (e) => {
+                                                    await updateDoc(doc(db, 'retouch_masters', customer.id), { [`instaConsents.${pId}`]: e.target.checked });
+                                                }} />
+                                                인스타그램 업로드 동의 (서비스 +1장)
+                                            </label>
+                                            <label className={`opt-item ${review ? 'checked' : ''}`}>
+                                                <input type="checkbox" checked={review} onChange={async (e) => {
+                                                    await updateDoc(doc(db, 'retouch_masters', customer.id), { [`reviewConsents.${pId}`]: e.target.checked });
+                                                }} />
+                                                리뷰 작성 완료 (서비스 +1장)
+                                            </label>
+                                        </div>
 
-                                            {insta && status === '최종보정완료' && (
-                                                <div className="insta-id-input-box">
-                                                    <p className="insta-guide">📸 인스타그램 업로드 시 태그를 위해 아이디를 알려주세요!</p>
-                                                    <div className="insta-input-group">
-                                                        <input 
-                                                            type="text" 
-                                                            placeholder="@인스타 아이디 입력" 
-                                                            defaultValue={customer.instaIds?.[pId] || ''} 
-                                                            id={`insta-input-${pId}`}
-                                                        />
-                                                        <button 
-                                                            className="insta-save-btn"
-                                                            onClick={async () => {
-                                                                const val = document.getElementById(`insta-input-${pId}`).value;
-                                                                await updateDoc(doc(db, 'retouch_masters', customer.id), { 
-                                                                    [`instaIds.${pId}`]: val 
-                                                                });
-                                                                alert('인스타 아이디가 저장되었습니다!');
-                                                            }}
-                                                        >
-                                                            저장
-                                                        </button>
-                                                    </div>
+                                        {insta && status === '최종보정완료' && (
+                                            <div className="insta-id-input-box">
+                                                <p className="insta-guide">📸 인스타그램 업로드 시 태그를 위해 아이디를 알려주세요!</p>
+                                                <div className="insta-input-group">
+                                                    <input 
+                                                        type="text" 
+                                                        id={`insta-input-${pId}`}
+                                                        placeholder="인스타그램 아이디" 
+                                                        defaultValue={customer.instaIds?.[pId] || ''}
+                                                    />
+                                                    <button 
+                                                        className="insta-save-btn"
+                                                        onClick={async () => {
+                                                            const val = document.getElementById(`insta-input-${pId}`).value;
+                                                            await updateDoc(doc(db, 'retouch_masters', customer.id), { 
+                                                                [`instaIds.${pId}`]: val 
+                                                            });
+                                                            alert('인스타 아이디가 저장되었습니다!');
+                                                        }}
+                                                    >
+                                                        저장
+                                                    </button>
                                                 </div>
-                                            )}
-                                        </div>
-                                    ) : (
-                                        <div className="action-waiting">
-                                            <div className="wait-icon">🎨</div>
-                                            <p>작가님이 요청사항을 확인 후 순차적으로 보정을 시작합니다.<br/>조금만 기다려 주세요!</p>
-                                        </div>
-                                    )}
+                                            </div>
+                                        )}
+
+                                        {!link && (
+                                            <div className="action-waiting">
+                                                <div className="wait-icon">🎨</div>
+                                                <p>작가님이 요청사항을 확인 후 순차적으로 보정을 시작합니다.<br/>조금만 기다려 주세요!</p>
+                                            </div>
+                                        )}
+                                    </div>
                                     
                                     <div className="extra-purchase-box">
                                         <p className="extra-guide-text">보정본 수령 후 추가로 보정이 더 필요하신가요?</p>

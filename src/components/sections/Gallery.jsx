@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
@@ -552,7 +553,7 @@ const GallerySection = () => {
                         {/* 검색 바 (전체 너비) */}
                         <div className="gallery-search-bar-container">
                             <div className="gallery-search-bar">
-                                <svg className="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 20, height: 20 }}>
+                                <svg className="gallery-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: 20, height: 20 }}>
                                     <circle cx="11" cy="11" r="8" />
                                     <line x1="21" y1="21" x2="16.65" y2="16.65" />
                                 </svg>
@@ -864,18 +865,19 @@ const GallerySection = () => {
                 </>
             )}
 
-            {/* Scroll to Top Button */}
-            {viewMode === 'detail' && showScrollTop && (
+            {/* Scroll to Top Button (Portal to escape CSS containment) */}
+            {viewMode === 'detail' && showScrollTop && createPortal(
                 <button className="gallery-scroll-top-btn" onClick={scrollToTop} aria-label="Scroll to top">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M12 20V4" />
                         <path d="M5 11l7-7 7 7" />
                     </svg>
-                </button>
+                </button>,
+                document.body
             )}
 
             {/* 삭제 확인 모달 */}
-            {deleteTarget && (
+            {deleteTarget && createPortal(
                 <div className="delete-confirm-overlay" onClick={() => setDeleteTarget(null)}>
                     <div className="delete-confirm-box" onClick={e => e.stopPropagation()}>
                         <p className="delete-confirm-title">정말 삭제하실건가요?</p>
@@ -900,11 +902,12 @@ const GallerySection = () => {
                             }}>삭제</button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
             {/* 수정 모달 */}
-            {editTarget && (
+            {editTarget && createPortal(
                 <div className="delete-confirm-overlay" onClick={() => { if (!isSaving) setEditTarget(null); }}>
                     <div className="delete-confirm-box" style={{ minWidth: 320, textAlign: 'left' }} onClick={e => e.stopPropagation()}>
                         <p className="delete-confirm-title">Update Info {isSaving && '(Saving...)'}</p>
@@ -1079,11 +1082,12 @@ const GallerySection = () => {
                             }}>{isSaving ? '보내는 중...' : '저장'}</button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
             {/* Lightbox Modal */}
-            {lightboxIndex !== null && (
+            {lightboxIndex !== null && createPortal(
                 <div 
                     className="lightbox-overlay" 
                     onClick={closeLightbox}
@@ -1119,11 +1123,12 @@ const GallerySection = () => {
                             <p>SWIPE TO BROWSE</p>
                         </div>
                     )}
-                </div>
+                </div>,
+                document.body
             )}
 
-            {/* Admin Floating Action Button (FAB) */}
-            {isAdmin && isGalleryVisible && (
+            {/* Admin Floating Action Button (FAB) (Portal to escape CSS containment) */}
+            {isAdmin && isGalleryVisible && createPortal(
                 <div className="admin-fab-container">
                     <span className="admin-fab-label">새 사진 업로드</span>
                     <button 
@@ -1133,11 +1138,12 @@ const GallerySection = () => {
                     >
                         +
                     </button>
-                </div>
+                </div>,
+                document.body
             )}
 
             {/* Admin Quick Upload Modal */}
-            {isAdmin && isUploadModalOpen && (
+            {isAdmin && isUploadModalOpen && createPortal(
                 <div className="admin-upload-modal-overlay" onClick={() => setIsUploadModalOpen(false)}>
                     <div className="admin-upload-modal" onClick={e => e.stopPropagation()}>
                         <div className="admin-upload-modal-header">
@@ -1150,7 +1156,8 @@ const GallerySection = () => {
                             }} />
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     );
