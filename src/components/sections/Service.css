@@ -293,8 +293,8 @@
     justify-content: flex-start;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    gap: 8px;
-    padding-bottom: 4px;
+    gap: 6px;
+    padding: 0 0 8px;
     border-bottom: none;
     background: transparent;
   }
@@ -302,16 +302,16 @@
 
   /* Switch tabs to pill style on mobile for clarity */
   .service-tab-btn {
-    padding: 9px 18px;
-    font-size: 0.78rem;
+    padding: 8px 12px;
+    font-size: 0.7rem;
     white-space: nowrap;
     flex-shrink: 0;
     border-radius: 999px;
-    border: 1.5px solid #ccc;
-    background: #f5f5f5;
+    border: 1.5px solid #ddd;
+    background: #f8f8f8;
     color: #111 !important;
     margin-bottom: 0;
-    letter-spacing: 0.04em;
+    letter-spacing: -0.01em;
     font-weight: 700;
   }
 
@@ -361,4 +361,91 @@
   .service-name { font-size: 0.95rem; }
   .service-price { font-size: 1.2rem; }
   .service-notice { padding: 20px 0; }
+}
+
+.service-action-container {
+  margin: 8px 0 32px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+.service-view-zone-btn {
+  padding: 14px 28px;
+  background-color: var(--color-text);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-smooth);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.service-view-zone-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  background-color: #333;
+}
+
+.naver-reservation-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: #03C75A; /* Naver Green */
+  color: #fff;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: all 0.3s var(--ease-smooth);
+  box-shadow: 0 4px 12px rgba(3, 199, 90, 0.15);
+}
+
+.naver-reservation-btn:hover {
+  background: #02b350;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(3, 199, 90, 0.25);
+}
+
+.service-view-zone-btn:active,
+.naver-reservation-btn:active {
+  transform: translateY(0);
+}
+
+.service-view-zone-btn:after {
+  content: '→';
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.service-view-zone-btn:hover:after {
+  transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+  .service-action-container {
+    justify-content: center;
+    margin: 16px 0 32px;
+    width: 100%;
+  }
+  .service-view-zone-btn,
+  .naver-reservation-btn {
+    width: 100%;
+    justify-content: center;
+    font-size: 0.85rem;
+    padding: 16px 20px;
+    border-radius: 10px;
+  }
 }

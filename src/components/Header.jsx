@@ -36,6 +36,7 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
                 { id: 'service', label: t('nav.service', 'Service'), path: '/service' },
                 { id: 'zone', label: t('nav.zone', 'Zone'), path: '/zone' },
                 { id: 'zone', label: 'LOOKBOOK', path: '/zone?tab=lookbook' },
+                { id: 'shop', label: 'SHOP', path: '/shop' },
             ]
         },
         {

@@ -53,10 +53,18 @@ const Zone = () => {
     // URL query param으로 탭 자동 선택
     useEffect(() => {
         const tabParam = searchParams.get('tab');
+        const subTabParam = searchParams.get('subtab');
+        
         if (tabParam === 'lookbook') {
             setActiveTab('lookbook');
         } else if (tabParam === 'zone') {
             setActiveTab('zone');
+        }
+
+        if (subTabParam === 'mooz') {
+            setZoneSubTab('mooz');
+        } else if (subTabParam === 'fitgirls') {
+            setZoneSubTab('fitgirls');
         }
     }, [searchParams]);
 

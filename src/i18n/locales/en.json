@@ -674,7 +674,7 @@
                         "30min session / 10min prep time",
                         "No outfit limit (unlimited)",
                         "All web source files (approx. 1500px) provided",
-                        "One 5x7 inch print provided",
+                        "One 4x6 inch print provided",
                         "Approx. 200 shots"
                     ]
                 }
@@ -799,6 +799,7 @@
         }
     },
     "ambassador": {
+        "mission": "FITORIALIST+ refers to the ambassadors representing FITGIRLS & INAFIT.\nThey symbolize people with self-love, consistency, self-management, professional ethics, and the power to express themselves confidently.\n\nBeyond simple external beauty,\nit means people who love themselves, grow constantly, and create their own presence and attitude.\n\n“+” symbolizes influence, responsibility, leadership, and the power to give positive inspiration to others.",
         "profile": {
             "height": "HEIGHT",
             "bust": "BUST",

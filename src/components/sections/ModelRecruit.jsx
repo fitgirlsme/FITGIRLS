@@ -39,14 +39,28 @@ const ModelRecruit = () => {
         setSubmitting(true);
         setStatus(null);
         try {
+            // Fetch current batch from settings
+            let currentBatch = '1st';
+            try {
+                const settingsSnap = await getDocs(query(collection(db, 'settings')));
+                const recruitmentDoc = settingsSnap.docs.find(d => d.id === 'recruitment');
+                if (recruitmentDoc) {
+                    currentBatch = recruitmentDoc.data().currentBatch || '1st';
+                }
+            } catch (err) {
+                console.error('Batch fetch error:', err);
+            }
+
             // Save to Firebase (for Admin panel)
             await addDoc(collection(db, 'applications'), {
                 ...form,
+                batch: currentBatch,
                 createdAt: serverTimestamp()
             });
             // Also save to IndexedDB (local cache)
             await addItem(STORES.APPLICATIONS, {
                 ...form,
+                batch: currentBatch,
                 createdAt: new Date().toISOString()
             });
             setStatus('success');

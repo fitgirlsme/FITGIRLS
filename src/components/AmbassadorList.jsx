@@ -142,7 +142,7 @@ const AmbassadorList = () => {
   // Lock ALL scroll containers when detail modal or zoom is open
   useEffect(() => {
     const snapContainer = document.querySelector('.snap-container');
-    const section = document.getElementById('ambassadors');
+    const section = document.getElementById('fitorialist');
     
     if (selected || zoomedIndex !== null) {
       document.body.style.overflow = 'hidden';
@@ -199,8 +199,50 @@ const AmbassadorList = () => {
   };
 
 
+  const renderMissionText = () => {
+    const text = t('ambassador.mission');
+    if (!text || text === 'ambassador.mission') return null;
+
+    const highlightsMap = {
+      ko: ['자기애', '꾸준함', '자기관리', '직업윤리', '성장', '영향력', '책임감', '리더십', '긍정적인 영감'],
+      en: ['self-love', 'consistency', 'self-management', 'professional ethics', 'grow constantly', 'influence', 'responsibility', 'leadership', 'positive inspiration'],
+      ja: ['自己愛', '継続性', '自己管理', '職業倫理', '成長', '影響力', '責任感', 'リーダーシップ', '肯定的なインスピレーション'],
+      zh: ['自爱', '持之以恒', '自我管理', '职业道德', '完善自我', '影响力', '责任感', '领导力', '积极灵感']
+    };
+
+    const currentLang = i18n.language?.split('-')[0] || 'ko';
+    const highlights = highlightsMap[currentLang] || [];
+
+    // Simple regex-based highlighting
+    let parts = [text];
+    highlights.forEach(word => {
+      const newParts = [];
+      parts.forEach(part => {
+        if (typeof part === 'string') {
+          const regex = new RegExp(`(${word})`, 'gi');
+          const split = part.split(regex);
+          newParts.push(...split);
+        } else {
+          newParts.push(part);
+        }
+      });
+      parts = newParts;
+    });
+
+    return (
+      <p className="al-grid-description-ford" style={{ marginTop: '10px', marginBottom: '20px', textAlign: 'center', whiteSpace: 'pre-wrap' }}>
+        {parts.map((p, i) => {
+          if (typeof p === 'string' && highlights.some(h => h.toLowerCase() === p.toLowerCase())) {
+            return <span key={i} className="al-highlight-ford">{p}</span>;
+          }
+          return p;
+        })}
+      </p>
+    );
+  };
+
   const renderContent = () => (
-    <div className={`ambassador-list-page ${isStandalone ? 'standalone' : ''}`}>
+    <div className={`ambassador-list-page ${isStandalone ? 'standalone' : ''}`} id="fitorialist">
       <div className="al-editorial-logo">
         <h1>FITORIALIST+</h1>
       </div>
@@ -217,6 +259,7 @@ const AmbassadorList = () => {
             </span>
           ))}
         </div>
+        {renderMissionText()}
         <div className="al-filter-bar">
           <div className="al-filters">
             {FILTERS.map(f => (
@@ -266,7 +309,8 @@ const AmbassadorList = () => {
       )}
 
       {activeFilter !== 'MAGAZINE' && (
-        <div className="al-grid">
+        <div className="al-grid-wrapper-ford">
+          <div className="al-grid">
           {loading ? (
             <div className="al-placeholder">불러오는 중...</div>
           ) : finalFiltered.length === 0 ? (
@@ -285,10 +329,13 @@ const AmbassadorList = () => {
                   }
                 </div>
                 <div className="al-card-info">
+                  <span className="al-batch-label-ford">{a.batch || activeBatch} FITORIALIST+</span>
                   <span className="al-card-name">{a.nameEn}</span>
                   {a.job && <span className="al-card-job">{a.job}</span>}
                   <div className="al-card-meta">
-                    <span className="al-card-name-kr">{a.nameKr}</span>
+                    <div className="al-card-name-group-ford">
+                      <span className="al-card-name-kr">{a.nameKr}</span>
+                    </div>
                     {a.nationality && <span className="al-card-nationality">{a.nationality}</span>}
                   </div>
                 </div>
@@ -297,6 +344,7 @@ const AmbassadorList = () => {
           ))
           )}
         </div>
+      </div>
       )}
 
 
@@ -326,11 +374,19 @@ const AmbassadorList = () => {
                   <img src={selected.mainImage || selected.imageUrl} alt={selected.nameEn} loading="eager" />
                 </div>
 
+                {selected.job && <div className="al-modal-job-centered-ford">{selected.job}</div>}
+
                 <div className="al-modal-label-row-ford">
-                  <span className="al-modal-label-ford">1st FITORIALIST+ AMASSADORIST</span>
+                  <div className="al-modal-label-group-ford">
+                    <span className="al-modal-label-ford">{selected.batch || activeBatch} FITORIALIST+ AMBASSADORIST</span>
+                    {selected.bio && (
+                      <div className="al-modal-bio-label-ford">
+                        <p>{selected.bio}</p>
+                      </div>
+                    )}
+                  </div>
                   <div className="al-modal-name-group-ford">
                     <span className="al-modal-name-kr-ford">{selected.nameKr}</span>
-                    {selected.job && <span className="al-modal-job-ford">{selected.job}</span>}
                     {selected.nationality && <span className="al-modal-nationality-small-ford">{selected.nationality}</span>}
                   </div>
                 </div>
@@ -486,7 +542,7 @@ const AmbassadorList = () => {
 
   if (isStandalone) {
     return (
-      <div className="ambassador-list-page app-container" onScroll={(e) => setIsScrolled(e.target.scrollTop > 50)} style={{ overflowY: 'auto', height: '100vh', background: 'var(--color-bg)' }}>
+      <div className="ambassador-list-page-standalone" onScroll={(e) => setIsScrolled(e.target.scrollTop > 50)} style={{ background: 'var(--color-bg)', minHeight: '100vh' }}>
         <Header 
             isScrolled={isScrolled} 
             isOnHero={false} 

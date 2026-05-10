@@ -137,13 +137,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 8px; /* Closer to the title */
 }
 
 .p-id {
-    color: #fff;
-    font-weight: 800;
-    font-size: 1.1rem;
+    color: #888888;
+    font-weight: 500;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+    display: block;
 }
 
 .p-status-badge {
@@ -157,10 +159,12 @@
 }
 
 .p-title {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 900;
-    margin-bottom: 24px;
-    color: #fff;
+    margin-bottom: 32px;
+    color: #fff; /* Reverting main title to white for better visibility on dark background */
+    letter-spacing: -0.02em;
+    line-height: 1.2;
 }
 
 /* =============================================
@@ -609,6 +613,91 @@
 /* =============================================
    Responsive
    ============================================= */
+/* =============================================
+   Feedback & Final Confirm Section
+   ============================================= */
+.feedback-section {
+    margin-top: 24px;
+    padding: 24px;
+    background: rgba(139, 92, 246, 0.08); /* 1차보정 컬러 테마 */
+    border-radius: 20px;
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    animation: fadeIn 0.4s ease;
+}
+
+.feedback-guide {
+    font-size: 0.9rem;
+    color: #fff;
+    margin-bottom: 16px;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.feedback-textarea {
+    width: 100%;
+    min-height: 120px;
+    background: #0d111a;
+    border: 1px solid #252b3d;
+    border-radius: 14px;
+    color: #fff;
+    padding: 16px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    outline: none;
+    transition: all 0.2s;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+.feedback-textarea:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+}
+
+.feedback-btn-group {
+    display: flex;
+    gap: 12px;
+}
+
+.feedback-submit-btn {
+    flex: 1.5;
+    background: #8b5cf6;
+    color: #fff;
+    border: none;
+    padding: 18px;
+    border-radius: 12px;
+    font-weight: 900;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.feedback-submit-btn:hover {
+    background: #7c3aed;
+    transform: translateY(-2px);
+}
+
+.final-confirm-btn {
+    flex: 1;
+    background: #10b981;
+    color: #fff;
+    border: none;
+    padding: 18px;
+    border-radius: 12px;
+    font-weight: 900;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.final-confirm-btn:hover {
+    background: #059669;
+    transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
 @media (max-width: 600px) {
     .project-item-card { padding: 20px; }
     .p-title { font-size: 1.1rem; word-break: keep-all; }
@@ -623,4 +712,74 @@
     .p-timeline { flex-direction: column; gap: 12px; }
     .consent-options { gap: 6px; }
     .opt-item { padding: 12px 8px; font-size: 0.75rem; gap: 6px; }
+    
+    .feedback-btn-group { flex-direction: column; }
+    .feedback-section { padding: 16px; }
+    .feedback-textarea { font-size: 0.9rem; padding: 12px; }
+    .feedback-submit-btn, .final-confirm-btn { padding: 16px; font-size: 0.95rem; }
+}
+
+/* =============================================
+   Artist Response Notice (Customer Side)
+   ============================================= */
+.artist-response-notice {
+    margin-top: 16px;
+    background: rgba(139, 92, 246, 0.1);
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    animation: slideUp 0.4s ease-out;
+}
+
+.response-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.response-icon {
+    font-size: 1.2rem;
+}
+
+.response-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #a78bfa;
+}
+
+.response-body {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #e2e8f0;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* My Feedback History */
+.client-feedback-history {
+    margin-top: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.history-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #94a3b8;
+    margin-bottom: 6px;
+}
+
+.history-content {
+    font-size: 0.9rem;
+    color: #cbd5e1;
+    white-space: pre-wrap;
+    line-height: 1.5;
 }

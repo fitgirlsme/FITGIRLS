@@ -94,7 +94,7 @@
 
 @media (max-width: 768px) {
   .al-editorial-logo {
-    padding: 40px 16px 20px;
+    padding: 100px 16px 30px; /* Increased top padding to avoid menu bar overlap */
   }
 }
 
@@ -218,12 +218,70 @@
 }
 
 /* Grid */
+/* ===== Grid Header & Description (Ford Styles) ===== */
+.al-grid-wrapper-ford {
+  width: 100%;
+}
+
+.al-grid-header-ford {
+  text-align: center;
+  padding: 40px 0 30px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.al-grid-title-ford {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #111;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+
+.al-grid-description-ford {
+  font-size: 0.75rem;
+  line-height: 1.8;
+  color: #666;
+  font-weight: 400;
+  letter-spacing: -0.2px;
+  word-break: keep-all;
+}
+
+@media (max-width: 768px) {
+  .al-grid-header-ford {
+    padding: 30px 20px 10px;
+  }
+  
+  .al-grid-title-ford {
+    font-size: 1rem;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
+  
+  .al-grid-description-ford {
+    font-size: 0.65rem;
+    line-height: 1.6;
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 0 10px;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+}
+
+.al-highlight-ford {
+  color: #111;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
 .al-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px; /* Increased gap for better separation */
-  padding: 0 60px; /* Generous side padding as requested */
-  max-width: 1800px; /* Increased max-width to accommodate padding */
+  padding: 0 60px 100px; /* Added 100px bottom padding to prevent clipping */
+  max-width: 1800px;
   margin: 0 auto;
 }
 
@@ -269,7 +327,7 @@
 
 .al-card-img {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 2 / 3;
   overflow: hidden;
   background: #f5f5f5;
   position: relative;
@@ -279,6 +337,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 20%;
   filter: grayscale(100%);
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
   display: block;
@@ -334,6 +393,15 @@
 
 /* Nationality styles moved to .al-card-meta section */
 
+.al-batch-label-ford {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
 .al-card-name {
   font-size: clamp(16px, 1.6vw, 22px);
   font-weight: 800;
@@ -349,23 +417,41 @@
   width: 100%;
 }
 
+.al-card-bio-small-ford {
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.5);
+  font-weight: 300;
+  letter-spacing: -0.2px;
+  display: block;
+  width: 100%;
+}
+
 .al-card-job {
-  font-size: clamp(9px, 0.9vw, 11px);
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: clamp(10px, 1vw, 12px);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.9);
   text-transform: uppercase;
   margin-top: 2px;
   line-height: 1;
+  width: 100%;
+  text-align: center;
+  display: block;
 }
 
 .al-card-meta {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+  justify-content: space-between;
+  align-items: flex-end;
   width: 100%;
-  margin-top: 4px;
+  margin-top: 6px;
+}
+
+.al-card-name-group-ford {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
 }
 
 .al-card-name-kr {
@@ -385,16 +471,7 @@
   padding-left: 6px;
 }
 
-.al-card-job {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 500;
-  margin-top: 1px;
-  letter-spacing: 0.1em;
-  display: block;
-  width: 100%;
-  text-align: center;
-}
+/* Duplicate .al-card-job removed and consolidated above */
 
 /* Nationality removed */
 
@@ -491,7 +568,7 @@
 .al-modal-hero-ford {
   width: 100%;
   max-width: 800px;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 2 / 3;
   margin: 0 auto;
   overflow: hidden;
 }
@@ -540,6 +617,29 @@
   gap: 4px;
 }
 
+.al-modal-label-group-ford {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.al-modal-bio-label-ford {
+  width: 100%;
+  text-align: left;
+}
+
+.al-modal-bio-label-ford p {
+  font-size: 10px;
+  line-height: 1.4;
+  color: #999;
+  font-weight: 400;
+  white-space: pre-wrap;
+  word-break: keep-all;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 .al-modal-nationality-small-ford {
   font-size: 10px;
   color: #999;
@@ -548,27 +648,31 @@
   font-weight: 400;
 }
 
-.al-modal-job-ford {
-  font-size: 11px;
-  color: #111;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+.al-modal-job-centered-ford {
+  font-size: clamp(12px, 2.2vw, 20px);
+  color: #333;
+  font-weight: 400; /* 얇은 두께로 변경 */
+  letter-spacing: 0.15em;
   text-transform: uppercase;
+  text-align: center;
+  margin-top: 2px; /* 사진과 더 가깝게 밀착 */
+  width: 100%;
 }
 
 .al-modal-stats-ford {
   display: flex;
-  flex-wrap: nowrap; /* Force one line */
+  flex-wrap: wrap;
   justify-content: center;
-  column-gap: 25px; /* Reduced from 40px */
+  gap: 24px;
+  width: 100%;
+  max-width: 800px;
+  margin: 40px auto;
   padding: 30px 0;
   border-top: 1px solid #111;
   border-bottom: 1px solid #111;
-  width: 100%;
-  overflow-x: auto; /* Allow horizontal scroll if squeezed */
-  -ms-overflow-style: none; /* Hide scrollbar */
-  scrollbar-width: none;
 }
+
+/* Old bio styles removed */
 
 .al-modal-stats-ford::-webkit-scrollbar {
   display: none;

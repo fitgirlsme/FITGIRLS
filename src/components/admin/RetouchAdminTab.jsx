@@ -24,20 +24,46 @@ const RetouchAdminTab = () => {
 
     const statuses = ['보정대기', '선보정(당일보정)', '보정중', '1차보정완료(피드백요청)', '2차보정', '최종컴펌완료', '최종보정완료'];
 
-    useEffect(() => { loadData(); }, []);
+    useEffect(() => {
+        let unsubMasters;
+        
+        const init = async () => {
+            setLoading(true);
+            try {
+                // 1. Projects (Once)
+                const pSnap = await getDocs(query(collection(db, 'retouch_projects')));
+                const pList = pSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+                setProjects(pList.sort((a,b) => b.id.localeCompare(a.id)));
+
+                // 2. Masters (Real-time)
+                const q = query(collection(db, 'retouch_masters'));
+                unsubMasters = onSnapshot(q, (snapshot) => {
+                    const mList = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                    setCustomers(mList);
+                    setLoading(false);
+                }, (err) => {
+                    console.error("Firestore Masters Sync Error:", err);
+                    setLoading(false);
+                });
+            } catch (err) {
+                console.error("Data Load Error:", err);
+                setLoading(false);
+            }
+        };
+
+        init();
+        return () => {
+            if (unsubMasters) unsubMasters();
+        };
+    }, []);
 
     const loadData = async (silent = false) => {
-        if (!silent) setLoading(true);
+        // onSnapshot을 사용하므로 수동 로드는 프로젝트 정보 정도만 갱신
         try {
-            const mSnap = await getDocs(query(collection(db, 'retouch_masters')));
-            const mList = mSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-            setCustomers(mList);
-
             const pSnap = await getDocs(query(collection(db, 'retouch_projects')));
             const pList = pSnap.docs.map(d => ({ id: d.id, ...d.data() }));
             setProjects(pList.sort((a,b) => b.id.localeCompare(a.id)));
         } catch (err) { console.error(err); }
-        if (!silent) setLoading(false);
     };
 
     const getRetouchCount = (concept) => {
@@ -125,10 +151,11 @@ const RetouchAdminTab = () => {
 
     const handleUpdateStatus = async (customerId, projectId, status) => {
         try {
+            // 즉각적인 상태 업데이트
             await updateDoc(doc(db, 'retouch_masters', customerId), { [`projectStatuses.${projectId}`]: status });
-            await loadData(true);
             
-            // 최종보정완료로 변경 시 알림톡 발송 여부 확인 (선보정과 동일한 경험 제공)
+            // onSnapshot이 자동으로 화면을 갱신하므로 loadData(true)가 필요 없음
+            
             if (status === '최종보정완료') {
                 if (window.confirm('상태가 "최종보정완료"로 변경되었습니다.\n고객에게 최종본 완료 안내 알림톡을 지금 발송하시겠습니까?')) {
                     const snap = await getDoc(doc(db, 'retouch_masters', customerId));
@@ -137,9 +164,13 @@ const RetouchAdminTab = () => {
                     }
                 }
             } else {
-                alert('상태 변경 완료');
+                // 불필요한 알럿 제거 혹은 간소화
+                console.log('상태 변경 완료:', status);
             }
-        } catch (err) { console.error(err); }
+        } catch (err) { 
+            console.error(err); 
+            alert('상태 변경 중 오류가 발생했습니다.');
+        }
     };
 
     const handleSendAlimtalk = async (customer, projectTitle, status) => {
@@ -151,7 +182,7 @@ const RetouchAdminTab = () => {
         if (status.includes('1차보정완료') || status.includes('2차보정') || status.includes('피드백요청')) {
             type = 'UH_5021'; // 보정본 확인 요청
         } else if (status.includes('최종보정완료')) {
-            type = 'UH_5403'; // 최종보정완료_안내
+            type = 'UH_6228'; // 최종보정완료_안내2 (최신 코드)
         } else if (status.includes('보정대기')) {
             type = 'UH_5024'; // 촬영완료
         }
@@ -175,23 +206,23 @@ const RetouchAdminTab = () => {
             return;
         }
 
-        try {
-            const res = await sendAlimtalk(phone, template.code, template.message, { 
-                title: template.title, 
-                subtitle: template.subtitle, 
-                button: template.button 
-            });
-
-            if (res.success) {
-                alert('알림톡 전송 요청 완료 (알리고 접수됨)');
-            } else {
-                // 상세 에러 메시지 표시
-                alert(`알림톡 발송 실패\n- 사유: ${res.error || '알 수 없는 오류'}\n- 템플릿: ${type}`);
-                console.error('ALIMTALK_FAIL_DETAIL:', res);
+        if (window.confirm(`[알림톡 발송 확인]\n\n템플릿: ${type}\n수신자: ${name} (${phone})\n\n[메시지 내용]\n${template.message}\n\n이 내용으로 발송할까요?`)) {
+            try {
+                const res = await sendAlimtalk(phone, template.code, template.message, { 
+                    title: template.title, 
+                    subtitle: template.subtitle, 
+                    button: template.button 
+                });
+    
+                if (res.success) {
+                    alert('알림톡 전송 요청 완료 (알리고 접수됨)');
+                } else {
+                    alert(`알림톡 발송 실패\n- 사유: ${res.error || '알 수 없는 오류'}\n- 템플릿: ${type}`);
+                }
+            } catch (err) {
+                console.error('ALIMTALK_ERROR:', err);
+                alert(`시스템 오류: ${err.message}`);
             }
-        } catch (err) {
-            console.error('ALIMTALK_ERROR:', err);
-            alert(`시스템 오류: ${err.message}`);
         }
     };
 
@@ -247,6 +278,13 @@ const RetouchAdminTab = () => {
         } catch (err) { console.error(err); }
     };
 
+    const handleUpdateArtistResponse = async (customerId, projectId, response) => {
+        try { 
+            await updateDoc(doc(db, 'retouch_masters', customerId), { [`artistResponses.${projectId}`]: response }); 
+            await loadData(true);
+        } catch (err) { console.error(err); }
+    };
+
     const handleUpdateInstaId = async (customerId, projectId, instaId) => {
         try {
             await updateDoc(doc(db, 'retouch_masters', customerId), { [`instaIds.${projectId}`]: instaId });
@@ -268,6 +306,20 @@ const RetouchAdminTab = () => {
         const passSearch = !searchTerm || (c.name && c.name.toLowerCase().includes(searchTerm.toLowerCase()));
         const passInsta = !showInstaOnly || (filterProject !== 'ALL' ? c.instaConsents?.[filterProject] : c.projectHistory?.some(pId => c.instaConsents?.[pId]));
         return passStatus && passProject && passSearch && passInsta;
+    }).sort((a, b) => {
+        // 각 고객의 프로젝트 중 가장 오래된(가장 이른) 날짜 찾기
+        const getOldestDate = (cust) => {
+            if (!cust.projectRequestDates || Object.keys(cust.projectRequestDates).length === 0) return '9999.99.99';
+            const dates = Object.values(cust.projectRequestDates).filter(d => d && d.length >= 8);
+            if (dates.length === 0) return '9999.99.99';
+            return dates.sort()[0]; // 가장 빠른 날짜가 배열의 첫 번째
+        };
+        
+        const dateA = getOldestDate(a);
+        const dateB = getOldestDate(b);
+        
+        // 날짜가 빠를수록(과거일수록) 상단에 위치 (오름차순 정렬)
+        return dateA.localeCompare(dateB);
     });
 
     return (
@@ -358,7 +410,16 @@ const RetouchAdminTab = () => {
                 </div>
 
                 <div className="admin-list-grid">
-                    {currentCustomers.map(c => (
+                    {loading && customers.length === 0 ? (
+                        <div className="admin-loading-state">
+                            <div className="spinner"></div>
+                            <p>DB 데이터를 실시간으로 불러오는 중입니다...</p>
+                        </div>
+                    ) : currentCustomers.length === 0 ? (
+                        <div className="admin-empty-state">
+                            <p>해당하는 고객 데이터가 없습니다.</p>
+                        </div>
+                    ) : currentCustomers.map(c => (
                         <div key={c.id} className="admin-card customer-card">
                             <div className="customer-header">
                                 <div className="c-info">
@@ -421,7 +482,9 @@ const RetouchAdminTab = () => {
                                                     <option value="우정패키지1">우정1 (6장)</option>
                                                     <option value="우정패키지2">우정2 (10장)</option>
                                                 </select>
-                                                <button onClick={() => handleSendAlimtalk(c, pId, status)} className="btn-alimtalk">알림톡 발송</button>
+                                                {['보정대기', '1차보정완료(피드백요청)', '최종보정완료'].includes(status) && (
+                                                    <button onClick={() => handleSendAlimtalk(c, pId, status)} className="btn-alimtalk">알림톡 발송</button>
+                                                )}
                                             </div>
 
                                             <div className="p-status-row">
@@ -447,15 +510,30 @@ const RetouchAdminTab = () => {
                                                 <input type="text" placeholder="드롭박스 링크 입력" defaultValue={c.dropboxArchives?.[pId] || ''} onBlur={e => handleUpdateDropbox(c.id, pId, e.target.value)} />
                                             </div>
 
-                                            <div className="p-feedback-box">
-                                                <span className="f-label">고객 피드백 (수정 가능)</span>
-                                                <textarea 
-                                                    className="f-content-edit" 
-                                                    defaultValue={c.clientFeedbacks?.[pId] || ''} 
-                                                    onBlur={e => handleUpdateFeedback(c.id, pId, e.target.value)}
-                                                    placeholder="고객 요청사항 입력..."
-                                                />
-                                            </div>
+                                            {/* 고객 피드백 & 작가 답변: 2차보정 단계부터 혹은 내용이 있을 때만 노출 */}
+                                            {(status === '2차보정' || status === '최종컴펌완료' || status === '최종보정완료' || c.clientFeedbacks?.[pId] || c.artistResponses?.[pId]) && (
+                                                <>
+                                                    <div className="p-feedback-box">
+                                                        <span className="f-label">고객 피드백 (수정 가능)</span>
+                                                        <textarea 
+                                                            className="f-content-edit" 
+                                                            defaultValue={c.clientFeedbacks?.[pId] || ''} 
+                                                            onBlur={e => handleUpdateFeedback(c.id, pId, e.target.value)}
+                                                            placeholder="고객 요청사항 입력..."
+                                                        />
+                                                    </div>
+
+                                                    <div className="p-feedback-box artist-response-box">
+                                                        <span className="f-label artist-label">작가 답변 (고객에게 노출됨)</span>
+                                                        <textarea 
+                                                            className="f-content-edit artist-content-edit" 
+                                                            defaultValue={c.artistResponses?.[pId] || ''} 
+                                                            onBlur={e => handleUpdateArtistResponse(c.id, pId, e.target.value)}
+                                                            placeholder="수정 완료 내용이나 메시지를 입력하세요..."
+                                                        />
+                                                    </div>
+                                                </>
+                                            )}
 
                                             <div className="p-consent-row">
                                                 <div className={`consent-chip insta-chip ${c.instaConsents?.[pId] ? 'on' : ''}`} onClick={() => updateDoc(doc(db, 'retouch_masters', c.id), { [`instaConsents.${pId}`]: !c.instaConsents?.[pId] }).then(loadData)}>인스타업로드 동의</div>

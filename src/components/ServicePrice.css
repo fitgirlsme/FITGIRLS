@@ -172,6 +172,7 @@
   padding-left: 14px;
   position: relative;
   line-height: 1.6;
+  white-space: pre-wrap; /* 줄바꿈 인식 추가 */
 }
 
 .service-notice li:before {

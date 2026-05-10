@@ -113,18 +113,18 @@ export const getAlimtalkTemplate = (type, params) => {
                 }
             };
 
-        case 'UH_5022': // 고객 수정 요청 알림 (Admin 알림용)
+        case 'UH_6959': // 고객 수정 요청 알림 (Admin 알림용)
             return {
-                code: 'UH_5022',
+                code: 'UH_6959',
                 title: '',
                 subtitle: '',
                 message: `[보정 수정 요청 알림]\n${name} 고객님께서 추가 수정 요청을 등록하셨습니다.\n내용 확인 후 2차 수정을 진행해 주세요!\n■ 프로젝트: ${projectTitle}\n■ 수정요청내용: ${feedback || '대시보드 확인'}\n대시보드 관리자 페이지에서 상세 내용을 확인하세요.`,
                 button: null
             };
 
-        case 'UH_5023': // 고객_보정_컨펌완료 (Admin 알림용)
+        case 'UH_6960': // 고객_보정_컨펌완료 (Admin 알림용)
             return {
-                code: 'UH_5023',
+                code: 'UH_6960',
                 title: '',
                 subtitle: '',
                 message: `[보정 컨펌 완료 알림]\n${name} 고객님께서 보정본 컨펌을 완료하셨습니다.\n최종본 제작 및 배포 작업을 시작해 주세요!\n■ 프로젝트: ${projectTitle}\n■ 고객성함: ${name}\n■ 확인일시: ${date || new Date().toLocaleString('ko-KR')}\n대시보드에서 상세 내용을 확인하세요.`,
@@ -142,7 +142,7 @@ export const getAlimtalkTemplate = (type, params) => {
                         {
                             name: '최종보정다운로드받기',
                             linkType: 'WL',
-                            linkMo: 'https://fitgirls.me/retouch',
+                            linkMo: 'http://fitgirls.me/retouch',
                             linkPc: 'https://fitgirls.me/retouch'
                         }
                     ]

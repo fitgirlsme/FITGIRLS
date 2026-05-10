@@ -37,12 +37,13 @@ import AmbassadorList from './components/AmbassadorList';
 import DirectingPaper from './pages/DirectingPaper';
 import SModel from './pages/SModel';
 import Retouch from './pages/Retouch';
+import Shop from './pages/Shop';
 import { syncAll } from './utils/syncService';
 import FloatingCoupon from './components/FloatingCoupon';
 import './index.css';
 
 const Home = ({ changeLanguage, currentLang }) => {
-  const { section } = useParams();
+  const { section, tab } = useParams();
   const location = useLocation();
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isOnHero, setIsOnHero] = React.useState(true);
@@ -69,7 +70,7 @@ const Home = ({ changeLanguage, currentLang }) => {
   }, [section, location.pathname]);
 
   React.useEffect(() => {
-    const lastEl = document.getElementById('ambassadors');
+    const lastEl = document.getElementById('fitorialist');
     if (!lastEl) return;
     const observer = new IntersectionObserver(
       ([entry]) => setIsLastSectionVisible(entry.isIntersecting),
@@ -92,8 +93,12 @@ const Home = ({ changeLanguage, currentLang }) => {
           const id = entry.target.id;
           if (id) {
             const newPath = (id === 'hero' || id === 'hero-intro') ? '/' : `/${id}`;
-            // Prevent pushing to history, just replace current URL to avoid breaking back button
-            if (window.location.pathname !== newPath) {
+            
+            // 특수 처리: 현재 경로가 /service/self 처럼 상세 경로인 경우, 스크롤로 인해 단순히 /service로 덮어씌워지지 않게 함
+            const currentPath = window.location.pathname;
+            if (newPath === '/') {
+              if (currentPath !== '/') window.history.replaceState(null, '', '/');
+            } else if (!currentPath.startsWith(newPath)) {
               window.history.replaceState(null, '', newPath);
             }
           }
@@ -132,7 +137,7 @@ const Home = ({ changeLanguage, currentLang }) => {
         <section className="snap-section" id="hero-intro"><Intro /></section>
         <section className="snap-section" id="artist"><ArtistSection /></section>
         <section className="snap-section" id="archive"><Gallery /></section>
-        <Service />
+        <section className="snap-section" id="service"><Service initialTab={tab} /></section>
         <section className="snap-section" id="zone"><Zone /></section>
         <section className="snap-section" id="hair-makeup"><HM /></section>
         <section className="snap-section" id="faq"><FAQ /></section>
@@ -140,7 +145,7 @@ const Home = ({ changeLanguage, currentLang }) => {
         <section className="snap-section" id="location"><Location /></section>
         <section className="snap-section" id="reservation"><ReservationForm /></section>
         <section className="snap-section" id="reviews"><Reviews /></section>
-        <section className="snap-section" id="ambassadors"><AmbassadorList /></section>
+        <section className="snap-section" id="fitorialist"><AmbassadorList /></section>
       </main>
       <Footer isHidden={!isLastSectionVisible} />
       <SupportCS isHidden={isHideCS} />
@@ -193,7 +198,9 @@ function App() {
           <Route path="/directing" element={<DirectingPaper />} />
           <Route path="/smodel" element={<SModel />} />
           <Route path="/retouch" element={<Retouch changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/shop" element={<Shop />} />
           <Route path="/:section" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/:section/:tab" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/:section/:modelName/:modelId" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
         </Routes>
         {!isAdminPage && <FloatingCoupon />}

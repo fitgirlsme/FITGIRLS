@@ -1,11 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import './Service.css';
 
-const Service = () => {
+const Service = ({ initialTab }) => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const [mainTab, setMainTab] = useState('fitorialist');
     const [subTab, setSubTab] = useState('menu1');
+
+    useEffect(() => {
+        const tabParam = searchParams.get('tab') || initialTab;
+        if (tabParam === 'self') {
+            setMainTab('self');
+        } else if (tabParam === 'fitorialist') {
+            setMainTab('fitorialist');
+        } else if (tabParam === 'service_studio') {
+            setMainTab('service_studio');
+        }
+    }, [searchParams, initialTab]);
 
     const headerTitle = t('services.header_title');
     const headerSubtitle = t('services.header_subtitle');
@@ -24,6 +38,7 @@ const Service = () => {
     const handleMainTabChange = (key) => {
         setMainTab(key);
         setSubTab('menu1'); // Reset subTab when main category changes
+        navigate(`/service/${key}`, { replace: true });
     };
 
     return (
@@ -102,7 +117,7 @@ const Service = () => {
             </div>
 
             <div className="service-notice">
-                {returnDiscount && (
+                {returnDiscount && mainTab !== 'self' && (
                     <p className="service-notice-highlight">
                         {returnDiscount}
                     </p>
@@ -110,17 +125,46 @@ const Service = () => {
                 <p className="service-main-desc">
                     {headerDesc}
                 </p>
+
+                {mainTab === 'self' && (
+                    <div className="service-action-container">
+                        <button 
+                            className="service-view-zone-btn"
+                            onClick={() => {
+                                navigate('/zone?tab=zone&subtab=mooz');
+                                setTimeout(() => {
+                                    document.getElementById('zone')?.scrollIntoView({ behavior: 'smooth' });
+                                }, 150);
+                            }}
+                        >
+                            무즈 셀프 배경 보기
+                        </button>
+                        <a 
+                            href="https://map.naver.com/p/entry/place/1259998642?placePath=%252Fhome%253Fentry%253Dplt&searchType=place&lng=127.0203605&lat=37.5194843" 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="naver-reservation-btn"
+                        >
+                            <svg className="naver-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                                <path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"/>
+                            </svg>
+                            MOOZ SELF 예약하기
+                        </a>
+                    </div>
+                )}
+
                 {samePrice && (
                     <p className="service-notice-highlight secondary">
-                        {samePrice}
+                        {mainTab === 'self' ? samePrice.replace('핏걸즈&이너핏', 'MOOZ SELF') : samePrice}
                     </p>
                 )}
 
-                {/* Global Notices */}
                 <ul>
-                    {Array.isArray(notices) && notices.map((notice, idx) => (
-                        <li key={idx}>{notice}</li>
-                    ))}
+                    {Array.isArray(notices) && notices
+                        .filter(n => mainTab !== 'self' || !n.includes('2000px'))
+                        .map((notice, idx) => (
+                            <li key={idx}>{notice}</li>
+                        ))}
                 </ul>
             </div>
         </div>

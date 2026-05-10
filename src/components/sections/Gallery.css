@@ -48,6 +48,7 @@
     color: #000;
     margin: 0;
     text-transform: uppercase;
+    white-space: pre-wrap; /* 줄바꿈 인식 추가 */
 }
 
 .back-to-main-btn {

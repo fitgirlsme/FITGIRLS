@@ -87,34 +87,41 @@ ul, li {
 }
 
 /* Sections that need internal scrolling */
+#fitorialist,
+#artist {
+  height: auto !important;
+  min-height: 100dvh !important;
+  max-height: none !important;
+  overflow: visible !important;
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
 #reservation,
 #zone,
 #archive,
 #article,
-#artist,
 #service,
 #hair-makeup,
 #location,
 #reviews,
 #social,
 #event-board,
-#ambar,
-#ambassadors {
+#ambar {
   overflow-y: auto !important;
   -webkit-overflow-scrolling: touch;
 }
-/* Push service section content below fixed header */
-#service {
-  padding-top: 70px;
+
+/* Push sections below fixed header */
+#service, #archive, #zone, #hair-makeup, #location, #faq, #event-board, #reservation, #reviews {
+  padding-top: 140px;
   box-sizing: border-box;
 }
 
-#artist {
-  height: auto !important;
-  min-height: 100dvh;
-  overflow-y: visible !important;
-  scroll-snap-align: start;
-  scroll-snap-stop: normal;
+@media (min-width: 1025px) {
+  #service, #archive, #zone, #hair-makeup, #location, #faq, #event-board, #reservation, #reviews {
+    padding-top: 100px;
+  }
 }
 
 /* Disable scroll-snap when gallery detail view is active */

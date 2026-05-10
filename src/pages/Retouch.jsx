@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../utils/firebase';
+import { getAlimtalkTemplate, sendAlimtalk } from '../utils/aligoService';
 import './Retouch.css';
+
+const ADMIN_PHONE = '01046961441';
 
 const Retouch = () => {
     const [phone, setPhone] = useState('');
@@ -236,7 +239,31 @@ const Retouch = () => {
                                         </div>
                                     </div>
                                     {link && (
-                                        <a href={link} target="_blank" rel="noreferrer" className="dropbox-btn">보정본 확인하기</a>
+                                        <a href={link} target="_blank" rel="noreferrer" className="dropbox-btn">
+                                            {status === '최종보정완료' ? '최종보정본 확인하기' : 
+                                             status.includes('1차보정완료') ? '1차보정본 확인하기' :
+                                             status.includes('선보정') ? '선보정본 확인하기' : 
+                                             status === '보정대기' ? '원본파일 확인하기' : '보정본 확인하기'}
+                                        </a>
+                                    )}
+
+                                    {customer.artistResponses?.[pId] && (
+                                        <div className="artist-response-notice">
+                                            <div className="response-header">
+                                                <span className="response-icon">💬</span>
+                                                <span className="response-title">작가님의 답변이 도착했습니다</span>
+                                            </div>
+                                            <div className="response-body">
+                                                {customer.artistResponses[pId]}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {customer.clientFeedbacks?.[pId] && (
+                                        <div className="client-feedback-history">
+                                            <p className="history-label">📝 나의 수정 요청 사항</p>
+                                            <div className="history-content">{customer.clientFeedbacks[pId]}</div>
+                                        </div>
                                     )}
                                 </div>
 
@@ -257,7 +284,7 @@ const Retouch = () => {
                                             </label>
                                         </div>
 
-                                        {insta && status === '최종보정완료' && (
+                                        {insta && (
                                             <div className="insta-id-input-box">
                                                 <p className="insta-guide">📸 인스타그램 업로드 시 태그를 위해 아이디를 알려주세요!</p>
                                                 <div className="insta-input-group">
@@ -271,6 +298,7 @@ const Retouch = () => {
                                                         className="insta-save-btn"
                                                         onClick={async () => {
                                                             const val = document.getElementById(`insta-input-${pId}`).value;
+                                                            if (!val) return alert('아이디를 입력해주세요.');
                                                             await updateDoc(doc(db, 'retouch_masters', customer.id), { 
                                                                 [`instaIds.${pId}`]: val 
                                                             });
@@ -278,6 +306,69 @@ const Retouch = () => {
                                                         }}
                                                     >
                                                         저장
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {status === '1차보정완료(피드백요청)' && (
+                                            <div className="feedback-section">
+                                                <p className="feedback-guide">보정본을 확인하시고 피드백이 있으시면 아래에 적어주세요. 추가 보정이 필요 없으시면 '최종 컨펌'을 눌러주세요.</p>
+                                                <textarea 
+                                                    id={`feedback-input-${pId}`}
+                                                    className="feedback-textarea"
+                                                    placeholder="수정 요청 사항을 자세히 적어주세요..."
+                                                    defaultValue={customer.clientFeedbacks?.[pId] || ''}
+                                                />
+                                                <div className="feedback-btn-group">
+                                                    <button 
+                                                        className="feedback-submit-btn"
+                                                        onClick={async () => {
+                                                            const val = document.getElementById(`feedback-input-${pId}`).value;
+                                                            if (!val) return alert('피드백 내용을 입력해주세요.');
+                                                            await updateDoc(doc(db, 'retouch_masters', customer.id), { 
+                                                                [`clientFeedbacks.${pId}`]: val,
+                                                                [`projectStatuses.${pId}`]: '2차보정'
+                                                            });
+                                                            
+                                                            // 관리자에게 피드백 알림 전송
+                                                            const template = getAlimtalkTemplate('UH_6959', {
+                                                                name: customer.name,
+                                                                projectTitle: pId,
+                                                                feedback: val
+                                                            });
+                                                            if (template) {
+                                                                sendAlimtalk(ADMIN_PHONE, template.code, template.message);
+                                                            }
+
+                                                            alert('피드백이 전달되었습니다. 2차 보정을 진행하겠습니다!');
+                                                        }}
+                                                    >
+                                                        피드백 제출 (2차보정 요청)
+                                                    </button>
+                                                    <button 
+                                                        className="final-confirm-btn"
+                                                        onClick={async () => {
+                                                            if (window.confirm('이대로 최종 컨펌하시겠습니까? 더 이상의 추가 수정은 불가능합니다.')) {
+                                                                await updateDoc(doc(db, 'retouch_masters', customer.id), { 
+                                                                    [`projectStatuses.${pId}`]: '최종컴펌완료'
+                                                                });
+
+                                                                // 관리자에게 컨펌 완료 알림 전송
+                                                                const template = getAlimtalkTemplate('UH_6960', {
+                                                                    name: customer.name,
+                                                                    projectTitle: pId,
+                                                                    date: new Date().toLocaleString('ko-KR')
+                                                                });
+                                                                if (template) {
+                                                                    sendAlimtalk(ADMIN_PHONE, template.code, template.message);
+                                                                }
+
+                                                                alert('최종 컨펌해주셔서 감사합니다. 최종 파일을 정리해 드릴게요!');
+                                                            }
+                                                        }}
+                                                    >
+                                                        최종 컨펌하기 (수정 없음)
                                                     </button>
                                                 </div>
                                             </div>
@@ -303,20 +394,6 @@ const Retouch = () => {
                     })}
                 </div>
 
-                <footer className="dashboard-footer">
-                    <div className="status-guide-box">
-                        <h4 className="guide-title">보정 프로세스 안내</h4>
-                        <div className="status-steps-text">
-                            {statuses.map((s, idx) => (
-                                <React.Fragment key={idx}>
-                                    <span className="status-text-item">{s.replace('(피드백요청)', '').replace(' 진행', '')}</span>
-                                    {idx < statuses.length - 1 && <span className="status-separator">→</span>}
-                                </React.Fragment>
-                            ))}
-                        </div>
-                        <p className="guide-notice">※ 모든 작업은 순차적으로 진행되며, 단계별 현황은 본 페이지에서 실시간으로 확인하실 수 있습니다.</p>
-                    </div>
-                </footer>
             </main>
         </div>
     );

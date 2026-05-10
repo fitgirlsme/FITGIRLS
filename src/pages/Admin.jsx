@@ -25,6 +25,7 @@ import {
 
 // Constants
 const MODEL_CATEGORIES = ['WOMAN', 'MAN'];
+const PRODUCT_CATEGORIES = ['APPAREL', 'ACCESSORY', 'GOODS', 'BEAUTY', 'LIFE', 'GIFT'];
 const STORES = {
     HERO_SLIDES: 'hero_slides',
     MODELS: 'models',
@@ -103,9 +104,10 @@ const Admin = () => {
         { id: 'artist', label: 'Artist', icon: <MdPerson />, desc: 'Artist profile' },
         { id: 'gallery', label: 'Gallery', icon: <MdPhotoLibrary />, desc: 'Manage photo grid' },
         { id: 'concepts', label: 'Lookbook', icon: <MdCollections />, desc: 'Lookbook outfits' },
+        { id: 'shop', label: 'Shop', icon: <MdShoppingBag />, desc: 'Products & Sales' },
         { id: 'studios', label: 'Studios', icon: <MdCamera />, desc: 'Studio Zones' },
         { id: 'events', label: 'Events', icon: <MdEventAvailable />, desc: 'Notices & Promos' },
-        { id: 'retouch', label: 'Retouch', icon: <MdCameraAlt />, desc: 'Fitgirls & Innerfit Retouch' },
+        { id: 'retouch', label: 'Retouch', icon: <MdCameraAlt />, desc: 'Fitgirls & INAFIT Retouch' },
         { id: 'models', label: 'Ambassadors', icon: <MdPeople />, desc: 'Profiles & Portfolio' },
         { id: 'apply', label: 'Applications', icon: <MdMoveToInbox />, desc: 'New submissions' },
         { id: 'partners', label: 'Partners', icon: <MdHandshake />, desc: 'Partner logos' },
@@ -212,6 +214,7 @@ const Admin = () => {
                         {activeTab === 'gallery' && <GalleryTab />}
                         {activeTab === 'models' && <ModelsTab />}
                         {activeTab === 'concepts' && <ConceptsTab />}
+                        {activeTab === 'shop' && <ProductsTab />}
                         {activeTab === 'events' && <EventsTab />}
                         {activeTab === 'hero' && <HeroTab />}
                         {activeTab === 'apply' && <ApplicationsTab />}
@@ -439,6 +442,7 @@ const PhotoManager = ({ issues }) => {
             setPhotos(prev => prev.map(p => 
                 selectedIds.includes(p.id) ? { ...p, issueId: bulkIssueId } : p
             ));
+            
             setSelectedIds([]);
             alert('일괄 적용되었습니다.');
         } catch (err) {
@@ -1215,7 +1219,8 @@ const ModelsTab = () => {
         nameEn: '', nameKr: '', job: '', category: 'WOMAN', nationality: '', bio: '',
         instagram: '', tiktok: '', email: '', phone: '',
         height: '', hair: '', eyes: '', bust: '', waist: '', hips: '', shoes: '',
-        batch: '1st', youtube: ''
+        batch: '1st', youtube: '',
+        benefit_pro_1: false, benefit_pro_2: false, benefit_self: false, benefit_suit: false
     });
     const [mainImage, setMainImage] = useState(null);
     const [portfolioFiles, setPortfolioFiles] = useState([]);
@@ -1269,7 +1274,8 @@ const ModelsTab = () => {
             nameEn: '', nameKr: '', job: '', category: 'WOMAN', nationality: '', bio: '',
             instagram: '', tiktok: '', email: '', phone: '',
             height: '', hair: '', eyes: '', bust: '', waist: '', hips: '', shoes: '',
-            batch: '1st', youtube: ''
+            batch: '1st', youtube: '',
+            benefit_pro_1: false, benefit_pro_2: false, benefit_self: false, benefit_suit: false
         });
         setEditId(null); setMainImage(null); setPortfolioFiles([]); 
         portfolioPreviews.forEach(URL.revokeObjectURL);
@@ -1321,9 +1327,31 @@ const ModelsTab = () => {
     };
 
     const startEdit = (m) => {
-        setForm({ ...m });
+        setForm({ 
+            ...m,
+            benefit_pro_1: m.benefit_pro_1 || false,
+            benefit_pro_2: m.benefit_pro_2 || false,
+            benefit_self: m.benefit_self || false,
+            benefit_suit: m.benefit_suit || false
+        });
         setEditId(m.id);
         setShowForm(true);
+    };
+
+    const toggleBenefit = async (model, field) => {
+        try {
+            const newValue = !model[field];
+            await updateDoc(doc(db, 'models', model.id), { 
+                [field]: newValue, 
+                updatedAt: serverTimestamp() 
+            });
+            
+            // Local update for immediate feedback
+            setModels(prev => prev.map(m => m.id === model.id ? { ...m, [field]: newValue } : m));
+        } catch (err) {
+            console.error('Benefit update error:', err);
+            alert('업데이트 중 오류 발생');
+        }
     };
 
     return (
@@ -1371,6 +1399,32 @@ const ModelsTab = () => {
                                         <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="admin-select">
                                             {MODEL_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                                         </select>
+                                    </div>
+
+                                    <div className="form-group"><label>YouTube ID</label><input type="text" value={form.youtube || ''} onChange={e => setForm({...form, youtube: e.target.value})} placeholder="e.g. dQw4w9WgXcQ (Video ID only)" /></div>
+                                    <div className="form-group"><label>Short Biography</label><textarea value={form.bio} onChange={e => setForm({...form, bio: e.target.value})} rows={3} placeholder="Introduce the ambassador..." /></div>
+
+                                    <div className="admin-section-header" style={{ marginTop: 32 }}>
+                                        <h4>Ambassador Benefits</h4>
+                                        <p>Check the used shoot tickets</p>
+                                    </div>
+                                    <div className="benefit-checklist-ford">
+                                        <label className="benefit-item-ford">
+                                            <input type="checkbox" checked={form.benefit_suit} onChange={e => setForm({...form, benefit_suit: e.target.checked})} />
+                                            <span>정장 촬영권 (Gift)</span>
+                                        </label>
+                                        <label className="benefit-item-ford">
+                                            <input type="checkbox" checked={form.benefit_pro_1} onChange={e => setForm({...form, benefit_pro_1: e.target.checked})} />
+                                            <span>전문가 2컨셉 #1</span>
+                                        </label>
+                                        <label className="benefit-item-ford">
+                                            <input type="checkbox" checked={form.benefit_pro_2} onChange={e => setForm({...form, benefit_pro_2: e.target.checked})} />
+                                            <span>전문가 2컨셉 #2</span>
+                                        </label>
+                                        <label className="benefit-item-ford">
+                                            <input type="checkbox" checked={form.benefit_self} onChange={e => setForm({...form, benefit_self: e.target.checked})} />
+                                            <span>셀프촬영 2인</span>
+                                        </label>
                                     </div>
 
                                     <div className="admin-section-header" style={{ marginTop: 32 }}>
@@ -1467,6 +1521,25 @@ const ModelsTab = () => {
                             <strong>{m.nameEn}</strong> {m.nameKr && <span style={{ color: '#888', fontSize: '0.85rem', marginLeft: 6 }}>({m.nameKr})</span>}
                             {m.job && <div style={{ fontSize: '0.8rem', color: 'var(--color-primary)', marginTop: 2 }}>{m.job}</div>}
                             <span className="admin-item-badge">{m.category}</span>
+                            
+                            <div className="admin-item-benefits-mini">
+                                <label title="정장 촬영">
+                                    <input type="checkbox" checked={m.benefit_suit} onChange={() => toggleBenefit(m, 'benefit_suit')} />
+                                    <span>ST</span>
+                                </label>
+                                <label title="전문가 #1">
+                                    <input type="checkbox" checked={m.benefit_pro_1} onChange={() => toggleBenefit(m, 'benefit_pro_1')} />
+                                    <span>P1</span>
+                                </label>
+                                <label title="전문가 #2">
+                                    <input type="checkbox" checked={m.benefit_pro_2} onChange={() => toggleBenefit(m, 'benefit_pro_2')} />
+                                    <span>P2</span>
+                                </label>
+                                <label title="셀프">
+                                    <input type="checkbox" checked={m.benefit_self} onChange={() => toggleBenefit(m, 'benefit_self')} />
+                                    <span>S</span>
+                                </label>
+                            </div>
                         </div>
                         <div className="admin-item-actions">
                             {confirmDeleteId === m.id ? (
@@ -1500,6 +1573,7 @@ const ConceptsTab = () => {
     const [file, setFile] = useState(null);
     const [editItem, setEditItem] = useState(null);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [activeFilter, setActiveFilter] = useState('ALL');
 
     useEffect(() => { loadItems(); }, []);
 
@@ -1515,6 +1589,12 @@ const ConceptsTab = () => {
     const resetForm = () => {
         setOutfitName(''); setOutfitSize(''); setOutfitTag(''); setFile(null); setEditItem(null);
     };
+
+    const uniqueTags = ['ALL', ...Array.from(new Set(items.map(item => item.tag).filter(Boolean)))];
+
+    const filteredItems = activeFilter === 'ALL' 
+        ? items 
+        : items.filter(item => item.tag === activeFilter);
 
     const handleSave = async (e) => {
         if (e) e.preventDefault();
@@ -1601,8 +1681,25 @@ const ConceptsTab = () => {
                 </div>
             </form>
 
+            <div className="admin-filter-bar-ford">
+                <div className="admin-tabs">
+                    {uniqueTags.map(tag => (
+                        <button 
+                            key={tag} 
+                            className={`admin-tab-btn ${activeFilter === tag ? 'active' : ''}`}
+                            onClick={() => setActiveFilter(tag)}
+                        >
+                            {tag}
+                        </button>
+                    ))}
+                </div>
+                <div style={{ fontSize: '0.85rem', color: '#888', fontWeight: '500' }}>
+                    Total {filteredItems.length} items
+                </div>
+            </div>
+
             <div className="admin-item-list">
-                {items.map(item => (
+                {filteredItems.map(item => (
                     <div key={item.id} className="admin-item-card">
                         <img src={item.img} alt={item.outfitName} className="admin-item-thumb" />
                         <div className="admin-item-info">
@@ -1615,6 +1712,182 @@ const ConceptsTab = () => {
                                     window.scrollTo({ top: 0, behavior: 'smooth' });
                                 }}>Edit</button>
                                 <button onClick={() => handleDelete(item)} className="delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+// ===== 3-2. Shop (Products) Tab =====
+const ProductsTab = () => {
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [showForm, setShowForm] = useState(false);
+    const [editId, setEditId] = useState(null);
+    const [form, setForm] = useState({
+        name: '', nameEn: '', nameJa: '', nameZh: '',
+        price: 0, size: '', category: 'APPAREL', status: 'ACTIVE',
+        productID: '', season: '',
+        description: '', descriptionEn: '', descriptionJa: '', descriptionZh: '',
+        images: []
+    });
+    const [saving, setSaving] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    useEffect(() => { loadProducts(); }, []);
+
+    const loadProducts = async () => {
+        try {
+            const snap = await getDocs(query(collection(db, 'products'), orderBy('createdAt', 'desc')));
+            setProducts(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+        } catch (err) { console.error(err); }
+        finally { setLoading(false); }
+    };
+
+    const resetForm = () => {
+        setForm({
+            name: '', nameEn: '', nameJa: '', nameZh: '',
+            price: 0, size: '', category: 'APPAREL', status: 'ACTIVE',
+            productID: '', season: '',
+            description: '', descriptionEn: '', descriptionJa: '', descriptionZh: '',
+            images: []
+        });
+        setEditId(null); setShowForm(false);
+    };
+
+    const handleSave = async () => {
+        if (!form.name || form.images.length === 0) { alert('Name and at least one image are required.'); return; }
+        setSaving(true);
+        try {
+            const data = { 
+                ...form, 
+                price: Number(form.price),
+                updatedAt: serverTimestamp(), 
+                ...(editId ? {} : { createdAt: serverTimestamp() }) 
+            };
+            if (editId) { await updateDoc(doc(db, 'products', editId), data); }
+            else { await addDoc(collection(db, 'products'), data); }
+            
+            setShowSuccess(true); setTimeout(() => setShowSuccess(false), 3000);
+            resetForm(); loadProducts();
+        } catch (err) { alert('Save error: ' + err.message); }
+        setSaving(false);
+    };
+
+    const handleDelete = async (id) => {
+        if (!window.confirm('Delete this product?')) return;
+        try {
+            await deleteDoc(doc(db, 'products', id));
+            loadProducts();
+        } catch (err) { alert(err.message); }
+    };
+
+    const handlePhoto = async (e) => {
+        const files = Array.from(e.target.files);
+        if (files.length === 0) return;
+        setSaving(true);
+        try {
+            const uploadedUrls = await Promise.all(files.map(async (file) => {
+                const { url } = await uploadOptimizedImage(file, 'products');
+                return url;
+            }));
+            setForm(prev => ({ ...prev, images: [...prev.images, ...uploadedUrls] }));
+        } catch (err) { alert('Upload failed: ' + err.message); }
+        setSaving(false);
+    };
+
+    const removePhoto = (idx) => {
+        const newImgs = [...form.images]; newImgs.splice(idx, 1);
+        setForm({ ...form, images: newImgs });
+    };
+
+    return (
+        <div className="upload-section">
+            {showSuccess && <Toast message="Product saved successfully!" onClose={() => setShowSuccess(false)} />}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+                <h3 style={{ margin: 0 }}>Shop Products</h3>
+                <button className="add-btn" onClick={() => { resetForm(); setShowForm(true); }}>+ Add New Product</button>
+            </div>
+
+            {showForm && (
+                <div className="admin-modal-overlay" onClick={() => resetForm()}>
+                    <div className="admin-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '850px' }}>
+                        <button className="close-x" onClick={resetForm}>×</button>
+                        <h3>{editId ? 'Edit Product' : 'Add New Product'}</h3>
+                        <div className="admin-modal-form">
+                            <div className="admin-grid-two">
+                                <div className="form-group"><label>Product Name (KO) *</label><input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} /></div>
+                                <div className="form-group"><label>Price (KRW) *</label><input type="number" value={form.price} onChange={e => setForm({...form, price: e.target.value})} /></div>
+                            </div>
+                            <div className="admin-grid-two">
+                                <div className="form-group"><label>품번 (Product ID)</label><input type="text" value={form.productID} onChange={e => setForm({...form, productID: e.target.value})} placeholder="예: FG-2024-001" /></div>
+                                <div className="form-group"><label>시즌 (Season)</label><input type="text" value={form.season} onChange={e => setForm({...form, season: e.target.value})} placeholder="예: 24 S/S" /></div>
+                            </div>
+                            <div className="admin-grid-two">
+                                <div className="form-group">
+                                    <label>Category</label>
+                                    <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="admin-select">
+                                        {PRODUCT_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                                    </select>
+                                </div>
+                                <div className="form-group"><label>Size Info</label><input type="text" value={form.size} onChange={e => setForm({...form, size: e.target.value})} placeholder="ex) S, M, L or Free" /></div>
+                            </div>
+                            
+                            <div className="form-group">
+                                <label>Description (KO)</label>
+                                <textarea style={{ height: '100px' }} value={form.description} onChange={e => setForm({...form, description: e.target.value})} />
+                            </div>
+
+                            <div className="form-group" style={{ background: '#f9f9f9', padding: '15px', borderRadius: '10px' }}>
+                                <label>Multi-language Names</label>
+                                <div className="admin-grid-three">
+                                    <input placeholder="Name EN" value={form.nameEn} onChange={e => setForm({...form, nameEn: e.target.value})} />
+                                    <input placeholder="Name JA" value={form.nameJa} onChange={e => setForm({...form, nameJa: e.target.value})} />
+                                    <input placeholder="Name ZH" value={form.nameZh} onChange={e => setForm({...form, nameZh: e.target.value})} />
+                                </div>
+                            </div>
+
+                            <div className="form-group">
+                                <label>Product Images *</label>
+                                <div className="admin-image-uploader">
+                                    <input type="file" multiple accept="image/*" onChange={handlePhoto} />
+                                    <div className="image-preview-grid">
+                                        {form.images.map((img, idx) => (
+                                            <div key={idx} className="preview-box">
+                                                <img src={img} alt="" />
+                                                <button onClick={() => removePhoto(idx)}>×</button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button className="submit-btn" onClick={handleSave} disabled={saving}>
+                                {saving ? 'Saving...' : 'Save Product'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="admin-item-list">
+                {products.map(p => (
+                    <div key={p.id} className="admin-item-card">
+                        <img src={p.images?.[0]} alt="" className="admin-item-thumb" style={{ aspectRatio: '4/5' }} />
+                        <div className="admin-item-info">
+                            <div style={{ display: 'flex', gap: 6, marginBottom: 4 }}>
+                                <span style={{ fontSize: '0.65rem', color: '#999', background: '#f0f0f0', padding: '2px 6px', borderRadius: '4px' }}>{p.category}</span>
+                                {p.season && <span style={{ fontSize: '0.65rem', color: '#3a7bd5', background: 'rgba(58, 123, 213, 0.1)', padding: '2px 6px', borderRadius: '4px' }}>{p.season}</span>}
+                            </div>
+                            <h4 style={{ margin: '4px 0' }}>{p.name}</h4>
+                            <p style={{ margin: '0 0 8px', fontSize: '0.75rem', color: '#888' }}>ID: {p.productID || '-'}</p>
+                            <p style={{ fontWeight: 700, margin: '0 0 12px' }}>{new Intl.NumberFormat('ko-KR').format(p.price)} KRW</p>
+                            <div className="admin-item-actions">
+                                <button onClick={() => { setForm({...p}); setEditId(p.id); setShowForm(true); }}>Edit</button>
+                                <button onClick={() => handleDelete(p.id)} className="delete">Delete</button>
                             </div>
                         </div>
                     </div>
@@ -2025,8 +2298,37 @@ const HeroTab = () => {
 // ===== 6. Applications Tab =====
 const ApplicationsTab = () => {
     const [apps, setApps] = useState([]);
+    const [activeBatch, setActiveBatch] = useState('ALL');
+    const [currentBatchSetting, setCurrentBatchSetting] = useState('1st');
+    const [settingSaving, setSettingSaving] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
 
-    useEffect(() => { loadApps(); }, []);
+    useEffect(() => { 
+        loadApps(); 
+        loadSettings();
+    }, []);
+
+    const loadSettings = async () => {
+        try {
+            const docSnap = await getDoc(doc(db, 'settings', 'recruitment'));
+            if (docSnap.exists()) {
+                setCurrentBatchSetting(docSnap.data().currentBatch || '1st');
+            }
+        } catch (err) { console.error('Settings load error:', err); }
+    };
+
+    const saveSettings = async () => {
+        setSettingSaving(true);
+        try {
+            await setDoc(doc(db, 'settings', 'recruitment'), {
+                currentBatch: currentBatchSetting,
+                updatedAt: serverTimestamp()
+            });
+            setShowSuccess(true);
+            setTimeout(() => setShowSuccess(false), 3000);
+        } catch (err) { alert('Save error: ' + err.message); }
+        setSettingSaving(false);
+    };
 
     const loadApps = async () => {
         try {
@@ -2040,15 +2342,85 @@ const ApplicationsTab = () => {
         try { await deleteDoc(doc(db, 'applications', id)); loadApps(); } catch (err) { alert(err.message); }
     };
 
+    const toggleWinner = async (app) => {
+        try {
+            const newValue = !app.isWinner;
+            await updateDoc(doc(db, 'applications', app.id), { 
+                isWinner: newValue, 
+                updatedAt: serverTimestamp() 
+            });
+            setApps(prev => prev.map(a => a.id === app.id ? { ...a, isWinner: newValue } : a));
+        } catch (err) {
+            console.error('Winner update error:', err);
+        }
+    };
+
+    const uniqueBatches = ['ALL', ...Array.from(new Set(apps.map(a => a.batch || '1st'))).sort()];
+
+    const filteredApps = activeBatch === 'ALL'
+        ? apps
+        : apps.filter(a => (a.batch || '1st') === activeBatch);
+
     return (
         <div className="upload-section">
+            {showSuccess && (
+                <div style={{ 
+                    position: 'fixed', top: '100px', right: '40px', 
+                    background: '#2ecc71', color: '#fff', 
+                    padding: '12px 24px', borderRadius: '12px', 
+                    boxShadow: '0 10px 30px rgba(46, 204, 113, 0.3)',
+                    zIndex: 9999, fontWeight: 700,
+                    animation: 'slideIn 0.3s ease-out'
+                }}>
+                    ✅ 설정이 성공적으로 저장되었습니다!
+                </div>
+            )}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
                 <h3 style={{ margin: 0 }}>Applicants</h3>
                 <button className="add-btn" onClick={loadApps}>Refresh</button>
             </div>
+
+            <div className="admin-form" style={{ background: '#fff', padding: '24px', borderRadius: '16px', border: '1px solid #f0f0f0', marginBottom: '32px' }}>
+                <h4 style={{ margin: '0 0 16px', fontSize: '1rem', fontWeight: 700 }}>📢 모집 기수 설정 (Recruitment Settings)</h4>
+                <div style={{ display: 'flex', gap: 12, alignItems: 'flex-end' }}>
+                    <div className="form-group" style={{ margin: 0, flex: 1 }}>
+                        <label>현재 모집 기수 (Current Batch)</label>
+                        <input 
+                            type="text" 
+                            value={currentBatchSetting} 
+                            onChange={e => setCurrentBatchSetting(e.target.value)} 
+                            placeholder="예: 2nd"
+                        />
+                    </div>
+                    <button className="submit-btn" style={{ width: 'auto', margin: 0, padding: '12px 32px', height: '48px' }} onClick={saveSettings} disabled={settingSaving}>
+                        {settingSaving ? '저장 중...' : '설정 저장'}
+                    </button>
+                </div>
+                <p style={{ margin: '12px 0 0', fontSize: '0.8rem', color: '#888' }}>
+                    * 여기서 설정한 기수가 신규 지원자들의 데이터에 자동으로 저장됩니다.
+                </p>
+            </div>
+
+            <div className="admin-filter-bar-ford">
+                <div className="admin-tabs">
+                    {uniqueBatches.map(batch => (
+                        <button 
+                            key={batch} 
+                            className={`admin-tab-btn ${activeBatch === batch ? 'active' : ''}`}
+                            onClick={() => setActiveBatch(batch)}
+                        >
+                            {batch}
+                        </button>
+                    ))}
+                </div>
+                <div style={{ fontSize: '0.85rem', color: '#888', fontWeight: '500' }}>
+                    Total {filteredApps.length} applicants
+                </div>
+            </div>
+
             <div className="admin-item-list">
-                {apps.map(app => (
-                    <div key={app.id} className="app-card">
+                {filteredApps.map(app => (
+                    <div key={app.id} className={`app-card ${app.isWinner ? 'winner-card-ford' : ''}`}>
                         <div className="applicant-header">
                             <div className="app-main-info">
                                 <h4 style={{ fontSize: '1.4rem', margin: 0, color: '#000', fontWeight: 800 }}>
@@ -2071,10 +2443,19 @@ const ApplicationsTab = () => {
                                         <span style={{ fontSize: '0.85rem', color: '#999' }}>No Instagram</span>
                                     )}
                                 </div>
+                                <div className="app-job-row" style={{ marginTop: 6, fontSize: '0.85rem', color: 'var(--color-primary)', fontWeight: 600 }}>
+                                    💼 {app.job || 'Applicant'}
+                                </div>
                             </div>
                             <div style={{ textAlign: 'right' }}>
-                                <div className="admin-item-badge" style={{ marginBottom: 8, display: 'block', width: 'fit-content', marginLeft: 'auto' }}>
-                                    {app.job || 'Applicant'}
+                                <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end', marginBottom: 8 }}>
+                                    <span className="admin-item-badge" style={{ background: '#000', color: '#fff' }}>{app.batch || '1st'}</span>
+                                </div>
+                                <div className="winner-selection-ford" style={{ marginBottom: 8 }}>
+                                    <label>
+                                        <input type="checkbox" checked={app.isWinner || false} onChange={() => toggleWinner(app)} />
+                                        <span>당첨 선정</span>
+                                    </label>
                                 </div>
                                 <button onClick={() => handleDelete(app.id)} className="delete" style={{ fontSize: '0.8rem', opacity: 0.6 }}>Delete</button>
                             </div>
