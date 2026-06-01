@@ -137,7 +137,7 @@ const Service = ({ initialTab }) => {
                                 }, 150);
                             }}
                         >
-                            무즈 셀프 배경 보기
+                            네버랜드 셀프 배경 보기
                         </button>
                         <a 
                             href="https://map.naver.com/p/entry/place/1259998642?placePath=%252Fhome%253Fentry%253Dplt&searchType=place&lng=127.0203605&lat=37.5194843" 
@@ -148,14 +148,14 @@ const Service = ({ initialTab }) => {
                             <svg className="naver-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
                                 <path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"/>
                             </svg>
-                            MOOZ SELF 예약하기
+                            NEVERLAND SELF 예약하기
                         </a>
                     </div>
                 )}
 
                 {samePrice && (
                     <p className="service-notice-highlight secondary">
-                        {mainTab === 'self' ? samePrice.replace('핏걸즈&이너핏', 'MOOZ SELF') : samePrice}
+                        {mainTab === 'self' ? samePrice.replace('핏걸즈&이너핏', 'NEVERLAND SELF') : samePrice}
                     </p>
                 )}
 

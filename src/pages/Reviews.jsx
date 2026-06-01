@@ -49,11 +49,41 @@ const ReviewCard = ({ review, t }) => {
     );
 };
 
+const ReviewGuide = ({ t }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <div className={`review-guide-container ${isOpen ? 'is-open' : ''}`}>
+            <button className="guide-toggle-btn" onClick={() => setIsOpen(!isOpen)}>
+                <span className="toggle-icon">✍️</span>
+                <span className="toggle-text">리뷰 작성 가이드 {isOpen ? '접기' : '보기'}</span>
+                <svg className={`chevron-icon ${isOpen ? 'up' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+            <div className="guide-content-wrapper">
+                <div className="guide-content-inner">
+                    <p className="guide-desc">아래 내용을 참고하여 더욱 풍성한 기록을 남겨보세요.</p>
+                    <ul className="guide-questions">
+                        <li><span>•</span> 가장 마음에 들었던 분위기는 어떤 느낌이었나요?</li>
+                        <li><span>•</span> 촬영하면서 새롭게 발견한 모습이 있었나요?</li>
+                        <li><span>•</span> 가장 만족했던 디렉팅이나 무드는 무엇이었나요?</li>
+                        <li><span>•</span> 핏걸즈에서 어떤 FITORIAL을 남기셨나요?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const Reviews = () => {
     const { t, i18n } = useTranslation();
     const [reviews, setReviews] = useState([]);
     const [totalCount, setTotalCount] = useState(0);
     const [loading, setLoading] = useState(true);
+    const [activeTab, setActiveTab] = useState('all');
+
+
 
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
@@ -106,9 +136,14 @@ const Reviews = () => {
 
     const scrollSlider = (direction) => {
         const track = document.querySelector('.review-slider-track');
+        if (!track) return;
         const scrollAmount = direction === 'left' ? -400 : 400;
         track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     };
+
+    const filteredReviews = activeTab === 'all' 
+        ? reviews 
+        : reviews.filter(r => r.category === activeTab);
 
     return (
         <div className="review-section-container">
@@ -144,6 +179,8 @@ const Reviews = () => {
                 </div>
             </div>
 
+
+
             <div className="review-slider-wrapper">
                 <button className="slider-arrow left" onClick={() => scrollSlider('left')}>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
@@ -156,7 +193,7 @@ const Reviews = () => {
                                 <div className="spinner-ring"></div>
                             </div>
                         ) : (
-                            reviews.map((review) => (
+                            filteredReviews.map((review) => (
                                 <ReviewCard key={review.id} review={review} t={t} />
                             ))
                         )}
@@ -181,6 +218,7 @@ const Reviews = () => {
             </div>
 
             <div className="review-footer-actions">
+                <ReviewGuide t={t} />
                 <div className="review-write-buttons">
                     <a href="https://m.place.naver.com/place/1976065694/review/visitor" target="_blank" rel="noopener noreferrer" className="btn-review btn-naver-review">
                         {t('reviews.writeNaver', '네이버 리뷰 작성')}

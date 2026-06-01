@@ -663,7 +663,7 @@
         "self": {
             "menu1": {
                 "title": "SELF SERVICE",
-                "category": "MOOZ SELF STUDIO"
+                "category": "NEVERLAND SELF STUDIO"
             },
             "list1": [
                 {
@@ -812,7 +812,7 @@
         }
     },
     "ambassador": {
-        "mission": "FITORIALIST+ 是代表 FITGIRLS & INAFIT 的品牌大使。\n象征着拥有自爱、持之以恒、自我管理和职业道德，以及能够堂堂正正表达自己力量的人们。\n\n超越单纯的外在美，\n是指那些热爱自己，不断完善自我，创造属于自己的存在感和态度的人们。\n\n“+”象征着影响力、责任感、领导力，以及能够给他人带来积极灵感的力量。",
+        "mission": "热爱自我，通过坚持与态度主导自我人生的人们，FITORIALIST+\n超越单纯的美丽，以独特的氛围感向世界传递灵感的影响力象征。",
         "profile": {
             "height": "HEIGHT",
             "bust": "BUST",

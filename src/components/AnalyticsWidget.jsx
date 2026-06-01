@@ -10,17 +10,23 @@ const PAGE_LABELS = {
 };
 
 const SOURCE_LABELS = {
-    direct: { label: '직접 유입', emoji: '🔗' }, instagram: { label: '인스타그램', emoji: '📸' },
-    google: { label: '구글', emoji: '🔍' }, naver: { label: '네이버', emoji: '🟢' },
-    kakao: { label: '카카오', emoji: '💬' }, facebook: { label: '페이스북', emoji: '👤' },
-    youtube: { label: '유튜브', emoji: '▶️' }, twitter: { label: '트위터', emoji: '🐦' },
-    internal: { label: '내부 이동', emoji: '🔄' }, other: { label: '기타', emoji: '🌐' },
+    direct: { label: '직접 유입', emoji: '🔗', url: null },
+    instagram: { label: '인스타그램', emoji: '📸', url: 'https://instagram.com' },
+    google: { label: '구글', emoji: '🔍', url: 'https://google.com' },
+    naver: { label: '네이버', emoji: '🟢', url: 'https://naver.com' },
+    kakao: { label: '카카오', emoji: '💬', url: 'https://pf.kakao.com' },
+    facebook: { label: '페이스북', emoji: '👤', url: 'https://facebook.com' },
+    youtube: { label: '유튜브', emoji: '▶️', url: 'https://youtube.com' },
+    twitter: { label: '트위터', emoji: '🐦', url: 'https://x.com' },
+    internal: { label: '내부 이동', emoji: '🔄', url: null },
+    other: { label: '기타', emoji: '🌐', url: null },
 };
 
 const TABS = [
     { id: 'today', label: '오늘' },
     { id: 'last7', label: '최근 7일' },
     { id: 'thisMonth', label: '이번 달' },
+    { id: 'lastMonth', label: '지난 달' },
     { id: 'thisYear', label: '올해' }
 ];
 
@@ -125,14 +131,55 @@ const AnalyticsWidget = () => {
                     const snap = await getDoc(doc(db, 'analytics_monthly', monthStr));
                     mergeData(result, snap.exists() ? snap.data() : {});
                     
-                    // Chart: Days of this month
-                    const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+                    // Chart: Days of this month (Optimized via single getDocs query instead of loop getDoc)
+                    const year = now.getFullYear();
+                    const month = now.getMonth();
+                    const startDateStr = `${monthStr}-01`;
+                    const endDateStr = getFormattedDate(now);
+                    
+                    const colRef = collection(db, 'analytics_daily');
+                    const q = query(colRef, where('__name__', '>=', startDateStr), where('__name__', '<=', endDateStr));
+                    const querySnapshot = await getDocs(q);
+                    
+                    const dailyMap = {};
+                    querySnapshot.forEach(doc => {
+                        dailyMap[doc.id] = doc.data().total || 0;
+                    });
+                    
+                    const daysInMonth = new Date(year, month + 1, 0).getDate();
                     for (let i = 1; i <= daysInMonth; i++) {
-                        const d = new Date(now.getFullYear(), now.getMonth(), i);
-                        if (d > now) break; // Don't fetch future days
+                        const d = new Date(year, month, i);
+                        if (d > now) break;
                         const dateStr = getFormattedDate(d);
-                        const dSnap = await getDoc(doc(db, 'analytics_daily', dateStr));
-                        result.chartData.push({ label: `${i}일`, count: dSnap.exists() ? (dSnap.data().total || 0) : 0 });
+                        result.chartData.push({ label: `${i}일`, count: dailyMap[dateStr] || 0 });
+                    }
+                }
+                else if (activeTab === 'lastMonth') {
+                    const lastMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+                    const monthStr = getFormattedMonth(lastMonthDate);
+                    const snap = await getDoc(doc(db, 'analytics_monthly', monthStr));
+                    mergeData(result, snap.exists() ? snap.data() : {});
+                    
+                    // Chart: Days of last month (Optimized via single getDocs query)
+                    const year = lastMonthDate.getFullYear();
+                    const month = lastMonthDate.getMonth();
+                    const startDateStr = `${monthStr}-01`;
+                    const daysInMonth = new Date(year, month + 1, 0).getDate();
+                    const endDateStr = `${monthStr}-${String(daysInMonth).padStart(2, '0')}`;
+                    
+                    const colRef = collection(db, 'analytics_daily');
+                    const q = query(colRef, where('__name__', '>=', startDateStr), where('__name__', '<=', endDateStr));
+                    const querySnapshot = await getDocs(q);
+                    
+                    const dailyMap = {};
+                    querySnapshot.forEach(doc => {
+                        dailyMap[doc.id] = doc.data().total || 0;
+                    });
+                    
+                    for (let i = 1; i <= daysInMonth; i++) {
+                        const d = new Date(year, month, i);
+                        const dateStr = getFormattedDate(d);
+                        result.chartData.push({ label: `${i}일`, count: dailyMap[dateStr] || 0 });
                     }
                 }
                 else if (activeTab === 'thisYear') {
@@ -175,7 +222,22 @@ const AnalyticsWidget = () => {
     const topPages = allPages.slice(0, 5);
         
     const allSources = Object.entries(aggData.sources)
-        .map(([k, v]) => ({ ...(SOURCE_LABELS[k] || { label: k, emoji: '🌐' }), count: v }))
+        .map(([k, v]) => {
+            if (SOURCE_LABELS[k]) {
+                return { ...SOURCE_LABELS[k], key: k, count: v };
+            } else if (k.startsWith('ref_')) {
+                const domain = k.substring(4).replace(/_/g, '.');
+                return {
+                    label: domain,
+                    emoji: '🌐',
+                    url: `https://${domain}`,
+                    key: k,
+                    count: v
+                };
+            } else {
+                return { label: k, emoji: '🌐', url: null, key: k, count: v };
+            }
+        })
         .sort((a, b) => b.count - a.count);
     const displayedSources = showAllSources ? allSources : allSources.slice(0, 5);
         
@@ -275,13 +337,26 @@ const AnalyticsWidget = () => {
                             <div className="aw-section-title">유입 경로 {showAllSources ? '전체' : 'Top 5'}</div>
                             {displayedSources.length === 0 ? <div className="aw-empty">데이터 없음</div> : (
                                 <div className="aw-page-list">
-                                    {displayedSources.map((s, i) => (
-                                        <div key={i} className="aw-page-item">
-                                            <span className="aw-page-rank">{s.emoji}</span>
-                                            <span className="aw-page-name">{s.label}</span>
-                                            <span className="aw-page-count">{s.count}명</span>
-                                        </div>
-                                    ))}
+                                    {displayedSources.map((s, i) => {
+                                        const isLinkable = !!s.url;
+                                        const handleItemClick = () => {
+                                            if (isLinkable) {
+                                                window.open(s.url, '_blank', 'noopener,noreferrer');
+                                            }
+                                        };
+                                        return (
+                                            <div 
+                                                key={i} 
+                                                className={`aw-page-item ${isLinkable ? 'linkable' : ''}`}
+                                                onClick={handleItemClick}
+                                                title={isLinkable ? `${s.label} 바로가기` : ''}
+                                            >
+                                                <span className="aw-page-rank">{s.emoji}</span>
+                                                <span className="aw-page-name">{s.label}</span>
+                                                <span className="aw-page-count">{s.count}명</span>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             )}
                             {allSources.length > 5 && (

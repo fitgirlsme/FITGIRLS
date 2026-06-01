@@ -149,23 +149,33 @@ export const getAlimtalkTemplate = (type, params) => {
                 }
             };
 
-        case 'UH_5901': // 이벤트당첨안내 (쿠폰발급)
+        case 'UH_5901': { // 이벤트당첨안내 (쿠폰발급)
+            const today = new Date();
+            const issueDateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+            const expire = new Date(today);
+            expire.setMonth(expire.getMonth() + 6);
+            const expireDateStr = `${expire.getFullYear()}.${String(expire.getMonth() + 1).padStart(2, '0')}.${String(expire.getDate()).padStart(2, '0')}`;
+
+            // Use the raw discount value exactly as inputted to match template variables
+            const discountDisplay = params.discount || '';
+
+            const content = `안녕하세요, ${name}님! 핏걸즈 이벤트 쿠폰 발급이 완료되었습니다. 축하드립니다! ✨ 지정된 기한 내에 촬영 예약 시 [${discountDisplay}] 할인이 적용됩니다. ■ 발급 코드: ${params.issuedCode || ''} ■ 발급 일자: ${issueDateStr} ■ 유효 기간: ${expireDateStr} (발급일로부터 6개월) 예약 상담이나 궁금하신 점은 지금 보고 계신 이 채팅창에 바로 메시지를 남겨주세요! 😊 담당 작가가 확인 후 친절히 안내해 드리겠습니다. 고객님의 아름다운 순간을 위해 정성을 다하겠습니다. 감사합니다!`;
+
             return {
                 code: 'UH_5901',
                 title: '이벤트당첨',
                 subtitle: '핏걸즈&이너핏 이벤트 당첨안내',
-                message: `안녕하세요, ${name}님!\n핏걸즈 이벤트 쿠폰 발급이 완료되었습니다. 축하드립니다! ✨\n지정된 기한 내에 촬영 예약 시 [${options.discount || ''}] 할인이 적용됩니다.\n■ 발급 코드: ${options.issuedCode || ''}\n예약 상담이나 궁금하신 점은 지금 보고 계신 이 채팅창에 바로 메시지를 남겨주세요! 😊\n담당 작가가 확인 후 친절히 안내해 드리겠습니다.\n고객님의 아름다운 순간을 위해 정성을 다하겠습니다. 감사합니다!\n※ 이 메시지는 고객님이 다운로드 받으신 쿠폰 안내 메시지입니다.`,
+                message: content,
                 button: {
                     button: [
                         {
-                            name: '쿠폰 확인하기',
-                            linkType: 'WL',
-                            linkMo: 'https://fitgirls.me/mypage',
-                            linkPc: 'https://fitgirls.me/mypage'
+                            name: '채널추가',
+                            linkType: 'AC'
                         }
                     ]
                 }
             };
+        }
 
         case 'UH_5710': // 선보정완료_안내 (고객용)
             return {
@@ -185,14 +195,6 @@ export const getAlimtalkTemplate = (type, params) => {
                 }
             };
 
-        case 'UH_5901': // 쿠폰발급_안내 (고객용)
-            return {
-                code: 'UH_5901',
-                title: '이벤트당첨안내',
-                subtitle: '핏걸즈&이너핏 이벤트 당첨안내',
-                message: `안녕하세요, ${name}님!\n핏걸즈 이벤트 쿠폰 발급이 완료되었습니다. 축하드립니다! ✨\n지정된 기한 내에 촬영 예약 시 [${params.discount || '50%'}] 할인이 적용됩니다.\n■ 발급 코드: ${params.issuedCode}\n예약 상담이나 궁금하신 점은 지금 보고 계신 이 채팅창에 바로 메시지를 남겨주세요! 😊\n담당 작가가 확인 후 친절히 안내해 드리겠습니다.\n고객님의 아름다운 순간을 위해 정성을 다하겠습니다. 감사합니다!`,
-                button: null
-            };
 
         default:
             return null;

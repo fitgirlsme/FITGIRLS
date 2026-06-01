@@ -20,12 +20,22 @@ import {
     MdCameraAlt, MdPhotoLibrary, MdPeople, MdShoppingBag, 
     MdEventAvailable, MdMovie, MdMoveToInbox, MdHandshake, 
     MdCamera, MdPerson, MdElderly, MdLogout, MdArrowBack,
-    MdChevronRight, MdGridView, MdCollections, MdCardGiftcard, MdHome, MdDashboard
+    MdChevronRight, MdGridView, MdCollections, MdCardGiftcard, MdHome, MdDashboard,
+    MdRateReview
 } from 'react-icons/md';
 
 // Constants
 const MODEL_CATEGORIES = ['WOMAN', 'MAN'];
 const PRODUCT_CATEGORIES = ['APPAREL', 'ACCESSORY', 'GOODS', 'BEAUTY', 'LIFE', 'GIFT'];
+const REVIEW_CATEGORIES = [
+    { id: 'first', label: '첫 바프' },
+    { id: 'awkward', label: '뚝딱이 탈출' },
+    { id: '40s', label: '40대+' },
+    { id: 'revisit', label: '재방문' },
+    { id: 'couple', label: '커플/우정' },
+    { id: 'male', label: '남성' },
+    { id: 'pro', label: '운동 전공자' }
+];
 const STORES = {
     HERO_SLIDES: 'hero_slides',
     MODELS: 'models',
@@ -44,6 +54,7 @@ const Admin = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('admin_logged_in') === 'true');
     const [password, setPassword] = useState('');
     const [searchParams] = useSearchParams();
+    const [newRetouchCount, setNewRetouchCount] = useState(0);
     const [activeTab, setActiveTab] = useState(() => {
         const param = searchParams.get('tab');
         if (param) return param;
@@ -63,6 +74,28 @@ const Admin = () => {
             if (existingStyle) document.head.removeChild(existingStyle);
         };
     }, []);
+
+    useEffect(() => {
+        if (!isLoggedIn) return;
+        const fetchRetouchCount = async () => {
+            try {
+                const snap = await getDocs(collection(db, 'retouch_masters'));
+                let count = 0;
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    if (data.projectStatuses) {
+                        Object.values(data.projectStatuses).forEach(status => {
+                            if (status === '보정대기') count++;
+                        });
+                    }
+                });
+                setNewRetouchCount(count);
+            } catch (err) {
+                console.error("Failed to fetch retouch count:", err);
+            }
+        };
+        fetchRetouchCount();
+    }, [isLoggedIn]);
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -107,12 +140,13 @@ const Admin = () => {
         { id: 'shop', label: 'Shop', icon: <MdShoppingBag />, desc: 'Products & Sales' },
         { id: 'studios', label: 'Studios', icon: <MdCamera />, desc: 'Studio Zones' },
         { id: 'events', label: 'Events', icon: <MdEventAvailable />, desc: 'Notices & Promos' },
-        { id: 'retouch', label: 'Retouch', icon: <MdCameraAlt />, desc: 'Fitgirls & INAFIT Retouch' },
+        { id: 'retouch', label: 'Retouch', icon: <MdCameraAlt />, desc: 'Fitgirls & INAFIT Retouch', badge: newRetouchCount > 0 },
         { id: 'models', label: 'Ambassadors', icon: <MdPeople />, desc: 'Profiles & Portfolio' },
         { id: 'apply', label: 'Applications', icon: <MdMoveToInbox />, desc: 'New submissions' },
         { id: 'partners', label: 'Partners', icon: <MdHandshake />, desc: 'Partner logos' },
         { id: 'coupon', label: 'Coupon', icon: <MdCardGiftcard />, desc: 'Event Coupons' },
         { id: 'smodel', label: 'S-Model', icon: <MdElderly />, desc: 'Senior Models & Archives' },
+        { id: 'reviews', label: 'Reviews', icon: <MdRateReview />, desc: 'Curated Customer Reviews' },
     ];
 
     return (
@@ -139,7 +173,10 @@ const Admin = () => {
                             onClick={() => setActiveTab(tab.id)}
                         >
                             <span className="sidebar-icon">{tab.icon}</span>
-                            <span className="sidebar-label">{tab.label}</span>
+                            <span className="sidebar-label">
+                                {tab.label}
+                                {tab.badge && <span style={{ background: '#FF003C', color: '#fff', fontSize: '0.65rem', padding: '2px 5px', borderRadius: '4px', marginLeft: '6px', fontWeight: 'bold' }}>N</span>}
+                            </span>
                         </button>
                     ))}
                 </nav>
@@ -199,7 +236,10 @@ const Admin = () => {
                                     >
                                         <div className="card-icon-wrapper">{tab.icon}</div>
                                         <div className="card-info">
-                                            <span className="card-title">{tab.label}</span>
+                                            <span className="card-title">
+                                                {tab.label}
+                                                {tab.badge && <span style={{ background: '#FF003C', color: '#fff', fontSize: '0.65rem', padding: '2px 5px', borderRadius: '4px', marginLeft: '6px', fontWeight: 'bold' }}>N</span>}
+                                            </span>
                                             <span className="card-subtitle">{tab.desc}</span>
                                         </div>
                                         <MdChevronRight className="card-arrow" />
@@ -224,6 +264,7 @@ const Admin = () => {
                         {activeTab === 'smodel' && <SModelAdminTab />}
                         {activeTab === 'retouch' && <RetouchAdminTab />}
                         {activeTab === 'coupon' && <CouponAdminTab />}
+                        {activeTab === 'reviews' && <ReviewsTab />}
                     </div>
                 </main>
             </div>
@@ -1897,6 +1938,148 @@ const ProductsTab = () => {
     );
 };
 
+// ===== 3-3. Reviews Tab =====
+const ReviewsTab = () => {
+    const [reviews, setReviews] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [showForm, setShowForm] = useState(false);
+    const [editId, setEditId] = useState(null);
+    const [form, setForm] = useState({
+        author: '', job: '', content: '', category: 'first', imageUrl: '', rating: 5
+    });
+    const [saving, setSaving] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    useEffect(() => { loadReviews(); }, []);
+
+    const loadReviews = async () => {
+        try {
+            const snap = await getDocs(query(collection(db, 'reviews'), orderBy('createdAt', 'desc')));
+            setReviews(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+        } catch (err) { console.error(err); }
+        finally { setLoading(false); }
+    };
+
+    const resetForm = () => {
+        setForm({ author: '', job: '', content: '', category: 'first', imageUrl: '', rating: 5 });
+        setEditId(null); setShowForm(false);
+    };
+
+    const handleSave = async () => {
+        if (!form.author || !form.content) { alert('Author and Content are required.'); return; }
+        setSaving(true);
+        try {
+            const data = { 
+                ...form, 
+                updatedAt: serverTimestamp(), 
+                ...(editId ? {} : { createdAt: serverTimestamp() }) 
+            };
+            if (editId) { await updateDoc(doc(db, 'reviews', editId), data); }
+            else { await addDoc(collection(db, 'reviews'), data); }
+            
+            setShowSuccess(true); setTimeout(() => setShowSuccess(false), 3000);
+            resetForm(); loadReviews();
+        } catch (err) { alert('Save error: ' + err.message); }
+        setSaving(false);
+    };
+
+    const handleDelete = async (id) => {
+        if (!window.confirm('Delete this review?')) return;
+        try {
+            await deleteDoc(doc(db, 'reviews', id));
+            loadReviews();
+        } catch (err) { alert(err.message); }
+    };
+
+    const handlePhoto = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        setSaving(true);
+        try {
+            const { url } = await uploadOptimizedImage(file, 'reviews');
+            setForm(prev => ({ ...prev, imageUrl: url }));
+        } catch (err) { alert('Upload failed: ' + err.message); }
+        setSaving(false);
+    };
+
+    return (
+        <div className="upload-section">
+            {showSuccess && <Toast message="Review saved successfully!" onClose={() => setShowSuccess(false)} />}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+                <h3 style={{ margin: 0 }}>Curation Reviews</h3>
+                <button className="add-btn" onClick={() => { resetForm(); setShowForm(true); }}>+ Add New Review</button>
+            </div>
+
+            {showForm && (
+                <div className="admin-modal-overlay" onClick={() => resetForm()}>
+                    <div className="admin-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '600px' }}>
+                        <button className="close-x" onClick={resetForm}>×</button>
+                        <h3>{editId ? 'Edit Review' : 'Add New Review'}</h3>
+                        <div className="admin-modal-form">
+                            <div className="admin-grid-two">
+                                <div className="form-group"><label>작성자 (Author) *</label><input type="text" value={form.author} onChange={e => setForm({...form, author: e.target.value})} /></div>
+                                <div className="form-group"><label>직업 (Job/Subtitle)</label><input type="text" value={form.job} onChange={e => setForm({...form, job: e.target.value})} placeholder="예: 요가강사" /></div>
+                            </div>
+                            
+                            <div className="form-group">
+                                <label>리뷰 카테고리 (Curation Category)</label>
+                                <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="admin-select">
+                                    {REVIEW_CATEGORIES.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
+                                </select>
+                            </div>
+
+                            <div className="form-group">
+                                <label>리뷰 내용 (Content) *</label>
+                                <textarea style={{ height: '150px' }} value={form.content} onChange={e => setForm({...form, content: e.target.value})} />
+                            </div>
+
+                            <div className="form-group">
+                                <label>리뷰 이미지</label>
+                                <div className="admin-image-uploader">
+                                    <input type="file" accept="image/*" onChange={handlePhoto} />
+                                    {form.imageUrl && (
+                                        <div className="image-preview-grid">
+                                            <div className="preview-box">
+                                                <img src={form.imageUrl} alt="" />
+                                                <button onClick={() => setForm({...form, imageUrl: ''})}>×</button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            <button className="submit-btn" onClick={handleSave} disabled={saving}>
+                                {saving ? 'Saving...' : 'Save Review'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="admin-item-list">
+                {reviews.map(r => (
+                    <div key={r.id} className="admin-item-card">
+                        {r.imageUrl && <img src={r.imageUrl} alt="" className="admin-item-thumb" />}
+                        <div className="admin-item-info">
+                            <span style={{ fontSize: '0.7rem', color: '#03C75A', fontWeight: 800 }}>
+                                {REVIEW_CATEGORIES.find(c => c.id === r.category)?.label || '전체'}
+                            </span>
+                            <h4 style={{ margin: '4px 0' }}>{r.author}</h4>
+                            <p style={{ fontSize: '0.8rem', color: '#666', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                {r.content}
+                            </p>
+                            <div className="admin-item-actions">
+                                <button onClick={() => { setForm({...r}); setEditId(r.id); setShowForm(true); }}>Edit</button>
+                                <button onClick={() => handleDelete(r.id)} className="delete">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
 // ===== 4. Events Tab =====
 const EventsTab = () => {
     const [events, setEvents] = useState([]);
@@ -2763,7 +2946,7 @@ const StudiosTab = () => {
                                 <label>Category</label>
                                 <select value={form.category} onChange={e => setForm({...form, category: e.target.value})} className="admin-select">
                                     <option value="fitgirls">FITGIRLS & INAFIT (핏걸즈 & INAFIT)</option>
-                                    <option value="mooz">MOOZ SELF Studio (무즈 셀프스튜디오)</option>
+                                    <option value="mooz">NEVERLAND SELF Studio (네버랜드 셀프스튜디오)</option>
                                 </select>
                             </div>
                             <div className="form-group"><label>Description (Optional)</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} /></div>
@@ -2831,7 +3014,7 @@ const StudiosTab = () => {
                     className={`admin-tab-btn ${filterTab === 'mooz' ? 'active' : ''}`}
                     onClick={() => setFilterTab('mooz')}
                 >
-                    MOOZ SELF Studio
+                    NEVERLAND SELF Studio
                 </button>
             </div>
 
@@ -2841,7 +3024,7 @@ const StudiosTab = () => {
                         {(s.image || s.img) && <img src={s.image || s.img} alt="" className="admin-item-thumb" />}
                         <div className="admin-item-info">
                             <strong>{s.title}</strong>
-                            <span className="admin-item-badge">{s.category === 'fitgirls' ? 'FITGIRLS & INAFIT' : 'MOOZ SELF'}</span>
+                            <span className="admin-item-badge">{s.category === 'fitgirls' ? 'FITGIRLS & INAFIT' : 'NEVERLAND SELF'}</span>
                             {s.hashtag && <span style={{ fontSize: '0.75rem', color: '#3a7bd5', fontWeight: 'bold' }}>{s.hashtag}</span>}
                         </div>
                         <div className="admin-item-actions">

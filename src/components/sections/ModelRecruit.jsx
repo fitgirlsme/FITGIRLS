@@ -13,15 +13,6 @@ const ModelRecruit = () => {
     const [applicantCount, setApplicantCount] = useState(null);
     const isAdmin = localStorage.getItem('admin_logged_in') === 'true';
 
-    // Hook: Dynamic Applicant Counter (Increases by 1 every 4 hours from 2026-03-30 starting at 128)
-    const getHookCount = () => {
-        const baseDate = new Date('2026-03-30T00:00:00');
-        const now = new Date();
-        const diffHours = Math.floor((now - baseDate) / (1000 * 60 * 60));
-        return 128 + Math.max(0, Math.floor(diffHours / 4));
-    };
-    const hookCount = getHookCount();
-
     React.useEffect(() => {
         if (isAdmin) {
             getDocs(query(collection(db, 'applications')))
@@ -80,39 +71,63 @@ const ModelRecruit = () => {
                     <p className="model-apply-intro">{t('modelApply.ambassadorDetail.intro', '')}</p>
                 </div>
 
-                <div className="model-program-details">
-                    <div className="program-card benefits">
-                        <h3 className="program-card-title">{t('modelApply.ambassadorDetail.benefits.title', '🎁 BENEFITS')}</h3>
-                        <div className="program-card-badge">{t('modelApply.ambassadorDetail.benefits.badge', '지원 혜택')}</div>
-                        <p className="program-card-subtitle">{t('modelApply.ambassadorDetail.benefits.subtitle', '')}</p>
-                        <ul className="program-list">
-                            {t('modelApply.ambassadorDetail.benefits.items', { returnObjects: true })?.map((item, i) => (
-                                <li key={i} className="program-list-item">
-                                    <span className="item-dot"></span>
-                                    <div className="item-content">
-                                        <div className="item-title">{item.title}</div>
-                                        <div className="item-desc">{item.desc}</div>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
+                <div className="model-recruit-curation">
+                    <div className="curation-header">
+                        <p className="curation-subtitle">GLOBAL BRAND CASTING</p>
+                        <h3 className="curation-main-title editorial">
+                            MORE THAN<br/>
+                            <span>A MODEL</span>
+                        </h3>
+                        <p className="editorial-desc">FITORIALIST+는 단순한 모델이 아닙니다. 자신의 삶을 스스로 연출하는 아티스트입니다.</p>
                     </div>
 
-                    <div className="program-card roles">
-                        <h3 className="program-card-title">{t('modelApply.ambassadorDetail.role.title', '🤝 ROLES')}</h3>
-                        <div className="program-card-badge">{t('modelApply.ambassadorDetail.role.badge', '엠버서더의 역할')}</div>
-                        <p className="program-card-subtitle">{t('modelApply.ambassadorDetail.role.subtitle', '')}</p>
-                        <ul className="program-list">
-                            {t('modelApply.ambassadorDetail.role.items', { returnObjects: true })?.map((item, i) => (
-                                <li key={i} className="program-list-item">
-                                    <span className="item-dot"></span>
-                                    <div className="item-content">
-                                        <div className="item-title">{item.title}</div>
-                                        <div className="item-desc">{item.desc}</div>
-                                    </div>
+                    <div className="social-proof-block closed">
+                        <div className="proof-status-badge">1기 지원 마감</div>
+                        <span className="proof-label">1st BATCH APPLICATIONS</span>
+                        <span className="proof-value">380</span>
+                        <p className="proof-footer">뜨거운 성원으로 1기 모집이 조기 마감되었습니다.</p>
+                    </div>
+
+                    <div className="curation-grid">
+                        <div className="curation-section magazine-style">
+                            <h4 className="curation-sec-title">AMBASSADOR PASS</h4>
+                            <ul className="curation-list editorial-style">
+                                <li>
+                                    <strong className="editorial-label">SESSION</strong>
+                                    <span className="editorial-main">3개월마다 정기 FITORIAL 촬영 진행</span>
                                 </li>
-                            ))}
-                        </ul>
+                                <li>
+                                    <strong className="editorial-label">FEATURE</strong>
+                                    <span className="editorial-main">공식 매거진 및 SNS 채널 에디토리얼 피처드</span>
+                                </li>
+                                <li>
+                                    <strong className="editorial-label">CAMPAIGN</strong>
+                                    <span className="editorial-main">브랜드 캠페인 및 글로벌 프로젝트 우선 참여</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div className="curation-section magazine-style">
+                            <h4 className="curation-sec-title">OUR VALUES</h4>
+                            <ul className="curation-list editorial-style">
+                                <li>
+                                    <strong className="editorial-label">ATTITUDE</strong>
+                                    <span className="editorial-main">팔로워 수보다 중요한 본질적인 태도</span>
+                                </li>
+                                <li>
+                                    <strong className="editorial-label">EXPRESSION</strong>
+                                    <span className="editorial-main">완벽한 몸보다 매력적인 자기 표현력</span>
+                                </li>
+                                <li>
+                                    <strong className="editorial-label">ENERGY</strong>
+                                    <span className="editorial-main">누구보다 빛나는 꾸준함과 존재감</span>
+                                </li>
+                                <li>
+                                    <strong className="editorial-label">MOOD</strong>
+                                    <span className="editorial-main">유행을 따르지 않는 자신만의 독보적 무드</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
@@ -194,11 +209,12 @@ const ModelRecruit = () => {
                         className="apply-submit-btn"
                         disabled={submitting}
                     >
-                        {submitting
-                            ? t('modelApply.submitting', '제출 중...')
-                            : t('modelApply.submit', '지원하기')
+                        {submitting 
+                            ? t('modelApply.submitting', 'SUBMITTING...') 
+                            : t('modelApply.submit', 'JOIN FITORIALIST+') 
                         }
                     </button>
+                    <p className="apply-final-cta">당신의 FITORIAL을 시작하세요.</p>
                     {status === 'success' && (
                         <div className="apply-status success">
                             {t('modelApply.successMsg', '지원이 완료되었습니다. 감사합니다!')}
@@ -232,14 +248,10 @@ const ModelRecruit = () => {
                 )}
 
 
-                <div className="model-apply-footer-note">
-                    {t('modelApply.footerNote', '핏걸즈&이너핏은 전 세계 모든 열정과 아름다움을 존중합니다. 국적 및 연령에 제한 없이, 자신만의 독보적인 무드를 가진 분이라면 누구나 2026 핏토리얼리스트가 될 수 있습니다.')}
+                <div className="model-apply-footer-note-luxury">
+                    {t('modelApply.footerNoteCompressed', '국적과 나이를 넘어, 자신만의 무드를 가진 모든 사람을 기다립니다.')}
                 </div>
 
-                <div className="model-apply-hook-counter">
-                    <span className="hook-dot"></span>
-                    {t('modelApply.accumulatedApps', '현재 누적 지원 인원: {{count}}명', { count: hookCount })}
-                </div>
 
                 <div className="model-list-link-container" style={{ marginTop: '60px', textAlign: 'center' }}>
                     <a href="/fitorialist" className="model-list-link-btn" style={{

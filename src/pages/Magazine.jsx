@@ -233,8 +233,8 @@ const Magazine = () => {
                 </div>
             ) : (() => {
                 const activeModel = getModelForIssue(selectedIssue);
-                const heroPhoto = photos.length > 0 ? (photos[0].imageUrl || photos[0].img) : selectedIssue.coverImg;
-                const galleryPhotos = photos.length > 1 ? photos.slice(1) : photos;
+                const heroPhoto = selectedIssue.coverImg;
+                const galleryPhotos = photos;
                 const relatedIssues = issues.filter(i => i.id !== selectedIssue.id).slice(0, 3);
 
                 return (

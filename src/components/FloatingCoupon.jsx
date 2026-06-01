@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { db } from '../utils/firebase';
-import RouletteModal from './RouletteModal';
+import CouponModal from './CouponModal';
 import './FloatingCoupon.css';
 
 const FloatingCoupon = () => {
     const location = useLocation();
     const [activeEvent, setActiveEvent] = useState(null);
-    const [showModal, setShowModal] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
-    const [position, setPosition] = useState({ top: '20%', left: '10%' });
 
     useEffect(() => {
         // Don't show on admin-specific paths, but allow admins to see it on regular pages
@@ -30,6 +28,12 @@ const FloatingCoupon = () => {
 
         const fetchAndShow = async () => {
             try {
+                // Check global config first
+                const configSnap = await getDoc(doc(db, 'site_settings', 'coupon_config'));
+                if (configSnap.exists() && configSnap.data().showCoupon === false) {
+                    return; // Disabled globally
+                }
+
                 const q = query(
                     collection(db, 'coupon_events'), 
                     where('isActive', '==', true)
@@ -41,7 +45,6 @@ const FloatingCoupon = () => {
                     if (eventData.claimedCount < eventData.totalLimit) {
                         setActiveEvent(eventData);
                         setIsVisible(true);
-                        randomizePosition();
                     }
                 }
             } catch (err) {
@@ -49,20 +52,14 @@ const FloatingCoupon = () => {
             }
         };
 
-        // Delayed appearance (8 seconds) for engagement
-        const timer = setTimeout(fetchAndShow, 8000);
+        // Delayed appearance (3 seconds) for engagement
+        const timer = setTimeout(fetchAndShow, 3000);
         
         return () => clearTimeout(timer);
     }, [location.pathname, isVisible]);
 
-    const randomizePosition = () => {
-        const t = Math.floor(Math.random() * 60) + 20; // 20% to 80%
-        const l = Math.floor(Math.random() * 60) + 20; // 20% to 80%
-        setPosition({ top: `${t}%`, left: `${l}%` });
-    };
-
     const handleDismiss = (e) => {
-        e.stopPropagation(); // Prevent opening the modal
+        if (e) e.stopPropagation();
         setIsVisible(false);
         sessionStorage.setItem('coupon_dismissed', 'true');
     };
@@ -71,37 +68,10 @@ const FloatingCoupon = () => {
     if (!activeEvent || !isVisible || isAdminLoggedIn) return null;
 
     return (
-        <>
-            {!showModal && (
-                <div 
-                    className="floating-coupon-container"
-                    style={{ top: position.top, left: position.left }}
-                    onClick={() => setShowModal(true)}
-                >
-                    <div className="coupon-ticket-wrapper">
-                        <button className="coupon-close-btn" onClick={handleDismiss}>✕</button>
-                        <div className="coupon-ticket">
-                            <div className="ticket-content">
-                                <span className="ticket-label">LUCKY</span>
-                                <span className="ticket-discount">SPIN</span>
-                                <span className="ticket-sub">GO!</span>
-                            </div>
-                        </div>
-                        <div className="coupon-sparkles">
-                            <span>✨</span><span>⭐</span><span>✨</span>
-                        </div>
-                    </div>
-                    <div className="coupon-tooltip">DEBUG: COUPON</div>
-                </div>
-            )}
-
-            {showModal && (
-                <RouletteModal 
-                    event={activeEvent} 
-                    onClose={() => setShowModal(false)} 
-                />
-            )}
-        </>
+        <CouponModal 
+            event={activeEvent} 
+            onClose={handleDismiss} 
+        />
     );
 };
 

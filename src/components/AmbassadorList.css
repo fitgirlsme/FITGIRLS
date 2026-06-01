@@ -240,11 +240,11 @@
 }
 
 .al-grid-description-ford {
-  font-size: 0.75rem;
-  line-height: 1.8;
-  color: #666;
-  font-weight: 400;
-  letter-spacing: -0.2px;
+  font-size: 0.85rem;
+  line-height: 1.85;
+  color: #444;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   word-break: keep-all;
 }
 
@@ -319,10 +319,12 @@
   cursor: pointer;
   overflow: hidden;
   position: relative;
-  /* Hardware acceleration to prevent flickering */
+  /* Hardware acceleration and layout containment to prevent squishing/flickering */
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transform: translateZ(0);
+  contain: layout paint;
+  background: #fdfdfd;
 }
 
 .al-card-img {
@@ -783,6 +785,10 @@
   position: relative;
   background: #fdfdfd;
   border-radius: 4px;
+  /* Stabilize masonry item dimensions during load */
+  display: inline-block;
+  vertical-align: top;
+  contain: layout paint;
 }
 
 .al-double-render {

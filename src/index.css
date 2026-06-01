@@ -10,6 +10,8 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  /* Prevent horizontal layout shifts by always forcing a vertical scrollbar */
+  overflow-y: scroll;
 }
 
 /* Hide Channel Talk launcher bubble globally */

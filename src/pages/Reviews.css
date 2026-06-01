@@ -45,6 +45,45 @@
   background: var(--color-border);
 }
 
+.review-category-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 40px;
+  padding: 0 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.review-category-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.cat-tab-btn {
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 1px solid #eee;
+  background: #fff;
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.cat-tab-btn.active {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.cat-tab-btn:hover:not(.active) {
+  background: #f9f9f9;
+  border-color: #ddd;
+}
+
 .review-slider-wrapper {
   position: relative;
   width: 100%;
@@ -323,8 +362,104 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 32px;
+  gap: 24px;
   padding: 40px 24px;
+}
+
+.review-guide-container {
+  width: 100%;
+  max-width: 550px;
+  background: #fcfcfc;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.review-guide-container.is-open {
+  background: #fff;
+  border-color: #ddd;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.guide-toggle-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  gap: 12px;
+}
+
+.toggle-icon {
+  font-size: 1.1rem;
+}
+
+.toggle-text {
+  flex: 1;
+  text-align: left;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.chevron-icon {
+  width: 18px;
+  height: 18px;
+  color: #999;
+  transition: transform 0.3s ease;
+}
+
+.chevron-icon.up {
+  transform: rotate(180deg);
+}
+
+.guide-content-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  opacity: 0;
+}
+
+.is-open .guide-content-wrapper {
+  max-height: 400px;
+  opacity: 1;
+}
+
+.guide-content-inner {
+  padding: 0 20px 24px 50px;
+}
+
+.guide-desc {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.guide-questions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.guide-questions li {
+  font-size: 0.9rem;
+  color: #444;
+  font-weight: 500;
+  line-height: 1.4;
+  display: flex;
+  gap: 8px;
+}
+
+.guide-questions li span {
+  color: #03c75a;
+  font-weight: 900;
 }
 
 .review-write-buttons {

@@ -19,7 +19,7 @@ const Retouch = () => {
         '보정대기': '원본 셀렉 파일을 기다리고 있습니다. 셀렉 완료 후 메일(inafit@daum.net)로 회신 주시면 보정 작업이 시작됩니다. (셀렉 후 약 4주 소요). 보정본 수령 후 추가로 보정이 더 필요할 시 핏걸즈 스마트 플레이스 (핏걸즈스튜디오)에서 추가 구매가 가능합니다.',
         '선보정(당일보정)': '먼저 받고 싶은 사진 한 장에 대해 우선적으로 보정을 진행하는 단계입니다.',
         '보정중': '선택하신 사진을 작가가 정성스럽게 보정하고 있는 단계입니다. 조금만 더 기다려 주세요!',
-        '1차보정완료(피드백요청)': '1차 보정이 완료되어 업로드되었습니다. 보정본을 확인하신 후, 추가 수정 사항이 있으시면 말씀해 주세요.',
+        '1차보정완료(피드백요청)': '여기에서 보정을 확인하신 후,추가로 2차보정이 필요한 부분이 있으시면 말씀해 주세요.',
         '2차보정': '전달해주신 피드백을 바탕으로 2차 보정 작업을 진행 중입니다.',
         '최종컴펌완료': '모든 보정 작업에 대한 컨펌이 완료되었습니다. 최종 파일을 정리 중입니다.',
         '최종보정완료': '모든 보정 작업이 완료되었습니다! 최종 보정본을 다운로드하실 수 있습니다.'
@@ -328,7 +328,8 @@ const Retouch = () => {
                                                             if (!val) return alert('피드백 내용을 입력해주세요.');
                                                             await updateDoc(doc(db, 'retouch_masters', customer.id), { 
                                                                 [`clientFeedbacks.${pId}`]: val,
-                                                                [`projectStatuses.${pId}`]: '2차보정'
+                                                                [`projectStatuses.${pId}`]: '2차보정',
+                                                                [`statusUpdatedAts.${pId}`]: new Date().toISOString()
                                                             });
                                                             
                                                             // 관리자에게 피드백 알림 전송
@@ -351,7 +352,8 @@ const Retouch = () => {
                                                         onClick={async () => {
                                                             if (window.confirm('이대로 최종 컨펌하시겠습니까? 더 이상의 추가 수정은 불가능합니다.')) {
                                                                 await updateDoc(doc(db, 'retouch_masters', customer.id), { 
-                                                                    [`projectStatuses.${pId}`]: '최종컴펌완료'
+                                                                    [`projectStatuses.${pId}`]: '최종컴펌완료',
+                                                                    [`statusUpdatedAts.${pId}`]: new Date().toISOString()
                                                                 });
 
                                                                 // 관리자에게 컨펌 완료 알림 전송

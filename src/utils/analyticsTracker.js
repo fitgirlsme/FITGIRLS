@@ -24,7 +24,16 @@ const getReferrerSource = () => {
     if (ref.includes('youtube')) return 'youtube';
     if (ref.includes('twitter') || ref.includes('t.co')) return 'twitter';
     if (ref.includes('fitgirls.me') || ref.includes('fitgirls-me-web')) return 'internal';
-    return 'other';
+    
+    // 기타 외부 도메인의 경우 도메인을 추출하여 반환 (Firestore 제약을 피하기 위해 점을 언더바로 변환)
+    try {
+        const url = new URL(ref);
+        let host = url.hostname;
+        if (host.startsWith('www.')) host = host.substring(4);
+        return `ref_${host.replace(/\./g, '_')}`;
+    } catch (e) {
+        return 'other';
+    }
 };
 
 /**

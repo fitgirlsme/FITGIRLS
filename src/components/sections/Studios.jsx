@@ -77,7 +77,7 @@ const Studios = () => {
                         className={`studio-tab-btn ${activeTab === 'mooz' ? 'active' : ''}`}
                         onClick={() => setActiveTab('mooz')}
                     >
-                        MOOZ SELF스튜디오
+                        NEVERLAND SELF스튜디오
                     </button>
                 </div>
             </div>

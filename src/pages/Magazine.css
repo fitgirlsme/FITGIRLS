@@ -234,13 +234,29 @@
     width: 100%;
     padding: 20px 4%;
     margin-bottom: 60px;
+    display: flex;
+    justify-content: center;
 }
 
 .editorial-hero-image {
     width: 100%;
-    max-height: 90vh;
+    max-width: 550px;
+    aspect-ratio: 4 / 5;
     object-fit: cover;
     display: block;
+    border-radius: 8px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    background: #f6f7f8;
+    background-image: linear-gradient(
+        to right, 
+        #f6f7f8 0%, 
+        #edeef1 20%, 
+        #f6f7f8 40%, 
+        #f6f7f8 100%
+    );
+    background-repeat: no-repeat;
+    background-size: 200% 100%;
+    animation: mag-shimmer 2s infinite linear;
 }
 
 .editorial-info-section {
@@ -352,22 +368,7 @@
     opacity: 1;
 }
 
-.editorial-hero-image {
-    width: 100%;
-    height: auto;
-    display: block;
-    background: #f6f7f8;
-    background-image: linear-gradient(
-        to right, 
-        #f6f7f8 0%, 
-        #edeef1 20%, 
-        #f6f7f8 40%, 
-        #f6f7f8 100%
-    );
-    background-repeat: no-repeat;
-    background-size: 200% 100%;
-    animation: mag-shimmer 2s infinite linear;
-}
+
 
 
 /* Related Issues Section (More) - Dark Theme for "Point" */

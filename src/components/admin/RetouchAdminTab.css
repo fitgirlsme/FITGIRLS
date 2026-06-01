@@ -282,6 +282,28 @@
 
 .customer-header {
     margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-delete-customer {
+    background: none;
+    border: 1px solid rgba(255, 0, 60, 0.3);
+    color: #ff6b6b;
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    font-weight: 600;
+}
+
+.btn-delete-customer:hover {
+    background: #FF003C;
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 0 10px rgba(255, 0, 60, 0.3);
 }
 
 .c-info {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, query, getDocs, doc, getDoc, updateDoc, setDoc, onSnapshot } from 'firebase/firestore';
+import { collection, query, getDocs, doc, getDoc, updateDoc, setDoc, onSnapshot, deleteDoc } from 'firebase/firestore';
 import { db } from '../../utils/firebase';
 import './RetouchAdminTab.css';
 import { getAlimtalkTemplate, sendAlimtalk } from '../../utils/aligoService';
@@ -124,7 +124,8 @@ const RetouchAdminTab = () => {
                     [`projectStatuses.${pId}`]: '보정대기',
                     [`projectConcepts.${pId}`]: cConcept,
                     [`projectBaseRetouchCounts.${pId}`]: count,
-                    [`requestDates.${pId}`]: finalReqDate
+                    [`requestDates.${pId}`]: finalReqDate,
+                    [`statusUpdatedAts.${pId}`]: new Date().toISOString()
                 };
                 if (!data.password) updates.password = phoneId.slice(-4);
                 await updateDoc(cRef, updates);
@@ -136,6 +137,7 @@ const RetouchAdminTab = () => {
                     projectConcepts: { [pId]: cConcept },
                     projectBaseRetouchCounts: { [pId]: count },
                     requestDates: { [pId]: finalReqDate },
+                    statusUpdatedAts: { [pId]: new Date().toISOString() },
                     instaConsents: {}, reviewConsents: {}, dropboxArchives: {}, clientFeedbacks: {}
                 });
             }
@@ -152,7 +154,10 @@ const RetouchAdminTab = () => {
     const handleUpdateStatus = async (customerId, projectId, status) => {
         try {
             // 즉각적인 상태 업데이트
-            await updateDoc(doc(db, 'retouch_masters', customerId), { [`projectStatuses.${projectId}`]: status });
+            await updateDoc(doc(db, 'retouch_masters', customerId), { 
+                [`projectStatuses.${projectId}`]: status,
+                [`statusUpdatedAts.${projectId}`]: new Date().toISOString()
+            });
             
             // onSnapshot이 자동으로 화면을 갱신하므로 loadData(true)가 필요 없음
             
@@ -300,6 +305,18 @@ const RetouchAdminTab = () => {
         } catch (err) { console.error(err); }
     };
 
+    const handleDeleteCustomer = async (customerId, customerName) => {
+        if (window.confirm(`정말 ${customerName} 고객님의 모든 보정 정보(로그인 정보 포함)를 영구 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`)) {
+            try {
+                await deleteDoc(doc(db, 'retouch_masters', customerId));
+                alert('고객 정보가 정상적으로 삭제되었습니다.');
+            } catch (err) {
+                console.error(err);
+                alert('고객 정보 삭제 중 오류가 발생했습니다.');
+            }
+        }
+    };
+
     const currentCustomers = customers.filter(c => {
         const passStatus = filterStatus === 'ALL' || (c.projectStatuses && Object.values(c.projectStatuses).includes(filterStatus));
         const passProject = filterProject === 'ALL' || (c.projectHistory && c.projectHistory.includes(filterProject));
@@ -367,13 +384,30 @@ const RetouchAdminTab = () => {
                 <div className="status-tab-row">
                     {(() => {
                         const counts = { ALL: 0 };
-                        statuses.forEach(s => counts[s] = 0);
+                        const newCounts = { ALL: 0 };
+                        statuses.forEach(s => {
+                            counts[s] = 0;
+                            newCounts[s] = 0;
+                        });
+                        const now = new Date();
+
                         customers.forEach(c => {
                             if (c.projectStatuses) {
-                                Object.values(c.projectStatuses).forEach(status => {
+                                Object.entries(c.projectStatuses).forEach(([pId, status]) => {
                                     counts.ALL++;
                                     if (counts[status] !== undefined) {
                                         counts[status]++;
+                                    }
+                                    
+                                    const updatedStr = c.statusUpdatedAts?.[pId];
+                                    if (updatedStr) {
+                                        const diff = now - new Date(updatedStr);
+                                        if (diff < 24 * 60 * 60 * 1000) {
+                                            newCounts.ALL++;
+                                            if (newCounts[status] !== undefined) {
+                                                newCounts[status]++;
+                                            }
+                                        }
                                     }
                                 });
                             }
@@ -398,6 +432,7 @@ const RetouchAdminTab = () => {
                                     className={`tab-btn ${filterStatus === s ? 'active' : ''} ${statusClass}`}
                                 >
                                     {s.replace('(피드백요청)', '')} <span className="tab-count">({count})</span>
+                                    {newCounts[s] > 0 && <span className="tab-new-badge">N</span>}
                                 </button>
                             );
                         });
@@ -433,6 +468,7 @@ const RetouchAdminTab = () => {
                                         </span>
                                     )}
                                 </div>
+                                <button className="btn-delete-customer" onClick={() => handleDeleteCustomer(c.id, c.name)}>고객 삭제</button>
                             </div>
 
                             <div className="project-stack">

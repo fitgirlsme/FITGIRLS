@@ -105,7 +105,11 @@ const RouletteModal = ({ onClose, event }) => {
             };
             const template = getAlimtalkTemplate('UH_5901', alimParams);
             if (template) {
-                await sendAlimtalk(phone, template.code, template.message, { title: template.title });
+                await sendAlimtalk(phone, template.code, template.message, {
+                    title: template.title,
+                    subtitle: template.subtitle,
+                    button: template.button
+                });
             }
 
             alert(`${name}님, 축하드립니다! 카카오톡으로 당첨 안내가 발송되었습니다.`);

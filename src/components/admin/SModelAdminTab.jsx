@@ -76,6 +76,18 @@ const SModelAdminTab = () => {
         }
     };
 
+    const handleDeleteProject = async (pCode) => {
+        if (!window.confirm(`정말 프로젝트 [${pCode}]를 삭제하시겠습니까?`)) return;
+        try {
+            await deleteDoc(doc(db, 'smodel_projects', pCode));
+            alert('삭제되었습니다.');
+            loadData();
+        } catch (err) {
+            console.error(err);
+            alert('삭제 중 오류가 발생했습니다.');
+        }
+    };
+
     const handleUpdateDropbox = async (modelId, projectId, link) => {
         try {
             const m = models.find(x => x.id === modelId);
@@ -207,6 +219,26 @@ const SModelAdminTab = () => {
                         {projects.map(p => (
                             <span key={p.id} className={`smodel-admin-badge ${p.isDefault ? 'active' : 'inactive'}`}>
                                 {p.id} - {p.title} ({p.status}) {p.isDefault && '⭐'}
+                                <button 
+                                    type="button"
+                                    onClick={() => {
+                                        setPCode(p.id);
+                                        setPTitle(p.title);
+                                        setPStatus(p.status);
+                                        setIsDefault(p.isDefault || false);
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    }}
+                                    style={{ background: 'transparent', border: 'none', color: p.isDefault ? '#111' : '#00D4B6', cursor: 'pointer', marginLeft: '8px', textDecoration: 'underline', fontSize: '0.85rem', padding: 0 }}
+                                >
+                                    수정
+                                </button>
+                                <button 
+                                    type="button"
+                                    onClick={() => handleDeleteProject(p.id)}
+                                    style={{ background: 'transparent', border: 'none', color: p.isDefault ? '#d00' : '#ff4d4f', cursor: 'pointer', marginLeft: '6px', textDecoration: 'underline', fontSize: '0.85rem', padding: 0 }}
+                                >
+                                    삭제
+                                </button>
                             </span>
                         ))}
                     </div>

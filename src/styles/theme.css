@@ -88,7 +88,9 @@ ul, li {
 
 /* Sections that need internal scrolling */
 #fitorialist,
-#artist {
+#artist,
+#archive,
+#zone {
   height: auto !important;
   min-height: 100dvh !important;
   max-height: none !important;
@@ -98,8 +100,6 @@ ul, li {
 }
 
 #reservation,
-#zone,
-#archive,
 #article,
 #service,
 #hair-makeup,
@@ -136,4 +136,34 @@ ul, li {
   overflow-y: visible !important;
   scroll-snap-align: none;
   scroll-snap-stop: normal;
+}
+
+/* ===== 모바일(768px 이하) 스크롤 스냅 완전 해제 및 레이아웃 겹침 방지 ===== */
+@media (max-width: 768px) {
+  .snap-container {
+    height: auto !important;
+    scroll-snap-type: none !important;
+    overflow-y: visible !important;
+  }
+  
+  .snap-section {
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
+    overflow: visible !important;
+    contain: none !important;
+    padding-top: 80px !important; /* 모바일 헤더 높이에 맞춘 최적화 패딩 일괄 적용 */
+    box-sizing: border-box !important;
+  }
+  
+  /* [특수 예외] 1번(#hero) 및 2번(#hero-intro) 섹션은 모바일에서도 첫인상 프리미엄 세로 풀화면(100vh)을 꽉 차게 유지해야 합니다. */
+  #hero,
+  #hero-intro {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+    padding-top: 0px !important; /* 헤더가 없는 히어로 영역이므로 패딩 배제 */
+  }
 }

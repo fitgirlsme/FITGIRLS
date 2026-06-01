@@ -255,6 +255,22 @@
     padding-bottom: 0;
 }
 
+.aw-page-item.linkable {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.aw-page-item.linkable:hover {
+    background-color: #f8fafc;
+    padding-left: 6px;
+    border-radius: 4px;
+}
+
+.aw-page-item.linkable:hover .aw-page-name {
+    color: #0f172a;
+    text-decoration: underline;
+}
+
 .aw-page-rank { 
     font-size: 0.8rem; 
     color: #0f172a; 

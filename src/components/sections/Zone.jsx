@@ -314,7 +314,7 @@ const Zone = () => {
                             className={`tier2-tab ${zoneSubTab === 'mooz' ? 'active' : ''}`}
                             onClick={() => setZoneSubTab('mooz')}
                         >
-                            MOOZ SELF스튜디오
+                            NEVERLAND SELF스튜디오
                         </button>
                     </div>
                     
@@ -354,7 +354,7 @@ const Zone = () => {
                                     )}
                                 </div>
                                 <div className="zone-info">
-                                    <span className="zone-badge">{zone.category === 'mooz' ? 'MOOZ SELF' : 'STUDIO ZONE'}</span>
+                                    <span className="zone-badge">{zone.category === 'mooz' ? 'NEVERLAND SELF' : 'STUDIO ZONE'}</span>
                                     <h3 className="zone-name">{zone.title || zone.nameKey}</h3>
                                     
                                     {zone.hashtag && (
@@ -699,7 +699,7 @@ const Zone = () => {
                                 }}
                             >
                                 <option value="fitgirls">FITGIRLS & INAFIT</option>
-                                <option value="mooz">MOOZ SELF Studio</option>
+                                <option value="mooz">NEVERLAND SELF Studio</option>
                             </select>
                         </div>
                         <div style={{ marginBottom: '16px', position: 'relative' }}>
