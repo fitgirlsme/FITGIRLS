@@ -80,6 +80,23 @@ const Home = ({ changeLanguage, currentLang }) => {
     return () => observer.disconnect();
   }, []);
 
+  // 모바일 환경(스냅 스크롤 해제 대역)에서 window 스크롤 이벤트를 감지하여 헤더 scrolled 상태 및 CS버튼 반응형 동기화
+  React.useEffect(() => {
+    const handleWindowScroll = () => {
+      if (window.innerWidth <= 768) {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const vh = window.innerHeight;
+        setIsScrolled(scrollTop > 50);
+        setIsOnHero(scrollTop < vh * 0.5);
+        setIsHideCS(scrollTop < vh * 2.5); // 첫 3개 섹션 높이 대역에서 CS버튼 숨김
+        setIsHeaderHidden(scrollTop < vh * 1.5); // 첫 2개 섹션 대역에서 헤더 숨김
+      }
+    };
+
+    window.addEventListener('scroll', handleWindowScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleWindowScroll);
+  }, []);
+
   // Update URL based on current section using IntersectionObserver
   React.useEffect(() => {
     const container = document.querySelector('.snap-container');

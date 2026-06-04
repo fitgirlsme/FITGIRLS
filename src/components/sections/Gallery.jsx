@@ -422,8 +422,7 @@ const GallerySection = () => {
             else if (w >= 1920) setCols(6);
             else if (w >= 1440) setCols(5);
             else if (w >= 1024) setCols(4);
-            else if (w >= 768) setCols(3);
-            else setCols(mobileCols);
+            else setCols(mobileCols); // 1024px 미만(태블릿/모바일)에서는 사용자가 선택한 정렬(1, 2, 3장) 값 그대로 직결 적용
         };
         updateCols();
         window.addEventListener('resize', updateCols);
