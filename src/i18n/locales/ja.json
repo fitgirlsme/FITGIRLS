@@ -6,6 +6,7 @@
         "studios": "スタジオゾーン",
         "lookbook": "ルックブック",
         "reservation": "予約",
+        "checklist": "チェックリスト",
         "review": "レビュー",
         "service": "料金表",
         "hairmakeup": "ヘア&メイクアップ",
@@ -22,7 +23,9 @@
         "ambassador": "アンバサダー応募",
         "partners": "パートナーシップ",
         "director": "アーティスト",
-        "magazine": "MAGAZINE"
+        "magazine": "MAGAZINE",
+        "challenges": "CHALLENGE",
+        "challenge_promo": "チャレンジ紹介"
     },
     "event": {
         "title": "EVENT & NOTICE",
@@ -144,6 +147,7 @@
             "artist": "ARTIST",
             "fashion": "FASHION & BEAUTY",
             "portrait": "PORTRAIT",
+            "self": "NEVERLAND SELF",
             "director": "ARTIST'S ARCHIVE"
         },
         "fitorialist": "FITORIALIST",
@@ -198,7 +202,7 @@
             "account_info": "銀行振込: ウリ銀行 010-4696-1434 (Fitgirls)"
         },
         "final_notice": "予約が確定次第、撮影準備に関する詳細案内をお送りします。",
-        "return_discount": "* 再訪問予約時、2回目20%、3回目以降30%割引特典 — チャットでお問い合わせください"
+        "return_discount": "* 再訪問予約時、2回目20%、3回目以降30%割引特典 (2コンセプト以上の予約時に適用) — チャットでお問い合わせください"
     },
     "location": {
         "title": "LOCATION",
@@ -350,7 +354,7 @@
                 "links": [
                     {
                         "label": "Fitgirls Lookbookを見る",
-                        "url": "/zone?tab=lookbook",
+                        "url": "/lookbook",
                         "type": "link"
                     }
                 ]
@@ -453,12 +457,12 @@
         "header_subtitle": "PORTRAIT SERVICE 2026",
         "header_desc": "予約制スタジオ · 全額VAT込 / カード＆現金領収書発行",
         "same_price": "FITGIRLS & INERFITスタジオは平日・週末とも同一料金です。",
-        "return_discount": "再訪問予約時に2回目20%、3回目以上30%割引特典 (LINEでお問い合わせください)",
+        "return_discount": "再訪問予約時に2回目20%、3回目以上30%割引特典 (2コンセプト以上の予約時に適用, LINEでお問い合わせください)",
         "tabs": {
             "fitorialist": "FITORIALIST",
             "artist": "ARTIST",
             "expert": "専門家プロフィール",
-            "self": "セルフスタジオ"
+            "self": "NEVERLAND SELF"
         },
         "fitorialist": {
             "menu1": {
@@ -857,224 +861,5 @@
         "vision_desc": "1万人以上의被写体と共に積み重ねてきた美의記録。Angelo Shin代表は、フィットネスとハイファッションが結合された'フィトリアル'という新しい芸術ジャンルを大衆とより深く共有するため, 2025年以降に大規模なアート展示プロジェクトを企画し, 果てしない挑戦を続けています。",
         "activity_title": "ACTIVITY",
         "insta_label": "FOLLOW ON INSTAGRAM"
-    },
-    "directing": {
-        "title": "Directing Paper",
-        "subtitle": "コンセプトディレクションを作成する",
-        "name_label": "✏️ お名前",
-        "name_placeholder": "例: 田中太郎",
-        "date_label": "📅 撮影予定日",
-        "concept_label": "🎬 コンセプト数",
-        "start_btn": "ディレクティング開始 →",
-        "submit_btn": "完了",
-        "submit_next": "次のコンセプト",
-        "result_btn": "🎬 結果を見る",
-        "save_btn": "📸 画像保存",
-        "restart_btn": "↺ 最初から",
-        "alert_fill": "すべての項目を選択してください！",
-        "multi_hint": "(複数選択可)",
-        "your_direction": "YOUR DIRECTION",
-        "preset_choice": "FITORIALIST’s Choice",
-        "preset_hip": "ヒップに",
-        "preset_elegant": "エレガントに",
-        "preset_vivid": "エネルギッシュに",
-        "preset_noir": "映画のように",
-        "preset_minimal": "ミニマルに",
-        "mood": {
-            "label": "MOOD",
-            "name": "ムード"
-        },
-        "color": {
-            "label": "COLOR",
-            "name": "色味"
-        },
-        "expression": {
-            "label": "EXPRESSION",
-            "name": "表情"
-        },
-        "focus": {
-            "label": "BODY FOCUS",
-            "name": "強調したい部位"
-        },
-        "texture": {
-            "label": "SKIN TEXTURE",
-            "name": "肌の質感"
-        },
-        "opt_deep": {
-            "name": "DEEP & DARK",
-            "sub": "Heavy mood using deep shadows and darkness"
-        },
-        "opt_sunday": {
-            "name": "SUNDAY MORNING",
-            "sub": "Natural everyday life like lazy weekend morning sunshine"
-        },
-        "opt_highkey": {
-            "name": "HIGH-KEY & VIVID",
-            "sub": "Clear and energetic feeling like a magazine cover"
-        },
-        "opt_grunge": {
-            "name": "GRUNGE & RAW",
-            "sub": "Rough and rebellious street sentiment in its raw form"
-        },
-        "opt_architectural": {
-            "name": "ARCHITECTURAL",
-            "sub": "Modern mood emphasizing structural beauty and lines of space"
-        },
-        "opt_noir": {
-            "name": "CINEMATIC NOIR",
-            "sub": "Dramatic narrative like a main character in a movie"
-        },
-        "opt_elegance": {
-            "name": "CLASSIC ELEGANCE",
-            "sub": "Understated elegance that remains timeless"
-        },
-        "opt_vintage": {
-            "name": "VINTAGE ANALOG",
-            "sub": "Faded nostalgia unique to film cameras"
-        },
-        "opt_mono": {
-            "name": "CLASSIC MONO",
-            "sub": "Aesthetics of black and white focusing on the essence of the subject"
-        },
-        "opt_sunlight": {
-            "name": "NATURAL SUNLIGHT",
-            "sub": "Warm-toned light that beautifully highlights skin tones"
-        },
-        "opt_cyber": {
-            "name": "CYBER COLD",
-            "sub": "Futuristic colors mixing cold blue and fluorescent light"
-        },
-        "opt_pop": {
-            "name": "POP VIVID",
-            "sub": "Intense primary colors that instantly catch the eye"
-        },
-        "opt_earthy": {
-            "name": "NEUTRAL EARTHY",
-            "sub": "Calm and luxurious tones centered around beige, khaki, and brown"
-        },
-        "opt_y2k": {
-            "name": "Y2K MAGAZINE",
-            "sub": "Kitschy and colorful aesthetic like a 90s teen magazine"
-        },
-        "opt_midnight": {
-            "name": "MIDNIGHT BLUE",
-            "sub": "Alluring and mysterious blue light of late night"
-        },
-        "opt_desert": {
-            "name": "DESERT SAND",
-            "sub": "Sophisticated colors resembling soft, dry sand"
-        },
-        "opt_playful": {
-            "name": "PLAYFUL",
-            "sub": "Free, playful, and witty expression"
-        },
-        "opt_relaxed": {
-            "name": "RELAXED",
-            "sub": "Natural gaze and comfortable expression without tension"
-        },
-        "opt_fierce": {
-            "name": "FIERCE",
-            "sub": "Intense charisma that seems to pierce through the screen"
-        },
-        "opt_dreamy": {
-            "name": "DREAMY",
-            "sub": "Dreamy and faint gaze processing"
-        },
-        "opt_chic": {
-            "name": "CHIC & COLD",
-            "sub": "Restrained, expressionless face of a high-fashion model"
-        },
-        "opt_raw_emotion": {
-            "name": "RAW EMOTION",
-            "sub": "Unadorned, instinctive, and honest momentary expression"
-        },
-        "opt_radiant": {
-            "name": "RADIANT VIBE",
-            "sub": "A smile radiating health and positive energy"
-        },
-        "opt_mysterious": {
-            "name": "MYSTERIOUS",
-            "sub": "A subtle gaze that seems to hold a secret story"
-        },
-        "opt_abs": {
-            "name": "Abs",
-            "sub": "腹筋"
-        },
-        "opt_back": {
-            "name": "Back",
-            "sub": "背中"
-        },
-        "opt_arms": {
-            "name": "Arms",
-            "sub": "腕"
-        },
-        "opt_legs": {
-            "name": "Legs",
-            "sub": "脚"
-        },
-        "opt_glutes": {
-            "name": "Glutes",
-            "sub": "お尻"
-        },
-        "opt_shoulders": {
-            "name": "Shoulders",
-            "sub": "肩"
-        },
-        "opt_sline": {
-            "name": "S-Line",
-            "sub": "シルエットライン"
-        },
-        "opt_fullbody": {
-            "name": "Full Body",
-            "sub": "全身"
-        },
-        "opt_glossy": {
-            "name": "HEAVY GLOSSY",
-            "sub": "Glamorous gloss that maximizes sensual volume"
-        },
-        "opt_peachy": {
-            "name": "PEACHY",
-            "sub": "Smooth and soft texture like peach fuzz"
-        },
-        "opt_matte": {
-            "name": "MATTE FINISH",
-            "sub": "Clean, modern matte texture without any excess"
-        },
-        "opt_sweaty": {
-            "name": "SWEATY & WET",
-            "sub": "Realistic sweat and moisture as if just finished working out"
-        },
-        "opt_velvet": {
-            "name": "VELVET GLOW",
-            "sub": "Silk-like skin texture with a subtle glow"
-        },
-        "opt_sunkissed": {
-            "name": "SUN-KISSED",
-            "sub": "Healthy, tanned, and firm texture from the sun"
-        },
-        "opt_raw_tex": {
-            "name": "RAW TEXTURE",
-            "sub": "Rough texture that highlights every muscle fiber"
-        },
-        "opt_metallic": {
-            "name": "METALLIC SHINE",
-            "sub": "Strong highlights shining like metal under lighting"
-        },
-        "skintone": {
-            "label": "SKIN TONE",
-            "name": "肌のトーン"
-        },
-        "opt_white": {
-            "name": "White",
-            "sub": "白い肌"
-        },
-        "opt_natural": {
-            "name": "Natural Skin",
-            "sub": "ナチュラル肌色"
-        },
-        "opt_tanning": {
-            "name": "Tanning",
-            "sub": "日焼け肌"
-        }
     }
 }

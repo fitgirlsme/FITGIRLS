@@ -16,6 +16,7 @@ const MAIN_CATEGORIES = [
     { id: 'artist', labelKey: 'gallery.main.artist' },
     { id: 'fashion', labelKey: 'gallery.main.fashion' },
     { id: 'portrait', labelKey: 'gallery.main.portrait' },
+    { id: 'self', labelKey: 'gallery.main.self' },
 ];
 
 const SUB_CATEGORIES = [
@@ -57,7 +58,7 @@ const GallerySection = () => {
     const [allItems, setAllItems] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [isAdmin, setIsAdmin] = useState(() => {
-        return localStorage.getItem('isAdmin') === 'true' || localStorage.getItem('admin_logged_in') === 'true';
+        return localStorage.getItem('isAdmin') === 'true';
     });
     const [deleteTarget, setDeleteTarget] = useState(null);
     const [editTarget, setEditTarget] = useState(null);
@@ -139,6 +140,8 @@ const GallerySection = () => {
         }
     }, [lightboxIndex, hasShownSwipeGuide]);
 
+
+
     // Disable scroll-snap when gallery detail view is active so content can scroll freely
     useEffect(() => {
         const section = document.getElementById('archive');
@@ -180,7 +183,7 @@ const GallerySection = () => {
         }
         
         // Direct manipulation as a fallback
-        const csBtn = document.querySelector('.cs-container');
+        const csBtn = document.querySelector('.support-cs-container');
         if (csBtn) {
             csBtn.style.display = shouldHideCS ? 'none' : 'block';
         }
@@ -212,7 +215,7 @@ const GallerySection = () => {
                     const normalized = {};
                     
                     // Possible categories: ensure they are all arrays
-                    ['fitorialist', 'artist', 'fashion', 'portrait'].forEach(cat => {
+                    ['fitorialist', 'artist', 'fashion', 'portrait', 'self'].forEach(cat => {
                         const val = rawUrls[cat];
                         if (Array.isArray(val)) {
                             normalized[cat] = val;
@@ -372,6 +375,22 @@ const GallerySection = () => {
 
     const finalBaseList = searchQuery.trim() ? searchFiltered : filteredGallery;
     const visibleItems = finalBaseList.slice(0, visibleCount);
+
+    // 라이트박스 이전/다음 이미지 프리로드 (딜레이 개선)
+    useEffect(() => {
+        if (lightboxIndex !== null && finalBaseList && finalBaseList.length > 0) {
+            const nextIndex = (lightboxIndex + 1) % finalBaseList.length;
+            const prevIndex = (lightboxIndex - 1 + finalBaseList.length) % finalBaseList.length;
+            
+            [nextIndex, prevIndex].forEach(idx => {
+                const item = finalBaseList[idx];
+                if (item && item.img) {
+                    const imgObj = new Image();
+                    imgObj.src = item.img;
+                }
+            });
+        }
+    }, [lightboxIndex, finalBaseList]);
     const hasMoreItems = visibleCount < finalBaseList.length;
 
     // 필터 변경 시 표시 개수 리셋 (화면 너비 기준 10줄)
@@ -720,7 +739,15 @@ const GallerySection = () => {
                                         >
                                             <div className="tag-circle-img-wrap">
                                                 {repItem ? (
-                                                    <img src={repItem.img} alt={displayTag} loading="lazy" />
+                                                    <img 
+                                                        src={repItem.img} 
+                                                        alt={displayTag} 
+                                                        loading="lazy" 
+                                                        onError={(e) => {
+                                                            e.target.onerror = null;
+                                                            e.target.src = '/logo.png';
+                                                        }} 
+                                                    />
                                                 ) : (
                                                     <div className="tag-circle-placeholder" />
                                                 )}
@@ -769,7 +796,15 @@ const GallerySection = () => {
                                     style={{ transitionDelay: `${(originalIndex % cols) * 0.08}s` }}
                                     onClick={() => openLightbox(originalIndex)}
                                 >
-                                    <img src={item.img} alt={item.seoTags || 'Gallery'} loading="lazy" />
+                                    <img 
+                                        src={item.img} 
+                                        alt={item.seoTags || 'Gallery'} 
+                                        loading="lazy" 
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = '/logo.png'; 
+                                        }}
+                                    />
                                     <div className="masonry-hover-overlay">
                                         <span className="masonry-plus">+</span>
                                         {item.tags && item.tags.length > 0 && (
@@ -950,6 +985,7 @@ const GallerySection = () => {
                                 <option value="artist">ARTIST</option>
                                 <option value="fashion">FASHION & BEAUTY</option>
                                 <option value="portrait">PORTRAIT</option>
+                                <option value="self">NEVERLAND SELF</option>
                             </select>
                         </div>
 
@@ -1101,11 +1137,19 @@ const GallerySection = () => {
                     </div>
                     <button className="lightbox-nav-btn prev-btn" onClick={showPrev}>⟨</button>
                     <div className="lightbox-content">
-                        <img key={lightboxIndex} src={finalBaseList[lightboxIndex].img} alt="Lightbox Detail" />
-                    </div>
-
-                    <div className="lightbox-footer-credit">
-                        PHOTOGRAPHED BY ANGELO SHIN
+                        <img key={lightboxIndex} src={finalBaseList[lightboxIndex].img} alt="Lightbox Detail" decoding="async" />
+                        {finalBaseList[lightboxIndex].tags && finalBaseList[lightboxIndex].tags.length > 0 && (
+                            <div className="lightbox-hashtags-bottom">
+                                {finalBaseList[lightboxIndex].tags.map((tag, idx) => (
+                                    <span key={idx} style={{ margin: '0 8px' }}>
+                                        {tag.startsWith('#') ? tag : `#${tag}`}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
+                        <div className="lightbox-footer-credit">
+                            PHOTOGRAPHED BY ANGELO SHIN
+                        </div>
                     </div>
 
                     <button className="lightbox-nav-btn next-btn" onClick={showNext}>⟩</button>

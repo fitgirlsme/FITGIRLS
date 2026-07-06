@@ -35,16 +35,6 @@ const Hero = () => {
 
     return (
         <div className="hero-container">
-            {/* 첫 화면 전용 헤더 */}
-            <header className="app-header">
-                <div className="logo-text">FITGIRLS &amp; INAFIT</div>
-                <div className="lang-switcher">
-                    <button onClick={() => changeLanguage('ko')} className={lang === 'ko' ? 'active' : ''}>KR</button>
-                    <button onClick={() => changeLanguage('en')} className={lang === 'en' ? 'active' : ''}>EN</button>
-                    <button onClick={() => changeLanguage('ja')} className={lang === 'ja' ? 'active' : ''}>JP</button>
-                    <button onClick={() => changeLanguage('zh')} className={lang === 'zh' ? 'active' : ''}>CN</button>
-                </div>
-            </header>
 
             {/* 슬라이드쇼 배경 */}
             <div className="hero-slideshow">
@@ -59,7 +49,7 @@ const Hero = () => {
             </div>
 
             <FadeInSection className="hero-content">
-                <span className="hero-year">2026</span>
+                <span className="hero-year">{new Date().getFullYear()}</span>
                 <h1 className="hero-title">{t('hero.title')}</h1>
                 <p className="hero-subtitle">{t('hero.subtitle')}</p>
                 

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SiKakaotalk, SiLine, SiWhatsapp, SiWechat } from 'react-icons/si';
 import { MESSENGER_LINKS } from '../constants/links';
+import { channelService } from '../utils/channelService';
 import './SupportCS.css';
 
 const SupportCS = ({ isHidden }) => {
@@ -9,6 +10,21 @@ const SupportCS = ({ isHidden }) => {
     const [showWeChatQR, setShowWeChatQR] = useState(false);
     const language = i18n.language?.slice(0, 2) || 'ko';
     const isAdmin = localStorage.getItem('isAdmin') === 'true' || localStorage.getItem('admin_logged_in') === 'true';
+
+    useEffect(() => {
+        if (language === 'ko') {
+            channelService.boot();
+        } else {
+            channelService.shutdown();
+        }
+        return () => {
+            channelService.shutdown();
+        };
+    }, [language]);
+
+    if (language === 'ko') {
+        return null;
+    }
 
     const getLink = () => {
         if (language === 'zh') return '#wechat';

@@ -58,6 +58,8 @@ export const syncAll = async () => {
         syncCollection(STORES.LOOKBOOK),
         syncCollection(STORES.PARTNERS),
         syncCollection(STORES.STUDIOS),
+        syncCollection(STORES.CHALLENGES),
+        syncCollection(STORES.MONTHLY_PROJECTS),
     ];
     
     return Promise.all(syncPromises);

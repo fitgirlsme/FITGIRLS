@@ -77,20 +77,43 @@ const AnalyticsWidget = () => {
     // Aggregated Data
     const [aggData, setAggData] = useState({ total: 0, reservationClicks: 0, pages: {}, sources: {}, utmCampaigns: {}, devices: {}, chartData: [] });
 
-    // Helper functions
-    const getFormattedDate = (d) => d.toISOString().slice(0, 10);
-    const getFormattedMonth = (d) => d.toISOString().slice(0, 7);
+    // Helper functions (KST/Local Timezone based)
+    const getFormattedDate = (d) => {
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+    const getFormattedMonth = (d) => {
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        return `${year}-${month}`;
+    };
     
     const mergeData = (target, source) => {
         if (!source) return;
         target.total += (source.total || 0);
         target.reservationClicks += (source.reservationClicks || 0);
         
+        // 1. 중첩 객체 병합 (예: sources: { instagram: 10 })
         ['pages', 'sources', 'utmCampaigns', 'devices'].forEach(category => {
             if (source[category]) {
                 Object.entries(source[category]).forEach(([k, v]) => {
                     target[category][k] = (target[category][k] || 0) + v;
                 });
+            }
+        });
+
+        // 2. 단층 평탄화 객체 병합 (예: "pages.home": 10)
+        Object.entries(source).forEach(([key, val]) => {
+            if (typeof val === 'number') {
+                const parts = key.split('.');
+                if (parts.length === 2) {
+                    const [category, subKey] = parts;
+                    if (['pages', 'sources', 'utmCampaigns', 'devices'].includes(category)) {
+                        target[category][subKey] = (target[category][subKey] || 0) + val;
+                    }
+                }
             }
         });
     };

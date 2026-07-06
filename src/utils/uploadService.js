@@ -95,7 +95,7 @@ export const uploadOptimizedImage = async (file, folder = 'gallery', customOptio
     // 최종 파일명 및 타입 강제 (WebP 이슈 해결)
     const finalType = 'image/jpeg';
     const finalExt = 'jpg';
-    const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${finalExt}`;
+    const fileName = `bodyprofile_fitgirls_${Date.now()}_${Math.random().toString(36).substring(7)}.${finalExt}`;
     const storageRef = ref(storage, `${folder}/${fileName}`);
 
     const metadata = { contentType: finalType };

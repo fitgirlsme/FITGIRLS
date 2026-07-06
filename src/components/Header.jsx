@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import './Header.css';
 
 const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang }) => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
     const [expandedCategory, setExpandedCategory] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
+    const lang = i18n.language || 'ko';
 
     // Sync admin status when menu opens
     React.useEffect(() => {
@@ -28,6 +29,7 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
                 { id: 'archive', label: t('gallery.artist', 'ARTIST'), path: '/archive?main=artist' },
                 { id: 'archive', label: t('gallery.fashion_beauty', 'FASHION & BEAUTY'), path: '/archive?main=fashion' },
                 { id: 'archive', label: t('gallery.portrait', 'PORTRAIT'), path: '/archive?main=portrait' },
+                { id: 'archive', label: t('gallery.main.self', 'NEVERLAND SELF'), path: '/archive?main=self' },
             ]
         },
         {
@@ -35,8 +37,7 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
             items: [
                 { id: 'service', label: t('nav.service', 'Service'), path: '/service' },
                 { id: 'zone', label: t('nav.zone', 'Zone'), path: '/zone' },
-                { id: 'zone', label: 'LOOKBOOK', path: '/zone?tab=lookbook' },
-                { id: 'shop', label: 'SHOP', path: '/shop' },
+                { id: 'lookbook', label: t('nav.lookbook', 'LOOKBOOK'), path: '/lookbook' },
             ]
         },
         {
@@ -48,7 +49,9 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
                 { id: 'location', label: t('nav.location', 'Location'), path: '/location' },
             ]
         },
-        { id: 'reservation', label: t('nav.reservation', 'Reservation'), path: '/reservation', isRed: true },
+        { label: t('nav.reservation', 'Reservation'), path: '/reservation', isRed: true },
+        ...(lang !== 'ko' ? [{ label: t('nav.global_booking', 'Global Booking'), path: '/global-booking', isRed: true }] : []),
+        { label: t('nav.checklist', 'Checklist'), path: '/checklist' },
         { id: 'retouch', label: 'RETOUCH', path: '/retouch' },
         { id: 'reviews', label: t('nav.review', 'Review'), path: '/reviews' },
         {
@@ -57,10 +60,11 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
                 { label: t('nav.magazine', 'FITORIALIST+'), path: '/magazine' },
                 { label: t('nav.muses', 'AMBASSADOR'), path: '/fitorialist' },
                 { label: t('nav.ambassador', 'RECRUIT'), path: '/ambar' },
+                { label: t('nav.challenge_promo', 'CHALLENGE PROMO'), path: '/challenge-promo' },
+                { label: t('nav.challenges', 'CHALLENGE'), path: '/challenges' },
             ]
         },
         { label: t('nav.partners', 'Partnership'), path: '/partners' },
-        { label: 'Directing Paper', path: '/directing' },
     ];
 
     const handleNavClick = (path, sectionId) => {

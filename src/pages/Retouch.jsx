@@ -6,6 +6,34 @@ import './Retouch.css';
 
 const ADMIN_PHONE = '01046961441';
 
+const ReviewGuide = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <div className={`retouch-review-guide-container ${isOpen ? 'is-open' : ''}`}>
+            <button className="retouch-guide-toggle-btn" onClick={() => setIsOpen(!isOpen)}>
+                <span className="retouch-toggle-icon">✍️</span>
+                <span className="retouch-toggle-text">리뷰 작성 가이드 {isOpen ? '접기' : '보기'}</span>
+                <svg className={`retouch-chevron-icon ${isOpen ? 'up' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+            <div className="retouch-guide-content-wrapper">
+                <div className="retouch-guide-content-inner">
+                    <p className="retouch-guide-desc">아래 내용을 참고하여 더욱 풍성한 기록을 남겨보세요.</p>
+                    <ul className="retouch-guide-questions">
+                        <li><span>•</span> 가장 마음에 들었던 분위기는 어떤 느낌이었나요?</li>
+                        <li><span>•</span> 촬영하면서 새롭게 발견한 내 모습이 있었나요?</li>
+                        <li><span>•</span> 작가님의 디렉팅(포즈, 표정 코칭)은 어떠셨나요?</li>
+                        <li><span>•</span> 촬영부터 보정 과정까지 좋았던 점이나 아쉬운 점(개선사항)이 있었다면 들려주세요.</li>
+                        <li><span>•</span> 핏걸즈에서 나만의 어떤 FITORIAL을 남기셨나요?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const Retouch = () => {
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
@@ -19,7 +47,7 @@ const Retouch = () => {
         '보정대기': '원본 셀렉 파일을 기다리고 있습니다. 셀렉 완료 후 메일(inafit@daum.net)로 회신 주시면 보정 작업이 시작됩니다. (셀렉 후 약 4주 소요). 보정본 수령 후 추가로 보정이 더 필요할 시 핏걸즈 스마트 플레이스 (핏걸즈스튜디오)에서 추가 구매가 가능합니다.',
         '선보정(당일보정)': '먼저 받고 싶은 사진 한 장에 대해 우선적으로 보정을 진행하는 단계입니다.',
         '보정중': '선택하신 사진을 작가가 정성스럽게 보정하고 있는 단계입니다. 조금만 더 기다려 주세요!',
-        '1차보정완료(피드백요청)': '여기에서 보정을 확인하신 후,추가로 2차보정이 필요한 부분이 있으시면 말씀해 주세요.',
+        '1차보정완료(피드백요청)': '여기에서 보정을 확인하신 후, 추가로 2차보정이 필요한 부분이 있으시면 말씀해 주세요. 추가로 보정이 필요 없으시면 \'최종 컨펌\'을 해주시면 매거진 커버와 함께 최종본을 발송해 드리도록 하겠습니다.',
         '2차보정': '전달해주신 피드백을 바탕으로 2차 보정 작업을 진행 중입니다.',
         '최종컴펌완료': '모든 보정 작업에 대한 컨펌이 완료되었습니다. 최종 파일을 정리 중입니다.',
         '최종보정완료': '모든 보정 작업이 완료되었습니다! 최종 보정본을 다운로드하실 수 있습니다.'
@@ -384,6 +412,18 @@ const Retouch = () => {
                                         )}
                                     </div>
                                     
+                                    <div className="retouch-review-section-box">
+                                        <ReviewGuide />
+                                        <div className="retouch-review-write-buttons">
+                                            <a href="https://m.place.naver.com/place/1976065694/review/visitor" target="_blank" rel="noopener noreferrer" className="retouch-btn-review retouch-btn-naver-review">
+                                                네이버 리뷰 작성
+                                            </a>
+                                            <a href="https://share.google/zu3rKArDgSZmss9n4" target="_blank" rel="noopener noreferrer" className="retouch-btn-review retouch-btn-google-review">
+                                                구글 리뷰 작성
+                                            </a>
+                                        </div>
+                                    </div>
+
                                     <div className="extra-purchase-box">
                                         <p className="extra-guide-text">보정본 수령 후 추가로 보정이 더 필요하신가요?</p>
                                         <a href="https://smartstore.naver.com/imfitgirl" target="_blank" rel="noreferrer" className="extra-purchase-btn">

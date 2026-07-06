@@ -150,11 +150,6 @@ const Reviews = () => {
             <header className="review-section-header">
                 <span className="section-subtitle">CUSTOMER REVIEWS</span>
                 <h2 className="section-title">REVIEWS</h2>
-                <div className="lang-switcher">
-                    <button onClick={() => changeLanguage('ko')} className={i18n.language === 'ko' ? 'active' : ''}>KR</button>
-                    <button onClick={() => changeLanguage('en')} className={i18n.language === 'en' ? 'active' : ''}>EN</button>
-                    <button onClick={() => changeLanguage('ja')} className={i18n.language === 'ja' ? 'active' : ''}>JP</button>
-                </div>
             </header>
 
             <div className="review-stats-bar">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import FadeInSection from '../FadeInSection';
 import { getGalleries } from '../../utils/galleryService';
 import { db as fireDb } from '../../utils/firebase';
@@ -41,8 +41,10 @@ const Zone = () => {
     const { t } = useTranslation();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
+    const { section } = useParams();
     const [activeTab, setActiveTab] = useState('zone');
     const [zoneSubTab, setZoneSubTab] = useState('fitgirls');
+    const [activeStudioSubCat, setActiveStudioSubCat] = useState('ALL');
     const [lookbookItems, setLookbookItems] = useState([]);
     const [studios, setStudios] = useState([]);
     const [visibleCount, setVisibleCount] = useState(18);
@@ -50,14 +52,14 @@ const Zone = () => {
     const [lookbookCols, setLookbookCols] = useState(2);
     const [zoneCols, setZoneCols] = useState(2);
 
-    // URL query param으로 탭 자동 선택
+    // URL query param 및 라우터 파라미터로 탭 자동 선택
     useEffect(() => {
         const tabParam = searchParams.get('tab');
         const subTabParam = searchParams.get('subtab');
         
-        if (tabParam === 'lookbook') {
+        if (section === 'lookbook' || tabParam === 'lookbook') {
             setActiveTab('lookbook');
-        } else if (tabParam === 'zone') {
+        } else if (section === 'zone' || tabParam === 'zone') {
             setActiveTab('zone');
         }
 
@@ -66,7 +68,12 @@ const Zone = () => {
         } else if (subTabParam === 'fitgirls') {
             setZoneSubTab('fitgirls');
         }
-    }, [searchParams]);
+    }, [searchParams, section]);
+
+    // 대분류가 변경될 때 하위 카테고리 필터를 'ALL'로 리셋
+    useEffect(() => {
+        setActiveStudioSubCat('ALL');
+    }, [zoneSubTab]);
 
     // Admin session
     const [isAdmin] = useState(localStorage.getItem('isAdmin') === 'true');
@@ -76,12 +83,16 @@ const Zone = () => {
     const [editName, setEditName] = useState('');
     const [editSize, setEditSize] = useState('');
     const [editTag, setEditTag] = useState('');
+    const [editImage, setEditImage] = useState('');
+    const [editStoragePath, setEditStoragePath] = useState('');
+    const [isUploadingEditImg, setIsUploadingEditImg] = useState(false);
     const [activeLookbookTag, setActiveLookbookTag] = useState('ALL');
 
     // Edit modal state (Studios)
     const [editStudio, setEditStudio] = useState(null);
     const [editStudioTitle, setEditStudioTitle] = useState('');
     const [editStudioCat, setEditStudioCat] = useState('fitgirls');
+    const [editStudioSubCat, setEditStudioSubCat] = useState('');
     const [editStudioImage, setEditStudioImage] = useState('');
     const [editStudioHashtag, setEditStudioHashtag] = useState('');
     const [isUploadingStudioImg, setIsUploadingStudioImg] = useState(false);
@@ -142,6 +153,33 @@ const Zone = () => {
         fetchTags();
     }, []);
 
+    // 룩북 모달 닫기
+    const closeEditModal = () => {
+        setEditItem(null);
+        setEditName('');
+        setEditSize('');
+        setEditTag('');
+        setEditImage('');
+        setEditStoragePath('');
+        setIsUploadingEditImg(false);
+    };
+
+    // 룩북 이미지 교체 핸들러
+    const handleEditLookbookPhoto = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        setIsUploadingEditImg(true);
+        try {
+            const { url, path } = await uploadOptimizedImage(file, 'lookbook');
+            setEditImage(url);
+            setEditStoragePath(path);
+        } catch (err) {
+            alert(`업로드 실패: ${err.message}`);
+        } finally {
+            setIsUploadingEditImg(false);
+        }
+    };
+
     // 룩북 아이템 수정
     const handleEdit = async () => {
         if (!editItem) return;
@@ -150,16 +188,26 @@ const Zone = () => {
                 outfitName: editName.trim(),
                 outfitSize: editSize.trim(),
                 tag: editTag.trim(),
+                img: editImage,
+                storagePath: editStoragePath,
             });
+
+            // 이미지가 완전히 교체된 경우, 기존 storage의 파일은 제거
+            if (editItem.storagePath && editItem.storagePath !== editStoragePath) {
+                try {
+                    const storage = getStorage();
+                    await deleteObject(ref(storage, editItem.storagePath));
+                } catch (storageErr) {
+                    console.warn('Storage delete of old image failed:', storageErr);
+                }
+            }
+
             setLookbookItems(prev => prev.map(item =>
                 item.id === editItem.id
-                    ? { ...item, outfitName: editName.trim(), outfitSize: editSize.trim(), tag: editTag.trim() }
+                    ? { ...item, outfitName: editName.trim(), outfitSize: editSize.trim(), tag: editTag.trim(), img: editImage, storagePath: editStoragePath }
                     : item
             ));
-            setEditItem(null);
-            setEditName('');
-            setEditSize('');
-            setEditTag('');
+            closeEditModal();
         } catch (err) {
             alert('수정 중 오류가 발생했습니다.');
             console.error(err);
@@ -208,15 +256,17 @@ const Zone = () => {
             await updateDoc(doc(fireDb, 'studios', editStudio.id), {
                 title: editStudioTitle.trim(),
                 category: editStudioCat,
+                subCategory: editStudioSubCat.trim(),
                 image: editStudioImage,
                 hashtag: editStudioHashtag.trim()
             });
             setStudios(prev => prev.map(s => 
-                s.id === editStudio.id ? { ...s, title: editStudioTitle.trim(), category: editStudioCat, image: editStudioImage, hashtag: editStudioHashtag.trim() } : s
+                s.id === editStudio.id ? { ...s, title: editStudioTitle.trim(), category: editStudioCat, subCategory: editStudioSubCat.trim(), image: editStudioImage, hashtag: editStudioHashtag.trim() } : s
             ));
             setEditStudio(null);
             setEditStudioTitle('');
             setEditStudioCat('fitgirls');
+            setEditStudioSubCat('');
             setEditStudioImage('');
             setEditStudioHashtag('');
         } catch(err) {
@@ -288,13 +338,19 @@ const Zone = () => {
                 <div className="tier1-tabs zone-tabs-container">
                     <button
                         className={`tier1-tab ${activeTab === 'zone' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('zone')}
+                        onClick={() => {
+                            setActiveTab('zone');
+                            window.history.replaceState(null, '', '/zone');
+                        }}
                     >
                         {t('zone.tabs.zone')}
                     </button>
                     <button
                         className={`tier1-tab ${activeTab === 'lookbook' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('lookbook')}
+                        onClick={() => {
+                            setActiveTab('lookbook');
+                            window.history.replaceState(null, '', '/lookbook');
+                        }}
                     >
                         {t('zone.tabs.lookbook')}
                     </button>
@@ -317,6 +373,51 @@ const Zone = () => {
                             NEVERLAND SELF스튜디오
                         </button>
                     </div>
+
+                    {/* 촬영존 하위 카테고리 필터 (원형) */}
+                    {(() => {
+                        const availableSubCats = Array.from(
+                            new Set(
+                                studios
+                                    .filter(s => s.category === zoneSubTab)
+                                    .map(s => s.subCategory)
+                                    .filter(Boolean)
+                            )
+                        );
+                        if (availableSubCats.length === 0) return null;
+                        return (
+                            <div className="tag-circles-scroll" style={{ padding: '0 20px', marginBottom: '20px', justifyContent: 'center' }}>
+                                <div
+                                    className={`tag-circle-item ${activeStudioSubCat === 'ALL' ? 'active' : ''}`}
+                                    onClick={() => setActiveStudioSubCat('ALL')}
+                                >
+                                    <div className="tag-circle-img-wrap tag-circle-all">
+                                        <span>ALL</span>
+                                    </div>
+                                    <span className="tag-circle-label">전체</span>
+                                </div>
+                                {availableSubCats.map(subCat => {
+                                    const repItem = studios.find(s => s.category === zoneSubTab && s.subCategory === subCat);
+                                    return (
+                                        <div
+                                            key={subCat}
+                                            className={`tag-circle-item ${activeStudioSubCat === subCat ? 'active' : ''}`}
+                                            onClick={() => setActiveStudioSubCat(subCat)}
+                                        >
+                                            <div className="tag-circle-img-wrap">
+                                                {repItem && (repItem.image || repItem.img) ? (
+                                                    <img src={repItem.image || repItem.img} alt={subCat} loading="lazy" />
+                                                ) : (
+                                                    <div className="tag-circle-placeholder" />
+                                                )}
+                                            </div>
+                                            <span className="tag-circle-label">{subCat}</span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        );
+                    })()}
                     
                     {/* Zone Column toggle buttons */}
                     <div className="lookbook-col-toggle">
@@ -336,79 +437,88 @@ const Zone = () => {
                         ))}
                     </div>
 
-                    <div className="zone-grid" style={{ '--mobile-cols': zoneCols }}>
-                        {studios.filter(s => s.category === zoneSubTab).map((zone, idx) => (
-                            <div key={zone.id} className="zone-card">
-                                <div className="zone-img-wrapper" style={{ background: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '200px', position: 'relative' }}>
-                                    {(zone.image || zone.img) ? (
-                                        <img 
-                                            src={zone.image || zone.img} 
-                                            alt={zone.title} 
-                                            loading={idx < 6 ? "eager" : "lazy"} 
-                                            className="zone-img"
-                                            onLoad={(e) => e.target.classList.add('loaded')}
-                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                                        />
-                                    ) : (
-                                        <span style={{ color: '#666', fontSize: '0.9rem' }}>{zone.title}</span>
-                                    )}
-                                </div>
-                                <div className="zone-info">
-                                    <span className="zone-badge">{zone.category === 'mooz' ? 'NEVERLAND SELF' : 'STUDIO ZONE'}</span>
-                                    <h3 className="zone-name">{zone.title || zone.nameKey}</h3>
-                                    
-                                    {zone.hashtag && (
-                                        <button 
-                                            className="zone-more-gallery-btn"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                const cleanTag = zone.hashtag.replace('#', '');
-                                                // URL 쿼리 파라미터로 태그 전달 (Gallery가 useSearchParams로 읽음)
-                                                navigate(`/?tag=${cleanTag}`);
-                                                // archive 섹션으로 스크롤 이동 (navigate 후 DOM 업데이트 대기)
-                                                setTimeout(() => {
-                                                    const archiveEl = document.getElementById('archive');
-                                                    if (archiveEl) {
-                                                        archiveEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                                    }
-                                                }, 200);
-                                            }}
-                                        >
-                                            VIEW MORE
-                                        </button>
-                                    )}
+                    {(() => {
+                        const filteredStudios = studios
+                            .filter(s => s.category === zoneSubTab)
+                            .filter(s => activeStudioSubCat === 'ALL' || s.subCategory === activeStudioSubCat);
+                        
+                        return (
+                            <>
+                                <div className="zone-grid" style={{ '--mobile-cols': zoneCols }}>
+                                    {filteredStudios.map((zone, idx) => (
+                                        <div key={zone.id} className="zone-card">
+                                            <div className="zone-img-wrapper" style={{ background: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '200px', position: 'relative' }}>
+                                                {(zone.image || zone.img) ? (
+                                                    <img 
+                                                        src={zone.image || zone.img} 
+                                                        alt={zone.title} 
+                                                        loading={idx < 6 ? "eager" : "lazy"} 
+                                                        className="zone-img"
+                                                        onLoad={(e) => e.target.classList.add('loaded')}
+                                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                                                    />
+                                                ) : (
+                                                    <span style={{ color: '#666', fontSize: '0.9rem' }}>{zone.title}</span>
+                                                )}
+                                            </div>
+                                            <div className="zone-info">
+                                                <span className="zone-badge">{zone.category === 'mooz' ? 'NEVERLAND SELF' : 'STUDIO ZONE'}</span>
+                                                <h3 className="zone-name">{zone.title || zone.nameKey}</h3>
+                                                
+                                                {zone.hashtag && (
+                                                    <button 
+                                                        className="zone-more-gallery-btn"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            const cleanTag = zone.hashtag.replace('#', '');
+                                                            navigate(`/?tag=${cleanTag}`);
+                                                            setTimeout(() => {
+                                                                const archiveEl = document.getElementById('archive');
+                                                                if (archiveEl) {
+                                                                    archiveEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                                                }
+                                                            }, 200);
+                                                        }}
+                                                    >
+                                                        VIEW MORE
+                                                    </button>
+                                                )}
 
-                                    {isAdmin && (
-                                        <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
-                                            <button
-                                                style={{ background: '#444', color: '#fff', border: 'none', padding: '4px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem' }}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setEditStudio(zone);
-                                                    setEditStudioTitle(zone.title || zone.nameKey || '');
-                                                    setEditStudioCat(zone.category || 'fitgirls');
-                                                    setEditStudioImage(zone.image || zone.img || '');
-                                                    setEditStudioHashtag(zone.hashtag || '');
-                                                }}
-                                            >수정</button>
-                                            <button
-                                                style={{ background: '#b32d2e', color: '#fff', border: 'none', padding: '4px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem' }}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setDeleteStudioTarget(zone);
-                                                }}
-                                            >삭제</button>
+                                                {isAdmin && (
+                                                    <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+                                                        <button
+                                                            style={{ background: '#444', color: '#fff', border: 'none', padding: '4px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem' }}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setEditStudio(zone);
+                                                                setEditStudioTitle(zone.title || zone.nameKey || '');
+                                                                setEditStudioCat(zone.category || 'fitgirls');
+                                                                setEditStudioSubCat(zone.subCategory || '');
+                                                                setEditStudioImage(zone.image || zone.img || '');
+                                                                setEditStudioHashtag(zone.hashtag || '');
+                                                            }}
+                                                        >수정</button>
+                                                        <button
+                                                            style={{ background: '#b32d2e', color: '#fff', border: 'none', padding: '4px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem' }}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                setDeleteStudioTarget(zone);
+                                                            }}
+                                                        >삭제</button>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                    )}
+                                    ))}
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                    {studios.filter(s => s.category === zoneSubTab).length === 0 && (
-                        <div style={{ textAlign: 'center', padding: '60px 20px', color: '#888', fontSize: '1rem' }}>
-                            등록된 배경이 없습니다.
-                        </div>
-                    )}
+                                {filteredStudios.length === 0 && (
+                                    <div style={{ textAlign: 'center', padding: '60px 20px', color: '#888', fontSize: '1rem' }}>
+                                        등록된 배경이 없습니다.
+                                    </div>
+                                )}
+                            </>
+                        );
+                    })()}
                 </div>
             ) : (
                 <div className="gallery-masonry-wrapper" style={{ animation: 'fadeIn 0.5s ease' }}>
@@ -516,6 +626,8 @@ const Zone = () => {
                                                     setEditName(item.outfitName || '');
                                                     setEditSize(item.outfitSize || '');
                                                     setEditTag(item.tag || '');
+                                                    setEditImage(item.img || item.imageUrl || '');
+                                                    setEditStoragePath(item.storagePath || '');
                                                 }}
                                             >
                                                 수정
@@ -578,11 +690,52 @@ const Zone = () => {
 
             {/* 수정 모달 */}
             {editItem && (
-                <div className="delete-confirm-overlay" onClick={() => { setEditItem(null); setEditName(''); setEditSize(''); setEditTag(''); }}>
+                <div className="delete-confirm-overlay" onClick={closeEditModal}>
                     <div className="delete-confirm-box" onClick={(e) => e.stopPropagation()} style={{ minWidth: '320px', textAlign: 'left' }}>
                         <p className="delete-confirm-title" style={{ textAlign: 'center', marginBottom: '20px' }}>
                             의상 정보 수정
                         </p>
+                        
+                        {/* 이미지 변경 영역 */}
+                        <div style={{ marginBottom: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <p style={{ margin: '0 0 8px', fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', width: '100%', textAlign: 'left' }}>
+                                의상 이미지 (Outfit Image)
+                            </p>
+                            <div style={{ position: 'relative', width: '120px', height: '160px', borderRadius: '8px', overflow: 'hidden', background: '#111', border: '1px solid rgba(255,255,255,0.1)' }}>
+                                {editImage ? (
+                                    <img src={editImage} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                ) : (
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#666', fontSize: '0.85rem' }}>이미지 없음</div>
+                                )}
+                                {isUploadingEditImg && (
+                                    <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '0.8rem' }}>
+                                        업로드중...
+                                    </div>
+                                )}
+                            </div>
+                            <div style={{ marginTop: '8px' }}>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    id="lookbook-edit-photo-input"
+                                    style={{ display: 'none' }}
+                                    onChange={handleEditLookbookPhoto}
+                                    disabled={isUploadingEditImg}
+                                />
+                                <label
+                                    htmlFor="lookbook-edit-photo-input"
+                                    style={{
+                                        display: 'inline-block',
+                                        background: '#222', color: '#eee', border: '1px solid #444',
+                                        padding: '6px 12px', borderRadius: '4px', cursor: isUploadingEditImg ? 'not-allowed' : 'pointer', fontSize: '0.8rem',
+                                        opacity: isUploadingEditImg ? 0.6 : 1
+                                    }}
+                                >
+                                    사진 변경
+                                </label>
+                            </div>
+                        </div>
+
                         <div style={{ marginBottom: '16px' }}>
                             <p style={{ margin: '0 0 8px', fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)' }}>
                                 의상 이름 (Outfit Name)
@@ -635,10 +788,10 @@ const Zone = () => {
                             />
                         </div>
                         <div className="delete-confirm-btns">
-                            <button className="delete-btn-cancel" onClick={() => { setEditItem(null); setEditName(''); setEditSize(''); setEditTag(''); }}>
+                            <button className="delete-btn-cancel" onClick={closeEditModal}>
                                 취소
                             </button>
-                            <button className="delete-btn-ok" style={{ background: '#3a7bd5' }} onClick={handleEdit}>
+                            <button className="delete-btn-ok" style={{ background: '#3a7bd5' }} onClick={handleEdit} disabled={isUploadingEditImg}>
                                 저장
                             </button>
                         </div>
@@ -701,6 +854,23 @@ const Zone = () => {
                                 <option value="fitgirls">FITGIRLS & INAFIT</option>
                                 <option value="mooz">NEVERLAND SELF Studio</option>
                             </select>
+                        </div>
+                        <div style={{ marginBottom: '16px' }}>
+                            <p style={{ margin: '0 0 8px', fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)' }}>
+                                세부 카테고리 (Sub Category)
+                            </p>
+                            <input
+                                type="text"
+                                placeholder="예: 컬러배경지, 자연광 ZONE"
+                                value={editStudioSubCat}
+                                onChange={(e) => setEditStudioSubCat(e.target.value)}
+                                style={{
+                                    width: '100%', padding: '10px 12px', borderRadius: '8px',
+                                    border: '1px solid rgba(255,255,255,0.2)',
+                                    background: 'rgba(255,255,255,0.08)', color: '#fff',
+                                    fontSize: '0.95rem', boxSizing: 'border-box',
+                                }}
+                            />
                         </div>
                         <div style={{ marginBottom: '16px', position: 'relative' }}>
                             <p style={{ margin: '0 0 8px', fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)' }}>

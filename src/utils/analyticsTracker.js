@@ -1,11 +1,22 @@
 import { db } from './firebase';
 import { doc, getDoc, setDoc, increment, serverTimestamp } from 'firebase/firestore';
 
-// 오늘 날짜 키 (YYYY-MM-DD)
-const getTodayKey = () => new Date().toISOString().slice(0, 10);
+// 오늘 날짜 키 (YYYY-MM-DD) - 로컬 타임존(KST) 기준
+const getTodayKey = () => {
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
 
-// 이번 달 키 (YYYY-MM)
-const getMonthKey = () => new Date().toISOString().slice(0, 7);
+// 이번 달 키 (YYYY-MM) - 로컬 타임존(KST) 기준
+const getMonthKey = () => {
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    return `${year}-${month}`;
+};
 
 // 현재 시간대 (0~23)
 const getHourKey = () => String(new Date().getHours()).padStart(2, '0');
@@ -108,6 +119,8 @@ export const trackVisit = async (path) => {
 
         // 월별 총계 저장
         const monthRef = doc(db, 'analytics_monthly', month);
+        const monthSnap = await getDoc(monthRef);
+        
         const monthUpdateData = {
             total: increment(1),
             [`pages.${pageName}`]: increment(1),
@@ -119,7 +132,22 @@ export const trackVisit = async (path) => {
         if (utmSource !== 'none') monthUpdateData[`utmSources.${utmSource}`] = increment(1);
         if (utmCampaign !== 'none') monthUpdateData[`utmCampaigns.${utmCampaign}`] = increment(1);
 
-        await setDoc(monthRef, monthUpdateData, { merge: true });
+        if (monthSnap.exists()) {
+            await setDoc(monthRef, monthUpdateData, { merge: true });
+        } else {
+            const initialMonthData = {
+                total: 1,
+                pages: { [pageName]: 1 },
+                sources: { [source]: 1 },
+                devices: { [device]: 1 },
+                createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp(),
+            };
+            if (utmSource !== 'none') initialMonthData.utmSources = { [utmSource]: 1 };
+            if (utmCampaign !== 'none') initialMonthData.utmCampaigns = { [utmCampaign]: 1 };
+
+            await setDoc(monthRef, initialMonthData);
+        }
 
     } catch (e) {
         console.debug('Analytics track skipped:', e.message);

@@ -16,7 +16,7 @@ const db = getFirestore(app);
 async function listCollections() {
     // Note: client SDK cannot list collections easily, 
     // but we can try common names or check if 'reviews' is indeed empty.
-    const collections = ['reviews', 'Reviews', 'REVIEWS', 'events', 'gallery'];
+    const collections = ['reviews', 'Reviews', 'REVIEWS', 'events', 'gallery', 'models', 'issues'];
     for (const name of collections) {
         try {
             const ref = collection(db, name);

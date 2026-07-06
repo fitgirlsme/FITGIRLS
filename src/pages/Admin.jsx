@@ -14,6 +14,7 @@ import '../components/sections/Gallery.css';
 import SModelAdminTab from '../components/admin/SModelAdminTab';
 import RetouchAdminTab from '../components/admin/RetouchAdminTab';
 import CouponAdminTab from '../components/admin/CouponAdminTab';
+import ChecklistAdminTab from '../components/admin/ChecklistAdminTab';
 import AnalyticsWidget from '../components/AnalyticsWidget';
 
 import { 
@@ -21,7 +22,7 @@ import {
     MdEventAvailable, MdMovie, MdMoveToInbox, MdHandshake, 
     MdCamera, MdPerson, MdElderly, MdLogout, MdArrowBack,
     MdChevronRight, MdGridView, MdCollections, MdCardGiftcard, MdHome, MdDashboard,
-    MdRateReview
+    MdRateReview, MdFitnessCenter, MdAssignment
 } from 'react-icons/md';
 
 // Constants
@@ -43,7 +44,8 @@ const STORES = {
     PARTNERS: 'partners',
     DIRECTOR: 'director_activities',
     GALLERY: 'gallery',
-    ISSUES: 'issues'
+    ISSUES: 'issues',
+    MONTHLY_PROJECTS: 'monthly_projects'
 };
 
 // Utilities
@@ -137,9 +139,9 @@ const Admin = () => {
         { id: 'artist', label: 'Artist', icon: <MdPerson />, desc: 'Artist profile' },
         { id: 'gallery', label: 'Gallery', icon: <MdPhotoLibrary />, desc: 'Manage photo grid' },
         { id: 'concepts', label: 'Lookbook', icon: <MdCollections />, desc: 'Lookbook outfits' },
-        { id: 'shop', label: 'Shop', icon: <MdShoppingBag />, desc: 'Products & Sales' },
         { id: 'studios', label: 'Studios', icon: <MdCamera />, desc: 'Studio Zones' },
         { id: 'events', label: 'Events', icon: <MdEventAvailable />, desc: 'Notices & Promos' },
+        { id: 'challenges', label: 'Monthly Drops', icon: <MdFitnessCenter />, desc: 'Manage Monthly Drops (한정판 드롭)' },
         { id: 'retouch', label: 'Retouch', icon: <MdCameraAlt />, desc: 'Fitgirls & INAFIT Retouch', badge: newRetouchCount > 0 },
         { id: 'models', label: 'Ambassadors', icon: <MdPeople />, desc: 'Profiles & Portfolio' },
         { id: 'apply', label: 'Applications', icon: <MdMoveToInbox />, desc: 'New submissions' },
@@ -147,6 +149,7 @@ const Admin = () => {
         { id: 'coupon', label: 'Coupon', icon: <MdCardGiftcard />, desc: 'Event Coupons' },
         { id: 'smodel', label: 'S-Model', icon: <MdElderly />, desc: 'Senior Models & Archives' },
         { id: 'reviews', label: 'Reviews', icon: <MdRateReview />, desc: 'Curated Customer Reviews' },
+        { id: 'checklist', label: 'Checklist', icon: <MdAssignment />, desc: 'Fitorialist 상담 체크리스트' },
     ];
 
     return (
@@ -254,8 +257,8 @@ const Admin = () => {
                         {activeTab === 'gallery' && <GalleryTab />}
                         {activeTab === 'models' && <ModelsTab />}
                         {activeTab === 'concepts' && <ConceptsTab />}
-                        {activeTab === 'shop' && <ProductsTab />}
                         {activeTab === 'events' && <EventsTab />}
+                        {activeTab === 'challenges' && <ChallengesTab />}
                         {activeTab === 'hero' && <HeroTab />}
                         {activeTab === 'apply' && <ApplicationsTab />}
                         {activeTab === 'partners' && <PartnersTab />}
@@ -265,6 +268,7 @@ const Admin = () => {
                         {activeTab === 'retouch' && <RetouchAdminTab />}
                         {activeTab === 'coupon' && <CouponAdminTab />}
                         {activeTab === 'reviews' && <ReviewsTab />}
+                        {activeTab === 'checklist' && <ChecklistAdminTab />}
                     </div>
                 </main>
             </div>
@@ -317,7 +321,7 @@ const PhotoManager = ({ issues }) => {
                 const normalizedUrls = {};
                 
                 // Ensure every category value is an array
-                ['fitorialist', 'artist', 'fashion', 'portrait'].forEach(cat => {
+                ['fitorialist', 'artist', 'fashion', 'portrait', 'self'].forEach(cat => {
                     const val = rawUrls[cat];
                     if (Array.isArray(val)) {
                         normalizedUrls[cat] = val;
@@ -332,7 +336,7 @@ const PhotoManager = ({ issues }) => {
             } else {
                 // Initialize with empty arrays
                 setVideoUrls({
-                    fitorialist: [''], artist: [''], fashion: [''], portrait: ['']
+                    fitorialist: [''], artist: [''], fashion: [''], portrait: [''], self: ['']
                 });
             }
         } catch (err) { console.error('Failed to load category video:', err); }
@@ -533,6 +537,21 @@ const PhotoManager = ({ issues }) => {
         }
     };
 
+    const handleMainCategoryChange = async (photoId, newMainCat) => {
+        try {
+            await updateDoc(doc(db, STORES.GALLERY, photoId), { mainCategory: newMainCat });
+            setPhotos(prev => prev.map(p => p.id === photoId ? { ...p, mainCategory: newMainCat } : p));
+            try {
+                const { updateGalleryItem } = await import('../utils/db');
+                await updateGalleryItem(photoId, { mainCategory: newMainCat });
+            } catch (err) {
+                console.warn('Local DB update skip (not critical)');
+            }
+        } catch (err) {
+            alert('대분류 수정 실패: ' + err.message);
+        }
+    };
+
     return (
         <div className="photo-manager-section" style={{ marginTop: '40px', borderTop: '1px solid #eee', paddingTop: '40px' }}>
             <div className="photo-manager-header" style={{ 
@@ -659,6 +678,7 @@ const PhotoManager = ({ issues }) => {
                                 <option value="artist">ARTIST</option>
                                 <option value="fashion">BEAUTY & FASHION</option>
                                 <option value="portrait">PORTRAIT</option>
+                                <option value="self">NEVERLAND SELF</option>
                             </select>
 
                             <button 
@@ -929,6 +949,21 @@ const PhotoManager = ({ issues }) => {
                                             </button>
                                         </div>
                                     )}
+                                    <select 
+                                        value={p.mainCategory || 'fitorialist'} 
+                                        onChange={(e) => {
+                                            e.stopPropagation();
+                                            handleMainCategoryChange(p.id, e.target.value);
+                                        }}
+                                        onClick={e => e.stopPropagation()}
+                                        style={{ width: '100%', fontSize: '0.75rem', padding: '4px', marginBottom: '8px', border: '1px solid #ddd', borderRadius: '4px', fontWeight: '600' }}
+                                    >
+                                        <option value="fitorialist">FITORIALIST</option>
+                                        <option value="artist">ARTIST</option>
+                                        <option value="fashion">BEAUTY & FASHION</option>
+                                        <option value="portrait">PORTRAIT</option>
+                                        <option value="self">NEVERLAND SELF</option>
+                                    </select>
                                     <select 
                                         value={p.issueId || ''} 
                                         onChange={(e) => {
@@ -2845,10 +2880,11 @@ const ArtistTab = () => {
 const StudiosTab = () => {
     const [studios, setStudios] = useState([]);
     const [filterTab, setFilterTab] = useState('fitgirls');
+    const [filterSubTab, setFilterSubTab] = useState('ALL');
     const [showForm, setShowForm] = useState(false);
     const [editId, setEditId] = useState(null);
     const [form, setForm] = useState({
-        title: '', category: 'fitgirls', description: '', image: '', img: '', hashtag: ''
+        title: '', category: 'fitgirls', description: '', image: '', img: '', hashtag: '', subCategory: ''
     });
     const [saving, setSaving] = useState(false);
     const [uploadingImage, setUploadingImage] = useState(false);
@@ -2860,6 +2896,10 @@ const StudiosTab = () => {
         loadStudios(); 
         loadAllHashtags();
     }, []);
+
+    useEffect(() => {
+        setFilterSubTab('ALL');
+    }, [filterTab]);
 
     const loadAllHashtags = async () => {
         try {
@@ -2881,7 +2921,7 @@ const StudiosTab = () => {
     };
 
     const resetForm = () => {
-        setForm({ title: '', category: 'fitgirls', description: '', image: '', img: '', hashtag: '' });
+        setForm({ title: '', category: 'fitgirls', description: '', image: '', img: '', hashtag: '', subCategory: '' });
         setEditId(null); setShowForm(false); setUploadingImage(false);
     };
 
@@ -2910,7 +2950,7 @@ const StudiosTab = () => {
         } catch (err) { alert(err.message); }
     };
 
-    const startEdit = (s) => { setForm({ ...s }); setEditId(s.id); setShowForm(true); };
+    const startEdit = (s) => { setForm({ ...s, subCategory: s.subCategory || '' }); setEditId(s.id); setShowForm(true); };
 
     const handlePhoto = async (file) => {
         if (!file) return;
@@ -2948,6 +2988,10 @@ const StudiosTab = () => {
                                     <option value="fitgirls">FITGIRLS & INAFIT (핏걸즈 & INAFIT)</option>
                                     <option value="mooz">NEVERLAND SELF Studio (네버랜드 셀프스튜디오)</option>
                                 </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Sub Category (세부 카테고리 - ex: 핏걸즈비비드, 컬러배경지, 자연광 ZONE)</label>
+                                <input type="text" value={form.subCategory || ''} onChange={e => setForm({...form, subCategory: e.target.value})} placeholder="ex) 컬러배경지" />
                             </div>
                             <div className="form-group"><label>Description (Optional)</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} /></div>
                             <div className="form-group" style={{ position: 'relative' }}>
@@ -3008,32 +3052,433 @@ const StudiosTab = () => {
                     className={`admin-tab-btn ${filterTab === 'fitgirls' ? 'active' : ''}`}
                     onClick={() => setFilterTab('fitgirls')}
                 >
-                    FITGIRLS &amp; INAFIT
+                    FITGIRLS &amp; INAFIT ({studios.filter(s => s.category === 'fitgirls').length})
                 </button>
                 <button
                     className={`admin-tab-btn ${filterTab === 'mooz' ? 'active' : ''}`}
                     onClick={() => setFilterTab('mooz')}
                 >
-                    NEVERLAND SELF Studio
+                    NEVERLAND SELF Studio ({studios.filter(s => s.category === 'mooz').length})
                 </button>
             </div>
 
+            {(() => {
+                const availableSubCats = Array.from(
+                    new Set(
+                        studios
+                            .filter(s => s.category === filterTab)
+                            .map(s => s.subCategory)
+                            .filter(Boolean)
+                    )
+                );
+                if (availableSubCats.length === 0) return null;
+                return (
+                    <div className="admin-sub-tabs" style={{ display: 'flex', gap: '8px', marginBottom: '24px', flexWrap: 'wrap' }}>
+                        <button
+                            className={`admin-tab-btn sub-tab-btn ${filterSubTab === 'ALL' ? 'active' : ''}`}
+                            onClick={() => setFilterSubTab('ALL')}
+                            style={{
+                                padding: '6px 14px',
+                                fontSize: '0.8rem',
+                                borderRadius: '20px',
+                                border: '1px solid #ddd',
+                                background: filterSubTab === 'ALL' ? '#1a1a1a' : '#fff',
+                                color: filterSubTab === 'ALL' ? '#fff' : '#555',
+                                cursor: 'pointer',
+                                fontWeight: '600',
+                                transition: 'all 0.2s ease'
+                            }}
+                        >
+                            전체 (ALL) ({studios.filter(s => s.category === filterTab).length})
+                        </button>
+                        {availableSubCats.map(subCat => {
+                            const subCatCount = studios.filter(s => s.category === filterTab && s.subCategory === subCat).length;
+                            return (
+                                <button
+                                    key={subCat}
+                                    className={`admin-tab-btn sub-tab-btn ${filterSubTab === subCat ? 'active' : ''}`}
+                                    onClick={() => setFilterSubTab(subCat)}
+                                    style={{
+                                        padding: '6px 14px',
+                                        fontSize: '0.8rem',
+                                        borderRadius: '20px',
+                                        border: '1px solid #ddd',
+                                        background: filterSubTab === subCat ? '#1a1a1a' : '#fff',
+                                        color: filterSubTab === subCat ? '#fff' : '#555',
+                                        cursor: 'pointer',
+                                        fontWeight: '600',
+                                        transition: 'all 0.2s ease'
+                                    }}
+                                >
+                                    {subCat} ({subCatCount})
+                                </button>
+                            );
+                        })}
+                    </div>
+                );
+            })()}
+
             <div className="admin-item-list">
-                {studios.filter(s => s.category === filterTab).map(s => (
-                    <div key={s.id} className="admin-item-card">
-                        {(s.image || s.img) && <img src={s.image || s.img} alt="" className="admin-item-thumb" />}
+                {studios
+                    .filter(s => s.category === filterTab)
+                    .filter(s => filterSubTab === 'ALL' || s.subCategory === filterSubTab)
+                    .map(s => (
+                        <div key={s.id} className="admin-item-card">
+                            {(s.image || s.img) && <img src={s.image || s.img} alt="" className="admin-item-thumb" />}
+                            <div className="admin-item-info">
+                                <strong>{s.title}</strong>
+                                <div style={{ display: 'flex', gap: '6px', alignItems: 'center', flexWrap: 'wrap', marginTop: '4px' }}>
+                                    <span className="admin-item-badge">{s.category === 'fitgirls' ? 'FITGIRLS & INAFIT' : 'NEVERLAND SELF'}</span>
+                                    {s.subCategory && <span style={{ background: '#e8f4ff', color: '#1890ff', fontSize: '0.65rem', padding: '2px 8px', borderRadius: '10px', fontWeight: 'bold' }}>{s.subCategory}</span>}
+                                </div>
+                                {s.hashtag && <span style={{ fontSize: '0.75rem', color: '#3a7bd5', fontWeight: 'bold', marginTop: '4px', display: 'inline-block' }}>{s.hashtag}</span>}
+                            </div>
+                            <div className="admin-item-actions">
+                                <button onClick={() => startEdit(s)}>Edit</button>
+                                <button onClick={() => handleDeleteStudio(s.id)} className="delete">Delete</button>
+                            </div>
+                        </div>
+                    ))}
+                {studios.filter(s => s.category === filterTab).filter(s => filterSubTab === 'ALL' || s.subCategory === filterSubTab).length === 0 && <p style={{ padding: 40, textAlign: 'center', color: '#888' }}>해당 카테고리에 등록된 스튜디오가 없습니다.</p>}
+            </div>
+        </div>
+    );
+};
+
+// ===== 7. Challenges Tab =====
+const formatPrice = (val) => {
+    if (!val) return '';
+    const valStr = val.toString().trim();
+    if (valStr.includes('원') || valStr.includes(',')) {
+        return valStr;
+    }
+    const num = parseInt(valStr.replace(/[^0-9]/g, ''), 10);
+    if (isNaN(num)) return valStr;
+    return num.toLocaleString() + '원';
+};
+
+const RichEditor = ({ value, onChange, placeholder }) => {
+    const editorRef = useRef(null);
+    const quillRef = useRef(null);
+    const isUpdatingRef = useRef(false);
+
+    useEffect(() => {
+        if (!editorRef.current) return;
+
+        if (!quillRef.current && window.Quill) {
+            quillRef.current = new window.Quill(editorRef.current, {
+                theme: 'snow',
+                placeholder: placeholder || '상세 내용을 입력하세요...',
+                modules: {
+                    toolbar: [
+                        [{ 'header': [1, 2, 3, false] }],
+                        [{ 'size': ['small', false, 'large', 'huge'] }],
+                        ['bold', 'italic', 'underline', 'strike'],
+                        [{ 'color': [] }, { 'background': [] }],
+                        [{ 'align': [] }],
+                        ['clean']
+                    ]
+                }
+            });
+
+            // 클립보드 복사-붙여넣기 시 개행(\n) 보존 매처 추가
+            const Delta = window.Quill.import('delta');
+            quillRef.current.clipboard.addMatcher(Node.TEXT_NODE, (node, delta) => {
+                if (typeof node.data === 'string' && node.data.includes('\n')) {
+                    const lines = node.data.split('\n');
+                    const newDelta = new Delta();
+                    lines.forEach((line, index) => {
+                        if (line) {
+                            newDelta.insert(line);
+                        }
+                        if (index < lines.length - 1) {
+                            newDelta.insert('\n');
+                        }
+                    });
+                    return newDelta;
+                }
+                return delta;
+            });
+
+            if (value) {
+                quillRef.current.clipboard.dangerouslyPasteHTML(value);
+            }
+
+            quillRef.current.on('text-change', () => {
+                if (isUpdatingRef.current) return;
+                const html = editorRef.current.querySelector('.ql-editor').innerHTML;
+                onChange(html);
+            });
+        }
+    }, [placeholder]);
+
+    useEffect(() => {
+        if (quillRef.current && value !== undefined) {
+            const currentHtml = editorRef.current.querySelector('.ql-editor').innerHTML;
+            if (value !== currentHtml && value !== '<p><br></p>') {
+                isUpdatingRef.current = true;
+                quillRef.current.clipboard.dangerouslyPasteHTML(value);
+                isUpdatingRef.current = false;
+            }
+        }
+    }, [value]);
+
+    return (
+        <div style={{ background: '#fff', color: '#000', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0', width: '100%', boxSizing: 'border-box' }}>
+            <div ref={editorRef} style={{ height: '220px' }} />
+        </div>
+    );
+};
+
+const formatDatetimeLocal = (dateVal) => {
+    if (!dateVal) return '';
+    let dateObj = dateVal;
+    if (dateVal.toDate) {
+        dateObj = dateVal.toDate();
+    } else if (typeof dateVal === 'string' || typeof dateVal === 'number') {
+        dateObj = new Date(dateVal);
+    } else if (!(dateObj instanceof Date)) {
+        return '';
+    }
+    // 로컬 타임존 반영
+    const offset = dateObj.getTimezoneOffset() * 60000;
+    const localISOTime = (new Date(dateObj.getTime() - offset)).toISOString().slice(0, 16);
+    return localISOTime;
+};
+
+const ChallengesTab = () => {
+    const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [showForm, setShowForm] = useState(false);
+    const [editId, setEditId] = useState(null);
+    const [form, setForm] = useState({
+        title: '',
+        hero_image: '',
+        description: '',
+        price_regular: '',
+        price_discount: '',
+        deadline: '',
+        booking_url: '',
+        status: 'active'
+    });
+    const [saving, setSaving] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    useEffect(() => { loadProjects(); }, []);
+
+    const loadProjects = async () => {
+        try {
+            const snap = await getDocs(query(collection(db, 'monthly_projects'), orderBy('createdAt', 'desc')));
+            setProjects(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+        } catch (err) { console.error(err); }
+        finally { setLoading(false); }
+    };
+
+    const resetForm = () => {
+        setForm({
+            title: '',
+            hero_image: '',
+            description: '',
+            price_regular: '',
+            price_discount: '',
+            deadline: '',
+            booking_url: '',
+            status: 'active'
+        });
+        setEditId(null); setShowForm(false);
+    };
+
+    const handleSave = async () => {
+        if (!form.title) { alert('Project Title is required.'); return; }
+        if (!form.hero_image) { alert('Hero Image is required.'); return; }
+        setSaving(true);
+        try {
+            const data = { 
+                title: form.title,
+                hero_image: form.hero_image,
+                description: form.description,
+                price_regular: form.price_regular ? Number(form.price_regular) : null,
+                price_discount: form.price_discount ? Number(form.price_discount) : null,
+                deadline: form.deadline ? new Date(form.deadline) : null,
+                booking_url: form.booking_url,
+                status: form.status,
+                updatedAt: serverTimestamp(), 
+                ...(editId ? {} : { createdAt: serverTimestamp() }) 
+            };
+            if (editId) { 
+                await updateDoc(doc(db, 'monthly_projects', editId), data); 
+            } else { 
+                await addDoc(collection(db, 'monthly_projects'), data); 
+            }
+            
+            // Sync with IndexedDB
+            try {
+                const { syncCollection } = await import('../utils/syncService');
+                await syncCollection(STORES.MONTHLY_PROJECTS);
+            } catch (syncErr) {
+                console.error('Sync error:', syncErr);
+            }
+
+            setShowSuccess(true); setTimeout(() => setShowSuccess(false), 3000);
+            resetForm(); loadProjects();
+        } catch (err) { alert('Save error: ' + err.message); }
+        setSaving(false);
+    };
+
+    const handleDelete = async (id) => {
+        if (!window.confirm('Delete this project?')) return;
+        try {
+            await deleteDoc(doc(db, 'monthly_projects', id));
+            // Sync with IndexedDB
+            try {
+                const { syncCollection } = await import('../utils/syncService');
+                await syncCollection(STORES.MONTHLY_PROJECTS);
+            } catch (syncErr) {
+                console.error('Sync error:', syncErr);
+            }
+            loadProjects();
+        } catch (err) { alert(err.message); }
+    };
+
+    const handlePhoto = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        setSaving(true);
+        try {
+            const { url } = await uploadOptimizedImage(file, 'monthly_projects');
+            setForm(prev => ({ ...prev, hero_image: url }));
+        } catch (err) { alert('Upload failed: ' + err.message); }
+        setSaving(false);
+    };
+
+    const removePhoto = () => {
+        setForm(prev => ({ ...prev, hero_image: '' }));
+    };
+
+    return (
+        <div className="upload-section">
+            {showSuccess && <Toast message="Project saved successfully!" onClose={() => setShowSuccess(false)} />}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
+                <h3 style={{ margin: 0 }}>Monthly Drops (월별 한정판 드롭)</h3>
+                <button className="add-btn" onClick={() => { resetForm(); setShowForm(true); }}>+ Add New Drop</button>
+            </div>
+
+            {showForm && (
+                <div className="admin-modal-overlay" onClick={() => resetForm()}>
+                    <div className="admin-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '750px' }}>
+                        <button className="close-x" onClick={resetForm}>×</button>
+                        <h3>{editId ? 'Edit Monthly Drop' : 'Add New Monthly Drop'}</h3>
+                        <div className="admin-modal-form">
+                            <div className="admin-grid-two">
+                                <div className="form-group">
+                                    <label>Project Title *</label>
+                                    <input type="text" value={form.title} onChange={e => setForm({...form, title: e.target.value})} placeholder="예: THE UNIFORM : Drop 01" />
+                                </div>
+                                <div className="form-group">
+                                    <label>Status</label>
+                                    <select value={form.status} onChange={e => setForm({...form, status: e.target.value})} style={{ padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', width: '100%' }}>
+                                        <option value="active">Active (진행중)</option>
+                                        <option value="closed">Closed (마감됨)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label>Booking URL (네이버 예약 링크)</label>
+                                <input type="text" value={form.booking_url} onChange={e => setForm({...form, booking_url: e.target.value})} placeholder="예: https://booking.naver.com/..." />
+                            </div>
+                            <div className="admin-grid-two">
+                                <div className="form-group">
+                                    <label>정가 (Regular Price)</label>
+                                    <input type="number" value={form.price_regular} onChange={e => setForm({...form, price_regular: e.target.value})} placeholder="예: 275000" />
+                                </div>
+                                <div className="form-group">
+                                    <label>할인된 금액 (Discounted Price)</label>
+                                    <input type="number" value={form.price_discount} onChange={e => setForm({...form, price_discount: e.target.value})} placeholder="예: 128000" />
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label>Deadline (마감 일시)</label>
+                                <input type="datetime-local" value={form.deadline} onChange={e => setForm({...form, deadline: e.target.value})} style={{ padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', width: '100%' }} />
+                            </div>
+                            
+                            <div className="form-group">
+                                <label>Project Description</label>
+                                <RichEditor value={form.description} onChange={val => setForm({...form, description: val})} placeholder="프로젝트 상세 내용을 입력하세요." />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Hero Image (메인 룩북 화보 - 1장)</label>
+                                <div className="admin-image-uploader">
+                                    <input type="file" accept="image/*" onChange={handlePhoto} />
+                                    {form.hero_image && (
+                                        <div className="image-preview-grid">
+                                            <div className="preview-box">
+                                                 <img src={form.hero_image} alt="" />
+                                                 <button onClick={removePhoto}>×</button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            <button className="submit-btn" onClick={handleSave} disabled={saving}>
+                                {saving ? 'Saving...' : 'Save Drop Project'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div className="admin-item-list">
+                {projects.map(p => (
+                    <div key={p.id} className="admin-item-card">
+                        {p.hero_image && <img src={p.hero_image} alt="" className="admin-item-thumb" style={{ aspectRatio: '16/10', objectFit: 'cover' }} />}
                         <div className="admin-item-info">
-                            <strong>{s.title}</strong>
-                            <span className="admin-item-badge">{s.category === 'fitgirls' ? 'FITGIRLS & INAFIT' : 'NEVERLAND SELF'}</span>
-                            {s.hashtag && <span style={{ fontSize: '0.75rem', color: '#3a7bd5', fontWeight: 'bold' }}>{s.hashtag}</span>}
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <h4 style={{ margin: '4px 0' }}>{p.title}</h4>
+                                <span style={{ 
+                                    fontSize: '0.7rem', 
+                                    padding: '2px 6px', 
+                                    borderRadius: '4px', 
+                                    fontWeight: 'bold',
+                                    background: p.status === 'active' ? '#e6f7ff' : '#f5f5f5',
+                                    color: p.status === 'active' ? '#1890ff' : '#888'
+                                }}>
+                                    {p.status === 'active' ? 'ACTIVE' : 'CLOSED'}
+                                </span>
+                            </div>
+                            <p style={{ margin: '0 0 6px', fontSize: '0.75rem', color: '#888' }}>
+                                마감일: {p.deadline ? (p.deadline.toDate ? p.deadline.toDate().toLocaleString() : new Date(p.deadline).toLocaleString()) : '설정 없음'}
+                            </p>
+                            <p style={{ margin: '0 0 8px', fontSize: '0.8rem', color: '#666', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+                               dangerouslySetInnerHTML={{ __html: p.description || '설명 없음' }}
+                            />
+                            {p.price_discount && (
+                                <p style={{ fontWeight: 700, margin: 0, color: '#FF0000' }}>
+                                    {p.price_discount.toLocaleString()}원 
+                                    {p.price_regular && <span style={{ textDecoration: 'line-through', color: '#999', fontSize: '0.8rem', fontWeight: 'normal', marginLeft: '6px' }}>({p.price_regular.toLocaleString()}원)</span>}
+                                </p>
+                            )}
                         </div>
                         <div className="admin-item-actions">
-                            <button onClick={() => startEdit(s)}>Edit</button>
-                            <button onClick={() => handleDeleteStudio(s.id)} className="delete">Delete</button>
+                            <button onClick={() => { 
+                                setForm({ 
+                                    title: p.title || '',
+                                    hero_image: p.hero_image || '',
+                                    description: p.description || '',
+                                    price_regular: p.price_regular || '',
+                                    price_discount: p.price_discount || '',
+                                    deadline: formatDatetimeLocal(p.deadline),
+                                    booking_url: p.booking_url || '',
+                                    status: p.status || 'active'
+                                }); 
+                                setEditId(p.id); 
+                                setShowForm(true); 
+                            }}>Edit</button>
+                            <button onClick={() => handleDelete(p.id)} className="delete">Delete</button>
                         </div>
                     </div>
                 ))}
-                {studios.filter(s => s.category === filterTab).length === 0 && <p style={{ padding: 40, textAlign: 'center', color: '#888' }}>해당 카테고리에 등록된 스튜디오가 없습니다.</p>}
             </div>
         </div>
     );

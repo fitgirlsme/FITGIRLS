@@ -5,23 +5,13 @@
     background-color: var(--color-bg);
 }
 
-.app-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 100;
-}
-
 @media (max-width: 768px) {
-    .app-header {
-        padding: 16px 20px;
+    .app-container {
+        height: auto !important;
+        min-height: 100dvh;
     }
 }
+
 
 .logo-text {
     font-weight: 900;

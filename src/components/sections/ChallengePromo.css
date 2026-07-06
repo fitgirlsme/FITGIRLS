@@ -1,0 +1,232 @@
+.challenge-promo-section-container {
+    width: 100%;
+    min-height: 100%;
+    background-color: #ffffff;
+    color: #111111;
+    position: relative;
+    padding: 120px 60px 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* For snap scrolling integration */
+.snap-section#challenge-promo {
+    height: auto;
+    min-height: 100vh;
+    overflow: hidden;
+    background-color: #ffffff !important;
+}
+
+.challenge-promo-bg-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(255, 59, 48, 0.04) 0%, rgba(255, 255, 255, 0) 70%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.challenge-promo-content {
+    max-width: 1200px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.challenge-promo-header {
+    text-align: left;
+}
+
+.promo-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.3em;
+    color: #FF3B30;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.promo-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 1.0;
+    margin-bottom: 20px;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+}
+
+.promo-title .gradient-text {
+    background: linear-gradient(90deg, #111111 30%, #FF3B30 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.promo-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: rgba(0, 0, 0, 0.6);
+    text-transform: uppercase;
+}
+
+.promo-body-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.promo-manifesto-col {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.manifesto-text {
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.6;
+    color: #111111;
+    word-break: keep-all;
+}
+
+.manifesto-subtext {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: rgba(0, 0, 0, 0.6);
+    word-break: keep-all;
+}
+
+.promo-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #111111;
+    color: #ffffff;
+    border: 1px solid #111111;
+    padding: 18px 36px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width: fit-content;
+    border-radius: 30px;
+    margin-top: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.promo-cta-btn:hover {
+    background: #FF3B30;
+    color: #ffffff;
+    border-color: #FF3B30;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(255, 59, 48, 0.25);
+}
+
+.promo-cta-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.promo-cta-btn:hover svg {
+    transform: translateX(4px);
+}
+
+.promo-phases-col {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.phase-card {
+    background: #f9fafb;
+    border: 1px solid #eaeaea;
+    border-radius: 24px;
+    padding: 30px;
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.phase-card:hover {
+    background: #f1f3f5;
+    border-color: rgba(255, 59, 48, 0.3);
+    transform: translateX(8px);
+}
+
+.phase-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #FF3B30;
+    line-height: 1;
+}
+
+.phase-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.phase-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: #111111;
+}
+
+.phase-desc {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: rgba(0, 0, 0, 0.6);
+    word-break: keep-all;
+}
+
+@media (max-width: 1024px) {
+    .promo-body-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+    
+    .challenge-promo-section-container {
+        padding: 100px 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .challenge-promo-section-container {
+        padding: 80px 20px !important;
+        height: auto;
+    }
+
+    .promo-title {
+        font-size: 3rem;
+    }
+
+    .manifesto-text {
+        font-size: 1.1rem;
+    }
+
+    .phase-card {
+        padding: 24px;
+        gap: 15px;
+    }
+
+    .phase-card:hover {
+        transform: translateY(-2px);
+    }
+}

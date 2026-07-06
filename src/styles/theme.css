@@ -90,7 +90,8 @@ ul, li {
 #fitorialist,
 #artist,
 #archive,
-#zone {
+#zone,
+#challenge-promo {
   height: auto !important;
   min-height: 100dvh !important;
   max-height: none !important;

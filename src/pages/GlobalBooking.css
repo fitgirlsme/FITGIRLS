@@ -1,0 +1,255 @@
+.global-booking-page {
+  background-color: #0b0b0b;
+  color: #ffffff;
+  min-height: 100vh;
+  padding: 80px 20px;
+  font-family: 'Inter', 'Outfit', -apple-system, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.global-booking-container {
+  width: 100%;
+  max-width: 680px;
+  background: rgba(20, 20, 20, 0.6);
+  border: 1px solid rgba(255, 30, 39, 0.15);
+  border-radius: 24px;
+  padding: 40px 30px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-sizing: border-box;
+}
+
+.global-booking-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.language-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 30, 39, 0.1);
+  border: 1px solid rgba(255, 30, 39, 0.3);
+  color: #ff1e27;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.lang-icon {
+  font-size: 0.9rem;
+}
+
+.global-booking-header h1 {
+  font-size: 2.2rem;
+  font-weight: 900;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #ffffff 0%, #aaaaaa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.global-booking-header p {
+  color: #999999;
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.global-booking-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.flow-card {
+  display: flex;
+  gap: 20px;
+  background: rgba(30, 30, 30, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 18px;
+  padding: 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flow-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 30, 39, 0.25);
+  background: rgba(35, 35, 35, 0.5);
+  box-shadow: 0 10px 25px rgba(255, 30, 39, 0.05);
+}
+
+.flow-icon-wrap {
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  background: rgba(255, 30, 39, 0.08);
+  border: 1.5px solid rgba(255, 30, 39, 0.2);
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flow-text {
+  flex: 1;
+}
+
+.flow-text h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+  color: #ffffff;
+}
+
+.flow-text p {
+  color: #cccccc;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin: 0 0 16px 0;
+}
+
+.global-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-sizing: border-box;
+}
+
+.global-action-btn.line {
+  background: #06c755;
+  color: #ffffff;
+}
+
+.global-action-btn.line:hover {
+  background: #05b04b;
+  transform: scale(1.02);
+}
+
+.global-action-btn.paypal {
+  background: #0070ba;
+  color: #ffffff;
+}
+
+.global-action-btn.paypal:hover {
+  background: #005ea6;
+  transform: scale(1.02);
+}
+
+.global-action-btn.naver {
+  background: #03c75a;
+  color: #ffffff;
+}
+
+.global-action-btn.naver:hover {
+  background: #02b34f;
+  transform: scale(1.02);
+}
+
+.global-booking-notice-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 35px;
+}
+
+.notice-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.notice-header h3 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  margin: 0;
+  color: #ffffff;
+}
+
+.global-booking-notice-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.global-booking-notice-card li {
+  font-size: 0.82rem;
+  color: #bbbbbb;
+  line-height: 1.5;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.li-check {
+  font-size: 0.95rem;
+  color: #ff1e27;
+  margin-top: 1px;
+  min-width: 15px;
+}
+
+.global-booking-footer-btn-wrap {
+  text-align: center;
+}
+
+.back-to-home-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #aaaaaa;
+  padding: 12px 30px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.back-to-home-btn:hover {
+  border-color: #ffffff;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 576px) {
+  .global-booking-container {
+    padding: 30px 20px;
+  }
+  .global-booking-header h1 {
+    font-size: 1.7rem;
+  }
+  .flow-card {
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+  }
+  .flow-icon-wrap {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+  }
+  .global-action-btn {
+    width: 100%;
+  }
+}

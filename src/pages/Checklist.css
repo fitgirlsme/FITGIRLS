@@ -1,0 +1,526 @@
+/* FITORIALIST Checklist CSS */
+
+.checklist-page {
+  background-color: #fafafa;
+  color: #111;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  padding: 60px 20px 100px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.checklist-container {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* Header Section */
+.checklist-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 0 10px;
+}
+
+.checklist-logo-wrapper {
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.checklist-logo {
+  height: 28px;
+}
+
+.checklist-title-h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ff1e27;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.checklist-subtitle {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #555;
+  word-break: keep-all;
+}
+
+/* Form Container */
+.checklist-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Card Styling */
+.checklist-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 30px 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  border: 1px solid #f0f0f0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.checklist-card:focus-within {
+  border-color: #ff1e2720;
+  box-shadow: 0 6px 24px rgba(255, 30, 39, 0.04);
+}
+
+.card-num {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ff1e27;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.card-question {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 6px;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.card-desc {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 20px;
+  display: block;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+/* Inputs & Form Controls */
+.text-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.text-input-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.required-star {
+  color: #ff1e27;
+  margin-left: 4px;
+}
+
+.checklist-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid #e2e2e2;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  color: #111;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-color: #fcfcfc;
+}
+
+input[type="date"].checklist-input {
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+}
+
+.checklist-input:focus {
+  border-color: #ff1e27;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 30, 39, 0.1);
+}
+
+/* Selection list (Radio / Checkbox) */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  border: 1.5px solid #eee;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.option-item:hover {
+  background-color: #fff8f8;
+  border-color: #ff1e2720;
+}
+
+.option-item.selected {
+  background-color: #fff5f5;
+  border-color: #ff1e27;
+}
+
+.option-input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Custom indicator circles / squares */
+.option-indicator {
+  height: 20px;
+  width: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  margin-right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.option-item.selected .option-indicator {
+  border-color: #ff1e27;
+  background-color: #ff1e27;
+}
+
+.option-indicator::after {
+  content: "";
+  display: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+.option-item.selected .option-indicator::after {
+  display: block;
+}
+
+/* Square indicator for checkbox */
+.option-indicator.square {
+  border-radius: 6px;
+}
+
+.option-item.selected .option-indicator.square::after {
+  content: "✓";
+  display: flex;
+  font-size: 11px;
+  font-weight: 900;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0;
+  background: transparent;
+}
+
+.option-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+  transition: color 0.2s ease;
+}
+
+.option-item.selected .option-text {
+  color: #111;
+  font-weight: 600;
+}
+
+/* Conditional Text fields inside cards */
+.conditional-input-area {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px dashed #eee;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Textarea styling */
+.checklist-textarea {
+  width: 100%;
+  height: 120px;
+  padding: 14px 16px;
+  border: 1.5px solid #e2e2e2;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  color: #111;
+  outline: none;
+  resize: vertical;
+  box-sizing: border-box;
+  background-color: #fcfcfc;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  line-height: 1.5;
+}
+
+.checklist-textarea:focus {
+  border-color: #ff1e27;
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 30, 39, 0.1);
+}
+
+.example-box {
+  background-color: #fcfcfc;
+  border-left: 3px solid #ff1e27;
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 16px;
+}
+
+.example-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ff1e27;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.example-text {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+/* Bottom Brand Description */
+.checklist-footer-desc {
+  text-align: center;
+  margin: 50px 0 30px;
+  padding: 0 10px;
+}
+
+.footer-top-phrase {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ff1e27;
+  margin-bottom: 40px;
+  word-break: keep-all;
+}
+
+.footer-brand-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: #111;
+  margin-bottom: 16px;
+}
+
+.footer-brand-explain {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.7;
+  word-break: keep-all;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* Submit Button */
+.submit-btn-wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.checklist-submit-btn {
+  width: 100%;
+  padding: 18px;
+  background-color: #ff1e27;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 15px rgba(255, 30, 39, 0.2);
+}
+
+.checklist-submit-btn:hover:not(:disabled) {
+  background-color: #e0141c;
+  box-shadow: 0 6px 20px rgba(255, 30, 39, 0.3);
+}
+
+.checklist-submit-btn:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+.checklist-submit-btn:disabled {
+  background-color: #ccc;
+  color: #999;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Modal Overlay & Modal Styling */
+.success-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+  animation: fadeInOverlay 0.3s ease;
+}
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.success-modal-content {
+  background: white;
+  border-radius: 24px;
+  padding: 40px 30px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  animation: scaleInModal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleInModal {
+  from { transform: scale(0.9) translateY(20px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.success-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  background-color: #fff0f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.success-icon {
+  font-size: 32px;
+  color: #ff1e27;
+}
+
+.success-modal-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #111;
+  margin-bottom: 12px;
+}
+
+.success-modal-desc {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 28px;
+  word-break: keep-all;
+}
+
+.success-modal-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #ff1e27;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.success-modal-btn:hover {
+  background-color: #e0141c;
+}
+
+/* Responsive adjust */
+@media (max-width: 480px) {
+  .checklist-page {
+    padding: 30px 16px 80px;
+  }
+  
+  .checklist-title-h1 {
+    font-size: 1.8rem;
+  }
+  
+  .checklist-card {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+  
+  .card-question {
+    font-size: 1.05rem;
+  }
+  
+  .option-item {
+    padding: 14px 16px;
+    border-radius: 12px;
+  }
+  
+  .option-text {
+    font-size: 0.9rem;
+  }
+}
+
+/* Concept Tabs Navigation */
+.concept-tabs-container {
+  display: flex;
+  gap: 8px;
+  background-color: #f1f3f5;
+  padding: 6px;
+  border-radius: 16px;
+  margin-bottom: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.concept-tab-btn {
+  flex: 1;
+  padding: 14px 10px;
+  border: none;
+  background: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #495057;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.concept-tab-btn.active {
+  background-color: #ffffff;
+  color: #ff1e27;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.concept-tab-btn:hover:not(.active) {
+  background-color: #e9ecef;
+  color: #212529;
+}

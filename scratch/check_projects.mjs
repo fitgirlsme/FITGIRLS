@@ -16,8 +16,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 async function checkProjects() {
-    console.log("Checking retouch_projects...");
-    const snap = await getDocs(collection(db, 'retouch_projects'));
+    console.log("Checking monthly_projects...");
+    const snap = await getDocs(collection(db, 'monthly_projects'));
     console.log(`Found ${snap.docs.length} projects.`);
     snap.docs.forEach(d => {
         console.log(`ID: ${d.id}, Data:`, d.data());

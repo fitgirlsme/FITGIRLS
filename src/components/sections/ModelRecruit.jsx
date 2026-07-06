@@ -67,7 +67,7 @@ const ModelRecruit = () => {
         <section className="model-apply-section">
             <div className="model-apply-container">
                 <div className="model-apply-header">
-                    <h2>{t('modelApply.title', '2026 FITORIAL 엠버서더 지원')}</h2>
+                    <h2>{t('modelApply.title', `${new Date().getFullYear()} FITORIAL 엠버서더 지원`)}</h2>
                     <p className="model-apply-intro">{t('modelApply.ambassadorDetail.intro', '')}</p>
                 </div>
 

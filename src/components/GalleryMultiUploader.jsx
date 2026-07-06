@@ -185,6 +185,7 @@ function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
             <option value="artist">ARTIST</option>
             <option value="fashion">FASHION & BEAUTY</option>
             <option value="portrait">PORTRAIT</option>
+            <option value="self">NEVERLAND SELF</option>
           </select>
         </div>
         <div className="uploader-field">

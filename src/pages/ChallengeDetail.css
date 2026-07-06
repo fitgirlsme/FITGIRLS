@@ -1,0 +1,1066 @@
+/* ===== Challenges Editorial Styling ===== */
+
+.challenges-section {
+    padding: 120px 20px 80px;
+    background: var(--color-bg, #000);
+    min-height: 100vh;
+    color: var(--color-text, #fff);
+}
+
+.challenges-container {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.challenges-header {
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+.challenges-header h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    color: var(--color-text, #fff);
+    margin-bottom: 16px;
+    font-family: 'Playfair Display', serif;
+}
+
+.challenges-header .subtitle {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #888;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+}
+
+/* Challenges Grid List */
+.challenges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.challenge-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 24px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.challenge-card:hover {
+    transform: translateY(-8px);
+    border-color: #555;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+}
+
+.challenge-card-img-wrapper {
+    width: 100%;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    position: relative;
+    background: #1c1c1c;
+}
+
+.challenge-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.challenge-card:hover .challenge-card-img {
+    transform: scale(1.05);
+}
+
+.challenge-card-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: #FF3B30;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+
+.challenge-card-info {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.challenge-card-info h3 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin: 0 0 12px;
+    color: #fff;
+    line-height: 1.3;
+}
+
+.challenge-card-period {
+    font-size: 0.85rem;
+    color: #999;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.challenge-card-price-row {
+    margin-top: auto;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.challenge-card-price-row .original {
+    font-size: 0.85rem;
+    color: #666;
+    text-decoration: line-through;
+}
+
+.challenge-card-price-row .discounted {
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: #FF3B30;
+}
+
+/* ===== Challenge Detail Page ===== */
+.challenge-detail-hero {
+    width: 100%;
+    min-height: 50vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 140px 20px 80px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.95) 100%), #111;
+}
+
+.challenge-detail-hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.35;
+    filter: grayscale(40%);
+}
+
+.challenge-detail-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+}
+
+.challenge-detail-hero-content .category {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #FF3B30;
+    letter-spacing: 0.3em;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.challenge-detail-hero-content h2 {
+    font-size: 3.8rem;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 24px;
+    letter-spacing: -0.03em;
+}
+
+.challenge-detail-hero-content .period-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 24px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 980px;
+    font-size: 0.95rem;
+    color: #ddd;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+}
+
+.challenge-detail-body {
+    padding: 60px 20px 100px;
+    background: var(--color-bg, #000);
+}
+
+.challenge-detail-main {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.challenge-editorial-box {
+    background: #0d0d0d;
+    border: 1px solid #1a1a1a;
+    border-radius: 40px;
+    padding: 60px;
+    margin-bottom: 50px;
+    transition: border-color 0.3s ease;
+}
+
+.challenge-editorial-box:hover {
+    border-color: #2c2c2c;
+}
+
+.challenge-editorial-box h3.sec-title {
+    font-size: 1.6rem;
+    font-weight: 900;
+    margin-bottom: 30px;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #222;
+    padding-bottom: 16px;
+    color: #fff;
+}
+
+/* Detail Content Area */
+.challenge-detail-desc {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #ccc;
+    white-space: pre-wrap;
+    word-break: keep-all;
+}
+
+/* Price Box */
+.challenge-price-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    background: #0d0d0d;
+    border: 1px solid #1a1a1a;
+    border-radius: 40px;
+    padding: 40px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.price-item-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.price-item-row .label {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #888;
+    letter-spacing: 0.15em;
+}
+
+.price-item-row .val.regular {
+    font-size: 1.2rem;
+    color: #555;
+    text-decoration: line-through;
+    font-weight: 600;
+}
+
+.price-item-row .val.discount {
+    font-size: 2.2rem;
+    color: #FF3B30;
+    font-weight: 900;
+}
+
+.price-discount-rate {
+    font-size: 0.85rem;
+    background: rgba(255, 59, 48, 0.1);
+    color: #FF3B30;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-weight: 800;
+    display: inline-block;
+}
+
+/* Apply CTA Button */
+.challenge-cta-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.challenge-apply-large-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 500px;
+    padding: 24px;
+    background: #fff;
+    color: #000;
+    border: 1px solid #fff;
+    border-radius: 980px;
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
+}
+
+.challenge-apply-large-btn:hover {
+    background: #FF3B30;
+    color: #fff;
+    border-color: #FF3B30;
+    transform: translateY(-4px);
+    box-shadow: 0 15px 30px rgba(255, 59, 48, 0.3);
+}
+
+/* Empty State */
+.challenges-empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    background: #0d0d0d;
+    border: 1px dashed #222;
+    border-radius: 32px;
+    max-width: 600px;
+    margin: 40px auto 0;
+}
+
+.challenges-empty-state p {
+    font-size: 1.1rem;
+    color: #888;
+    margin-bottom: 24px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .challenges-section {
+        padding: 100px 16px 60px;
+    }
+    
+    .challenges-header h1 {
+        font-size: 2.6rem;
+    }
+    
+    .challenges-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .challenge-detail-hero h2 {
+        font-size: 2.4rem;
+    }
+    
+    .challenge-editorial-box {
+        padding: 30px 20px;
+        border-radius: 24px;
+    }
+    
+    .challenge-price-block {
+        padding: 30px 20px;
+        border-radius: 24px;
+    }
+    
+    .price-item-row .val.discount {
+        font-size: 1.8rem;
+    }
+    
+    .challenge-apply-large-btn {
+        padding: 18px;
+        font-size: 1rem;
+    }
+}
+
+/* ===== Challenges Editorial Landing Styles ===== */
+.challenges-landing-editorial {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.landing-manifesto {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto 20px;
+    color: #ccc;
+    word-break: keep-all;
+}
+
+.editorial-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.editorial-step-card {
+    background: #0d0d0d;
+    border: 1px solid #1a1a1a;
+    border-radius: 24px;
+    padding: 40px 30px;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.editorial-step-card:hover {
+    border-color: #333;
+    transform: translateY(-5px);
+}
+
+.step-num-large {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #FF3B30;
+    line-height: 1;
+}
+
+.step-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #fff;
+    margin: 20px 0 10px;
+}
+
+.step-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #888;
+    word-break: keep-all;
+}
+
+.editorial-benefits {
+    margin-top: 40px;
+}
+
+.benefits-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    color: #fff;
+    margin-bottom: 40px;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.benefits-card {
+    background: #0d0d0d;
+    border: 1px solid #1a1a1a;
+    border-radius: 24px;
+    padding: 40px;
+    text-align: left;
+}
+
+.benefit-category {
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: #FF3B30;
+    margin-bottom: 24px;
+}
+
+.benefit-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0;
+    margin: 0;
+}
+
+.benefit-list li {
+    font-size: 0.95rem;
+    color: #ccc;
+    display: flex;
+    gap: 10px;
+    line-height: 1.5;
+}
+
+.benefit-list li span {
+    color: #FF3B30;
+    font-weight: bold;
+}
+
+.editorial-cta-container {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.recruit-status {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.editorial-buttons-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.editorial-cta-primary,
+.editorial-cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px 36px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.editorial-cta-primary {
+    background: #fff;
+    color: #000;
+    border: 1px solid #fff;
+}
+
+.editorial-cta-primary:hover {
+    background: #FF3B30;
+    color: #fff;
+    border-color: #FF3B30;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 59, 48, 0.25);
+}
+
+.editorial-cta-secondary {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.editorial-cta-secondary:hover {
+    border-color: #fff;
+    transform: translateY(-2px);
+}
+
+.back-home-editorial {
+    color: #666;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+    text-decoration: none;
+}
+
+.back-home-editorial:hover {
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .landing-manifesto {
+        font-size: 1.1rem;
+    }
+    
+    .editorial-steps {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .editorial-step-card {
+        padding: 30px 20px;
+    }
+    
+    .benefits-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .benefits-card {
+        padding: 30px 20px;
+    }
+    
+    .editorial-buttons-row {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+        gap: 12px;
+    }
+    
+    .editorial-cta-primary,
+    .editorial-cta-secondary {
+        width: 100%;
+        padding: 16px;
+    }
+}
+
+/* ===== Challenge Detail Split Layout & Readability ===== */
+.challenge-detail-split-container {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 48px;
+    background: #0d0d0d;
+    border: 1px solid #1c1c1c;
+    border-radius: 40px;
+    padding: 48px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    align-items: start;
+    margin-bottom: 50px;
+    text-align: left;
+}
+
+.challenge-detail-image-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.challenge-detail-image-panel img {
+    width: 100%;
+    height: auto;
+    border-radius: 24px;
+    display: block;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+    border: 1px solid #1a1a1a;
+}
+
+.challenge-detail-info-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.challenge-detail-meta {
+    border-bottom: 1px solid #222;
+    padding-bottom: 24px;
+}
+
+.challenge-detail-meta .brand-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #FF3B30;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.challenge-detail-meta h2 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #ffffff !important;
+    margin-bottom: 16px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.challenge-detail-period {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+.challenge-detail-desc-box {
+    color: #ffffff !important;
+    line-height: 1.8;
+    font-size: 1.05rem;
+    max-height: 260px;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+/* Custom scrollbar for description box */
+.challenge-detail-desc-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.challenge-detail-desc-box::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.01);
+    border-radius: 10px;
+}
+
+.challenge-detail-desc-box::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+.challenge-detail-desc-box::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Force all text from Quill editor to be highly readable (pure white) */
+.challenge-detail-desc.ql-editor,
+.challenge-detail-desc.ql-editor * {
+    color: #ffffff !important;
+    font-size: 1.02rem !important;
+    line-height: 1.8 !important;
+}
+
+.challenge-detail-desc.ql-editor ul, 
+.challenge-detail-desc.ql-editor ol {
+    padding-left: 20px;
+    margin: 12px 0;
+}
+
+.challenge-detail-desc.ql-editor li {
+    margin-bottom: 8px;
+    list-style-type: disc !important;
+}
+
+.challenge-detail-price-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 30px;
+    text-align: center;
+}
+
+.price-row-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 12px;
+}
+
+.price-row-item .price-lbl {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #bbbbbb;
+    letter-spacing: 0.15em;
+}
+
+.price-row-item .price-val.reg {
+    font-size: 1.15rem;
+    color: #888888;
+    text-decoration: line-through;
+    font-weight: 600;
+}
+
+.price-row-item .price-val.dis {
+    font-size: 2.2rem;
+    color: #FF3B30;
+    font-weight: 900;
+}
+
+.price-disc-tag {
+    display: inline-block;
+    background: rgba(255, 59, 48, 0.15);
+    color: #FF3B30;
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    margin-top: 6px;
+}
+
+.challenge-apply-split-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    padding: 20px;
+    background: #ffffff;
+    color: #000000;
+    border-radius: 30px;
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
+    text-decoration: none;
+}
+
+.challenge-apply-split-btn:hover {
+    background: #FF3B30;
+    color: #ffffff;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(255, 59, 48, 0.35);
+}
+
+@media (max-width: 900px) {
+    .challenge-detail-split-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 32px 24px;
+        border-radius: 32px;
+    }
+}
+
+/* ===== LIGHT MODE OVERRIDES ===== */
+.challenges-section {
+    background: #ffffff !important;
+    color: #111111 !important;
+}
+
+.challenges-header h1 {
+    color: #111111 !important;
+}
+
+.challenges-header .subtitle {
+    color: #666666 !important;
+}
+
+.challenge-card {
+    background: #ffffff !important;
+    border: 1px solid #eaeaea !important;
+}
+
+.challenge-card:hover {
+    border-color: #bbb !important;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+.challenge-card-info h3 {
+    color: #111111 !important;
+}
+
+.challenge-card-period {
+    color: #666666 !important;
+}
+
+.challenge-card-price-row .original {
+    color: #999999 !important;
+}
+
+.challenge-card-price-row .discounted {
+    color: #FF3B30 !important;
+}
+
+.challenge-detail-hero {
+    background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.95) 100%), #fff !important;
+}
+
+.challenge-detail-hero-content h2 {
+    color: #111111 !important;
+}
+
+.challenge-detail-hero-content .period-badge {
+    background: rgba(0, 0, 0, 0.03) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #333333 !important;
+}
+
+.challenge-detail-body {
+    background: #ffffff !important;
+}
+
+.challenge-editorial-box {
+    background: #f9fafb !important;
+    border: 1px solid #eaeaea !important;
+}
+
+.challenge-editorial-box h3.sec-title {
+    border-bottom: 1px solid #eaeaea !important;
+    color: #111111 !important;
+}
+
+.challenge-detail-desc {
+    color: #333333 !important;
+}
+
+.challenge-price-block {
+    background: #f9fafb !important;
+    border: 1px solid #eaeaea !important;
+}
+
+.price-item-row .label {
+    color: #555555 !important;
+}
+
+.price-item-row .val.regular {
+    color: #999999 !important;
+}
+
+.price-item-row .val.discount {
+    color: #FF3B30 !important;
+}
+
+.challenge-apply-large-btn {
+    background: #111111 !important;
+    color: #ffffff !important;
+    border: 1px solid #111111 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+.challenge-apply-large-btn:hover {
+    background: #FF3B30 !important;
+    color: #ffffff !important;
+    border-color: #FF3B30 !important;
+    box-shadow: 0 15px 30px rgba(255, 59, 48, 0.2) !important;
+}
+
+.challenges-empty-state {
+    background: #f9fafb !important;
+    border: 1px dashed #ddd !important;
+}
+
+.challenges-empty-state p {
+    color: #666666 !important;
+}
+
+.landing-manifesto {
+    color: #333333 !important;
+}
+
+.editorial-step-card {
+    background: #f9fafb !important;
+    border: 1px solid #eaeaea !important;
+}
+
+.editorial-step-card:hover {
+    border-color: #bbb !important;
+}
+
+.step-title {
+    color: #111111 !important;
+}
+
+.step-desc {
+    color: #666666 !important;
+}
+
+.benefits-title {
+    color: #111111 !important;
+}
+
+.benefits-card {
+    background: #f9fafb !important;
+    border: 1px solid #eaeaea !important;
+}
+
+.benefit-list li {
+    color: #333333 !important;
+}
+
+.recruit-status {
+    color: #888888 !important;
+}
+
+.editorial-cta-primary {
+    background: #111111 !important;
+    color: #ffffff !important;
+    border: 1px solid #111111 !important;
+}
+
+.editorial-cta-primary:hover {
+    background: #FF3B30 !important;
+    color: #ffffff !important;
+    border-color: #FF3B30 !important;
+    box-shadow: 0 10px 20px rgba(255, 59, 48, 0.2) !important;
+}
+
+.editorial-cta-secondary {
+    background: transparent !important;
+    color: #111111 !important;
+    border: 1px solid #ddd !important;
+}
+
+.editorial-cta-secondary:hover {
+    border-color: #111111 !important;
+    background: rgba(0, 0, 0, 0.02) !important;
+}
+
+.back-home-editorial {
+    color: #888888 !important;
+}
+
+.back-home-editorial:hover {
+    color: #111111 !important;
+}
+
+.challenge-detail-split-container {
+    background: #ffffff !important;
+    border: 1px solid #eaeaea !important;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.05) !important;
+}
+
+.challenge-detail-image-panel img {
+    border: 1px solid #eaeaea !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important;
+}
+
+.challenge-detail-meta {
+    border-bottom: 1px solid #eaeaea !important;
+}
+
+.challenge-detail-meta h2 {
+    color: #111111 !important;
+}
+
+.challenge-detail-period {
+    color: #555555 !important;
+}
+
+.challenge-detail-desc-box {
+    color: #333333 !important;
+    border: 1px solid #eaeaea !important;
+    background: #f9fafb !important;
+}
+
+.challenge-detail-desc-box::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+}
+
+.challenge-detail-desc-box::-webkit-scrollbar-thumb {
+    background: #ccc !important;
+}
+
+.challenge-detail-desc.ql-editor,
+.challenge-detail-desc.ql-editor * {
+    color: #333333 !important;
+}
+
+.challenge-detail-price-box {
+    background: #f9fafb !important;
+    border: 1px solid #eaeaea !important;
+}
+
+.price-row-item .price-lbl {
+    color: #555555 !important;
+}
+
+.price-row-item .price-val.reg {
+    color: #999999 !important;
+}
+
+.price-row-item .price-val.dis {
+    color: #FF3B30 !important;
+}
+
+.challenge-apply-split-btn {
+    background: #111111 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+}
+
+.challenge-apply-split-btn:hover {
+    background: #FF3B30 !important;
+    color: #ffffff !important;
+    box-shadow: 0 10px 25px rgba(255, 59, 48, 0.25) !important;
+}
+
+

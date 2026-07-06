@@ -1,5 +1,5 @@
 const DB_NAME = 'FitgirlsLiveDB';
-const DB_VERSION = 3;
+const DB_VERSION = 5;
 
 // 컬렉션 명칭을 라이브 사이트와 1:1 매칭
 export const STORES = {
@@ -16,7 +16,9 @@ export const STORES = {
     APPLICATIONS: 'applications',
     PARTNERS: 'partners',
     DIRECTOR: 'director_activities',
-    ISSUES: 'issues'
+    ISSUES: 'issues',
+    CHALLENGES: 'challenges',
+    MONTHLY_PROJECTS: 'monthly_projects'
 };
 
 export const initDB = () => {

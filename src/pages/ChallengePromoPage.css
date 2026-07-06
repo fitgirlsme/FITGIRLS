@@ -1,0 +1,19 @@
+.challenge-promo-page {
+    background-color: var(--color-bg, #0b0b0b);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.challenge-promo-page-main {
+    flex: 1;
+    padding-top: 100px; /* 헤더 높이만큼 띄워줌 */
+    background-color: var(--color-bg, #0b0b0b);
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .challenge-promo-page-main {
+        padding-top: 80px;
+    }
+}

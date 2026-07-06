@@ -109,7 +109,7 @@ const Hero = () => {
                             <a href="https://www.youtube.com/@핏걸즈" target="_blank" rel="noopener noreferrer" className="hero-social-link">YOUTUBE</a>
                         </div>
                         <div className="hero-branding-year">
-                            2013 — 2026
+                            2013 — {new Date().getFullYear()}
                         </div>
                     </div>
                 )}
