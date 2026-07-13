@@ -3,6 +3,7 @@ import { uploadOptimizedImage } from '../utils/uploadService';
 import { db } from '../utils/firebase'; 
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { addItem, STORES } from '../utils/db';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
   const [selectedFiles, setSelectedFiles] = useState([]); 
@@ -122,16 +123,103 @@ function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
         const { url: optimizedUrl, path: storagePath } = await uploadOptimizedImage(file, 'galleries');
 
         setUploadStatus(prev => prev.map((item, index) => 
-          index === i ? { ...item, status: '업로드 완료! 🎉', url: optimizedUrl } : item
+          index === i ? { ...item, status: 'AI 태그 분석 중... 🤖', url: optimizedUrl } : item
+        ));
+
+        // Gemini API를 사용한 이미지 자동 분석 및 태깅 + 멀티모달 임베딩 벡터 생성
+        let aiTags = [];
+        let imageEmbedding = null;
+        try {
+          const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+          if (apiKey && apiKey.trim()) {
+            const genAI = new GoogleGenerativeAI(apiKey);
+            
+            // 1. File Base64 변환
+            const filePart = await new Promise((resolve) => {
+              const reader = new FileReader();
+              reader.onloadend = () => resolve({
+                inlineData: {
+                  data: reader.result.split(',')[1],
+                  mimeType: file.type
+                }
+              });
+              reader.readAsDataURL(file);
+            });
+
+            // 2. AI 해시태그 추출 및 다국어 번역본 생성 (gemini-2.5-flash)
+            let translations = { en: [], ja: [], zh: [] };
+            try {
+              const model = genAI.getGenerativeModel({ 
+                model: "gemini-2.5-flash",
+                generationConfig: { responseMimeType: "application/json" }
+              });
+              const prompt = `이 사진의 인물 포즈, 분위기, 장소, 의상(종류 및 색상) 등을 분석해서, 갤러리 검색용으로 적합한 상세 해시태그 단어를 한국어(ko), 영어(en), 일본어(ja), 중국어(zh)로 각각 추출해줘.
+              결과는 다른 부연설명 없이 오직 순수한 JSON 포맷으로만 응답해야 해.
+              JSON 스키마:
+              {
+                "ko": ["단어1", "단어2", ...],
+                "en": ["word1", "word2", ...],
+                "ja": ["ワード1", "ワード2", ...],
+                "zh": ["词语1", "词语2", ...]
+              }
+              한국어(ko) 해시태그는 최대 8개까지로 하고, 영어/일본어/중국어는 한국어 단어를 직역 또는 그에 걸맞게 매칭하여 동일한 순서와 개수로 번역/대응해서 추출해줘. '#' 문자는 포함하지 마.`;
+              
+              const result = await model.generateContent([prompt, filePart]);
+              const responseText = result.response.text();
+              const parsed = JSON.parse(responseText);
+              
+              aiTags = parsed.ko || [];
+              translations = {
+                en: parsed.en || [],
+                ja: parsed.ja || [],
+                zh: parsed.zh || []
+              };
+              console.log(`[AI Auto-Tagging Success] File: ${file.name}, Tags:`, aiTags, 'Translations:', translations);
+            } catch (aiError) {
+              console.error(`[AI Auto-Tagging Failed] ${file.name} 자동 태깅 실패:`, aiError);
+            }
+
+            // 3. 이미지 임베딩 벡터 추출 (gemini-embedding-2)
+            try {
+              const embeddingModel = genAI.getGenerativeModel({ model: "gemini-embedding-2" });
+              const embedResult = await embeddingModel.embedContent({
+                content: {
+                  parts: [
+                    {
+                      inlineData: {
+                        data: filePart.inlineData.data,
+                        mimeType: filePart.inlineData.mimeType
+                      }
+                    }
+                  ]
+                }
+              });
+              if (embedResult && embedResult.embedding && embedResult.embedding.values) {
+                imageEmbedding = embedResult.embedding.values;
+                console.log(`[AI Image Embedding Success] File: ${file.name}, Dimensions:`, imageEmbedding.length);
+              }
+            } catch (embedError) {
+              console.error(`[AI Image Embedding Failed] ${file.name} 임베딩 벡터 생성 실패:`, embedError);
+            }
+          }
+        } catch (aiOuterError) {
+          console.error(`[AI Processing Outer Failed] ${file.name} AI 연동 실패:`, aiOuterError);
+        }
+
+        setUploadStatus(prev => prev.map((item, index) => 
+          index === i ? { ...item, status: '업로드 완료! 🎉' } : item
         ));
 
         const parsedTags = tagsInput.split(/[ ,#]+/).filter(t => t.trim()).map(t => t.trim());
         const galleryData = {
           mainCategory: mainCategory,
           type: subCategory,
-          issueId: issueId, // Added issueId
+          issueId: issueId,
           tags: parsedTags,
-          seoTags: parsedTags.join(', '),
+          aiTags: aiTags, // AI 상세 태그 저장
+          imageEmbedding: imageEmbedding, // AI 이미지 벡터 저장
+          translations: translations, // 다국어 번역 저장
+          seoTags: [...parsedTags, ...aiTags].join(', '), // SEO 최적화 (수동+AI 태그 결합)
           imageUrl: optimizedUrl,
           storagePath: storagePath,
           name: file.name,

@@ -901,3 +901,207 @@
     font-size: 1.1rem;
     font-weight: 500;
 }
+
+/* =============================================
+   Admin Level Badge (보정 강도 뱃지)
+   ============================================= */
+.admin-level-badge {
+    margin: 12px 0 4px 0;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    display: inline-block;
+    font-weight: 600;
+}
+
+.admin-level-badge[data-level="1"] {
+    background: rgba(148, 163, 184, 0.1);
+    color: #94a3b8;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.admin-level-badge[data-level="2"] {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.admin-level-badge[data-level="3"] {
+    background: rgba(139, 92, 246, 0.1);
+    color: #a78bfa;
+    border: 1px solid rgba(139, 92, 246, 0.25);
+}
+
+.admin-level-badge[data-level="4"] {
+    background: rgba(59, 130, 246, 0.1);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.admin-level-badge[data-level="5"] {
+    background: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.15);
+    animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+    0% { border-color: rgba(239, 68, 68, 0.25); }
+    50% { border-color: rgba(239, 68, 68, 0.6); }
+    100% { border-color: rgba(239, 68, 68, 0.25); }
+}
+
+/* =============================================
+   Admin Submit Status Badge (제출 상태 뱃지)
+   ============================================= */
+.admin-submit-status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    display: inline-block;
+}
+
+.admin-submit-status-badge.submitted {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.admin-submit-status-badge.pending {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+/* =============================================
+   Admin Checklist Panel (디테일 체크리스트)
+   ============================================= */
+.admin-checklist-panel {
+    margin: 8px 0 12px;
+    background: #0f1624;
+    border: 1.5px solid #1e3a5f;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.admin-checklist-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #0a1628;
+    border-bottom: 1px solid #1e3a5f;
+}
+
+.admin-cl-icon { font-size: 0.9rem; }
+
+.admin-cl-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #60a5fa;
+    flex: 1;
+}
+
+.admin-cl-submitted {
+    font-size: 0.68rem;
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 600;
+}
+
+.admin-checklist-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 8px 14px;
+    border-bottom: 1px solid #1a2a40;
+}
+
+.admin-cl-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 6px 0;
+}
+
+.admin-cl-key {
+    font-size: 0.68rem;
+    color: #4a6a9a;
+    font-weight: 500;
+}
+
+.admin-cl-val {
+    font-size: 0.82rem;
+    color: #a0b4cc;
+    font-weight: 600;
+}
+
+.admin-cl-val-highlight {
+    color: #FF003C;
+}
+
+.admin-cl-tags-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 14px;
+    border-bottom: 1px solid #1a2a40;
+}
+
+.admin-cl-tags-label {
+    font-size: 0.68rem;
+    color: #4a6a9a;
+    white-space: nowrap;
+    padding-top: 3px;
+    min-width: 52px;
+}
+
+.admin-cl-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.admin-cl-tag {
+    font-size: 0.68rem;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 600;
+}
+
+.admin-cl-tag.focus {
+    background: rgba(255, 0, 60, 0.1);
+    color: #FF003C;
+    border: 1px solid rgba(255, 0, 60, 0.25);
+}
+
+.admin-cl-tag.preserve {
+    background: rgba(74, 158, 255, 0.1);
+    color: #4a9eff;
+    border: 1px solid rgba(74, 158, 255, 0.25);
+}
+
+.admin-cl-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #0a1422;
+}
+
+.admin-cl-note-icon { font-size: 0.85rem; }
+
+.admin-cl-note-text {
+    font-size: 0.8rem;
+    color: #c0d0e0;
+    line-height: 1.5;
+    font-style: italic;
+}
+

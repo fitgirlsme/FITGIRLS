@@ -36,6 +36,7 @@ import Magazine from './pages/Magazine';
 import AmbassadorList from './components/AmbassadorList';
 import SModel from './pages/SModel';
 import Retouch from './pages/Retouch';
+import RetouchChecklist from './pages/RetouchChecklist';
 import Challenges from './pages/Challenges';
 import ChallengeDetail from './pages/ChallengeDetail';
 import { syncAll } from './utils/syncService';
@@ -46,7 +47,9 @@ import Checklist from './pages/Checklist';
 import ChecklistView from './pages/ChecklistView';
 import GlobalBooking from './pages/GlobalBooking';
 import GlobalFloatingBanner from './components/GlobalFloatingBanner';
+import { isNeverlandDomain } from './utils/domain';
 import './index.css';
+
 
 const Home = ({ changeLanguage, currentLang }) => {
   const { section, tab } = useParams();
@@ -182,17 +185,26 @@ const Home = ({ changeLanguage, currentLang }) => {
           if (id) {
             const newPath = (id === 'hero' || id === 'hero-intro') ? '/' : `/${id}`;
             
-            // 특수 처리: 현재 경로가 /service/self 처럼 상세 경로인 경우, 스크롤로 인해 단순히 /service로 덮어씌워지지 않게 함
             const currentPath = window.location.pathname;
+            const isNev = isNeverlandDomain();
+            
             if (newPath === '/') {
               if (currentPath !== '/') window.history.replaceState(null, '', '/');
             } else {
               // zone 섹션으로 스크롤되었을 때, 현재 URL이 /lookbook 이면 주소 유지를 위해 업데이트하지 않음
-              if (newPath === '/zone' && currentPath === '/lookbook') {
-                return;
+              if (newPath === '/zone') {
+                if (currentPath === '/lookbook') {
+                  return;
+                }
               }
-              if (!currentPath.startsWith(newPath)) {
-                window.history.replaceState(null, '', newPath);
+              
+              let resolvedPath = newPath;
+              if (isNev && (newPath === '/zone' || newPath === '/archive')) {
+                resolvedPath = `/neverland${newPath}`;
+              }
+              
+              if (!currentPath.startsWith(resolvedPath)) {
+                window.history.replaceState(null, '', resolvedPath);
               }
             }
           }
@@ -268,7 +280,7 @@ function App() {
       },
       ja: {
         title: 'FITGIRLS | 女性ボディプロフィール写真・プレミアムエディトリアルスタジオ',
-        desc: '女性ボディプロフィール撮影専門スタジオ FITGIRLS。あなたのスタイルと雰囲기에 맞춘 포즈, 의상, 메이크업의 풀커스텀 개별 플랜.',
+        desc: '女性ボディプロフィール撮影전문 스튜디오 FITGIRLS。あなたのスタイルと雰囲기에 맞춘 포즈, 의상, 메이크업의 풀커스텀 개별 플랜.',
         keywords: '女性ボディプロフィール, ボディプロフィール, プレミアムスタジオ, FITGIRLS, インナーフィット'
       }
     };
@@ -316,6 +328,7 @@ function App() {
 
   }, [i18n.language, location.pathname]);
 
+
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };
@@ -355,13 +368,17 @@ function App() {
           <Route path="/partners" element={<Partners />} />
           <Route path="/smodel" element={<SModel />} />
           <Route path="/retouch" element={<Retouch changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/retouch/checklist" element={<RetouchChecklist />} />
           <Route path="/challenges" element={<Challenges />} />
           <Route path="/challenge/:id" element={<ChallengeDetail />} />
           <Route path="/reservation" element={<ReservationPage changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/challenge-promo" element={<ChallengePromoPage />} />
           <Route path="/checklist" element={<Checklist />} />
           <Route path="/checklist/view" element={<ChecklistView />} />
+          <Route path="/reviews" element={<Reviews changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/global-booking" element={<GlobalBooking />} />
+          <Route path="/neverland/:section" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/neverland/:section/:tab" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/:section" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/:section/:tab" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/:section/:modelName/:modelId" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />

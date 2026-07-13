@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../utils/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import { MdCheckCircle } from 'react-icons/md';
-import { sendAlimtalk } from '../utils/aligoService';
+import { sendAlimtalk, getAlimtalkTemplate } from '../utils/aligoService';
 import './Checklist.css';
 
 const CONCEPT_OPTIONS = [
@@ -29,6 +29,8 @@ const MOOD_OPTIONS = [
   '핀터레스트 감성 느낌',
   '패션화보 같은 느낌',
   '섹시하고 고급스러운 느낌',
+  '밝고 비비드한 컨셉',
+  '베이직한 배경의 느낌',
   '아직 잘 모르겠고 추천받고 싶어요'
 ];
 
@@ -45,7 +47,7 @@ const EMPHASIS_OPTIONS = [
   '허리라인',
   '복근 (11자 라인 선호)',
   '복근 (식스팩/선명함 선호)',
-  '등라인',
+  '등근육',
   '골반라인',
   '다리라인',
   '전체적인 바디라인',
@@ -99,6 +101,7 @@ const Checklist = () => {
   // Form States (Common)
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [date, setDate] = useState('');
   const [selectedConcept, setSelectedConcept] = useState('');
   const [selectedSkin, setSelectedSkin] = useState('');
@@ -112,20 +115,24 @@ const Checklist = () => {
   const [refImgState, setRefImgState] = useState('');
   const [refImgText, setRefImgText] = useState('');
   const [emphasis, setEmphasis] = useState([]);
+  const [emphasisText, setEmphasisText] = useState('');
   const [burden, setBurden] = useState([]);
   const [burdenText, setBurdenText] = useState('');
 
   // Form States (Concept-specific arrays, up to 3 concepts)
   const [activeConceptIdx, setActiveConceptIdx] = useState(0);
   const [concepts, setConcepts] = useState([
-    { mood: '', expression: '' },
-    { mood: '', expression: '' },
-    { mood: '', expression: '' }
+    { mood: '', expression: '', moodText: '' },
+    { mood: '', expression: '', moodText: '' },
+    { mood: '', expression: '', moodText: '' }
   ]);
 
   // UI States
   const [loading, setLoading] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [recommendedPhotos, setRecommendedPhotos] = useState([]);
+  const [recSlideIndex, setRecSlideIndex] = useState(0);
+  const [isLoadingRec, setIsLoadingRec] = useState(false);
 
   // Determine concept count based on selected concept
   const getConceptCount = (concept) => {
@@ -270,13 +277,95 @@ const Checklist = () => {
     }
 
     setLoading(true);
+    setIsLoadingRec(true);
     try {
+      // ── AI 컨셉 추천 연산을 Firestore 저장 전에 먼저 수행 ──
+      const keywords = new Set();
+
+      // 무드 → 태그 매핑
+      const moodMap = {
+        '자연스럽고 편안한 느낌':   ['Natural', 'Casual', 'Lifestyle', 'Comfortable', '자연스러운'],
+        '핀터레스트 감성 느낌':     ['Pinterest', 'Aesthetic', 'Vintage', 'Cozy', 'Film'],
+        '패션화보 같은 느낌':       ['Fashion', 'Editorial', 'Vogue', 'Chic', '패션'],
+        '섹시하고 고급스러운 느낌': ['Sexy', 'Glamorous', 'Luxury', 'Sensuality', '섹시'],
+        '밝고 비비드한 컨셉':       ['Vivid', 'Colorful', 'Bright', 'Bold', '밝은'],
+        '베이직한 배경의 느낌':     ['Studio', 'Minimal', 'White background', 'Clean', '스튜디오'],
+      };
+      concepts.slice(0, conceptCount).forEach(c => {
+        if (c.mood && moodMap[c.mood]) moodMap[c.mood].forEach(k => keywords.add(k.toLowerCase()));
+      });
+
+      // 강조 부위 → 태그 매핑
+      const emphasisMap = {
+        '복근 (11자 라인 선호)':    ['abs', 'midriff', 'belly'],
+        '복근 (식스팩/선명함 선호)':['abs', 'six pack', 'athletic'],
+        '등근육':                   ['back', 'back view'],
+        '다리라인':                 ['legs', 'thigh'],
+        '골반라인':                 ['hip', 'curves'],
+        '가슴라인':                 ['chest'],
+        '어깨라인':                 ['shoulder'],
+      };
+      emphasis.forEach(e => {
+        if (emphasisMap[e]) emphasisMap[e].forEach(k => keywords.add(k.toLowerCase()));
+      });
+
+      // 피부톤 → 태그 매핑
+      if (selectedSkin.includes('구릿빛') || selectedSkin.includes('태닝')) {
+        keywords.add('tan'); keywords.add('tanned');
+      } else if (selectedSkin.includes('밝고')) {
+        keywords.add('white'); keywords.add('fair skin');
+      }
+
+      // 표정 → 태그 매핑
+      const expMap = {
+        '활짝 웃는 미소 중심 (밝은 에너지)': ['smile', 'happy'],
+        '시크 / 무표정 중심 (웃는 건 어색해요!)': ['chic', 'fierce', 'serious'],
+      };
+      concepts.slice(0, conceptCount).forEach(c => {
+        if (c.expression && expMap[c.expression]) expMap[c.expression].forEach(k => keywords.add(k.toLowerCase()));
+      });
+
+      let scoredPhotos = [];
+      try {
+        // 갤러리 전체 로드 후 키워드 매칭
+        const snap = await getDocs(query(collection(db, 'gallery'), orderBy('createdAt', 'desc'), limit(500)));
+        const all = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        const getPool = (item) => {
+          const parts = [];
+          if (item.tags) item.tags.forEach(t => parts.push(String(t).replace('#','').toLowerCase()));
+          if (item.aiTags) item.aiTags.forEach(t => parts.push(String(t).toLowerCase()));
+          if (item.seoTags) parts.push(String(item.seoTags).toLowerCase());
+          return parts.join(' ');
+        };
+
+        const scored = all
+          .map(item => {
+            const pool = getPool(item);
+            const score = [...keywords].reduce((acc, kw) => pool.includes(kw) ? acc + 1 : acc, 0);
+            return { item, score };
+          })
+          .filter(({ score }) => score > 0)
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 9)
+          .map(({ item }) => item.imageUrl || item.img || item.url || '');
+
+        scoredPhotos = scored.filter(Boolean);
+        setRecommendedPhotos(scoredPhotos);
+      } catch (recErr) {
+        console.warn('추천 사진 로드 실패:', recErr);
+      } finally {
+        setIsLoadingRec(false);
+      }
+      // ─────────────────────────────────────────────────────────
+
       // Save only active concepts according to selected count
       const activeConceptsData = concepts.slice(0, conceptCount);
 
       const docData = {
         name: name.trim(),
         phone: phone.trim(),
+        email: email.trim(),
         date: date,
         concept: selectedConcept,
         skin: selectedSkin,
@@ -286,11 +375,13 @@ const Checklist = () => {
         refImgState: refImgState,
         refImgText: refImgText,
         emphasis: emphasis,
+        emphasisText: emphasisText,
         burden: burden,
         burdenText: burdenText,
         purpose: selectedPurpose,
         purposeText: selectedPurpose.includes('기타') ? purposeText : '',
         freeNotes: freeNotes,
+        recommendedPhotos: scoredPhotos, // 추천된 사진 목록도 DB에 저장!
         createdAt: serverTimestamp()
       };
 
@@ -298,14 +389,32 @@ const Checklist = () => {
 
       // Send Kakao Alimtalk to client
       try {
-        await sendAlimtalk(phone.trim(), 'UJ_2731', '', {
+        const clientTemplate = getAlimtalkTemplate('UJ_2731', {
           name: name.trim(),
           date: date,
           concept: selectedConcept || '미지정',
           id: docRef.id
         });
+        if (clientTemplate) {
+          await sendAlimtalk(phone.trim(), clientTemplate.code, clientTemplate.message, clientTemplate);
+        }
       } catch (alimtalkErr) {
-        console.error('Failed to send checklist confirmation alimtalk:', alimtalkErr);
+        console.error('Failed to send checklist confirmation alimtalk to client:', alimtalkErr);
+      }
+
+      // Send Kakao Alimtalk to artist (010-4696-1441)
+      try {
+        const artistTemplate = getAlimtalkTemplate('UJ_2731', {
+          name: name.trim(),
+          date: date,
+          concept: selectedConcept || '미지정',
+          id: docRef.id
+        });
+        if (artistTemplate) {
+          await sendAlimtalk('01046961441', artistTemplate.code, artistTemplate.message, artistTemplate);
+        }
+      } catch (alimtalkErr) {
+        console.error('Failed to send checklist confirmation alimtalk to artist:', alimtalkErr);
       }
 
       setShowSuccessModal(true);
@@ -392,6 +501,20 @@ const Checklist = () => {
                   onChange={(e) => setDate(e.target.value)}
                 />
               </div>
+
+              <div className="text-input-wrapper">
+                <label className="text-input-label" htmlFor="client-email">
+                  이메일
+                </label>
+                <input
+                  id="client-email"
+                  type="email"
+                  placeholder="이메일 주소를 입력해주세요 (선택사항)"
+                  className="checklist-input"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
             </div>
           </div>
 
@@ -464,6 +587,20 @@ const Checklist = () => {
                   <span className="option-text">{option}</span>
                 </label>
               ))}
+            </div>
+
+            <div className="conditional-input-area" style={{ marginTop: '16px' }}>
+              <div className="text-input-wrapper">
+                <label className="text-input-label" htmlFor={`mood-text-${activeConceptIdx}`}>추가로 촬영하고 싶은 느낌</label>
+                <input
+                  id={`mood-text-${activeConceptIdx}`}
+                  type="text"
+                  placeholder="원하시는 분위기나 세부 연출, 촬영 느낌을 자유롭게 적어주세요 (선택사항)"
+                  className="checklist-input"
+                  value={concepts[activeConceptIdx].moodText || ''}
+                  onChange={(e) => updateConceptField('moodText', e.target.value)}
+                />
+              </div>
             </div>
           </div>
 
@@ -551,6 +688,20 @@ const Checklist = () => {
                   <span className="option-text">{option}</span>
                 </label>
               ))}
+            </div>
+
+            <div className="conditional-input-area" style={{ marginTop: '16px' }}>
+              <div className="text-input-wrapper">
+                <label className="text-input-label" htmlFor="emphasis-text">추가로 강조하고 싶은 부분</label>
+                <input
+                  id="emphasis-text"
+                  type="text"
+                  placeholder="선택지 외에 추가로 강조하고 싶으신 바디 라인을 자유롭게 적어주세요"
+                  className="checklist-input"
+                  value={emphasisText}
+                  onChange={(e) => setEmphasisText(e.target.value)}
+                />
+              </div>
             </div>
           </div>
 
@@ -785,19 +936,99 @@ const Checklist = () => {
         </form>
       </div>
 
-      {/* Success Modal */}
+      {/* Success Modal with AI Concept Recommendation */}
       {showSuccessModal && (
-        <div className="success-modal-overlay">
-          <div className="success-modal-content">
+        <div className="success-modal-overlay" style={{ alignItems: 'flex-start', overflowY: 'auto', padding: '20px 0' }}>
+          <div className="success-modal-content" style={{ maxWidth: '600px', width: '92%', margin: '20px auto', borderRadius: '20px', padding: '36px 28px' }}>
+            {/* 완료 헤더 */}
             <div className="success-icon-wrapper">
-              <MdCheckCircle className="success-icon" style={{ fontSize: '32px', color: '#ff1e27' }} />
+              <MdCheckCircle className="success-icon" style={{ fontSize: '36px', color: '#ff1e27' }} />
             </div>
-            <h3 className="success-modal-title">체크리스트 제출 완료</h3>
-            <p className="success-modal-desc">
-              체크리스트가 성공적으로 제출되었습니다.<br />
+            <h3 className="success-modal-title" style={{ fontSize: '1.3rem', marginBottom: '8px' }}>체크리스트 제출 완료 🎉</h3>
+            <p className="success-modal-desc" style={{ marginBottom: '28px', color: '#666', fontSize: '0.9rem' }}>
               핏걸즈가 촬영 방향을 확인 후 준비해드릴게요.
             </p>
-            <button onClick={handleCloseModal} className="success-modal-btn">
+
+            {/* AI 컨셉 추천 섹션 */}
+            <div style={{
+              borderTop: '1px solid #f0f0f0',
+              paddingTop: '24px',
+              marginBottom: '24px'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                <span style={{ fontSize: '1.1rem' }}>✨</span>
+                <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: '700', color: '#111' }}>
+                  고객님께 어울릴 컨셉을 찾았어요
+                </h4>
+              </div>
+              <p style={{ margin: '0 0 18px 0', fontSize: '0.82rem', color: '#999' }}>
+                선택하신 무드·강조 부위·분위기를 분석해 핏걸즈 아카이브에서 추천한 사진입니다.
+              </p>
+
+              {isLoadingRec ? (
+                <div style={{ textAlign: 'center', padding: '40px 0', color: '#bbb', fontSize: '0.9rem' }}>
+                  분석 중...
+                </div>
+              ) : recommendedPhotos.length > 0 ? (
+                <>
+                  {/* 메인 슬라이드 이미지 */}
+                  <div style={{ position: 'relative', borderRadius: '14px', overflow: 'hidden', aspectRatio: '3/4', background: '#f5f5f5', marginBottom: '12px' }}>
+                    <img
+                      src={recommendedPhotos[recSlideIndex]}
+                      alt={`추천 컨셉 ${recSlideIndex + 1}`}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
+                    <div style={{ position: 'absolute', bottom: '12px', right: '14px', background: 'rgba(0,0,0,0.45)', color: '#fff', borderRadius: '20px', padding: '3px 10px', fontSize: '0.75rem' }}>
+                      {recSlideIndex + 1} / {recommendedPhotos.length}
+                    </div>
+                    {/* 이전/다음 버튼 */}
+                    {recommendedPhotos.length > 1 && (
+                      <>
+                        <button
+                          onClick={() => setRecSlideIndex(i => (i - 1 + recommendedPhotos.length) % recommendedPhotos.length)}
+                          style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(0,0,0,0.4)', border: 'none', color: '#fff', borderRadius: '50%', width: '36px', height: '36px', cursor: 'pointer', fontSize: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                        >‹</button>
+                        <button
+                          onClick={() => setRecSlideIndex(i => (i + 1) % recommendedPhotos.length)}
+                          style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(0,0,0,0.4)', border: 'none', color: '#fff', borderRadius: '50%', width: '36px', height: '36px', cursor: 'pointer', fontSize: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                        >›</button>
+                      </>
+                    )}
+                  </div>
+
+                  {/* 썸네일 그리드 */}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px' }}>
+                    {recommendedPhotos.map((url, idx) => (
+                      <div
+                        key={idx}
+                        onClick={() => setRecSlideIndex(idx)}
+                        style={{
+                          aspectRatio: '1',
+                          borderRadius: '8px',
+                          overflow: 'hidden',
+                          cursor: 'pointer',
+                          border: recSlideIndex === idx ? '2px solid #ff1e27' : '2px solid transparent',
+                          transition: 'border 0.15s'
+                        }}
+                      >
+                        <img src={url} alt={`썸네일 ${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.target.parentElement.style.display = 'none'; }} />
+                      </div>
+                    ))}
+                  </div>
+
+                  <p style={{ textAlign: 'center', fontSize: '0.78rem', color: '#bbb', marginTop: '10px' }}>
+                    실제 촬영 결과는 고객님의 무드·의상·당일 컨디션에 따라 달라질 수 있습니다.
+                  </p>
+                </>
+              ) : (
+                <div style={{ textAlign: 'center', padding: '30px 0', color: '#bbb', fontSize: '0.88rem' }}>
+                  아직 분석된 사진이 준비 중입니다.<br />곧 더 많은 컨셉 사진을 만나볼 수 있어요!
+                </div>
+              )}
+            </div>
+
+            <button onClick={handleCloseModal} className="success-modal-btn" style={{ width: '100%' }}>
               홈페이지로 이동하기
             </button>
           </div>

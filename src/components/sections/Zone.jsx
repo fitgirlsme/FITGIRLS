@@ -8,6 +8,8 @@ import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { getStorage, ref, deleteObject } from 'firebase/storage';
 import { collection, addDoc, getDocs, query } from 'firebase/firestore';
 import { uploadOptimizedImage } from '../../utils/uploadService';
+import { isNeverlandDomain } from '../../utils/domain';
+import { fetchData } from '../../utils/dataService';
 import './Zone.css';
 
 const ZONE_DATA = [
@@ -43,7 +45,7 @@ const Zone = () => {
     const navigate = useNavigate();
     const { section } = useParams();
     const [activeTab, setActiveTab] = useState('zone');
-    const [zoneSubTab, setZoneSubTab] = useState('fitgirls');
+    const [zoneSubTab, setZoneSubTab] = useState(isNeverlandDomain() ? 'mooz' : 'fitgirls');
     const [activeStudioSubCat, setActiveStudioSubCat] = useState('ALL');
     const [lookbookItems, setLookbookItems] = useState([]);
     const [studios, setStudios] = useState([]);
@@ -63,10 +65,16 @@ const Zone = () => {
             setActiveTab('zone');
         }
 
-        if (subTabParam === 'mooz') {
+        if (isNeverlandDomain()) {
             setZoneSubTab('mooz');
-        } else if (subTabParam === 'fitgirls') {
-            setZoneSubTab('fitgirls');
+        } else {
+            if (subTabParam === 'mooz') {
+                setZoneSubTab('mooz');
+            } else if (subTabParam === 'fitgirls') {
+                setZoneSubTab('fitgirls');
+            } else {
+                setZoneSubTab('fitgirls');
+            }
         }
     }, [searchParams, section]);
 
@@ -87,6 +95,7 @@ const Zone = () => {
     const [editStoragePath, setEditStoragePath] = useState('');
     const [isUploadingEditImg, setIsUploadingEditImg] = useState(false);
     const [activeLookbookTag, setActiveLookbookTag] = useState('ALL');
+    const [editBrand, setEditBrand] = useState('fitgirls');
 
     // Edit modal state (Studios)
     const [editStudio, setEditStudio] = useState(null);
@@ -124,22 +133,17 @@ const Zone = () => {
     useEffect(() => {
         const fetchStudios = async () => {
             try {
-                const snap = await getDocs(query(collection(fireDb, 'studios')));
-                const loadedStudios = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                loadedStudios.sort((a, b) => {
-                    const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt || 0);
-                    const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt || 0);
-                    return timeB - timeA;
-                });
+                const loadedStudios = await fetchData('studios', 'createdAt', 'desc', 150);
                 setStudios(loadedStudios);
             } catch (err) {
-                console.error("Failed to load studios", err);
+                console.error("Failed to load studios via fetchData", err);
             }
         };
         fetchStudios();
 
-        // 갤러리 태그 로드 (자동완성용)
+        // 갤러리 태그 로드 (자동완성용) - 오직 어드민일 때만 비동기 로딩하여 요금 및 로딩 지연 방지
         const fetchTags = async () => {
+            if (!isAdmin) return;
             try {
                 const snap = await getDocs(collection(fireDb, 'gallery'));
                 const tagSet = new Set();
@@ -151,7 +155,7 @@ const Zone = () => {
             } catch (err) { console.error("Failed to load hashtags", err); }
         };
         fetchTags();
-    }, []);
+    }, [isAdmin]);
 
     // 룩북 모달 닫기
     const closeEditModal = () => {
@@ -162,6 +166,7 @@ const Zone = () => {
         setEditImage('');
         setEditStoragePath('');
         setIsUploadingEditImg(false);
+        setEditBrand('fitgirls');
     };
 
     // 룩북 이미지 교체 핸들러
@@ -190,6 +195,7 @@ const Zone = () => {
                 tag: editTag.trim(),
                 img: editImage,
                 storagePath: editStoragePath,
+                brand: editBrand,
             });
 
             // 이미지가 완전히 교체된 경우, 기존 storage의 파일은 제거
@@ -204,7 +210,7 @@ const Zone = () => {
 
             setLookbookItems(prev => prev.map(item =>
                 item.id === editItem.id
-                    ? { ...item, outfitName: editName.trim(), outfitSize: editSize.trim(), tag: editTag.trim(), img: editImage, storagePath: editStoragePath }
+                    ? { ...item, outfitName: editName.trim(), outfitSize: editSize.trim(), tag: editTag.trim(), img: editImage, storagePath: editStoragePath, brand: editBrand }
                     : item
             ));
             closeEditModal();
@@ -304,9 +310,10 @@ const Zone = () => {
                 tag: '',
                 storagePath: path,
                 createdAt: Date.now(),
+                brand: isNeverlandDomain() ? 'neverland' : 'fitgirls',
             });
 
-            setLookbookItems(prev => [{ id: newDoc.id, img: url, outfitName: '', outfitSize: '', tag: '', storagePath: path, createdAt: Date.now() }, ...prev]);
+            setLookbookItems(prev => [{ id: newDoc.id, img: url, outfitName: '', outfitSize: '', tag: '', storagePath: path, createdAt: Date.now(), brand: isNeverlandDomain() ? 'neverland' : 'fitgirls' }, ...prev]);
         } catch (err) {
             alert(`업로드 실패: ${err.message}`);
             console.error(err);
@@ -340,7 +347,8 @@ const Zone = () => {
                         className={`tier1-tab ${activeTab === 'zone' ? 'active' : ''}`}
                         onClick={() => {
                             setActiveTab('zone');
-                            window.history.replaceState(null, '', '/zone');
+                            const base = isNeverlandDomain() ? '/neverland' : '';
+                            window.history.replaceState(null, '', `${base}/zone`);
                         }}
                     >
                         {t('zone.tabs.zone')}
@@ -359,20 +367,26 @@ const Zone = () => {
 
             {activeTab === 'zone' ? (
                 <div className="zone-grid-container" style={{ animation: 'fadeIn 0.5s ease' }}>
-                    <div className="tier2-tabs">
-                        <button
-                            className={`tier2-tab ${zoneSubTab === 'fitgirls' ? 'active' : ''}`}
-                            onClick={() => setZoneSubTab('fitgirls')}
-                        >
-                            FITGIRLS & INAFIT
-                        </button>
-                        <button
-                            className={`tier2-tab ${zoneSubTab === 'mooz' ? 'active' : ''}`}
-                            onClick={() => setZoneSubTab('mooz')}
-                        >
-                            NEVERLAND SELF스튜디오
-                        </button>
-                    </div>
+                        <div className="tier2-tabs">
+                            <button
+                                className={`tier2-tab ${zoneSubTab === 'fitgirls' ? 'active' : ''}`}
+                                onClick={() => {
+                                    setZoneSubTab('fitgirls');
+                                    window.history.replaceState(null, '', '/zone');
+                                }}
+                            >
+                                FITGIRLS & INAFIT
+                            </button>
+                            <button
+                                className={`tier2-tab ${zoneSubTab === 'mooz' ? 'active' : ''}`}
+                                onClick={() => {
+                                    setZoneSubTab('mooz');
+                                    window.history.replaceState(null, '', '/neverland/zone');
+                                }}
+                            >
+                                NEVERLAND SELF스튜디오
+                            </button>
+                        </div>
 
                     {/* 촬영존 하위 카테고리 필터 (원형) */}
                     {(() => {
@@ -589,7 +603,7 @@ const Zone = () => {
                     )}
 
                     <div className="lookbook-grid" style={{ '--mobile-cols': lookbookCols }}>
-                        {lookbookItems.filter(item => activeLookbookTag === 'ALL' || item.tag === activeLookbookTag).slice(0, visibleCount).map((item, idx) => (
+                        {visibleLookbook.map((item, idx) => (
                             <div key={item.id || idx} className="lookbook-item">
                                 <div className="lookbook-img-wrapper">
                                     <img 
@@ -628,6 +642,7 @@ const Zone = () => {
                                                     setEditTag(item.tag || '');
                                                     setEditImage(item.img || item.imageUrl || '');
                                                     setEditStoragePath(item.storagePath || '');
+                                                    setEditBrand(item.brand || 'fitgirls');
                                                 }}
                                             >
                                                 수정
@@ -786,6 +801,24 @@ const Zone = () => {
                                     fontSize: '0.95rem', boxSizing: 'border-box',
                                 }}
                             />
+                        </div>
+                        <div style={{ marginBottom: '24px' }}>
+                            <p style={{ margin: '0 0 8px', fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)' }}>
+                                브랜드 (Brand)
+                            </p>
+                            <select
+                                value={editBrand}
+                                onChange={(e) => setEditBrand(e.target.value)}
+                                style={{
+                                    width: '100%', padding: '10px 12px', borderRadius: '8px',
+                                    border: '1px solid rgba(255,255,255,0.2)',
+                                    background: 'rgba(255,255,255,0.08)', color: '#fff',
+                                    fontSize: '0.95rem', boxSizing: 'border-box',
+                                }}
+                            >
+                                <option value="fitgirls">FITGIRLS & INAFIT</option>
+                                <option value="neverland">NEVERLAND SELF</option>
+                            </select>
                         </div>
                         <div className="delete-confirm-btns">
                             <button className="delete-btn-cancel" onClick={closeEditModal}>

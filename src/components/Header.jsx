@@ -36,17 +36,17 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
             category: t('nav.program', 'Program'),
             items: [
                 { id: 'service', label: t('nav.service', 'Service'), path: '/service' },
-                { id: 'zone', label: t('nav.zone', 'Zone'), path: '/zone' },
-                { id: 'lookbook', label: t('nav.lookbook', 'LOOKBOOK'), path: '/lookbook' },
+                { id: 'hair-makeup', label: t('nav.hairmakeup', 'Hair & Makeup'), path: '/hair-makeup' },
+                { id: 'location', label: t('nav.location', 'Location'), path: '/location' },
             ]
         },
         {
             category: t('nav.info', 'Info'),
             items: [
-                { id: 'hair-makeup', label: t('nav.hairmakeup', 'Hair & Makeup'), path: '/hair-makeup' },
+                { id: 'zone', label: t('nav.zone', 'Zone'), path: '/zone' },
+                { id: 'lookbook', label: t('nav.lookbook', 'LOOKBOOK'), path: '/lookbook' },
                 { id: 'faq', label: t('nav.faq', 'FAQ'), path: '/faq' },
                 { id: 'event-board', label: t('nav.event', 'Event'), path: '/event-board' },
-                { id: 'location', label: t('nav.location', 'Location'), path: '/location' },
             ]
         },
         { label: t('nav.reservation', 'Reservation'), path: '/reservation', isRed: true },

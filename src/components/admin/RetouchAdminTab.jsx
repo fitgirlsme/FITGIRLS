@@ -503,6 +503,126 @@ const RetouchAdminTab = () => {
                                                 </div>
                                             </div>
 
+                                            {c.retouchLevels?.[pId] && (
+                                                <div className="admin-level-row" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', margin: '12px 0 4px 0' }}>
+                                                    <div className="admin-level-badge" data-level={c.retouchLevels[pId]} style={{ margin: 0 }}>
+                                                        🎨 <strong>보정 강도:</strong> {
+                                                            c.retouchLevels[pId] === 1 ? '1단계 (기본 잡티 제거)' :
+                                                            c.retouchLevels[pId] === 2 ? '2단계 (자연스러운 보정)' :
+                                                            c.retouchLevels[pId] === 3 ? '3단계 (새로운 나 - 얼굴)' :
+                                                            c.retouchLevels[pId] === 4 ? '4단계 (새로운 나 - 얼굴+몸)' :
+                                                            c.retouchLevels[pId] === 5 ? '5단계 (새로 태어나기!)' : '미선택'
+                                                        }
+                                                    </div>
+                                                    <span className={`admin-submit-status-badge ${c.levelSubmitteds?.[pId] ? 'submitted' : 'pending'}`}>
+                                                        {c.levelSubmitteds?.[pId] ? '✓ 제출완료' : '⚠ 제출대기'}
+                                                    </span>
+                                                </div>
+                                            )}
+
+                                            {c.retouchChecklists?.[pId] && (() => {
+                                                const cl = c.retouchChecklists[pId];
+                                                const STYLE_MAP = { natural: '자연스럽게', balanced: '가장 예쁜 나', dramatic: '확실한 변화', fantasy: '드라마틱' };
+                                                const SKIN_MAP = { natural: '자연스럽게', smooth: '매끈하게', glossy: '광채있게', matte: '시원하게' };
+                                                const RATIO_MAP = { keep: '유지', slim: '슬림하게', taller: '다리 길게', shoulder: '어깨 좁게' };
+                                                const AREA_MAP = { waist: '허리', pelvis: '골반', thigh: '허벅지', arm: '팔뚝', shoulder: '어깨', trapezius: '승모근', calf: '종아리', face_line: '얼굴 라인', jaw: '턱선', nose: '코', eyes: '눈', lips: '입술' };
+                                                const PRESERVE_MAP = { face_shape: '얼굴형', nose_shape: '코 모양', leg_length: '다리 길이', waist_curve: '허리 곡선', shoulder_width: '어깨 너비', muscle_line: '근육 라인' };
+                                                const FACE_GUIDE = {
+                                                    1: { label: '1단계', desc: '잡티·피부결 정돈만, 얼굴 형태 변화 없음' },
+                                                    2: { label: '2단계', desc: '이목구비 대칭 정돈, 자연스러운 윤곽 최소 보정' },
+                                                    3: { label: '3단계', desc: '이목구비 비율 조정 + 얼굴 라인 확실히 정리' },
+                                                    4: { label: '4단계', desc: '눈코입 성형급 보정 + 얼굴 라인 뚜렷하게 변경' },
+                                                    5: { label: '5단계', desc: '드라마틱 최고 강도 — 최대한 다른 얼굴로' },
+                                                };
+                                                const BODY_GUIDE = {
+                                                    1: { label: '1단계', desc: '몸 형태 거의 그대로, 피부결 정도만' },
+                                                    2: { label: '2단계', desc: '라인 살짝 정돈, 자연스럽게 티 안 나게' },
+                                                    3: { label: '3단계', desc: '허리·팔·다리 라인 확실히 정리, 적당한 변화' },
+                                                    4: { label: '4단계', desc: '전신 슬림 + 비율 개선, 성형급 몸매 보정' },
+                                                    5: { label: '5단계', desc: '극적인 체형 변화 — 비율·윤곽 최대한 드라마틱하게' },
+                                                };
+                                                return (
+                                                    <div className="admin-checklist-panel">
+                                                        <div className="admin-checklist-header">
+                                                            <span className="admin-cl-icon">📋</span>
+                                                            <span className="admin-cl-title">디테일 보정 체크리스트</span>
+                                                            <span className="admin-cl-submitted">고객 작성완료</span>
+                                                        </div>
+                                                        <div className="admin-checklist-grid">
+                                                            {cl.desired_style && (
+                                                                <div className="admin-cl-item">
+                                                                    <span className="admin-cl-key">원하는 결과</span>
+                                                                    <span className="admin-cl-val">{STYLE_MAP[cl.desired_style] || cl.desired_style}</span>
+                                                                </div>
+                                                            )}
+                                                            {cl.face_level > 0 && (() => {
+                                                                const g = FACE_GUIDE[cl.face_level];
+                                                                return (
+                                                                    <div className="admin-cl-item full-width">
+                                                                        <span className="admin-cl-key">얼굴 보정</span>
+                                                                        <div className="admin-cl-level-wrap">
+                                                                            <span className="admin-cl-val admin-cl-val-highlight">{g?.label}</span>
+                                                                            <span className="admin-cl-level-desc">{g?.desc}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                );
+                                                            })()}
+                                                            {cl.body_level > 0 && (() => {
+                                                                const g = BODY_GUIDE[cl.body_level];
+                                                                return (
+                                                                    <div className="admin-cl-item full-width">
+                                                                        <span className="admin-cl-key">몸매 보정</span>
+                                                                        <div className="admin-cl-level-wrap">
+                                                                            <span className="admin-cl-val admin-cl-val-highlight">{g?.label}</span>
+                                                                            <span className="admin-cl-level-desc">{g?.desc}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                );
+                                                            })()}
+                                                            {cl.skin_finish && (
+                                                                <div className="admin-cl-item">
+                                                                    <span className="admin-cl-key">피부 표현</span>
+                                                                    <span className="admin-cl-val">{SKIN_MAP[cl.skin_finish] || cl.skin_finish}</span>
+                                                                </div>
+                                                            )}
+                                                            {cl.body_ratio_change && (
+                                                                <div className="admin-cl-item">
+                                                                    <span className="admin-cl-key">비율 방향</span>
+                                                                    <span className="admin-cl-val">{RATIO_MAP[cl.body_ratio_change] || cl.body_ratio_change}</span>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                        {cl.focus_areas?.length > 0 && (
+                                                            <div className="admin-cl-tags-row">
+                                                                <span className="admin-cl-tags-label">집중 부위:</span>
+                                                                <div className="admin-cl-tags">
+                                                                    {cl.focus_areas.map(a => (
+                                                                        <span key={a} className="admin-cl-tag focus">{AREA_MAP[a] || a}</span>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                        {cl.preserve_features?.length > 0 && (
+                                                            <div className="admin-cl-tags-row">
+                                                                <span className="admin-cl-tags-label">유지 요청:</span>
+                                                                <div className="admin-cl-tags">
+                                                                    {cl.preserve_features.map(f => (
+                                                                        <span key={f} className="admin-cl-tag preserve">{PRESERVE_MAP[f] || f}</span>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                        {cl.additional_request && (
+                                                            <div className="admin-cl-note">
+                                                                <span className="admin-cl-note-icon">✍️</span>
+                                                                <span className="admin-cl-note-text">{cl.additional_request}</span>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                );
+                                            })()}
+
+
                                             <div className="p-date-row">
                                                 <span className="label">보정요청일:</span>
                                                 <input type="text" defaultValue={requestDate} onBlur={e => handleUpdateDate(c.id, pId, e.target.value)} className="inline-input" />

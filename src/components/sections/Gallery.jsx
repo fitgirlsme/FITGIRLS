@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import { doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
+import { doc, updateDoc, deleteDoc, getDoc, collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import { ref, deleteObject, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db as fireDb, storage } from '../../utils/firebase';
 import FadeInSection from '../FadeInSection';
 import { getGalleryItems, addGalleryItem, deleteGalleryItem, updateGalleryItem } from '../../utils/db';
 import { getGalleries, getGalleriesPaginated } from '../../utils/galleryService';
 import GalleryMultiUploader from '../GalleryMultiUploader';
+import { isNeverlandDomain } from '../../utils/domain';
 import './Gallery.css';
 
 const MAIN_CATEGORIES = [
@@ -47,7 +48,7 @@ const getVideoData = (url) => {
 };
 
 const GallerySection = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [searchParams] = useSearchParams();
 
     const [mainCategory, setMainCategory] = useState('fitorialist');
@@ -78,6 +79,7 @@ const GallerySection = () => {
     const [allTagsCloud, setAllTagsCloud] = useState([]);
     const [visibleCount, setVisibleCount] = useState(30);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [errorLog, setErrorLog] = useState(null);
     const [isGalleryVisible, setIsGalleryVisible] = useState(false);
     const [showSwipeGuide, setShowSwipeGuide] = useState(false);
     const [hasShownSwipeGuide, setHasShownSwipeGuide] = useState(false);
@@ -104,6 +106,7 @@ const GallerySection = () => {
 
     // URL query param으로 카테고리 자동 선택
     useEffect(() => {
+        const isNev = isNeverlandDomain();
         const mainParam = searchParams.get('main');
         const tagParam = searchParams.get('tag');
 
@@ -114,17 +117,20 @@ const GallerySection = () => {
             // 만약 특정 메인 카테고리가 지정되지 않았다면 기본값 유지 혹은 전체 탐색
         }
 
-        if (mainParam && MAIN_CATEGORIES.some(c => c.id === mainParam)) {
-            setMainCategory(mainParam);
+        // 경로에 네버랜드가 명시되어 있거나, 파라미터가 self인 경우 네버랜드로 타겟팅
+        const targetMain = isNev ? 'self' : (mainParam || null);
+
+        if (targetMain && MAIN_CATEGORIES.some(c => c.id === targetMain)) {
+            setMainCategory(targetMain);
             setViewMode('detail');
             // 카테고리에 따른 기본 중분류 설정
-            if (mainParam === 'fashion') {
+            if (targetMain === 'fashion') {
                 setSubCategory('fashion_item');
             } else {
                 setSubCategory('women');
             }
             if (!tagParam) setActiveTag('ALL');
-        } else if (!mainParam && !tagParam) {
+        } else if (!targetMain && !tagParam) {
             // ALL 버튼 클릭 시 (/gallery, main 파라미터 없음) → 첫 페이지로 복귀
             setViewMode('main');
         }
@@ -243,9 +249,43 @@ const GallerySection = () => {
     // Firebase + IndexedDB에서 갤러리 데이터 로드
     useEffect(() => {
         const loadItems = async () => {
+            let debugLog = 'Loading start...\n';
             try {
-                const firebaseItems = await getGalleries();
-                const mapped = firebaseItems.map(item => {
+                debugLog += 'Calling getGalleries()...\n';
+                let firebaseItems = [];
+                try {
+                    firebaseItems = await getGalleries();
+                    debugLog += `getGalleries() success: ${firebaseItems ? firebaseItems.length : 0} items.\n`;
+                } catch (gErr) {
+                    debugLog += `getGalleries() failed: ${gErr.message}\n`;
+                }
+                
+                // [Direct Firestore Fallback Plan]
+                if (!firebaseItems || firebaseItems.length === 0) {
+                    debugLog += 'getGalleries() is empty. Attempting direct Firestore fetch...\n';
+                    try {
+                        debugLog += 'Creating query with fireDb...\n';
+                        const q = query(collection(fireDb, 'gallery'), orderBy('createdAt', 'desc'), limit(300));
+                        
+                        debugLog += 'Executing getDocs(q)...\n';
+                        const snapshot = await getDocs(q);
+                        
+                        debugLog += `getDocs successful. Snapshot size: ${snapshot.size}\n`;
+                        firebaseItems = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    } catch (directErr) {
+                        debugLog += `Direct Firestore fetch failed: ${directErr.message}\nStack: ${directErr.stack}\n`;
+                        console.error('Direct Firestore fetch failed:', directErr);
+                    }
+                }
+
+                // 만약 여전히 0장이면 에러 로그 바인딩
+                if (!firebaseItems || firebaseItems.length === 0) {
+                    setErrorLog(debugLog);
+                } else {
+                    setErrorLog(null); // 성공 시 에러 지우기
+                }
+
+                const mapped = (firebaseItems || []).map(item => {
                     let ts = item.order || 0;
                     if (item.createdAt) {
                         if (item.createdAt.toMillis) ts = item.createdAt.toMillis();
@@ -254,8 +294,8 @@ const GallerySection = () => {
                         else if (typeof item.createdAt === 'string') ts = new Date(item.createdAt).getTime();
                     }
                     
-                    let mainCat = (item.mainCategory || 'fitorialist').toLowerCase();
-                    let subCat = (item.type || 'women').toLowerCase();
+                    let mainCat = String(item.mainCategory || 'fitorialist').toLowerCase();
+                    let subCat = String(item.type || 'women').toLowerCase();
                     
                     // Normalizing mainCategory: Catch variants like 'fashion & beauty', 'fashion_beauty', etc.
                     if (mainCat.includes('fashion') || mainCat.includes('beauty')) {
@@ -274,22 +314,26 @@ const GallerySection = () => {
                         mainCategory: mainCat,
                         type: subCat,
                         tags: item.tags || [],
+                        aiTags: item.aiTags || [], // AI 태그 매핑 추가
+                        imageEmbedding: item.imageEmbedding || null, // 이미지 벡터 임베딩 추가
+                        translations: item.translations || { en: [], ja: [], zh: [] }, // 다국어 번역 매핑 추가
                         img: item.imageUrl || item.img || item.url || '',
                         storagePath: item.storagePath || '',
                         name: item.name || '',
                         seoTags: item.seoTags || '',
                         createdAt: ts || 0,
                     };
-                });
+                }).filter(Boolean);
 
                 setAllItems(mapped);
             } catch (err) {
                 console.warn('Gallery load failed, falling back to IndexedDB:', err);
+                setErrorLog('Outer Load Error: ' + err.message + '\nStack: ' + err.stack);
                 try {
                     const items = await getGalleryItems();
                     setAllItems(items.map(item => {
-                        let mainCat = (item.mainCategory || item.type || 'fitorialist').toLowerCase();
-                        let subCat = (item.type || 'women').toLowerCase();
+                        let mainCat = String(item.mainCategory || item.type || 'fitorialist').toLowerCase();
+                        let subCat = String(item.type || 'women').toLowerCase();
                         
                         if (mainCat.includes('fashion') || mainCat.includes('beauty')) {
                             mainCat = 'fashion';
@@ -302,6 +346,8 @@ const GallerySection = () => {
                             ...item,
                             mainCategory: mainCat,
                             type: subCat,
+                            aiTags: item.aiTags || [],
+                            translations: item.translations || { en: [], ja: [], zh: [] },
                         };
                     }));
                 } catch (err2) {
@@ -367,11 +413,131 @@ const GallerySection = () => {
         return matchMain && matchSub && matchTag;
     }).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
+    // 자연어 검색: 문장을 키워드로 분해 후 매칭
+    // 한국어 검색어 → 영어 AI 태그 동의어 매핑 테이블
+    const SYNONYM_MAP = {
+        // 색상
+        '핑크': ['pink', 'rose', 'magenta'], '핑크색': ['pink', 'rose'], '분홍': ['pink', 'rose'],
+        '빨간': ['red', 'crimson'], '빨강': ['red'], '레드': ['red'],
+        '파란': ['blue', 'navy'], '파랑': ['blue'], '블루': ['blue'], '네이비': ['navy'],
+        '검정': ['black'], '검은': ['black'], '블랙': ['black'],
+        '흰': ['white', 'ivory'], '흰색': ['white'], '화이트': ['white'], '아이보리': ['ivory', 'cream'],
+        '베이지': ['beige', 'nude', 'cream'], '누드': ['nude', 'beige'],
+        '그린': ['green', 'olive'], '초록': ['green'], '녹색': ['green'],
+        '노란': ['yellow'], '노랑': ['yellow'], '옐로': ['yellow'],
+        '보라': ['purple', 'violet'], '퍼플': ['purple'],
+        '회색': ['gray', 'grey'], '그레이': ['gray', 'grey'],
+        '갈색': ['brown'], '브라운': ['brown'], '카키': ['khaki', 'olive'],
+        '청': ['blue', 'denim', 'navy'], '청색': ['blue', 'denim'],
+        // 의상
+        '비키니': ['bikini', 'swimwear', 'swimsuit'],
+        '수영복': ['swimwear', 'swimsuit', 'bikini'],
+        '청바지': ['jeans', 'denim', 'pants'],
+        '청자켓': ['denim jacket', 'jacket', 'denim'],
+        '속옷': ['underwear', 'lingerie', 'bra'],
+        '브라': ['bra', 'underwear', 'lingerie'],
+        '레깅스': ['leggings', 'pants'],
+        '원피스': ['dress', 'one-piece'],
+        '탑': ['top', 'crop top'],
+        '스포츠': ['sports', 'athletic', 'workout'],
+        '반바지': ['shorts'],
+        '치마': ['skirt'],
+        '자켓': ['jacket'],
+        // 장소/배경
+        '침대': ['bed', 'bedroom', 'indoor'],
+        '엘레베이터': ['elevator', 'indoor'],
+        '실내': ['indoor', 'studio', 'interior'],
+        '야외': ['outdoor', 'nature', 'exterior'],
+        '스튜디오': ['studio', 'indoor'],
+        '거울': ['mirror', 'reflection'],
+        '해변': ['beach', 'ocean', 'sea'],
+        '수영장': ['pool', 'swimming pool'],
+        // 포즈/분위기
+        '누운': ['lying', 'lying down', 'bed'],
+        '앉은': ['sitting', 'seated'],
+        '서있는': ['standing'],
+        '뒷모습': ['back view', 'rear view'],
+        '흑백': ['black and white', 'monochrome', 'grayscale'],
+        '커플': ['couple'],
+        '두명': ['two people', 'couple'],
+    };
+
+    const tokenizeQuery = (query) => {
+        // 한국어 조사/어미 제거
+        const particles = ['에서', '에게', '에게서', '으로부터', '으로', '로부터', '로', '이라는', '라는', '이라고', '라고', '이란', '란', '이라서', '라서', '이므로', '므로', '이어서', '어서', '이고', '이며', '이나', '나', '과', '와', '이랑', '랑', '을', '를', '이', '가', '은', '는', '의', '도', '만', '까지', '부터', '한테', '께서', '이서', '서'];
+        let q = query.replace(/#/g, '').toLowerCase().trim();
+        // 공백으로 분리 후 각 단어에서 조사 제거
+        const baseTokens = q.split(/\s+/).map(word => {
+            let w = word;
+            for (const p of particles.sort((a, b) => b.length - a.length)) {
+                if (w.endsWith(p) && w.length > p.length + 1) {
+                    w = w.slice(0, w.length - p.length);
+                    break;
+                }
+            }
+            return w;
+        }).filter(t => t.length >= 2);
+
+        // 동의어 확장: 한국어 토큰 → 영어 동의어 추가
+        const expanded = [...baseTokens];
+        baseTokens.forEach(token => {
+            const synonyms = SYNONYM_MAP[token];
+            if (synonyms) synonyms.forEach(s => expanded.push(s.toLowerCase()));
+        });
+
+        return [...new Set(expanded)]; // 중복 제거
+    };
+
     // 검색 쿼리 우선 (검색 시에는 전체 검색 대상에서 슬라이스)
-    const searchFiltered = searchQuery.trim() ? allItems.filter(item => {
-        const q = searchQuery.replace('#', '').toLowerCase().trim();
-        return item.tags && item.tags.some(tag => tag.replace('#', '').toLowerCase().includes(q));
-    }).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)) : [];
+    const searchFiltered = searchQuery.trim() ? (() => {
+        // baseTokens: 원래 입력 단어 (임계값 계산용)
+        // expandedTokens: 동의어 포함 전체 (매칭용)
+        const particles = ['에서', '에게', '에게서', '으로부터', '으로', '로부터', '로', '이라는', '라는', '이라고', '라고', '이란', '란', '이라서', '라서', '이므로', '므로', '이어서', '어서', '이고', '이며', '이나', '나', '과', '와', '이랑', '랑', '을', '를', '이', '가', '은', '는', '의', '도', '만', '까지', '부터', '한테', '께서', '이서', '서'];
+        const rawBase = searchQuery.replace(/#/g, '').toLowerCase().trim().split(/\s+/).map(word => {
+            let w = word;
+            for (const p of particles.sort((a, b) => b.length - a.length)) {
+                if (w.endsWith(p) && w.length > p.length + 1) { w = w.slice(0, w.length - p.length); break; }
+            }
+            return w;
+        }).filter(t => t.length >= 2);
+        const baseCount = rawBase.length; // ← 임계값은 이걸로 계산
+
+        const expandedTokens = tokenizeQuery(searchQuery); // 동의어 포함
+        if (expandedTokens.length === 0) return [];
+
+        // 각 아이템의 검색 가능 텍스트 풀 생성
+        const getSearchPool = (item) => {
+            const parts = [];
+            if (item.tags) item.tags.forEach(t => parts.push(String(t).replace('#', '').toLowerCase()));
+            if (item.aiTags) item.aiTags.forEach(t => parts.push(String(t).replace('#', '').toLowerCase()));
+            if (item.seoTags) parts.push(String(item.seoTags).toLowerCase());
+            if (item.name) parts.push(String(item.name).toLowerCase());
+            if (item.translations) Object.values(item.translations).forEach(arr => {
+                if (Array.isArray(arr)) arr.forEach(t => parts.push(String(t).replace('#', '').toLowerCase()));
+            });
+            return parts.join(' ');
+        };
+
+        return allItems
+            .map(item => {
+                const pool = getSearchPool(item);
+                // 매칭되는 키워드 수로 relevance 점수 계산 (확장 토큰 기준)
+                const score = expandedTokens.reduce((acc, token) => pool.includes(token) ? acc + 1 : acc, 0);
+                return { item, score };
+            })
+            .filter(({ score }) => {
+                // ★ 임계값은 확장 전 원본 단어 수 기준으로 계산
+                if (baseCount === 1) return score >= 1;
+                if (baseCount <= 3) return score >= 2;
+                return score >= Math.ceil(baseCount / 2);
+            })
+            .sort((a, b) => {
+                // relevance 점수 내림차순, 동점이면 최신순
+                if (b.score !== a.score) return b.score - a.score;
+                return (b.item.createdAt || 0) - (a.item.createdAt || 0);
+            })
+            .map(({ item }) => item);
+    })() : [];
 
     const finalBaseList = searchQuery.trim() ? searchFiltered : filteredGallery;
     const visibleItems = finalBaseList.slice(0, visibleCount);
@@ -517,6 +683,27 @@ const GallerySection = () => {
             {viewMode === 'main' ? (
                 /* ===== MAIN VIEW: 2x2 Category Selection Grid ===== */
                 <>
+                    {errorLog && (
+                        <div style={{ 
+                            padding: '20px', 
+                            background: '#fff0f0', 
+                            color: '#d00', 
+                            border: '1.5px solid #fcc', 
+                            borderRadius: '12px', 
+                            margin: '20px auto', 
+                            maxWidth: '1200px',
+                            width: '90%',
+                            fontSize: '0.85rem', 
+                            whiteSpace: 'pre-wrap',
+                            textAlign: 'left',
+                            boxShadow: '0 4px 12px rgba(255,0,0,0.05)',
+                            lineHeight: '1.6',
+                            fontFamily: 'monospace'
+                        }}>
+                            <h3 style={{ margin: '0 0 10px 0', fontSize: '1.05rem', color: '#c00' }}>⚠️ 갤러리 로드 오류 실시간 브리핑</h3>
+                            {errorLog}
+                        </div>
+                    )}
                     <div className="gallery-title-header-wrap">
                         <FadeInSection className="section-header">
                             <h2 className="section-title">ARCHIVE</h2>

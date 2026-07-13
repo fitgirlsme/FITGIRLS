@@ -22,6 +22,7 @@ const ChecklistView = () => {
 
   // Fetch document meta for security check
   const [tempMeta, setTempMeta] = useState(null);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
 
   useEffect(() => {
     if (!docId) {
@@ -150,6 +151,7 @@ const ChecklistView = () => {
   const refImgState = checklist.refImgState || (checklist.concepts && checklist.concepts[0]?.refImgState);
   const refImgText = checklist.refImgText || (checklist.concepts && checklist.concepts[0]?.refImgText);
   const emphasis = checklist.emphasis || (checklist.concepts && checklist.concepts[0]?.emphasis);
+  const emphasisText = checklist.emphasisText || '';
   const burden = checklist.burden || (checklist.concepts && checklist.concepts[0]?.burden);
   const burdenText = checklist.burdenText || (checklist.concepts && checklist.concepts[0]?.burdenText);
 
@@ -222,6 +224,10 @@ const ChecklistView = () => {
                 <strong>{checklist.date}</strong>
               </div>
               <div className="info-summary-item">
+                <span>이메일</span>
+                <strong>{checklist.email || '(미입력)'}</strong>
+              </div>
+              <div className="info-summary-item">
                 <span>예약 상품</span>
                 <strong>{checklist.concept || '(미지정)'}</strong>
               </div>
@@ -256,6 +262,11 @@ const ChecklistView = () => {
                 <div className="detail-item-section">
                   <h4>1. 촬영 무드</h4>
                   <p className="detail-value">{concept.mood || '(미선택)'}</p>
+                  {concept.moodText && (
+                    <div className="detail-sub-box" style={{ marginTop: '10px' }}>
+                      {concept.moodText}
+                    </div>
+                  )}
                 </div>
 
                 <div className="detail-item-section">
@@ -275,6 +286,11 @@ const ChecklistView = () => {
               <div className="detail-item-section">
                 <h4>1. 촬영 무드</h4>
                 <p className="detail-value">{checklist.mood || (checklist.concepts && checklist.concepts[0]?.mood) || '(미선택)'}</p>
+                {(checklist.moodText || (checklist.concepts && checklist.concepts[0]?.moodText)) && (
+                  <div className="detail-sub-box" style={{ marginTop: '10px' }}>
+                    {checklist.moodText || (checklist.concepts && checklist.concepts[0]?.moodText)}
+                  </div>
+                )}
               </div>
 
               <div className="detail-item-section">
@@ -310,6 +326,11 @@ const ChecklistView = () => {
                   ))
                 ) : '(선택 없음)'}
               </div>
+              {emphasisText && (
+                <div className="detail-sub-box" style={{ marginTop: '10px' }}>
+                  {emphasisText}
+                </div>
+              )}
             </div>
 
             <div className="detail-item-section">
@@ -358,6 +379,40 @@ const ChecklistView = () => {
             </div>
           </div>
 
+          {/* Card: AI Recommended Concepts */}
+          {checklist.recommendedPhotos && checklist.recommendedPhotos.length > 0 && (
+            <div className="checklist-card print-hide">
+              <span className="card-num" style={{ color: '#ff1e27' }}>AI 맞춤 추천</span>
+              <h3 className="card-question" style={{ borderBottom: '1px solid #eee', paddingBottom: '10px', marginBottom: '16px' }}>
+                ✨ 고객님께 어울릴 촬영 컨셉 추천
+              </h3>
+              <p style={{ fontSize: '0.85rem', color: '#666', marginBottom: '20px', lineHeight: '1.5' }}>
+                체크리스트의 무드, 선호 스타일, 강조 부위를 바탕으로 AI가 자동 추천한 핏걸즈 아카이브 시안입니다. (클릭 시 크게 볼 수 있습니다.)
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+                {checklist.recommendedPhotos.map((url, idx) => (
+                  <div 
+                    key={idx} 
+                    onClick={() => setSelectedPhoto(url)}
+                    style={{ 
+                      aspectRatio: '3/4', 
+                      borderRadius: '12px', 
+                      overflow: 'hidden', 
+                      cursor: 'pointer',
+                      boxShadow: '0 4px 10px rgba(0,0,0,0.08)',
+                      transition: 'transform 0.2s',
+                      background: '#f9f9f9'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                  >
+                    <img src={url} alt={`추천 ${idx + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.target.parentElement.style.display = 'none'; }} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
         </div>
 
         <div className="view-footer-actions" style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
@@ -380,6 +435,36 @@ const ChecklistView = () => {
         </div>
 
       </div>
+
+      {/* Photo Detail Modal */}
+      {selectedPhoto && (
+        <div 
+          onClick={() => setSelectedPhoto(null)}
+          style={{
+            position: 'fixed',
+            top: 0, left: 0, right: 0, bottom: 0,
+            background: 'rgba(0,0,0,0.85)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+            cursor: 'zoom-out',
+            padding: '20px'
+          }}
+        >
+          <img 
+            src={selectedPhoto} 
+            alt="크게 보기" 
+            style={{ 
+              maxWidth: '100%', 
+              maxHeight: '90vh', 
+              borderRadius: '12px', 
+              boxShadow: '0 8px 30px rgba(0,0,0,0.5)',
+              objectFit: 'contain'
+            }} 
+          />
+        </div>
+      )}
     </div>
   );
 };

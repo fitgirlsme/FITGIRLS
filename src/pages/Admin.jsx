@@ -1656,8 +1656,15 @@ const ConceptsTab = () => {
     const loadItems = async () => {
         setLoading(true);
         try {
-            const snap = await getDocs(query(collection(db, 'lookbook'), orderBy('createdAt', 'desc')));
-            setItems(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+            const snap = await getDocs(collection(db, 'lookbook'));
+            const loaded = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            // 클라이언트 측 정렬로 색인 요구 조건 제거 및 로딩 속도 최적화
+            loaded.sort((a, b) => {
+                const timeA = a.createdAt?.seconds || a.createdAt || 0;
+                const timeB = b.createdAt?.seconds || b.createdAt || 0;
+                return timeB - timeA;
+            });
+            setItems(loaded);
         } catch (err) { console.error(err); }
         setLoading(false);
     };
@@ -2903,7 +2910,7 @@ const StudiosTab = () => {
 
     const loadAllHashtags = async () => {
         try {
-            const snap = await getDocs(collection(db, 'gallery'));
+            const snap = await getDocs(query(collection(db, 'gallery'), orderBy('createdAt', 'desc'), limit(150)));
             const tagSet = new Set();
             snap.docs.forEach(d => {
                 const tags = d.data().tags || [];
@@ -2915,8 +2922,15 @@ const StudiosTab = () => {
 
     const loadStudios = async () => {
         try {
-            const snap = await getDocs(query(collection(db, 'studios'), orderBy('createdAt', 'desc')));
-            setStudios(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+            const snap = await getDocs(collection(db, 'studios'));
+            const loaded = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            // 클라이언트 측 정렬로 Firestore 색인 요구 조건 제거 및 성능 최적화
+            loaded.sort((a, b) => {
+                const timeA = a.createdAt?.seconds || a.createdAt || 0;
+                const timeB = b.createdAt?.seconds || b.createdAt || 0;
+                return timeB - timeA;
+            });
+            setStudios(loaded);
         } catch (err) { console.error(err); }
     };
 

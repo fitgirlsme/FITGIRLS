@@ -70,7 +70,7 @@ export const sendAlimtalk = async (receiver, templateCode, message, options = {}
  * Template Helper: Generates message and options for specific templates
  */
 export const getAlimtalkTemplate = (type, params) => {
-    const { name, phone, projectTitle, link, feedback, date } = params;
+    const { name, phone, projectTitle, link, feedback, date, concept, id } = params;
     const cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
     const phoneLast4 = cleanPhone ? cleanPhone.slice(-4) : '0000';
     
@@ -200,7 +200,7 @@ export const getAlimtalkTemplate = (type, params) => {
             return {
                 code: 'UJ_2731',
                 title: '제출 완료',
-                subtitle: '상담지 작성 완료',
+                subtitle: 'FITORIALIST 상담',
                 message: `[FITGIRLS] FITORIALIST 상담 체크리스트 제출 완료\n\n안녕하세요, ${name}님!\n핏걸즈 촬영 전 상담을 위한 체크리스트 작성이 성공적으로 완료되었습니다. 😊\n\n작성해주신 소중한 내용을 바탕으로 담당 아티스트가 고객님께 가장 잘 어울리는 촬영 방향 및 무드를 꼼꼼히 준비하겠습니다.\n\n■ 촬영 예정일: ${date}\n■ 예약 컨셉: ${concept || '미지정'}\n\n아래 [제출 내용 확인하기] 버튼을 누르시면 작성하신 체크리스트 상세 결과를 언제든지 다시 확인하실 수 있습니다.\n\n핏걸즈와 함께 아름다운 순간을 멋지게 남겨보세요. 감사합니다! ✨`,
                 button: {
                     button: [

@@ -1,0 +1,704 @@
+/* =============================================
+   RetouchChecklist Page Styles
+   ============================================= */
+
+.rcl-page {
+    min-height: 100vh;
+    background: #0a0d16;
+    color: #fff;
+    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+}
+
+/* ── 헤더 ──────────────────────────────── */
+.rcl-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 40px;
+    border-bottom: 1px solid #1c2035;
+    background: #0d1120;
+}
+
+.rcl-logo {
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+}
+
+.rcl-logo-fit  { color: #FF003C; }
+.rcl-logo-girls { color: #fff; }
+
+.rcl-header-sub {
+    font-size: 0.7rem;
+    color: #5a6a8a;
+    letter-spacing: 0.1em;
+}
+
+/* ── 스텝 바 ───────────────────────────── */
+.rcl-stepbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 16px 40px;
+    background: #0d1120;
+    border-bottom: 1px solid #1c2035;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.rcl-stepbar::-webkit-scrollbar { display: none; }
+
+.rcl-step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 0 12px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.rcl-step-item + .rcl-step-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 16px;
+    width: 100%;
+    height: 2px;
+    background: #1c2035;
+    z-index: 0;
+}
+
+.rcl-step-item.done + .rcl-step-item::before { background: #FF003C40; }
+
+.rcl-step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    background: #1c2035;
+    color: #5a6a8a;
+    border: 2px solid #252b3d;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s;
+}
+
+.rcl-step-item.done .rcl-step-num {
+    background: #FF003C20;
+    color: #FF003C;
+    border-color: #FF003C60;
+}
+
+.rcl-step-item.active .rcl-step-num {
+    background: #FF003C;
+    color: #fff;
+    border-color: #FF003C;
+    box-shadow: 0 0 16px #FF003C60;
+}
+
+.rcl-step-label {
+    font-size: 0.65rem;
+    color: #5a6a8a;
+    white-space: nowrap;
+    transition: color 0.3s;
+}
+
+.rcl-step-item.active .rcl-step-label { color: #fff; }
+.rcl-step-item.done .rcl-step-label { color: #FF003C80; }
+
+/* ── 메인 레이아웃 ─────────────────────── */
+.rcl-main {
+    display: flex;
+    gap: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    align-items: flex-start;
+}
+
+.rcl-content {
+    flex: 1;
+    min-width: 0;
+    padding-right: 40px;
+}
+
+/* ── 섹션 공통 ─────────────────────────── */
+.rcl-section {
+    animation: rcl-fade-in 0.4s ease;
+}
+
+@keyframes rcl-fade-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.rcl-step-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #FF003C;
+    letter-spacing: 0.15em;
+    margin-bottom: 12px;
+}
+
+.rcl-title {
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1.25;
+    margin-bottom: 12px;
+    color: #fff;
+}
+
+.rcl-subtitle {
+    font-size: 0.95rem;
+    color: #8a9bb3;
+    line-height: 1.7;
+    margin-bottom: 32px;
+}
+
+.rcl-sub-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #e0e6f0;
+    margin: 28px 0 14px;
+}
+
+/* ── STEP 1: 스타일 카드 ──────────────── */
+.rcl-style-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.rcl-style-card {
+    background: #111627;
+    border: 2px solid #1c2440;
+    border-radius: 16px;
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+}
+
+.rcl-style-card:hover { border-color: #FF003C60; transform: translateY(-3px); }
+.rcl-style-card.selected { border-color: #FF003C; background: #1a0d14; box-shadow: 0 0 24px #FF003C30; }
+.rcl-style-card.recommended { border-color: #FF003C80; }
+
+.rcl-recommend-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #FF003C;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 99px;
+    white-space: nowrap;
+}
+
+.rcl-check-icon {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 22px;
+    height: 22px;
+    background: #FF003C;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.rcl-style-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #e0e6f0;
+    white-space: pre-wrap;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.rcl-style-desc {
+    font-size: 0.75rem;
+    color: #8a9bb3;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.rcl-style-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.rcl-style-meta span {
+    font-size: 0.68rem;
+    color: #FF003C;
+    background: #FF003C10;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+/* ── 정보 배너 ─────────────────────────── */
+.rcl-info-banner {
+    background: #111627;
+    border: 1px solid #1c2440;
+    border-left: 3px solid #4a9eff;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 0.82rem;
+    color: #8a9bb3;
+    margin-bottom: 32px;
+}
+
+/* ── STEP 2/3: 레벨 카드 ─────────────── */
+.rcl-level-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.rcl-level-card {
+    flex: 1;
+    background: #111627;
+    border: 2px solid #1c2440;
+    border-radius: 14px;
+    padding: 20px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+}
+
+.rcl-level-card:hover { border-color: #FF003C60; }
+.rcl-level-card.selected { border-color: #FF003C; background: #1a0d14; box-shadow: 0 0 20px #FF003C30; }
+
+.rcl-level-num {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #FF003C;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.rcl-level-lbl { font-size: 0.85rem; font-weight: 700; color: #e0e6f0; }
+.rcl-level-desc { font-size: 0.72rem; color: #8a9bb3; margin-top: 4px; }
+
+.rcl-level-scale {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    font-size: 0.75rem;
+    color: #5a6a8a;
+}
+
+.rcl-scale-bar {
+    flex: 1;
+    height: 6px;
+    background: #1c2440;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.rcl-scale-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #FF003C80, #FF003C);
+    border-radius: 99px;
+    transition: width 0.4s ease;
+}
+
+.rcl-level-guide {
+    background: #0d1120;
+    border: 1px solid #1c2035;
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+.rcl-guide-row {
+    font-size: 0.82rem;
+    color: #8a9bb3;
+}
+
+.rcl-guide-row strong { color: #e0e6f0; margin-right: 8px; }
+
+/* ── 비율 카드 ─────────────────────────── */
+.rcl-ratio-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.rcl-ratio-card {
+    background: #111627;
+    border: 2px solid #1c2440;
+    border-radius: 12px;
+    padding: 16px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+}
+
+.rcl-ratio-card:hover { border-color: #FF003C60; }
+.rcl-ratio-card.selected { border-color: #FF003C; background: #1a0d14; }
+
+.rcl-ratio-label { font-size: 0.9rem; font-weight: 700; color: #e0e6f0; margin-bottom: 6px; }
+.rcl-ratio-desc { font-size: 0.72rem; color: #8a9bb3; }
+
+/* ── STEP 4: 피부 카드 ─────────────────── */
+.rcl-skin-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.rcl-skin-card {
+    background: #111627;
+    border: 2px solid #1c2440;
+    border-radius: 16px;
+    padding: 28px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+}
+
+.rcl-skin-card:hover { border-color: #FF003C60; transform: translateY(-3px); }
+.rcl-skin-card.selected { border-color: #FF003C; background: #1a0d14; box-shadow: 0 0 24px #FF003C30; }
+
+.rcl-skin-icon { font-size: 2rem; margin-bottom: 12px; }
+.rcl-skin-label { font-size: 1rem; font-weight: 700; color: #e0e6f0; margin-bottom: 8px; }
+.rcl-skin-desc { font-size: 0.75rem; color: #8a9bb3; line-height: 1.5; }
+
+/* ── STEP 5/6: 칩 ─────────────────────── */
+.rcl-area-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.rcl-area-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    background: #111627;
+    border: 2px solid #1c2440;
+    border-radius: 99px;
+    font-size: 0.85rem;
+    color: #8a9bb3;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.rcl-area-chip:hover { border-color: #FF003C80; color: #e0e6f0; }
+.rcl-area-chip.selected { border-color: #FF003C; background: #1a0d14; color: #fff; }
+.rcl-area-chip.preserve.selected { border-color: #4a9eff; background: #0d1a2a; }
+
+.rcl-chip-check { font-size: 0.7rem; }
+
+.rcl-selected-hint {
+    font-size: 0.8rem;
+    color: #FF003C;
+    margin-bottom: 32px;
+}
+
+/* ── 추가 요청 ─────────────────────────── */
+.rcl-additional-section { margin-top: 8px; }
+
+.rcl-add-guide {
+    font-size: 0.82rem;
+    color: #8a9bb3;
+    margin-bottom: 12px;
+}
+
+.rcl-textarea {
+    width: 100%;
+    background: #111627;
+    border: 1.5px solid #1c2440;
+    border-radius: 12px;
+    padding: 16px;
+    color: #e0e6f0;
+    font-size: 0.9rem;
+    font-family: inherit;
+    resize: vertical;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+    margin-bottom: 32px;
+}
+
+.rcl-textarea:focus { outline: none; border-color: #FF003C60; }
+.rcl-textarea::placeholder { color: #3a4a6a; }
+
+/* ── STEP 7: 요약 카드 ─────────────────── */
+.rcl-summary-card {
+    background: #111627;
+    border: 1.5px solid #1c2440;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 28px;
+}
+
+.rcl-summary-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 14px 20px;
+    border-bottom: 1px solid #1c2035;
+}
+
+.rcl-summary-row:last-child { border-bottom: none; }
+.rcl-summary-row.full { flex-direction: column; gap: 6px; }
+
+.rcl-summary-key {
+    font-size: 0.8rem;
+    color: #5a6a8a;
+    white-space: nowrap;
+    min-width: 120px;
+}
+
+.rcl-summary-val {
+    font-size: 0.88rem;
+    color: #e0e6f0;
+    font-weight: 500;
+}
+
+/* 로그인 경고 */
+.rcl-login-warn {
+    background: #1a110d;
+    border: 1.5px solid #FF6030;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 0.82rem;
+    color: #FF8060;
+    margin-bottom: 20px;
+}
+
+.rcl-login-warn a { color: #FF003C; }
+
+/* 제출 버튼 */
+.rcl-submit-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #FF003C, #ff4060);
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    margin-bottom: 12px;
+}
+
+.rcl-submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px #FF003C40; }
+
+.rcl-submit-note {
+    font-size: 0.75rem;
+    color: #5a6a8a;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+/* ── 네비게이션 버튼 ──────────────────── */
+.rcl-nav-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    margin-bottom: 40px;
+}
+
+.rcl-btn-prev {
+    flex: 0 0 auto;
+    padding: 14px 24px;
+    background: #111627;
+    border: 1.5px solid #1c2440;
+    border-radius: 12px;
+    color: #8a9bb3;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.rcl-btn-prev:hover { border-color: #FF003C60; color: #e0e6f0; }
+
+.rcl-btn-next {
+    flex: 1;
+    padding: 14px 24px;
+    background: #FF003C;
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    letter-spacing: 0.02em;
+}
+
+.rcl-btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 24px #FF003C50; }
+.rcl-btn-next.disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* ── 사이드바 ──────────────────────────── */
+.rcl-sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 20px;
+}
+
+.rcl-sidebar-inner {
+    background: #111627;
+    border: 1.5px solid #1c2440;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.rcl-sidebar-header {
+    padding: 16px 20px;
+    background: #0d1120;
+    border-bottom: 1px solid #1c2035;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #5a6a8a;
+    letter-spacing: 0.05em;
+    text-align: center;
+}
+
+.rcl-sidebar-rows {
+    padding: 12px 0;
+}
+
+.rcl-sb-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #0d1120;
+    gap: 8px;
+}
+
+.rcl-sb-row span {
+    font-size: 0.75rem;
+    color: #5a6a8a;
+    flex-shrink: 0;
+}
+
+.rcl-sb-row strong {
+    font-size: 0.78rem;
+    color: #3a4a6a;
+    text-align: right;
+    word-break: keep-all;
+}
+
+.rcl-sb-row.filled strong { color: #FF003C; }
+
+.rcl-sb-consult-btn {
+    display: block;
+    margin: 16px;
+    padding: 12px;
+    background: #FF003C10;
+    border: 1.5px solid #FF003C60;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #FF003C;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.rcl-sb-consult-btn:hover { background: #FF003C; color: #fff; }
+
+/* ── 완료 화면 ─────────────────────────── */
+.rcl-done-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.rcl-done-icon { font-size: 4rem; margin-bottom: 20px; }
+.rcl-done-title { font-size: 2rem; font-weight: 900; margin-bottom: 14px; }
+.rcl-done-desc { font-size: 1rem; color: #8a9bb3; line-height: 1.8; margin-bottom: 32px; }
+
+.rcl-done-summary {
+    background: #111627;
+    border: 1.5px solid #1c2440;
+    border-radius: 16px;
+    padding: 20px;
+    width: 100%;
+    max-width: 480px;
+    margin-bottom: 32px;
+}
+
+.rcl-done-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #1c2035;
+    font-size: 0.88rem;
+}
+
+.rcl-done-row:last-child { border-bottom: none; }
+.rcl-done-row span { color: #5a6a8a; }
+.rcl-done-row strong { color: #FF003C; }
+
+.rcl-done-btn {
+    display: inline-block;
+    padding: 14px 32px;
+    background: #FF003C;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    transition: all 0.25s;
+}
+
+.rcl-done-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px #FF003C40; }
+
+/* ── 반응형 ────────────────────────────── */
+@media (max-width: 1024px) {
+    .rcl-main { flex-direction: column; }
+    .rcl-content { padding-right: 0; }
+    .rcl-sidebar { width: 100%; position: static; }
+    .rcl-style-grid { grid-template-columns: repeat(2, 1fr); }
+    .rcl-skin-grid  { grid-template-columns: repeat(2, 1fr); }
+    .rcl-ratio-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+    .rcl-header { padding: 16px 20px; }
+    .rcl-stepbar { padding: 12px 16px; }
+    .rcl-main { padding: 24px 16px; }
+    .rcl-title { font-size: 1.6rem; }
+    .rcl-style-grid { grid-template-columns: 1fr; }
+    .rcl-level-row { flex-wrap: wrap; }
+    .rcl-level-card { min-width: calc(33% - 8px); }
+    .rcl-skin-grid  { grid-template-columns: 1fr 1fr; }
+    .rcl-ratio-grid { grid-template-columns: 1fr 1fr; }
+}
