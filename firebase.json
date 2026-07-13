@@ -5,48 +5,6 @@
   "hosting": {
     "public": "dist",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "redirects": [
-      {
-        "source": "/studio",
-        "destination": "/studios",
-        "type": 301
-      },
-      {
-        "source": "/en/studio",
-        "destination": "/en/studios",
-        "type": 301
-      },
-      {
-        "source": "/ja/studio",
-        "destination": "/ja/studios",
-        "type": 301
-      },
-      {
-        "source": "/zh/studio",
-        "destination": "/zh/studios",
-        "type": 301
-      },
-      {
-        "source": "/price",
-        "destination": "/service",
-        "type": 301
-      },
-      {
-        "source": "/en/price",
-        "destination": "/en/service",
-        "type": 301
-      },
-      {
-        "source": "/ja/price",
-        "destination": "/ja/service",
-        "type": 301
-      },
-      {
-        "source": "/zh/price",
-        "destination": "/zh/service",
-        "type": 301
-      }
-    ],
     "rewrites": [
       {
         "source": "**",
@@ -69,60 +27,6 @@
           {
             "key": "Content-Type",
             "value": "application/xml; charset=utf-8"
-          }
-        ]
-      },
-      {
-        "source": "/admin",
-        "headers": [
-          {
-            "key": "X-Robots-Tag",
-            "value": "noindex"
-          }
-        ]
-      },
-      {
-        "source": "/admin/**",
-        "headers": [
-          {
-            "key": "X-Robots-Tag",
-            "value": "noindex"
-          }
-        ]
-      },
-      {
-        "source": "/retouch",
-        "headers": [
-          {
-            "key": "X-Robots-Tag",
-            "value": "noindex"
-          }
-        ]
-      },
-      {
-        "source": "/retouch/**",
-        "headers": [
-          {
-            "key": "X-Robots-Tag",
-            "value": "noindex"
-          }
-        ]
-      },
-      {
-        "source": "/checklist",
-        "headers": [
-          {
-            "key": "X-Robots-Tag",
-            "value": "noindex"
-          }
-        ]
-      },
-      {
-        "source": "/checklist/**",
-        "headers": [
-          {
-            "key": "X-Robots-Tag",
-            "value": "noindex"
           }
         ]
       }
