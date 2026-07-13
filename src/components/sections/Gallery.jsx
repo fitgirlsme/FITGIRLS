@@ -251,6 +251,7 @@ const GallerySection = () => {
                     if (item.createdAt) {
                         if (item.createdAt.toMillis) ts = item.createdAt.toMillis();
                         else if (item.createdAt.seconds) ts = item.createdAt.seconds * 1000;
+                        else if (typeof item.createdAt === 'number') ts = item.createdAt;
                         else if (typeof item.createdAt === 'string') ts = new Date(item.createdAt).getTime();
                     }
                     
@@ -260,6 +261,13 @@ const GallerySection = () => {
                     // Normalizing mainCategory: Catch variants like 'fashion & beauty', 'fashion_beauty', etc.
                     if (mainCat.includes('fashion') || mainCat.includes('beauty')) {
                         mainCat = 'fashion';
+                    }
+                    
+                    // Data Migration Mapping for Fashion & Beauty:
+                    // If old sub-categories (women, men, etc.) are found in 'fashion' mainCategory,
+                    // map them to 'fashion_item' for compatibility.
+                    if (mainCat === 'fashion' && !FASHION_SUB_IDS.includes(subCat)) {
+                        subCat = 'fashion_item';
                     }
                     
                     return {
@@ -287,6 +295,10 @@ const GallerySection = () => {
                         
                         if (mainCat.includes('fashion') || mainCat.includes('beauty')) {
                             mainCat = 'fashion';
+                        }
+                        
+                        if (mainCat === 'fashion' && !FASHION_SUB_IDS.includes(subCat)) {
+                            subCat = 'fashion_item';
                         }
                         return {
                             ...item,
@@ -1147,53 +1159,13 @@ const GallerySection = () => {
                     <button className="lightbox-nav-btn prev-btn" onClick={showPrev}>⟨</button>
                     <div className="lightbox-content">
                         <img key={lightboxIndex} src={finalBaseList[lightboxIndex].img} alt="Lightbox Detail" decoding="async" />
-                        {((finalBaseList[lightboxIndex].tags && finalBaseList[lightboxIndex].tags.length > 0) || 
-                          (finalBaseList[lightboxIndex].aiTags && finalBaseList[lightboxIndex].aiTags.length > 0)) && (
+                        {finalBaseList[lightboxIndex].tags && finalBaseList[lightboxIndex].tags.length > 0 && (
                             <div className="lightbox-hashtags-bottom">
-                                {finalBaseList[lightboxIndex].tags && finalBaseList[lightboxIndex].tags.map((tag, idx) => (
-                                    <span key={`manual-${idx}`} style={{ margin: '0 8px', fontWeight: 'bold' }}>
+                                {finalBaseList[lightboxIndex].tags.map((tag, idx) => (
+                                    <span key={idx} style={{ margin: '0 8px' }}>
                                         {tag.startsWith('#') ? tag : `#${tag}`}
                                     </span>
                                 ))}
-                                {(() => {
-                                    const langKey = (i18n && i18n.language ? i18n.language : 'ko').split('-')[0].toLowerCase();
-                                    let aiTagsToShow = [];
-                                    if (langKey === 'ko') {
-                                        aiTagsToShow = finalBaseList[lightboxIndex].aiTags || [];
-                                    } else {
-                                        const translations = (finalBaseList[lightboxIndex].translations && typeof finalBaseList[lightboxIndex].translations === 'object' && !Array.isArray(finalBaseList[lightboxIndex].translations)) ? finalBaseList[lightboxIndex].translations : {};
-                                        aiTagsToShow = translations[langKey] || [];
-                                        if (!Array.isArray(aiTagsToShow) || aiTagsToShow.length === 0) {
-                                            aiTagsToShow = finalBaseList[lightboxIndex].aiTags || [];
-                                        }
-                                    }
-                                    if (!Array.isArray(aiTagsToShow)) {
-                                        aiTagsToShow = [];
-                                    }
-                                    const EXCLUDED_TAGS = [
-                                        '핏걸즈', '바디프로필', '한국 바디프로필', '한국바디프로필',
-                                        'fitgirls', 'body profile', 'bodyprofile', 'korean body profile',
-                                        'ボディプロフィール', '韓国ボディプロフィール',
-                                        '个人写真', '韩国身形写真', '韩国健身写真', '韩国健美写真'
-                                    ];
-                                    return aiTagsToShow
-                                        .filter(tag => {
-                                            if (!tag) return false;
-                                            const clean = String(tag).trim().toLowerCase().replace('#', '');
-                                            return !EXCLUDED_TAGS.includes(clean);
-                                        })
-                                        .map((tag, idx) => (
-                                            <span key={`ai-${idx}`} style={{ 
-                                                margin: '0 6px', 
-                                                opacity: 0.5, 
-                                                fontSize: '0.8rem', 
-                                                fontWeight: '300',
-                                                letterSpacing: '-0.02em'
-                                            }}>
-                                                {tag && typeof tag === 'string' && tag.startsWith('#') ? tag : `#${tag}`}
-                                            </span>
-                                        ));
-                                })()}
                             </div>
                         )}
                         <div className="lightbox-footer-credit">
