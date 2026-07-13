@@ -31,29 +31,56 @@
         ]
       },
       {
-        "source": "/admin?(/**)",
+        "source": "/admin",
         "headers": [
           {
             "key": "X-Robots-Tag",
-            "value": "noindex,nofollow"
+            "value": "noindex, nofollow"
           }
         ]
       },
       {
-        "source": "/retouch?(/**)",
+        "source": "/admin/**",
         "headers": [
           {
             "key": "X-Robots-Tag",
-            "value": "noindex,nofollow"
+            "value": "noindex, nofollow"
           }
         ]
       },
       {
-        "source": "/checklist?(/**)",
+        "source": "/retouch",
         "headers": [
           {
             "key": "X-Robots-Tag",
-            "value": "noindex,nofollow"
+            "value": "noindex, nofollow"
+          }
+        ]
+      },
+      {
+        "source": "/retouch/**",
+        "headers": [
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex, nofollow"
+          }
+        ]
+      },
+      {
+        "source": "/checklist",
+        "headers": [
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex, nofollow"
+          }
+        ]
+      },
+      {
+        "source": "/checklist/**",
+        "headers": [
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex, nofollow"
           }
         ]
       }
