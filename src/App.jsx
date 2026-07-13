@@ -35,6 +35,7 @@ import Partners from './pages/Partners';
 import Magazine from './pages/Magazine';
 import AmbassadorList from './components/AmbassadorList';
 import SModel from './pages/SModel';
+import Shop from './pages/Shop';
 import Retouch from './pages/Retouch';
 import Challenges from './pages/Challenges';
 import ChallengeDetail from './pages/ChallengeDetail';
