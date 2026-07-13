@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate, useParams, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 // GA4 페이지뷰 추적 함수
@@ -46,6 +46,8 @@ import Checklist from './pages/Checklist';
 import ChecklistView from './pages/ChecklistView';
 import GlobalBooking from './pages/GlobalBooking';
 import GlobalFloatingBanner from './components/GlobalFloatingBanner';
+import Studios from './pages/Studios';
+import SEO_METADATA from './seo_metadata.json';
 import './index.css';
 
 const Home = ({ changeLanguage, currentLang }) => {
@@ -246,6 +248,42 @@ const Home = ({ changeLanguage, currentLang }) => {
 function App() {
   const { i18n } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const supportedLangs = ['en', 'ja', 'zh'];
+  const pathParts = location.pathname.split('/').filter(Boolean);
+
+  // 1. /studio 및 /price 중복 경로 정리: 유입 시 /studios /service로 301급 리다이렉트
+  React.useEffect(() => {
+    if (location.pathname === '/studio') {
+      navigate('/studios', { replace: true });
+    }
+    if (location.pathname === '/price') {
+      navigate('/service', { replace: true });
+    }
+    
+    supportedLangs.forEach(lang => {
+      if (location.pathname === `/${lang}/studio`) {
+        navigate(`/${lang}/studios`, { replace: true });
+      }
+      if (location.pathname === `/${lang}/price`) {
+        navigate(`/${lang}/service`, { replace: true });
+      }
+    });
+  }, [location.pathname]);
+
+  // 2. 다국어 URL 구조 구현: URL 감지 및 i18next 언어 동기화
+  React.useEffect(() => {
+    let targetLang = 'ko';
+    if (pathParts.length > 0 && supportedLangs.includes(pathParts[0])) {
+      targetLang = pathParts[0];
+    }
+    
+    if (i18n.language !== targetLang) {
+      i18n.changeLanguage(targetLang);
+    }
+  }, [location.pathname]);
+
 
   // 글로벌 다국어 SEO 셋팅 (한글, 영어, 일본어 이미지/텍스트 검색 상단 노출 작전)
   React.useEffect(() => {
@@ -317,7 +355,19 @@ function App() {
   }, [i18n.language, location.pathname]);
 
   const changeLanguage = (lng) => {
+    const sectionPath = supportedLangs.includes(pathParts[0])
+      ? pathParts.slice(1).join('/')
+      : pathParts.join('/');
+      
+    let newPath = '';
+    if (lng === 'ko') {
+      newPath = sectionPath ? `/${sectionPath}` : '/';
+    } else {
+      newPath = sectionPath ? `/${lng}/${sectionPath}` : `/${lng}`;
+    }
+    
     i18n.changeLanguage(lng);
+    navigate(newPath);
   };
 
   // GA4: 페이지 이동 시마다 자동 추적
@@ -326,29 +376,75 @@ function App() {
     trackVisit(location.pathname); // Firestore 방문 카운트
   }, [location.pathname]);
 
-
-
   // Fetch initial data (galleries, partners, notices)
   React.useEffect(() => {
     syncAll().catch(console.error);
   }, []);
 
-  // Hide floating coupon on admin-related pages
   const isAdminPage = location.pathname.startsWith('/admin') || 
                       location.pathname.startsWith('/smodel') || 
                       location.pathname.startsWith('/retouch') ||
                       location.pathname.startsWith('/report');
 
+  const validSections = ['gallery', 'service', 'location', 'faq', 'studios', 'reviews', 'magazine', 'partners', 'challenges', 'global-booking', 'reservation', 'challenge-promo'];
+
   return (
     <div className="root-layout">
       <React.Suspense fallback={<div className="loading">Loading...</div>}>
         <Routes>
+          {/* 1. 한국어 기본(접두사 없음) 라우트 */}
           <Route path="/" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          {validSections.map(sec => (
+            <Route key={sec} path={`/${sec}`} element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          ))}
+          {validSections.map(sec => (
+            <Route key={sec} path={`/${sec}/:tab`} element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          ))}
+          {validSections.map(sec => (
+            <Route key={sec} path={`/${sec}/:modelName/:modelId`} element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          ))}
+
+          {/* 2. 영어 라우트 */}
+          <Route path="/en" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          {validSections.map(sec => (
+            <Route key={sec} path={`/en/${sec}`} element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          ))}
+          {validSections.map(sec => (
+            <Route key={sec} path={`/en/${sec}/:tab`} element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          ))}
+          {validSections.map(sec => (
+            <Route key={sec} path={`/en/${sec}/:modelName/:modelId`} element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          ))}
+
+          {/* 3. 일본어 라우트 */}
+          <Route path="/ja" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          {validSections.map(sec => (
+            <Route key={sec} path={`/ja/${sec}`} element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          ))}
+          {validSections.map(sec => (
+            <Route key={sec} path={`/ja/${sec}/:tab`} element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          ))}
+          {validSections.map(sec => (
+            <Route key={sec} path={`/ja/${sec}/:modelName/:modelId`} element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          ))}
+
+          {/* 4. 중국어 라우트 */}
+          <Route path="/zh" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          {validSections.map(sec => (
+            <Route key={sec} path={`/zh/${sec}`} element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          ))}
+          {validSections.map(sec => (
+            <Route key={sec} path={`/zh/${sec}/:tab`} element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          ))}
+          {validSections.map(sec => (
+            <Route key={sec} path={`/zh/${sec}/:modelName/:modelId`} element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          ))}
+
+          {/* 5. 어드민 및 비공개 기능 라우트 (기존 기능 완벽 보존) */}
           <Route path="/admin" element={<Admin />} />
           <Route path="/report" element={<BrandReport />} />
           <Route path="/ambar" element={<Ambassador />} />
           <Route path="/ambassador" element={<Ambassador />} />
-          <Route path="/magazine" element={<Magazine />} />
           <Route path="/fitorialist" element={<AmbassadorList />} />
           <Route path="/fitorialist/:modelName" element={<AmbassadorList />} />
           <Route path="/fitorialist/:modelName/:modelId" element={<AmbassadorList />} />
@@ -361,13 +457,61 @@ function App() {
           <Route path="/challenge-promo" element={<ChallengePromoPage />} />
           <Route path="/checklist" element={<Checklist />} />
           <Route path="/checklist/view" element={<ChecklistView />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/studios" element={<Studios changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/global-booking" element={<GlobalBooking />} />
-          <Route path="/:section" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
-          <Route path="/:section/:tab" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
-          <Route path="/:section/:modelName/:modelId" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+
+          {/* /studio 진입 시 /studios로 redirect */}
+          <Route path="/studio" element={<Navigate to="/studios" replace />} />
+          <Route path="/en/studio" element={<Navigate to="/en/studios" replace />} />
+          <Route path="/ja/studio" element={<Navigate to="/ja/studios" replace />} />
+          <Route path="/zh/studio" element={<Navigate to="/zh/studios" replace />} />
+
+          {/* /price 진입 시 /service로 redirect */}
+          <Route path="/price" element={<Navigate to="/service" replace />} />
+          <Route path="/en/price" element={<Navigate to="/en/service" replace />} />
+          <Route path="/ja/price" element={<Navigate to="/ja/service" replace />} />
+          <Route path="/zh/price" element={<Navigate to="/zh/service" replace />} />
+
+          {/* 404 Catch-All */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
         {!isAdminPage && <FloatingCoupon />}
       </React.Suspense>
+    </div>
+  );
+}
+
+// 404 Not Found 컴포넌트 추가 (noindex 주입 및 soft 404 대응)
+function NotFound() {
+  const { t } = useTranslation();
+  React.useEffect(() => {
+    document.title = 'Page Not Found | FITGIRLS';
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+    if (!robotsMeta) {
+      robotsMeta = document.createElement('meta');
+      robotsMeta.name = 'robots';
+      document.head.appendChild(robotsMeta);
+    }
+    robotsMeta.setAttribute('content', 'noindex, nofollow');
+  }, []);
+
+  return (
+    <div style={{
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+      height: '100vh', background: '#0a0a0a', color: '#fff', textAlign: 'center', fontFamily: 'Inter, sans-serif'
+    }}>
+      <h1 style={{ fontSize: '4rem', margin: '0 0 10px', color: '#ff3b30' }}>404</h1>
+      <h2 style={{ fontSize: '1.5rem', margin: '0 0 20px', fontWeight: '400' }}>{t('error.not_found', 'Page Not Found')}</h2>
+      <p style={{ color: 'rgba(255,255,255,0.6)', margin: '0 0 30px', maxWidth: '400px', lineHeight: '1.6' }}>
+        존재하지 않거나 삭제된 페이지입니다. 주소를 다시 확인해 주세요.
+      </p>
+      <a href="/" style={{
+        padding: '12px 24px', background: '#fff', color: '#000', borderRadius: '30px',
+        textDecoration: 'none', fontWeight: '600', fontSize: '0.95rem', transition: 'all 0.3s ease'
+      }}>
+        홈으로 돌아가기
+      </a>
     </div>
   );
 }

@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "vite",
         "prebuild": "node scripts/generate-rss.mjs",
-        "build": "vite build",
+        "build": "vite build && node scripts/prerender.mjs && node scripts/smoke-test.mjs",
         "preview": "vite preview",
         "predeploy": "npm run build",
         "deploy": "firebase deploy"
