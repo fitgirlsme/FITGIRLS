@@ -43,10 +43,13 @@ import FloatingCoupon from './components/FloatingCoupon';
 import ReservationPage from './pages/ReservationPage';
 import ChallengePromoPage from './pages/ChallengePromoPage';
 import Checklist from './pages/Checklist';
+import Studios from './pages/Studios';
 import ChecklistView from './pages/ChecklistView';
 import GlobalBooking from './pages/GlobalBooking';
 import GlobalFloatingBanner from './components/GlobalFloatingBanner';
+import SEO_METADATA from './seo_metadata.json';
 import './index.css';
+
 
 const Home = ({ changeLanguage, currentLang }) => {
   const { section, tab } = useParams();
@@ -182,8 +185,9 @@ const Home = ({ changeLanguage, currentLang }) => {
           if (id) {
             const newPath = (id === 'hero' || id === 'hero-intro') ? '/' : `/${id}`;
             
-            // 특수 처리: 현재 경로가 /service/self 처럼 상세 경로인 경우, 스크롤로 인해 단순히 /service로 덮어씌워지지 않게 함
             const currentPath = window.location.pathname;
+            const isNev = isNeverlandDomain();
+            
             if (newPath === '/') {
               if (currentPath !== '/') window.history.replaceState(null, '', '/');
             } else {
@@ -254,30 +258,46 @@ function App() {
     // HTML lang 속성 동적 연동
     document.documentElement.lang = lang;
 
-    // 언어별 메타 타이틀 및 디스크립션 리소스 정의
-    const seoResources = {
+    // 경로별 고유 SEO 메타데이터 (seo_metadata.json 기반)
+    const seoMeta = SEO_METADATA;
+
+    // 언어별 기본값(fallback): 경로 매핑이 없을 때 사용
+    const fallbackResources = {
       ko: {
-        title: '핏걸즈 | 바디프로필 여자바디프로필 전문 프리미엄 화보 스튜디오',
-        desc: '핏걸즈(FITGIRLS) 2026 프로젝트. 압도적인 무드의 여자 바디프로필, 피토리얼리스트 화보 전문 촬영. 고객별 맞춤 포즈, 무드, 스타일링 무료 기획.',
+        title: '핏걸즈 & 이너핏 | 여자 바디프로필 전문 프리미엄 화보 스튜디오',
+        desc: '강남 신사동 바디프로필 전문 스튜디오 핏걸즈 & 이너핏. 압도적인 무드의 여자 바디프로필 전문 촬영.',
         keywords: '바디프로필, 여자바디프로필, 핏걸즈, 이너핏, 바디프로필스튜디오, 피토리얼리스트, 여자바디프로필의상'
       },
       en: {
-        title: 'FITGIRLS | Female Body Profile & Editorial Editorialist Photo Studio',
+        title: 'FITGIRLS & INAFIT | Premium Female Body Profile Studio Seoul',
         desc: 'Premium Female Body Profile Studio FITGIRLS. Custom styling, poses, and editorial artwork matching your unique physique and vibe.',
         keywords: 'Female Body Profile, Body Profile, FITGIRLS, Inafit, Body Profile Studio, Editorial Portrait'
       },
       ja: {
-        title: 'FITGIRLS | 女性ボディプロフィール写真・プレミアムエディトリアルスタジオ',
-        desc: '女性ボディプロフィール撮影専門スタジオ FITGIRLS。あなたのスタイルと雰囲기에 맞춘 포즈, 의상, 메이크업의 풀커스텀 개별 플랜.',
+        title: 'FITGIRLS & INAFIT | 女性ボディプロフィール写真・プレミアムエディトリアルスタジオ',
+        desc: '女性ボディプロフィール撮影専門スタジオ FITGIRLS。あなたのスタイルと雰囲気に合わせたフルカスタム個別プラン。',
         keywords: '女性ボディプロフィール, ボディプロフィール, プレミアムスタジオ, FITGIRLS, インナーフィット'
+      },
+      zh: {
+        title: 'FITGIRLS & INAFIT | 首尔高端女性健身写真专业棚拍',
+        desc: '首尔江南新沙洞顶级健身写真专业摄影棚。个性化姿势、服装与妆容规划，打造杂志级写真效果。',
+        keywords: '韩国健身写真, 首尔棚拍, FITGIRLS, 个人写真, 江南摄影棚'
       }
     };
 
-    const currentSeo = seoResources[lang] || seoResources.ko;
+    // 현재 경로에서 가장 잘 맞는 메타데이터 키를 검색 (가장 구체적인 prefix 우선)
+    const path = location.pathname;
+    const matchedKey = Object.keys(seoMeta)
+      .filter(key => path === key || path.startsWith(key + '/') || (key !== '/' && path.startsWith(key)))
+      .sort((a, b) => b.length - a.length)[0] || null;
+
+    const pageMeta = matchedKey && seoMeta[matchedKey]?.[lang]
+      ? seoMeta[matchedKey][lang]
+      : (fallbackResources[lang] || fallbackResources.ko);
 
     // 1. 타이틀 업데이트 (상담지 인쇄/뷰어 페이지 외에서만 작동)
     if (!location.pathname.includes('/checklist')) {
-      document.title = currentSeo.title;
+      document.title = pageMeta.title;
     }
 
     // 2. 메타 디스크립션 태그 생성/업데이트
@@ -287,7 +307,7 @@ function App() {
       metaDesc.name = 'description';
       document.head.appendChild(metaDesc);
     }
-    metaDesc.setAttribute('content', currentSeo.desc);
+    metaDesc.setAttribute('content', pageMeta.desc);
 
     // 3. 메타 키워드 태그 생성/업데이트
     let metaKeywords = document.querySelector('meta[name="keywords"]');
@@ -296,25 +316,60 @@ function App() {
       metaKeywords.name = 'keywords';
       document.head.appendChild(metaKeywords);
     }
-    metaKeywords.setAttribute('content', currentSeo.keywords);
+    metaKeywords.setAttribute('content', pageMeta.keywords || '');
 
-    // 4. alternate 다국어 링크 태그 업데이트 (구글 다국어 봇 매핑)
+    // 4. Canonical 태그 동적 갱신 (경로별 고유 canonical 주소 부여)
     const baseDomain = 'https://fitgirls.me';
-    const langs = ['ko', 'en', 'ja'];
+    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.rel = 'canonical';
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.href = `${baseDomain}${path === '/' ? '' : path}` || baseDomain;
+
+    // 5. 비공개 경로에 noindex 메타 태그 주입 (크롤러 색인 차단)
+    const privateRoutes = ['/admin', '/retouch', '/checklist', '/report', '/ambar'];
+    const isPrivate = privateRoutes.some(r => path.startsWith(r));
+    let robotsMeta = document.querySelector('meta[name="robots"]');
+    if (isPrivate) {
+      if (!robotsMeta) {
+        robotsMeta = document.createElement('meta');
+        robotsMeta.name = 'robots';
+        document.head.appendChild(robotsMeta);
+      }
+      robotsMeta.setAttribute('content', 'noindex, nofollow');
+    } else {
+      // 공개 경로에서 기존 noindex 태그가 남아있을 경우 제거
+      if (robotsMeta) robotsMeta.remove();
+    }
+
+    // 6. alternate 다국어 링크 태그 업데이트 (구글 다국어 봇 매핑)
+    const langs = ['ko', 'en', 'ja', 'zh'];
     
     // 기존 alternate 태그 제거
     document.querySelectorAll('link[rel="alternate"]').forEach(el => el.remove());
 
-    // 신규 alternate 태그 삽입
-    langs.forEach(l => {
-      const link = document.createElement('link');
-      link.rel = 'alternate';
-      link.hreflang = l;
-      link.href = `${baseDomain}${location.pathname}`;
-      document.head.appendChild(link);
-    });
+    // 신규 alternate 태그 삽입 (공개 경로에만 적용)
+    if (!isPrivate) {
+      langs.forEach(l => {
+        const link = document.createElement('link');
+        link.rel = 'alternate';
+        link.hreflang = l;
+        link.href = `${baseDomain}${path}`;
+        document.head.appendChild(link);
+      });
+
+      // x-default alternate 삽입
+      const defaultLink = document.createElement('link');
+      defaultLink.rel = 'alternate';
+      defaultLink.hreflang = 'x-default';
+      defaultLink.href = `${baseDomain}${path}`;
+      document.head.appendChild(defaultLink);
+    }
 
   }, [i18n.language, location.pathname]);
+
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
@@ -361,6 +416,9 @@ function App() {
           <Route path="/challenge-promo" element={<ChallengePromoPage />} />
           <Route path="/checklist" element={<Checklist />} />
           <Route path="/checklist/view" element={<ChecklistView />} />
+          <Route path="/reviews" element={<Reviews changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/studios" element={<Studios changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/studio" element={<Studios changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/global-booking" element={<GlobalBooking />} />
           <Route path="/:section" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/:section/:tab" element={<Home changeLanguage={changeLanguage} currentLang={i18n.language} />} />

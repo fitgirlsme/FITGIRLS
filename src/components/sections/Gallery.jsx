@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
-import { doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
+import { doc, updateDoc, deleteDoc, getDoc, collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import { ref, deleteObject, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db as fireDb, storage } from '../../utils/firebase';
 import FadeInSection from '../FadeInSection';
@@ -47,7 +47,7 @@ const getVideoData = (url) => {
 };
 
 const GallerySection = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [searchParams] = useSearchParams();
 
     const [mainCategory, setMainCategory] = useState('fitorialist');
@@ -78,6 +78,7 @@ const GallerySection = () => {
     const [allTagsCloud, setAllTagsCloud] = useState([]);
     const [visibleCount, setVisibleCount] = useState(30);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [errorLog, setErrorLog] = useState(null);
     const [isGalleryVisible, setIsGalleryVisible] = useState(false);
     const [showSwipeGuide, setShowSwipeGuide] = useState(false);
     const [hasShownSwipeGuide, setHasShownSwipeGuide] = useState(false);
@@ -250,7 +251,6 @@ const GallerySection = () => {
                     if (item.createdAt) {
                         if (item.createdAt.toMillis) ts = item.createdAt.toMillis();
                         else if (item.createdAt.seconds) ts = item.createdAt.seconds * 1000;
-                        else if (typeof item.createdAt === 'number') ts = item.createdAt;
                         else if (typeof item.createdAt === 'string') ts = new Date(item.createdAt).getTime();
                     }
                     
@@ -262,18 +262,12 @@ const GallerySection = () => {
                         mainCat = 'fashion';
                     }
                     
-                    // Data Migration Mapping for Fashion & Beauty:
-                    // If old sub-categories (women, men, etc.) are found in 'fashion' mainCategory,
-                    // map them to 'fashion_item' for compatibility.
-                    if (mainCat === 'fashion' && !FASHION_SUB_IDS.includes(subCat)) {
-                        subCat = 'fashion_item';
-                    }
-
                     return {
                         id: item.id,
                         mainCategory: mainCat,
                         type: subCat,
                         tags: item.tags || [],
+                        translations: item.translations || { en: [], ja: [], zh: [] }, // 다국어 번역 매핑 유지
                         img: item.imageUrl || item.img || item.url || '',
                         storagePath: item.storagePath || '',
                         name: item.name || '',
@@ -294,18 +288,15 @@ const GallerySection = () => {
                         if (mainCat.includes('fashion') || mainCat.includes('beauty')) {
                             mainCat = 'fashion';
                         }
-                        
-                        if (mainCat === 'fashion' && !FASHION_SUB_IDS.includes(subCat)) {
-                            subCat = 'fashion_item';
-                        }
                         return {
                             ...item,
                             mainCategory: mainCat,
                             type: subCat,
+                            translations: item.translations || { en: [], ja: [], zh: [] }, // 다국어 번역 매핑 유지
                         };
                     }));
                 } catch (err2) {
-                    console.warn('IndexedDB load also failed:', err2);
+                    console.error('IndexedDB backup load failed:', err2);
                 }
             }
         };
@@ -366,6 +357,8 @@ const GallerySection = () => {
         ));
         return matchMain && matchSub && matchTag;
     }).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+
 
     // 검색 쿼리 우선 (검색 시에는 전체 검색 대상에서 슬라이스)
     const searchFiltered = searchQuery.trim() ? allItems.filter(item => {
@@ -517,6 +510,7 @@ const GallerySection = () => {
             {viewMode === 'main' ? (
                 /* ===== MAIN VIEW: 2x2 Category Selection Grid ===== */
                 <>
+
                     <div className="gallery-title-header-wrap">
                         <FadeInSection className="section-header">
                             <h2 className="section-title">ARCHIVE</h2>
@@ -578,7 +572,13 @@ const GallerySection = () => {
                                 <input
                                     type="text"
                                     className="gallery-search-input"
-                                    placeholder="검색"
+                                    placeholder={(() => {
+                                        const lang = (i18n && i18n.language ? i18n.language : 'ko').split('-')[0].toLowerCase();
+                                        if (lang === 'ja') return '自然な言葉で検索してみてください (例：ベッドに横たわっている写真)';
+                                        if (lang === 'en') return 'Try searching in natural language (e.g. photos lying on the bed)';
+                                        if (lang === 'zh') return '尝试用自然语言搜索（例如：躺在床上的照片）';
+                                        return '자연어로 검색어를 입력해 보세요 (예: 침대에 누운 사진컷)';
+                                    })()}
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
@@ -798,7 +798,16 @@ const GallerySection = () => {
                                 >
                                     <img 
                                         src={item.img} 
-                                        alt={item.seoTags || 'Gallery'} 
+                                        alt={(() => {
+                                             const langKey = i18n.language === 'ko' ? 'ko' : i18n.language;
+                                             if (item.translations && item.translations[langKey] && item.translations[langKey].length > 0) {
+                                                 return item.translations[langKey].join(', ');
+                                             }
+                                             if (item.aiTags && item.aiTags.length > 0 && langKey === 'ko') {
+                                                 return item.aiTags.join(', ');
+                                             }
+                                             return item.seoTags || 'Gallery';
+                                         })()}
                                         loading="lazy" 
                                         onError={(e) => {
                                             e.target.onerror = null;
@@ -1138,13 +1147,53 @@ const GallerySection = () => {
                     <button className="lightbox-nav-btn prev-btn" onClick={showPrev}>⟨</button>
                     <div className="lightbox-content">
                         <img key={lightboxIndex} src={finalBaseList[lightboxIndex].img} alt="Lightbox Detail" decoding="async" />
-                        {finalBaseList[lightboxIndex].tags && finalBaseList[lightboxIndex].tags.length > 0 && (
+                        {((finalBaseList[lightboxIndex].tags && finalBaseList[lightboxIndex].tags.length > 0) || 
+                          (finalBaseList[lightboxIndex].aiTags && finalBaseList[lightboxIndex].aiTags.length > 0)) && (
                             <div className="lightbox-hashtags-bottom">
-                                {finalBaseList[lightboxIndex].tags.map((tag, idx) => (
-                                    <span key={idx} style={{ margin: '0 8px' }}>
+                                {finalBaseList[lightboxIndex].tags && finalBaseList[lightboxIndex].tags.map((tag, idx) => (
+                                    <span key={`manual-${idx}`} style={{ margin: '0 8px', fontWeight: 'bold' }}>
                                         {tag.startsWith('#') ? tag : `#${tag}`}
                                     </span>
                                 ))}
+                                {(() => {
+                                    const langKey = (i18n && i18n.language ? i18n.language : 'ko').split('-')[0].toLowerCase();
+                                    let aiTagsToShow = [];
+                                    if (langKey === 'ko') {
+                                        aiTagsToShow = finalBaseList[lightboxIndex].aiTags || [];
+                                    } else {
+                                        const translations = (finalBaseList[lightboxIndex].translations && typeof finalBaseList[lightboxIndex].translations === 'object' && !Array.isArray(finalBaseList[lightboxIndex].translations)) ? finalBaseList[lightboxIndex].translations : {};
+                                        aiTagsToShow = translations[langKey] || [];
+                                        if (!Array.isArray(aiTagsToShow) || aiTagsToShow.length === 0) {
+                                            aiTagsToShow = finalBaseList[lightboxIndex].aiTags || [];
+                                        }
+                                    }
+                                    if (!Array.isArray(aiTagsToShow)) {
+                                        aiTagsToShow = [];
+                                    }
+                                    const EXCLUDED_TAGS = [
+                                        '핏걸즈', '바디프로필', '한국 바디프로필', '한국바디프로필',
+                                        'fitgirls', 'body profile', 'bodyprofile', 'korean body profile',
+                                        'ボディプロフィール', '韓国ボディプロフィール',
+                                        '个人写真', '韩国身形写真', '韩国健身写真', '韩国健美写真'
+                                    ];
+                                    return aiTagsToShow
+                                        .filter(tag => {
+                                            if (!tag) return false;
+                                            const clean = String(tag).trim().toLowerCase().replace('#', '');
+                                            return !EXCLUDED_TAGS.includes(clean);
+                                        })
+                                        .map((tag, idx) => (
+                                            <span key={`ai-${idx}`} style={{ 
+                                                margin: '0 6px', 
+                                                opacity: 0.5, 
+                                                fontSize: '0.8rem', 
+                                                fontWeight: '300',
+                                                letterSpacing: '-0.02em'
+                                            }}>
+                                                {tag && typeof tag === 'string' && tag.startsWith('#') ? tag : `#${tag}`}
+                                            </span>
+                                        ));
+                                })()}
                             </div>
                         )}
                         <div className="lightbox-footer-credit">
