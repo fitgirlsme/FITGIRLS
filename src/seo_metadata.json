@@ -1,0 +1,244 @@
+{
+  "/": {
+    "ko": {
+      "title": "핏걸즈 & 이너핏 | 여자 바디프로필 전문 프리미엄 스튜디오",
+      "desc": "강남 신사동 바디프로필 전문 스튜디오 핏걸즈 & 이너핏. 고객 맞춤 포즈·무드·의상 무료 기획. 화보 같은 퀄리티의 바디프로필 촬영.",
+      "keywords": "바디프로필, 여자바디프로필, 핏걸즈, 이너핏, 바디프로필스튜디오, 강남바디프로필, 신사동바디프로필"
+    },
+    "en": {
+      "title": "FITGIRLS & INAFIT | Premium Female Body Profile Studio Seoul",
+      "desc": "Seoul's premium body profile studio in Sinsa-dong, Gangnam. Custom styling, poses, and editorial-quality photoshoots tailored to you.",
+      "keywords": "Body Profile Seoul, Female Body Profile, FITGIRLS, INAFIT, Gangnam Studio, Korean Body Profile"
+    },
+    "ja": {
+      "title": "FITGIRLS & INAFIT | 女性ボディプロフィール撮影 プレミアムスタジオ ソウル",
+      "desc": "ソウル江南・新沙洞のプレミアムボディプロフィールスタジオ。日本語対応可。個別プラン・衣装・メイク無料プランニング付き。",
+      "keywords": "ボディプロフィール, 韓国ボディプロフィール, ソウル撮影, FITGIRLS, 日本語対応"
+    },
+    "zh": {
+      "title": "FITGIRLS & INAFIT | 首尔高端健身写真专业棚拍",
+      "desc": "首尔江南新沙洞顶级健身写真专业摄影棚。个性化姿势、服装与妆容规划，打造杂志级写真效果。",
+      "keywords": "韩国健身写真, 首尔棚拍, FITGIRLS, 个人写真, 江南摄影棚"
+    }
+  },
+  "/archive": {
+    "ko": {
+      "title": "핏걸즈 실시간 아카이브 | 바디프로필 갤러리",
+      "desc": "핏걸즈 고객들의 실제 바디프로필 촬영 결과물 아카이브. 다양한 무드와 컨셉의 여자 바디프로필 사진을 확인하세요.",
+      "keywords": "바디프로필 갤러리, 핏걸즈 갤러리, 여자바디프로필 사진, 바디프로필 아카이브"
+    },
+    "en": {
+      "title": "FITGIRLS Archive | Body Profile Gallery",
+      "desc": "Browse real body profile photoshoots from FITGIRLS clients. Discover diverse moods and concepts.",
+      "keywords": "Body Profile Gallery, FITGIRLS Archive, Female Body Profile Photos"
+    },
+    "ja": {
+      "title": "FITGIRLSアーカイブ | ボディプロフィールギャラリー",
+      "desc": "FITGIRLSのお客様の実際のボディプロフィール作品をご覧いただけます。",
+      "keywords": "ボディプロフィールギャラリー, FITGIRLS, 韓国ボディプロフィール写真"
+    },
+    "zh": {
+      "title": "FITGIRLS作品集 | 健身写真实拍照片",
+      "desc": "浏览FITGIRLS客户真实健身写真作品，多种风格与概念任您选择。",
+      "keywords": "健身写真作品集, FITGIRLS, 韩国写真照片"
+    }
+  },
+  "/service": {
+    "ko": {
+      "title": "핏걸즈 촬영 요금 & 서비스 안내 | 바디프로필 가격표",
+      "desc": "핏걸즈 & 이너핏 촬영 패키지별 가격표와 서비스 상세 안내. 헤어·메이크업·의상 대여 포함 패키지부터 단독 촬영까지.",
+      "keywords": "바디프로필 가격, 바디프로필 요금, 핏걸즈 가격표, 바디프로필 패키지"
+    },
+    "en": {
+      "title": "FITGIRLS Pricing & Service Guide | Body Profile Packages",
+      "desc": "Explore FITGIRLS & INAFIT body profile pricing packages including hair, makeup, and outfit rental.",
+      "keywords": "Body Profile Price, FITGIRLS Package, Seoul Studio Pricing"
+    },
+    "ja": {
+      "title": "FITGIRLS 料金・サービス案内 | ボディプロフィールパッケージ",
+      "desc": "FITGIRLSのボディプロフィール撮影料金・パッケージ一覧。ヘアメイクや衣装レンタルも込みのプランあり。",
+      "keywords": "ボディプロフィール料金, FITGIRLS, 韓国撮影パッケージ"
+    },
+    "zh": {
+      "title": "FITGIRLS 价格与套餐说明 | 健身写真拍摄费用",
+      "desc": "FITGIRLS健身写真拍摄套餐价格一览，含发型、化妆及服装租借选项。",
+      "keywords": "健身写真价格, FITGIRLS套餐, 首尔棚拍收费"
+    }
+  },
+  "/studios": {
+    "ko": {
+      "title": "핏걸즈 스튜디오 | 강남 바디프로필 촬영 공간 안내",
+      "desc": "강남 신사동 핏걸즈 스튜디오. 80개 이상의 입체적 배경 존으로 고객만의 무드를 완성하는 프리미엄 바디프로필 촬영 공간.",
+      "keywords": "핏걸즈 스튜디오, 강남 바디프로필 스튜디오, 바디프로필 공간, 이너핏 스튜디오"
+    },
+    "en": {
+      "title": "FITGIRLS Studios | Body Profile Studio Guide in Gangnam Seoul",
+      "desc": "Explore FITGIRLS premium body profile studio with 80+ unique background zones in Sinsa-dong, Gangnam.",
+      "keywords": "FITGIRLS Studio, Gangnam Body Profile Studio, Seoul Photo Studio"
+    },
+    "ja": {
+      "title": "FITGIRLSスタジオ | 江南ボディプロフィール撮影スタジオ案内",
+      "desc": "新沙洞・江南エリアにあるFITGIRLSスタジオ。80以上の個性豊かな背景ゾーンでプレミアム撮影体験を。",
+      "keywords": "FITGIRLSスタジオ, ソウルスタジオ, 江南ボディプロフィール"
+    },
+    "zh": {
+      "title": "FITGIRLS摄影棚 | 江南健身写真棚拍空间介绍",
+      "desc": "新沙洞江南FITGIRLS专业摄影棚，拥有80余种独特背景区，打造专属写真风格。",
+      "keywords": "FITGIRLS摄影棚, 江南棚拍, 首尔健身写真棚"
+    }
+  },
+  "/reviews": {
+    "ko": {
+      "title": "핏걸즈 고객 리뷰 | 바디프로필 촬영 후기",
+      "desc": "핏걸즈 & 이너핏에서 바디프로필을 촬영한 실제 고객들의 생생한 후기와 리뷰를 확인하세요.",
+      "keywords": "바디프로필 후기, 핏걸즈 리뷰, 바디프로필 촬영 후기, 이너핏 후기"
+    },
+    "en": {
+      "title": "FITGIRLS Customer Reviews | Real Body Profile Testimonials",
+      "desc": "Read real reviews and testimonials from FITGIRLS & INAFIT body profile clients.",
+      "keywords": "FITGIRLS Reviews, Body Profile Testimonials, Korea Studio Reviews"
+    },
+    "ja": {
+      "title": "FITGIRLSクチコミ・レビュー | ボディプロフィール撮影体験談",
+      "desc": "FITGIRLSのボディプロフィール撮影を体験したお客様のリアルな体験談をご覧ください。",
+      "keywords": "FITGIRLSレビュー, ボディプロフィール体験談, ソウル撮影口コミ"
+    },
+    "zh": {
+      "title": "FITGIRLS用户评价 | 真实健身写真客户反馈",
+      "desc": "查看FITGIRLS & INAFIT客户真实拍摄评价与体验分享。",
+      "keywords": "FITGIRLS评价, 健身写真反馈, 韩国棚拍口碑"
+    }
+  },
+  "/reservation": {
+    "ko": {
+      "title": "핏걸즈 예약하기 | 바디프로필 촬영 실시간 예약",
+      "desc": "핏걸즈 & 이너핏 바디프로필 촬영 예약. 원하는 날짜와 패키지를 선택하고 지금 바로 예약하세요.",
+      "keywords": "바디프로필 예약, 핏걸즈 예약, 이너핏 예약, 스튜디오 촬영 예약"
+    },
+    "en": {
+      "title": "FITGIRLS Booking | Body Profile Studio Reservation",
+      "desc": "Book your body profile photoshoot at FITGIRLS & INAFIT. Choose your date and package now.",
+      "keywords": "FITGIRLS Booking, Body Profile Reservation, Seoul Studio Booking"
+    },
+    "ja": {
+      "title": "FITGIRLS 予約 | ボディプロフィール撮影オンライン予約",
+      "desc": "FITGIRLSのボディプロフィール撮影をご予約いただけます。希望日時とパッケージをお選びください。",
+      "keywords": "FITGIRLS予約, ボディプロフィール予約, ソウル撮影予約"
+    },
+    "zh": {
+      "title": "FITGIRLS预约 | 健身写真棚拍在线预订",
+      "desc": "在线预约FITGIRLS健身写真拍摄，选择您心仪的日期与套餐，立即预订。",
+      "keywords": "FITGIRLS预约, 健身写真预订, 首尔棚拍预约"
+    }
+  },
+  "/location": {
+    "ko": {
+      "title": "핏걸즈 위치 안내 | 강남 신사동 스튜디오 오시는 길",
+      "desc": "강남구 신사동 핏걸즈 & 이너핏 바디프로필 스튜디오 위치 및 오시는 길 안내. 지하철·버스·주차 정보.",
+      "keywords": "핏걸즈 위치, 이너핏 주소, 강남 바디프로필 스튜디오 위치, 신사동 촬영 스튜디오"
+    },
+    "en": {
+      "title": "FITGIRLS Location | How to Get to Our Gangnam Studio",
+      "desc": "Directions to FITGIRLS & INAFIT body profile studio in Sinsa-dong, Gangnam. Subway, bus, and parking info.",
+      "keywords": "FITGIRLS Location, Gangnam Studio Address, Seoul Body Profile Studio Map"
+    },
+    "ja": {
+      "title": "FITGIRLSアクセス | 江南新沙洞スタジオへのアクセス",
+      "desc": "FITGIRLSスタジオ（江南・新沙洞）へのアクセス方法。地下鉄・バス・駐車場情報。",
+      "keywords": "FITGIRLSアクセス, 江南スタジオ住所, ソウル撮影スタジオ地図"
+    },
+    "zh": {
+      "title": "FITGIRLS地址 | 前往江南新沙洞摄影棚路线",
+      "desc": "FITGIRLS江南新沙洞棚拍工作室地址及交通指引，含地铁、公交及停车信息。",
+      "keywords": "FITGIRLS地址, 江南摄影棚位置, 首尔棚拍地图"
+    }
+  },
+  "/faq": {
+    "ko": {
+      "title": "핏걸즈 자주 묻는 질문 | 바디프로필 FAQ",
+      "desc": "핏걸즈 바디프로필 촬영 예약, 준비사항, 의상대여, 보정 기간 등 자주 묻는 질문과 답변을 확인하세요.",
+      "keywords": "바디프로필 FAQ, 핏걸즈 질문, 바디프로필 준비사항, 바디프로필 의상대여 FAQ"
+    },
+    "en": {
+      "title": "FITGIRLS FAQ | Body Profile Photoshoot Questions Answered",
+      "desc": "Find answers to common questions about FITGIRLS body profile shoots — booking, outfits, retouching and more.",
+      "keywords": "FITGIRLS FAQ, Body Profile Questions, Seoul Studio FAQ"
+    },
+    "ja": {
+      "title": "FITGIRLS よくある質問 | ボディプロフィール撮影FAQ",
+      "desc": "FITGIRLSのボディプロフィール撮影に関するよくある質問にお答えします。予約・衣装・レタッチなど。",
+      "keywords": "FITGIRLS FAQ, ボディプロフィール質問, ソウル撮影FAQ"
+    },
+    "zh": {
+      "title": "FITGIRLS 常见问题 | 健身写真拍摄FAQ",
+      "desc": "解答FITGIRLS健身写真常见问题，包括预约、服装租借、修图周期等。",
+      "keywords": "FITGIRLS常见问题, 健身写真FAQ, 棚拍问答"
+    }
+  },
+  "/magazine": {
+    "ko": {
+      "title": "핏걸즈 매거진 | 피토리얼리스트 화보 콘텐츠",
+      "desc": "핏걸즈 피토리얼리스트 매거진. 바디프로필 화보, 패션 에디토리얼, 웰니스 콘텐츠를 만나보세요.",
+      "keywords": "핏걸즈 매거진, 피토리얼리스트, 바디프로필 화보, 패션 에디토리얼"
+    },
+    "en": {
+      "title": "FITGIRLS Magazine | Fitorialist Editorial Content",
+      "desc": "Explore FITGIRLS Fitorialist magazine — body profile editorials, fashion features and wellness stories.",
+      "keywords": "FITGIRLS Magazine, Fitorialist, Body Profile Editorial"
+    },
+    "ja": {
+      "title": "FITGIRLSマガジン | フィトリアリスト撮影コンテンツ",
+      "desc": "FITGIRLSのフィトリアリストマガジン。ボディプロフィール画報・ファッション・ウェルネスコンテンツ。",
+      "keywords": "FITGIRLSマガジン, フィトリアリスト, ボディプロフィール画報"
+    },
+    "zh": {
+      "title": "FITGIRLS杂志 | Fitorialist健身写真时尚内容",
+      "desc": "浏览FITGIRLS Fitorialist杂志，尽享健身写真时尚大片与生活美学内容。",
+      "keywords": "FITGIRLS杂志, Fitorialist, 健身写真大片"
+    }
+  },
+  "/partners": {
+    "ko": {
+      "title": "핏걸즈 파트너 제휴 | 공식 협력 브랜드 안내",
+      "desc": "핏걸즈 & 이너핏의 공식 제휴 브랜드 및 파트너사 소개. 헤어, 메이크업, 의상 파트너 혜택 안내.",
+      "keywords": "핏걸즈 파트너, 이너핏 제휴, 바디프로필 제휴 브랜드"
+    },
+    "en": {
+      "title": "FITGIRLS Partners | Official Brand Collaborations",
+      "desc": "Meet FITGIRLS & INAFIT official partner brands in hair, makeup, fashion and wellness.",
+      "keywords": "FITGIRLS Partners, Official Collaborations, Studio Brand Partners"
+    },
+    "ja": {
+      "title": "FITGIRLSパートナー | 公式コラボレーションブランド案内",
+      "desc": "FITGIRLS & INAFITの公式パートナーブランドをご紹介。ヘア・メイク・ファッション各分野の提携情報。",
+      "keywords": "FITGIRLSパートナー, 公式コラボ, スタジオ提携ブランド"
+    },
+    "zh": {
+      "title": "FITGIRLS合作伙伴 | 官方品牌联名合作",
+      "desc": "了解FITGIRLS & INAFIT官方合作品牌，涵盖发型、化妆、时尚及健康领域。",
+      "keywords": "FITGIRLS合作伙伴, 官方联名, 棚拍合作品牌"
+    }
+  },
+  "/global-booking": {
+    "ko": {
+      "title": "핏걸즈 글로벌 예약 | 외국인 고객 전용 바디프로필 예약",
+      "desc": "핏걸즈 외국인 고객 전용 글로벌 예약 페이지. 영어·일본어·중국어 안내 제공.",
+      "keywords": "핏걸즈 외국인 예약, 글로벌 예약, 서울 스튜디오 외국인"
+    },
+    "en": {
+      "title": "FITGIRLS Global Booking | International Client Reservation",
+      "desc": "Book your body profile photoshoot at FITGIRLS in English, Japanese, or Chinese. Full multilingual support.",
+      "keywords": "FITGIRLS English Booking, International Body Profile, Seoul Studio Foreigner"
+    },
+    "ja": {
+      "title": "FITGIRLSグローバル予約 | 外国人向けボディプロフィール予約",
+      "desc": "日本語対応のFITGIRLSボディプロフィール撮影をご予約いただけます。完全多言語サポート。",
+      "keywords": "FITGIRLS日本語予約, 外国人向けスタジオ, 韓国ボディプロフィール予約"
+    },
+    "zh": {
+      "title": "FITGIRLS国际预约 | 外籍客户专属健身写真预订",
+      "desc": "提供中文服务的FITGIRLS健身写真棚拍预约，全程多语言支持。",
+      "keywords": "FITGIRLS中文预约, 外籍客户棚拍, 首尔写真国际预订"
+    }
+  }
+}
