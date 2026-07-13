@@ -535,6 +535,12 @@ function App() {
           <Route path="/ja/studio" element={<Navigate to="/ja/studios" replace />} />
           <Route path="/zh/studio" element={<Navigate to="/zh/studios" replace />} />
 
+          {/* /price 진입 시 /service로 redirect */}
+          <Route path="/price" element={<Navigate to="/service" replace />} />
+          <Route path="/en/price" element={<Navigate to="/en/service" replace />} />
+          <Route path="/ja/price" element={<Navigate to="/ja/service" replace />} />
+          <Route path="/zh/price" element={<Navigate to="/zh/service" replace />} />
+
           {/* 404 Catch-All */}
           <Route path="*" element={<NotFound />} />
         </Routes>
