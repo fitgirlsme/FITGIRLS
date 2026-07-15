@@ -232,14 +232,35 @@ const ChecklistAdminTab = () => {
                         <td style={{ padding: '14px 8px' }}>{item.date}</td>
                         <td style={{ padding: '14px 8px', color: '#666', fontSize: '0.85rem' }}>{formatDate(item.createdAt)}</td>
                         <td style={{ padding: '14px 8px', textAlign: 'center' }}>
-                          <button 
-                            onClick={(e) => handleDelete(item.id, e)}
-                            style={{ background: 'none', border: 'none', color: '#999', cursor: 'pointer', padding: '4px' }}
-                            onMouseEnter={(e) => e.currentTarget.style.color = '#ff1e27'}
-                            onMouseLeave={(e) => e.currentTarget.style.color = '#999'}
-                          >
-                            <MdDelete size={18} />
-                          </button>
+                          <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', alignItems: 'center' }}>
+                            <button 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleSendAlimtalk(item);
+                              }}
+                              style={{ 
+                                background: '#ffeb3b', 
+                                border: '1px solid #fbc02d', 
+                                color: '#333', 
+                                padding: '4px 8px', 
+                                borderRadius: '4px', 
+                                fontSize: '0.75rem', 
+                                fontWeight: 'bold', 
+                                cursor: 'pointer' 
+                              }}
+                              className="admin-print-btn-no-print"
+                            >
+                              알림톡
+                            </button>
+                            <button 
+                              onClick={(e) => handleDelete(item.id, e)}
+                              style={{ background: 'none', border: 'none', color: '#999', cursor: 'pointer', padding: '4px' }}
+                              onMouseEnter={(e) => e.currentTarget.style.color = '#ff1e27'}
+                              onMouseLeave={(e) => e.currentTarget.style.color = '#999'}
+                            >
+                              <MdDelete size={18} />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );
