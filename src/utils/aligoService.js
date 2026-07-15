@@ -70,7 +70,7 @@ export const sendAlimtalk = async (receiver, templateCode, message, options = {}
  * Template Helper: Generates message and options for specific templates
  */
 export const getAlimtalkTemplate = (type, params) => {
-    const { name, phone, projectTitle, link, feedback, date } = params;
+    const { name, phone, projectTitle, link, feedback, date, concept, id } = params;
     const cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
     const phoneLast4 = cleanPhone ? cleanPhone.slice(-4) : '0000';
     
