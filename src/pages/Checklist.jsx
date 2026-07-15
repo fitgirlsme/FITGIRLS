@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { db } from '../utils/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { MdCheckCircle } from 'react-icons/md';
-import { sendAlimtalk } from '../utils/aligoService';
+import { sendAlimtalk, getAlimtalkTemplate } from '../utils/aligoService';
 import './Checklist.css';
 
 const CONCEPT_OPTIONS = [
@@ -298,12 +298,19 @@ const Checklist = () => {
 
       // Send Kakao Alimtalk to client
       try {
-        await sendAlimtalk(phone.trim(), 'UJ_2731', '', {
+        const template = getAlimtalkTemplate('UJ_2731', {
           name: name.trim(),
           date: date,
           concept: selectedConcept || '미지정',
           id: docRef.id
         });
+        if (template) {
+          await sendAlimtalk(phone.trim(), template.code, template.message, {
+            title: template.title,
+            subtitle: template.subtitle,
+            button: template.button
+          });
+        }
       } catch (alimtalkErr) {
         console.error('Failed to send checklist confirmation alimtalk:', alimtalkErr);
       }

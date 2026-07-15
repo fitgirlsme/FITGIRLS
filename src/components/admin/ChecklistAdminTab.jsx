@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../../utils/firebase';
 import { collection, getDocs, deleteDoc, doc, query, orderBy, updateDoc } from 'firebase/firestore';
 import { MdDelete, MdClose, MdAssignment } from 'react-icons/md';
+import { getAlimtalkTemplate, sendAlimtalk } from '../../utils/aligoService';
 
 const ChecklistAdminTab = () => {
   const [checklists, setChecklists] = useState([]);
@@ -82,6 +83,47 @@ const ChecklistAdminTab = () => {
   const emphasis = selectedItem?.emphasis || (selectedItem?.concepts && selectedItem?.concepts[0]?.emphasis) || selectedItem?.emphasisPart;
   const burden = selectedItem?.burden || (selectedItem?.concepts && selectedItem?.concepts[0]?.burden) || selectedItem?.burdenPose;
   const burdenText = selectedItem?.burdenText || (selectedItem?.concepts && selectedItem?.concepts[0]?.burdenText) || selectedItem?.burdenPoseText;
+
+  const handleSendAlimtalk = async (item) => {
+    if (!item) return;
+    const { name, phone, date, concept, id } = item;
+    if (!phone) {
+      alert("연락처 정보가 없어 알림톡을 발송할 수 없습니다.");
+      return;
+    }
+
+    try {
+      const template = getAlimtalkTemplate('UJ_2731', {
+        name: name.trim(),
+        phone: phone.trim(),
+        date: date,
+        concept: concept || '미지정',
+        id: id
+      });
+
+      if (!template) {
+        alert("알림톡 템플릿을 생성할 수 없습니다.");
+        return;
+      }
+
+      if (window.confirm(`[알림톡 재발송 확인]\n\n수신자: ${name} (${phone})\n\n이 내용으로 알림톡을 발송하시겠습니까?`)) {
+        const res = await sendAlimtalk(phone.trim(), template.code, template.message, {
+          title: template.title,
+          subtitle: template.subtitle,
+          button: template.button
+        });
+
+        if (res.success) {
+          alert('알림톡 전송 완료');
+        } else {
+          alert(`알림톡 발송 실패: ${res.error || '알 수 없는 오류'}`);
+        }
+      }
+    } catch (err) {
+      console.error('Alimtalk resend error:', err);
+      alert(`알림톡 전송 중 오류가 발생했습니다: ${err.message}`);
+    }
+  };
 
   const handlePrint = (e) => {
     e.preventDefault();
@@ -255,6 +297,26 @@ const ChecklistAdminTab = () => {
                   className="admin-print-btn-no-print"
                 >
                   🖨️ 인쇄
+                </button>
+                <button
+                  onClick={() => handleSendAlimtalk(selectedItem)}
+                  style={{
+                    background: '#ffeb3b',
+                    border: '1px solid #fbc02d',
+                    color: '#333',
+                    padding: '6px 12px',
+                    borderRadius: '6px',
+                    fontSize: '0.8rem',
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    transition: 'all 0.2s'
+                  }}
+                  className="admin-print-btn-no-print"
+                >
+                  💬 알림톡
                 </button>
                 <button 
                   onClick={() => setSelectedItem(null)} 
