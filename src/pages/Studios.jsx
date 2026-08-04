@@ -10,6 +10,33 @@ import { db } from '../utils/firebase';
 import { collection, getDocs, orderBy, query, limit } from 'firebase/firestore';
 import './Studios.css';
 
+const bookingSteps = {
+    ko: [
+        { step: '1단계', title: '예약 신청 및 확정', desc: '실시간 예약하기 링크나 카카오톡 상담을 통해 일정 조율 및 예약금 결제' },
+        { step: '2단계', title: '스타일링 설문 작성', desc: '핏걸즈 전담 디렉터가 제공하는 무드/의상 컨셉 설문 조사 작성 및 상담' },
+        { step: '3단계', title: '촬영일 방문 & 촬영', desc: '헤어/메이크업(선택 패키지 시) 및 수십 벌의 무료 의상 피팅 후 촬영 진행' },
+        { step: '4단계', title: '원본 수령 및 셀렉', desc: '촬영 직후 원본 전체 수령 후, 보정할 컷을 셀렉하여 보정 요청 등록' }
+    ],
+    en: [
+        { step: 'Step 1', title: 'Request & Confirm Booking', desc: 'Coordinate schedules and make a deposit via global reservation or WhatsApp.' },
+        { step: 'Step 2', title: 'Concept Survey', desc: 'Fill out the styling & mood preference survey provided by our art director.' },
+        { step: 'Step 3', title: 'Photoshoot & Rental', desc: 'Visit our Gangnam studio, select from 80+ backdrops and free outfits, and shoot.' },
+        { step: 'Step 4', title: 'Photo Selection', desc: 'Receive all raw files, select your favorite cuts, and request final retouching.' }
+    ],
+    ja: [
+        { step: 'Step 1', title: '予約申請と確定', desc: '予約ページまたはLINE公式アカウントよりスケジュール調整後、予約金の支払い。' },
+        { step: 'Step 2', title: 'コンセプトアンケート', desc: 'アートディレクターが提供するスタイリングおよびムードの事前アンケートの作成。' },
+        { step: 'Step 3', title: '撮影当日の訪問と撮影', desc: '無料レンタル衣装や背景コンセプト（80種類以上）を選び、ポージング指導付きで撮影。' },
+        { step: 'Step 4', title: '写真セレクト＆レタッチ', desc: '撮影後、全オリジナルデータを受領。レタッチカットを選択しレタッチ申請。' }
+    ],
+    zh: [
+        { step: '第一步', title: '预约申请与确认', desc: '通过在线预约或微信客服沟通档期并支付预约金进行预订。' },
+        { step: '第二步', title: '填写造型问卷', desc: '填写由艺术总监提供的个人风格与拍摄主题偏好问卷并进行沟通。' },
+        { step: '第三步', title: '到店拍摄与免费租借', desc: '到店进行发型化妆，挑选数几十套免费服装，在80多个场景进行拍摄。' },
+        { step: '第四步', title: '选片与精修', desc: '拍摄后收到全部原片，挑选需要精修的照片并提交精修申请。' }
+    ]
+};
+
 const Studios = ({ changeLanguage, currentLang }) => {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
@@ -210,7 +237,7 @@ const Studios = ({ changeLanguage, currentLang }) => {
                 <div className="purpose-wrapper">
                     <h5>{t('studios.purpose_title')}</h5>
                     <div className="purpose-tags">
-                        {['첫 바디프로필', '바프 뚝딱이 탈출', '운동 기록', '다이어트 성공 기념', '생일 & 버킷리스트', '웨딩 전 소장용 화보', '커플·우정 바프', '일반인 라이트 화보', '40대·50대 시니어 바프'].map((pt, pIdx) => (
+                        {(t('studios.purpose_chips', { returnObjects: true }) || []).map((pt, pIdx) => (
                             <span key={pIdx} className="purpose-chip">{pt}</span>
                         ))}
                     </div>
@@ -409,7 +436,7 @@ const Studios = ({ changeLanguage, currentLang }) => {
 
                                 <div className="studios-lookbook-actions">
                                     <a 
-                                        href="https://fitgirls.me/lookbook" 
+                                        href={currentLang && currentLang !== 'ko' ? `/${currentLang}/lookbook` : '/lookbook'} 
                                         target="_blank" 
                                         rel="noopener noreferrer" 
                                         className="studios-lookbook-btn"
@@ -607,10 +634,55 @@ const Studios = ({ changeLanguage, currentLang }) => {
                         <ul className="location-details">
                             <li><strong>{t('studios.loc_sub')}</strong> {t('studios.loc_sub_desc')}</li>
                             <li><strong>{t('studios.loc_ap')}</strong> {t('studios.loc_ap_desc')}</li>
-                            <li><strong>{t('studios.loc_parking')}</strong> {t('studios.loc_parking_desc')}</li>
-                            <li><strong>{t('studios.loc_price')}</strong> {t('location.parking_price')}</li>
                             <li><strong>{t('studios.loc_lost')}</strong> {t('studios.loc_lost_desc')}</li>
                         </ul>
+
+                        <div className="parking-alert-box" style={{
+                            marginTop: '20px',
+                            padding: '16px 20px',
+                            background: 'rgba(255, 0, 60, 0.08)',
+                            border: '1px dashed #FF003C',
+                            borderRadius: '10px',
+                            color: '#e5e5e5',
+                            fontSize: '0.92rem',
+                            lineHeight: '1.6'
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                <span style={{ fontSize: '1.2rem' }}>🚗</span>
+                                <strong style={{ color: '#FF003C', fontSize: '1rem' }}>
+                                    {currentLang === 'en' ? 'Parking Guide (Not Available inside building)' : 
+                                     currentLang === 'ja' ? '駐車場のご案内（ビル内駐車不可）' :
+                                     currentLang === 'zh' ? '停车指南（大楼内无法停车）' : '자가용 및 주차 안내 (건물 내 주차 불가)'}
+                                </strong>
+                            </div>
+                            <p style={{ margin: '0 0 10px 0', color: '#ccc', wordBreak: 'keep-all', lineHeight: '1.7' }}>
+                                {currentLang && currentLang !== 'ko' ? (
+                                    t('studios.loc_parking_desc', '본 스튜디오 건물(아티움빌딩)은 주차가 불가합니다. 자가용 이용 시 인근의 \'두원빌딩 유료주차장\'(서울특별시 강남구 강남대로 636 두원빌딩, 도보 2분 거리)을 이용해주시기 바랍니다.')
+                                ) : (
+                                    <>
+                                        본 스튜디오 건물(아티움빌딩)은 주차가 불가합니다. 자가용 이용 시 인근의 <strong style={{ color: '#FF003C', fontSize: '1.02rem', textDecoration: 'underline', textUnderlineOffset: '4px', fontWeight: 'bold' }}>'두원빌딩 유료주차장'</strong>(서울특별시 강남구 강남대로 636 두원빌딩, 도보 2분 거리)을 이용해주시기 바랍니다.
+                                    </>
+                                )}
+                            </p>
+                            <div style={{ 
+                                padding: '8px 12px', 
+                                background: 'rgba(255, 255, 255, 0.05)', 
+                                borderRadius: '6px',
+                                borderLeft: '3px solid #FF003C',
+                                display: 'inline-block',
+                                width: '100%',
+                                boxSizing: 'border-box'
+                            }}>
+                                <strong style={{ color: '#ffffff', marginRight: '8px' }}>
+                                    {currentLang === 'en' ? 'Parking Fee:' : 
+                                     currentLang === 'ja' ? '駐車料金:' :
+                                     currentLang === 'zh' ? '停车费用:' : '주차 요금 정보:'}
+                                </strong>
+                                <span style={{ color: '#FF003C', fontWeight: 'bold', fontSize: '0.98rem' }}>
+                                    {t('location.parking_price', '60분 3,000원 / 120분 6,000원 / 240분 9,000원')}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div className="location-map-wrap" style={{ position: 'relative', overflow: 'hidden' }}>
                         <iframe 
@@ -631,6 +703,127 @@ const Studios = ({ changeLanguage, currentLang }) => {
                             🟢 {t('studios.loc_naver_map', '네이버 지도로 길찾기')} →
                         </a>
                     </div>
+                </div>
+            </section>
+
+            {/* 10. RESERVATION GUIDE SECTION [NEW] */}
+            <section className="studios-section studios-booking-guide-section">
+                <div className="studios-section-header">
+                    <span className="studios-section-number">Why 12</span>
+                    <h2 className="studios-section-title">
+                        {currentLang === 'en' ? 'Easy Booking & Shoot Process' : 
+                         currentLang === 'ja' ? '簡単な予約と撮影プロセス' :
+                         currentLang === 'zh' ? '简单便捷的预约与拍摄流程' : '간편한 예약 방법 및 촬영 진행 단계'}
+                    </h2>
+                    <p className="studios-section-desc">
+                        {currentLang === 'en' ? 'Follow these simple steps from scheduling to receiving your premium photos.' : 
+                         currentLang === 'ja' ? '予約から撮影、最終レタッチ本受領までの流れをわかりやすく説明します。' :
+                         currentLang === 'zh' ? '从预订、沟通、拍摄到最终精修照片收取的完整步骤说明。' : '예약부터 촬영, 그리고 최종 보정본 수령까지의 간결한 흐름을 정리해 드립니다.'}
+                    </p>
+                </div>
+
+                <div className="booking-table-wrapper">
+                    <table className="booking-process-table">
+                        <thead>
+                            <tr>
+                                <th>{currentLang === 'en' ? 'Step' : currentLang === 'ja' ? '段階' : currentLang === 'zh' ? '步骤' : '진행 단계'}</th>
+                                <th>{currentLang === 'en' ? 'Process Name' : currentLang === 'ja' ? 'プロセス名' : currentLang === 'zh' ? '流程名称' : '예약/촬영 절차'}</th>
+                                <th>{currentLang === 'en' ? 'Details' : currentLang === 'ja' ? '詳細説明' : currentLang === 'zh' ? '详细说明' : '상세 진행 내용'}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {(bookingSteps[currentLang] || bookingSteps.ko).map((item, idx) => (
+                                <tr key={idx}>
+                                    <td className="step-col">
+                                        <span className="step-badge">{item.step}</span>
+                                    </td>
+                                    <td className="title-col"><strong>{item.title}</strong></td>
+                                    <td className="desc-col">
+                                        {item.desc}
+                                        {idx === 1 && (
+                                            <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                                <div>
+                                                    <a 
+                                                        href="/checklist" 
+                                                        target="_blank" 
+                                                        rel="noopener noreferrer" 
+                                                        style={{ 
+                                                            color: '#FF003C', 
+                                                            textDecoration: 'underline', 
+                                                            fontWeight: 'bold',
+                                                            display: 'inline-block'
+                                                        }}
+                                                    >
+                                                        {currentLang === 'en' ? '👉 Go to Styling Survey' : 
+                                                         currentLang === 'ja' ? '👉 スタイル調査表へ' :
+                                                         currentLang === 'zh' ? '👉 前往填写造型问卷' : '👉 스타일링 설문 작성하기'}
+                                                    </a>
+                                                </div>
+                                                <div>
+                                                    <a 
+                                                        href="https://script.google.com/macros/s/AKfycbya6YpPKoWUYZfcDGP8C-W1zKwvpkAeGHETSGfx0pbK6RtI-WTxhV0Po3T3O54pHNgvsA/exec"
+                                                        target="_blank" 
+                                                        rel="noopener noreferrer" 
+                                                        style={{ 
+                                                            color: '#00E676', 
+                                                            textDecoration: 'underline', 
+                                                            fontWeight: 'bold',
+                                                            display: 'inline-block'
+                                                        }}
+                                                    >
+                                                        {currentLang === 'en' ? '👉 Upload Moodboard/Outfits (approx. 2 weeks before shoot)' : 
+                                                         currentLang === 'ja' ? '👉 撮影イメージのアップロード（撮影の2週間前までに）' :
+                                                         currentLang === 'zh' ? '👉 上传拍摄意向图（请于拍摄前2周左右上传）' : '👉 촬영 시안 및 의상 업로드 (촬영 2주 전 권장)'}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div className="booking-deposit-info">
+                    <div className="booking-deposit-title">
+                        💳 {currentLang === 'en' ? 'Deposit Information' : 
+                            currentLang === 'ja' ? '予約金入金のご案内' :
+                            currentLang === 'zh' ? '预约金支付说明' : '예약금 입금 안내'}
+                    </div>
+                    <div className="booking-deposit-details">
+                        <div className="booking-deposit-amount">
+                            {currentLang === 'en' ? 'Deposit Amount: ' : 
+                             currentLang === 'ja' ? '予約金額: ' :
+                             currentLang === 'zh' ? '预约金额: ' : '입금액: '}
+                            <strong>
+                                {currentLang === 'en' ? '90,000 KRW' : 
+                                 currentLang === 'ja' ? '90,000 KRW' :
+                                 currentLang === 'zh' ? '90,000 KRW' : '90,000원'}
+                            </strong>
+                        </div>
+                        <div className="booking-deposit-account">
+                            {currentLang === 'en' ? 'Woori Bank / 010-4696-1434 / Chulmin Shin(Fitgirls)' : 
+                             currentLang === 'ja' ? 'ウリ銀行 / 010-4696-1434 / チョルミン・シン(Fitgirls)' :
+                             currentLang === 'zh' ? '友利银行 / 010-4696-1434 / 申哲民(핏걸즈)' : '우리은행 / 010.4696.1434 / 신철민(핏걸즈)'}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="booking-guide-actions" style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
+                    <button 
+                        className="btn-primary" 
+                        onClick={() => {
+                            if (currentLang === 'en' || currentLang === 'ja' || currentLang === 'zh') {
+                                navigate('/global-booking');
+                            } else {
+                                window.open('https://naver.me/GWeuhE37', '_blank', 'noopener,noreferrer');
+                            }
+                        }}
+                        style={{ padding: '16px 36px', fontSize: '1.05rem' }}
+                    >
+                        📅 {currentLang === 'en' ? 'Book Online Now' : currentLang === 'ja' ? 'オンライン予約' : currentLang === 'zh' ? '立即在线预约' : '실시간 예약하기'}
+                    </button>
                 </div>
             </section>
 

@@ -1,0 +1,797 @@
+/* Self.css - NEVERLAND SELF 스튜디오 전용 스타일시트 */
+
+.self-brand-container {
+    background: #080808;
+    color: #f5f5f5;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    min-height: 100vh;
+    padding-top: 80px; /* 헤더 높이 확보 */
+    overflow-x: hidden;
+    line-height: 1.65;
+}
+
+/* ────────────────────────────────────────────────────────
+   1. HERO SECTION
+   ──────────────────────────────────────────────────────── */
+.self-hero {
+    position: relative;
+    padding: 120px 24px 80px;
+    text-align: center;
+    background: radial-gradient(circle at center, rgba(0, 230, 118, 0.08) 0%, transparent 70%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.self-hero-badge {
+    background: rgba(0, 230, 118, 0.1);
+    color: #00E676;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    padding: 8px 18px;
+    border-radius: 50px;
+    display: inline-block;
+    margin-bottom: 24px;
+    border: 1px solid rgba(0, 230, 118, 0.2);
+    text-transform: uppercase;
+}
+
+.self-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 24px;
+    color: #ffffff;
+    word-break: keep-all;
+}
+
+.self-hero-desc {
+    font-size: 1.15rem;
+    color: #b3b3b3;
+    max-width: 720px;
+    margin: 0 auto 40px;
+    word-break: keep-all;
+}
+
+.self-hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ────────────────────────────────────────────────────────
+   2. COMMON SECTION LAYOUT
+   ──────────────────────────────────────────────────────── */
+.self-section {
+    padding: 100px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.self-section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.self-section-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: #00E676;
+    display: block;
+    margin-bottom: 8px;
+    font-style: italic;
+}
+
+.self-section-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+}
+
+.self-section-desc {
+    color: #a0a0a0;
+    max-width: 650px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+}
+
+/* ────────────────────────────────────────────────────────
+   3. ARCHIVE GRID (갤러리)
+   ──────────────────────────────────────────────────────── */
+.self-archive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+}
+
+.self-archive-photo-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background: #151515;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.self-archive-photo-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 230, 118, 0.3);
+    box-shadow: 0 8px 30px rgba(0, 230, 118, 0.15);
+}
+
+.self-archive-photo-img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+}
+
+.self-archive-photo-card:hover .self-archive-photo-img {
+    transform: scale(1.05);
+}
+
+.self-archive-photo-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.self-archive-photo-card:hover .self-archive-photo-overlay {
+    opacity: 1;
+}
+
+.self-archive-photo-tag {
+    color: #00E676;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.self-archive-photo-click {
+    color: #ffffff;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+}
+
+/* ────────────────────────────────────────────────────────
+   4. PRICE & OPTIONS LAYOUT
+   ──────────────────────────────────────────────────────── */
+.self-faq-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 48px;
+}
+
+.self-faq-tab-btn {
+    background: rgba(255, 255, 255, 0.05);
+    color: #a0a0a0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.self-faq-tab-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.self-faq-tab-btn.active {
+    background: #00E676;
+    color: #000000;
+    border-color: #00E676;
+    box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
+}
+
+.self-price-grid-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    margin-top: 40px;
+}
+
+.self-price-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 48px 40px;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.self-price-card.service-card {
+    border-color: rgba(255, 0, 60, 0.25);
+    background: linear-gradient(145deg, rgba(255, 0, 60, 0.02) 0%, rgba(255, 255, 255, 0.01) 100%);
+    box-shadow: 0 10px 40px rgba(255, 0, 60, 0.04);
+}
+
+.self-price-card.options-card {
+    border-color: rgba(0, 230, 118, 0.25);
+    background: linear-gradient(145deg, rgba(0, 230, 118, 0.02) 0%, rgba(255, 255, 255, 0.01) 100%);
+    box-shadow: 0 10px 40px rgba(0, 230, 118, 0.04);
+}
+
+.self-price-card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+}
+
+.self-price-card.service-card .self-price-card-title {
+    color: #FF003C;
+}
+
+.self-price-card.options-card .self-price-card-title {
+    color: #00E676;
+}
+
+.self-price-amount {
+    font-size: 2.6rem;
+    font-weight: 850;
+    color: #FF003C;
+    margin-bottom: 32px;
+}
+
+.self-price-amount span {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #a0a0a0;
+    margin-left: 4px;
+}
+
+.self-price-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.self-price-features li {
+    font-size: 1.02rem;
+    color: #d2d2d2;
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.self-price-features li .feature-check {
+    color: #FF003C;
+    font-weight: 900;
+    font-size: 1.1rem;
+}
+
+.self-price-card.options-card .self-price-features li .feature-check {
+    color: #00E676;
+}
+
+.self-price-notes-box {
+    margin-top: 48px;
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px dashed rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 32px;
+}
+
+.self-price-notes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+}
+
+.note-item {
+    font-size: 0.92rem;
+    color: #a0a0a0;
+    line-height: 1.6;
+    word-break: keep-all;
+}
+
+/* ────────────────────────────────────────────────────────
+   5. FAQ ACCORDION
+   ──────────────────────────────────────────────────────── */
+.self-faq-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.self-faq-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.self-faq-card.is-open {
+    border-color: rgba(0, 230, 118, 0.2);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.self-faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    user-select: none;
+}
+
+.self-faq-toggle-icon {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+    color: #808080;
+}
+
+.self-faq-card.is-open .self-faq-toggle-icon {
+    transform: rotate(180deg);
+    color: #00E676;
+}
+
+.self-faq-answer {
+    padding: 0 24px 20px;
+    color: #b3b3b3;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+    padding-top: 16px;
+}
+
+/* ────────────────────────────────────────────────────────
+   6. RESPONSIVE MEDIA QUERIES
+   ──────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .self-hero-title {
+        font-size: 2.2rem;
+    }
+    .self-hero {
+        padding: 80px 16px 60px;
+    }
+    .self-section {
+        padding: 60px 16px;
+    }
+    .self-section-title {
+        font-size: 1.8rem;
+    }
+    .self-faq-tab-btn {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+    }
+    .self-price-grid-wrapper {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .self-price-card {
+        padding: 32px 24px;
+    }
+}
+
+/* ────────────────────────────────────────────────────────
+   7. BLOG PLAN INTEGRATED STYLES (신규 기획 레이아웃)
+   ──────────────────────────────────────────────────────── */
+.self-intro-section {
+    padding: 80px 24px;
+    background: #0a0a0a;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.self-intro-box {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.self-intro-subtitle {
+    font-size: 1.1rem;
+    color: #00E676;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.self-intro-title {
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.55;
+    margin-bottom: 24px;
+    word-break: keep-all;
+}
+
+.self-intro-divider {
+    width: 60px;
+    height: 2px;
+    background: #FF003C;
+    margin: 0 auto 24px;
+}
+
+.self-intro-body {
+    font-size: 1.02rem;
+    color: #a0a0a0;
+    line-height: 1.8;
+    word-break: keep-all;
+}
+
+.self-recommend-targets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+}
+
+.target-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.target-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 230, 118, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 230, 118, 0.08);
+}
+
+.target-icon {
+    font-size: 1.8rem;
+    margin-bottom: 16px;
+    display: inline-block;
+}
+
+.target-card h4 {
+    font-size: 1.15rem;
+    font-weight: 650;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.target-card p {
+    font-size: 0.92rem;
+    color: #909090;
+    line-height: 1.6;
+    word-break: keep-all;
+}
+
+.self-concepts-container {
+    margin: 32px auto 48px;
+    max-width: 1000px;
+    text-align: center;
+}
+
+.concepts-header {
+    font-size: 1.05rem;
+    color: #808080;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.concepts-tags-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.concept-tag-chip {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 8px 18px;
+    border-radius: 20px;
+    color: #c0c0c0;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.concept-tag-chip:hover {
+    background: rgba(0, 230, 118, 0.08);
+    border-color: #00E676;
+    color: #00E676;
+}
+
+.self-synergy-section {
+    background: #080808;
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.synergy-courses-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+}
+
+.synergy-course-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 40px 32px;
+    text-align: left;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.synergy-course-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 0, 60, 0.2);
+    box-shadow: 0 10px 30px rgba(255, 0, 60, 0.06);
+}
+
+.course-badge {
+    display: inline-block;
+    background: rgba(255, 0, 60, 0.1);
+    color: #FF003C;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.synergy-course-card h4 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+.synergy-course-card p {
+    font-size: 0.9rem;
+    color: #909090;
+    line-height: 1.6;
+    word-break: keep-all;
+}
+
+.self-slogan-section {
+    padding: 100px 24px;
+    background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.slogan-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.slogan-text {
+    font-size: 2.2rem;
+    font-weight: 800;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    background: linear-gradient(90deg, #ffffff 0%, #888888 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.05em;
+}
+
+@media (max-width: 992px) {
+    .synergy-courses-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .self-intro-title {
+        font-size: 1.5rem;
+    }
+    .slogan-text {
+        font-size: 1.6rem;
+    }
+}
+
+/* ────────────────────────────────────────────────────────
+   9. CVR & MARKETING OPTIMIZATION STYLES
+   ──────────────────────────────────────────────────────── */
+.cta-section-btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0 0;
+}
+
+.cta-naver-booking-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #03cf5d;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 16px 36px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(3, 207, 93, 0.3);
+    border: 2px solid transparent;
+}
+
+.cta-naver-booking-btn:hover {
+    background: #02b34f;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 24px rgba(3, 207, 93, 0.45);
+}
+
+.self-event-banner-box {
+    background: linear-gradient(135deg, rgba(0, 230, 118, 0.1) 0%, rgba(3, 207, 93, 0.05) 100%);
+    border: 1px solid rgba(0, 230, 118, 0.25);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    margin-top: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.event-badge-label {
+    background: #FF003C;
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.event-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.event-desc {
+    font-size: 1.05rem;
+    color: #ccc;
+    margin-bottom: 24px;
+    line-height: 1.7;
+}
+
+.event-benefit-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+.benefit-badge {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #fff;
+    font-weight: 600;
+}
+
+.vs-comparison-table-wrapper {
+    margin-top: 40px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 30px;
+}
+
+.vs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+@media (max-width: 768px) {
+    .vs-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.vs-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.vs-card.neverland {
+    border: 1px solid rgba(0, 230, 118, 0.3);
+    background: linear-gradient(180deg, rgba(0, 230, 118, 0.05) 0%, transparent 100%);
+}
+
+.vs-header-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.vs-item-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.vs-item-list li {
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: #ccc;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.vs-item-list li span {
+    font-size: 1.1rem;
+}
+
+.reviews-score-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.score-stars {
+    color: #FFD700;
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.score-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.score-number span {
+    font-size: 1.2rem;
+    color: #888;
+    font-weight: 400;
+}
+
+.score-label {
+    font-size: 0.95rem;
+    color: #aaa;
+    margin-top: 4px;
+}
+

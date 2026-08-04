@@ -124,9 +124,9 @@
 }
 
 .studio-tab-btn.active {
-    background: var(--color-primary, #ff2d2d);
+    background: var(--color-primary);
     color: #fff;
-    border-color: var(--color-primary, #ff2d2d);
+    border-color: var(--color-primary);
     box-shadow: 0 4px 15px rgba(255, 45, 45, 0.3);
 }
 

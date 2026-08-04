@@ -37,13 +37,13 @@ import AmbassadorList from './components/AmbassadorList';
 import SModel from './pages/SModel';
 import Shop from './pages/Shop';
 import Retouch from './pages/Retouch';
-import Challenges from './pages/Challenges';
-import ChallengeDetail from './pages/ChallengeDetail';
 import { syncAll } from './utils/syncService';
 import FloatingCoupon from './components/FloatingCoupon';
 import ReservationPage from './pages/ReservationPage';
-import ChallengePromoPage from './pages/ChallengePromoPage';
 import Checklist from './pages/Checklist';
+import Self from './pages/Self';
+import Maxq from './pages/Maxq';
+import ArtistPage from './pages/ArtistPage';
 import ChecklistView from './pages/ChecklistView';
 import GlobalBooking from './pages/GlobalBooking';
 import GlobalFloatingBanner from './components/GlobalFloatingBanner';
@@ -387,7 +387,7 @@ function App() {
                       location.pathname.startsWith('/retouch') ||
                       location.pathname.startsWith('/report');
 
-  const validSections = ['gallery', 'service', 'location', 'faq', 'studios', 'reviews', 'magazine', 'partners', 'challenges', 'global-booking', 'reservation', 'challenge-promo'];
+  const validSections = ['gallery', 'archive', 'service', 'location', 'faq', 'studios', 'reviews', 'magazine', 'partners', 'global-booking', 'reservation', 'hair-makeup', 'event-board', 'lookbook', 'zone', 'self', 'maxq', 'artist'];
 
   return (
     <div className="root-layout">
@@ -452,21 +452,33 @@ function App() {
           <Route path="/partners" element={<Partners />} />
           <Route path="/smodel" element={<SModel />} />
           <Route path="/retouch" element={<Retouch changeLanguage={changeLanguage} currentLang={i18n.language} />} />
-          <Route path="/challenges" element={<Challenges />} />
-          <Route path="/challenge/:id" element={<ChallengeDetail />} />
           <Route path="/reservation" element={<ReservationPage changeLanguage={changeLanguage} currentLang={i18n.language} />} />
-          <Route path="/challenge-promo" element={<ChallengePromoPage />} />
           <Route path="/checklist" element={<Checklist />} />
           <Route path="/checklist/view" element={<ChecklistView />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/studios" element={<Studios changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/self" element={<Self changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/maxq" element={<Maxq changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/en/self" element={<Self changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/en/maxq" element={<Maxq changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/ja/self" element={<Self changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/ja/maxq" element={<Maxq changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/zh/self" element={<Self changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/zh/maxq" element={<Maxq changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/artist" element={<ArtistPage changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/en/artist" element={<ArtistPage changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/ja/artist" element={<ArtistPage changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/zh/artist" element={<ArtistPage changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/global-booking" element={<GlobalBooking />} />
 
-          {/* /studio 진입 시 /studios로 redirect */}
+          {/* /studio, /studos 진입 시 /studios로 redirect */}
           <Route path="/studio" element={<Navigate to="/studios" replace />} />
+          <Route path="/studos" element={<Navigate to="/studios" replace />} />
           <Route path="/en/studio" element={<Navigate to="/en/studios" replace />} />
           <Route path="/ja/studio" element={<Navigate to="/ja/studios" replace />} />
           <Route path="/zh/studio" element={<Navigate to="/zh/studios" replace />} />
+
+
 
           {/* /price 진입 시 /service로 redirect */}
           <Route path="/price" element={<Navigate to="/service" replace />} />

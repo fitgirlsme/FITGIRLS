@@ -64,49 +64,16 @@
     flex-wrap: wrap;
 }
 
-.btn-primary {
-    background: var(--color-primary);
-    color: #ffffff;
-    font-weight: 600;
-    padding: 14px 28px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.95rem;
-}
-
-.btn-primary:hover {
-    background: var(--color-primary-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
-}
-
-.btn-secondary {
-    background: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
-    font-weight: 600;
-    padding: 14px 28px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.95rem;
-}
-
-.btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
-}
+/* Global button classes are inherited from index.css */
 
 /* ────────────────────────────────────────────────────────
    2. COMMON SECTION LAYOUT
    ──────────────────────────────────────────────────────── */
 .studios-section {
-    padding: 100px 24px;
-    max-width: 1200px;
+    padding: var(--padding-section-y) var(--padding-section-x);
+    max-width: 100%;
     margin: 0 auto;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .studios-section-header {
@@ -1018,7 +985,7 @@
 }
 
 .studios-lookbook-btn:hover {
-    background: #d00000;
+    background: var(--color-primary-hover);
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(255, 0, 0, 0.5);
 }
@@ -1157,7 +1124,7 @@
 }
 
 .studios-zone-btn:hover {
-    background: #d00000;
+    background: var(--color-primary-hover);
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(255, 0, 0, 0.5);
 }
@@ -1416,5 +1383,182 @@
         gap: 12px;
     }
 }
+
+/* ────────────────────────────────────────────────────────
+   10. RESERVATION GUIDE SECTION
+   ──────────────────────────────────────────────────────── */
+.booking-table-wrapper {
+    max-width: 900px;
+    margin: 40px auto 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.booking-process-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.booking-process-table th, 
+.booking-process-table td {
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+}
+
+.booking-process-table th {
+    background: rgba(255, 255, 255, 0.04);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #ffffff;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.booking-process-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.booking-process-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.01);
+}
+
+.step-col {
+    width: 15%;
+}
+
+.step-badge {
+    background: rgba(255, 0, 60, 0.1);
+    color: var(--color-primary, #FF003C);
+    border: 1px solid rgba(255, 0, 60, 0.2);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.title-col {
+    width: 25%;
+    font-size: 1.05rem;
+    color: #ffffff;
+}
+
+.desc-col {
+    width: 60%;
+    font-size: 0.95rem;
+    color: #b3b3b3;
+}
+
+@media (max-width: 768px) {
+    .booking-process-table thead {
+        display: none;
+    }
+    
+    .booking-process-table tr {
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .booking-process-table tr:last-child {
+        border-bottom: none;
+    }
+    
+    .booking-process-table td {
+        padding: 6px 0;
+        width: 100% !important;
+        border: none;
+    }
+    
+    .step-badge {
+        padding: 4px 10px;
+        font-size: 0.75rem;
+    }
+    
+    .title-col {
+        font-size: 1rem;
+        margin-top: 4px;
+    }
+    
+    .desc-col {
+        font-size: 0.85rem;
+        color: #999;
+    }
+}
+
+/* 예약금 입금 안내 스타일 */
+.booking-deposit-info {
+    max-width: 900px;
+    margin: 24px auto 0;
+    background: linear-gradient(135deg, rgba(255, 0, 60, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border: 1px solid rgba(255, 0, 60, 0.2);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-sizing: border-box;
+}
+
+.booking-deposit-title {
+    color: var(--color-primary, #FF003C);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.booking-deposit-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.booking-deposit-amount {
+    font-size: 1rem;
+    color: #e5e5e5;
+}
+
+.booking-deposit-amount strong {
+    color: #ffffff;
+    font-size: 1.15rem;
+}
+
+.booking-deposit-account {
+    font-size: 1.1rem;
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 10px 20px;
+    border-radius: 8px;
+    display: inline-block;
+    margin: 8px auto 0;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 768px) {
+    .booking-deposit-info {
+        margin: 16px 16px 0;
+        padding: 20px 16px;
+    }
+    .booking-deposit-account {
+        font-size: 0.95rem;
+        padding: 8px 16px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+
 
 

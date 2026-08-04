@@ -60,8 +60,7 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
                 { label: t('nav.magazine', 'FITORIALIST+'), path: '/magazine' },
                 { label: t('nav.muses', 'AMBASSADOR'), path: '/fitorialist' },
                 { label: t('nav.ambassador', 'RECRUIT'), path: '/ambar' },
-                { label: t('nav.challenge_promo', 'CHALLENGE PROMO'), path: '/challenge-promo' },
-                { label: t('nav.challenges', 'CHALLENGE'), path: '/challenges' },
+
             ]
         },
         { label: t('nav.partners', 'Partnership'), path: '/partners' },
