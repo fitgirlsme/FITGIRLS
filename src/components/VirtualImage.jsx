@@ -14,18 +14,26 @@ const VirtualImage = ({
     style = {}, 
     loading = 'lazy',
     fetchpriority = 'auto',
-    // props below are kept for API compatibility but no longer used
+    isPriority = false,
     placeholderHeight,
-    rootMargin = '1500px', // OOM 방지를 위한 가상화 마진
+    rootMargin, 
     scrollRootSelector 
 }) => {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(isPriority);
     const containerRef = useRef(null);
     const optimizedSrc = getOptimizedImageUrl(src, width);
 
-    // iOS WebKit OOM 크래시 방지를 위한 Virtualization (가상화) 처리
+    // 모바일 환경에선 300px, 데스크톱에선 800px로 동적 가상화 마진 할당 (네트워크 병목 방지)
+    const dynamicRootMargin = rootMargin || (typeof window !== 'undefined' && window.innerWidth < 768 ? '300px' : '800px');
+
+    // iOS WebKit OOM 크래시 방지 및 가상화 처리
     useEffect(() => {
+        if (isPriority) {
+            setIsVisible(true);
+            return;
+        }
+
         const currentRef = containerRef.current;
         if (!currentRef) return;
 
@@ -34,13 +42,12 @@ const VirtualImage = ({
                 if (entry.isIntersecting) {
                     setIsVisible(true);
                 } else {
-                    // 화면에서 크게 벗어나면(rootMargin 밖) img 태그를 언마운트하여 DOM 메모리 즉각 해제
                     setIsVisible(false);
                     setIsLoaded(false);
                 }
             },
             {
-                rootMargin: rootMargin,
+                rootMargin: dynamicRootMargin,
                 threshold: 0
             }
         );
@@ -50,7 +57,10 @@ const VirtualImage = ({
         return () => {
             if (currentRef) observer.unobserve(currentRef);
         };
-    }, [rootMargin]);
+    }, [dynamicRootMargin, isPriority]);
+
+    const finalLoading = isPriority ? 'eager' : loading;
+    const finalPriority = isPriority ? 'high' : fetchpriority;
 
     return (
         <div 
@@ -82,14 +92,14 @@ const VirtualImage = ({
                     style={{
                         ...style, 
                         width: '100%', 
-                        height: '100%', // Fills the aspect-ratio container perfectly
+                        height: '100%', 
                         objectFit: 'cover',
                         display: 'block', 
                         opacity: isLoaded ? 1 : 0, 
                         transition: 'opacity 0.3s ease'
                     }}
-                    loading={loading}
-                    fetchpriority={fetchpriority}
+                    loading={finalLoading}
+                    fetchpriority={finalPriority}
                     decoding="async"
                     onLoad={() => setIsLoaded(true)}
                 />

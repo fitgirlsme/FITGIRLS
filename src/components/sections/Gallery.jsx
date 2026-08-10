@@ -872,6 +872,7 @@ const GallerySection = () => {
                                 >
                                     <VirtualImage 
                                         src={item.img} 
+                                        isPriority={originalIndex < 6}
                                         alt={(() => {
                                              const langKey = i18n.language === 'ko' ? 'ko' : i18n.language;
                                              if (item.translations && item.translations[langKey] && item.translations[langKey].length > 0) {
