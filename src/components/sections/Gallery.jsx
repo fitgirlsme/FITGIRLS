@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
@@ -78,7 +78,6 @@ const GallerySection = () => {
         const saved = localStorage.getItem('adminHashtags');
         return saved ? JSON.parse(saved) : ['#바디프로필', '#이너핏'];
     });
-    const [allTagsCloud, setAllTagsCloud] = useState([]);
     const [visibleCount, setVisibleCount] = useState(30);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [errorLog, setErrorLog] = useState(null);
@@ -326,13 +325,13 @@ const GallerySection = () => {
         loadItems();
     }, []);
 
-    // allItems 로드 후 태그 클라우드 구축
-    useEffect(() => {
+    // allItems 로드 후 태그 클라우드 구축 (메모이제이션 적용)
+    const allTagsCloud = useMemo(() => {
         const tagSet = new Set();
         allItems.forEach(item => {
             if (item.tags) item.tags.forEach(tag => tagSet.add(tag));
         });
-        setAllTagsCloud(Array.from(tagSet));
+        return Array.from(tagSet);
     }, [allItems]);
 
     // 자동완성 태그 풀 (localStorage 저장 태그 + Firebase 태그 병합)
@@ -371,24 +370,28 @@ const GallerySection = () => {
         return () => observer.disconnect();
     }, [viewMode]);
 
-    // 최종 렌더링 아이템 결정
-    const filteredGallery = allItems.filter(item => {
-        const matchMain = item.mainCategory === mainCategory || (!item.mainCategory && mainCategory === 'fitorialist');
-        const matchSub = item.type === subCategory;
-        const matchTag = activeTag === 'ALL' || (item.tags && item.tags.some(tag =>
-            tag.replace('#', '').toUpperCase() === activeTag.toUpperCase()
-        ));
-        return matchMain && matchSub && matchTag;
-    }).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    // 최종 렌더링 아이템 결정 (메모이제이션 적용)
+    const filteredGallery = useMemo(() => {
+        return allItems.filter(item => {
+            const matchMain = item.mainCategory === mainCategory || (!item.mainCategory && mainCategory === 'fitorialist');
+            const matchSub = item.type === subCategory;
+            const matchTag = activeTag === 'ALL' || (item.tags && item.tags.some(tag =>
+                tag.replace('#', '').toUpperCase() === activeTag.toUpperCase()
+            ));
+            return matchMain && matchSub && matchTag;
+        }).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    }, [allItems, mainCategory, subCategory, activeTag]);
 
 
 
-    const searchFiltered = searchQuery.trim() ? allItems.filter(item => {
-        const q = searchQuery.replace('#', '').toLowerCase().trim();
-        const matchTags = item.tags && item.tags.some(tag => tag.replace('#', '').toLowerCase().includes(q));
-        const matchAiTags = item.aiTags && item.aiTags.some(tag => tag.replace('#', '').toLowerCase().includes(q));
-        return matchTags || matchAiTags;
-    }).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)) : [];
+    const searchFiltered = useMemo(() => {
+        return searchQuery.trim() ? allItems.filter(item => {
+            const q = searchQuery.replace('#', '').toLowerCase().trim();
+            const matchTags = item.tags && item.tags.some(tag => tag.replace('#', '').toLowerCase().includes(q));
+            const matchAiTags = item.aiTags && item.aiTags.some(tag => tag.replace('#', '').toLowerCase().includes(q));
+            return matchTags || matchAiTags;
+        }).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)) : [];
+    }, [allItems, searchQuery]);
 
     // AI 시맨틱 검색 결과가 있으면 그것을 최우선으로, 아니면 일반 검색, 아니면 카테고리 필터링
     const finalBaseList = semanticResults ? semanticResults : (searchQuery.trim() ? searchFiltered : filteredGallery);
@@ -417,13 +420,15 @@ const GallerySection = () => {
         setVisibleCount(initialCols * 4);
     }, [mainCategory, subCategory, activeTag, searchQuery]);
 
-    // 현재 mainCategory에 실제 존재하는 subCategory만 필터
-    const availableSubCategories = new Set(
-        allItems
-            .filter(item => item.mainCategory === mainCategory || (!item.mainCategory && mainCategory === 'fitorialist'))
-            .map(item => item.type)
-            .filter(Boolean)
-    );
+    // 현재 mainCategory에 실제 존재하는 subCategory만 필터 (메모이제이션 적용)
+    const availableSubCategories = useMemo(() => {
+        return new Set(
+            allItems
+                .filter(item => item.mainCategory === mainCategory || (!item.mainCategory && mainCategory === 'fitorialist'))
+                .map(item => item.type)
+                .filter(Boolean)
+        );
+    }, [allItems, mainCategory]);
     const visibleSubCategories = SUB_CATEGORIES.filter(sc => {
         if (mainCategory === 'fashion') {
             return FASHION_SUB_IDS.includes(sc.id);
@@ -431,20 +436,24 @@ const GallerySection = () => {
         return !FASHION_SUB_IDS.includes(sc.id) && availableSubCategories.has(sc.id);
     });
 
-    // mainCategory + subCategory로 필터된 아이템
-    const categoryFiltered = allItems.filter(item => {
-        const matchMain = item.mainCategory === mainCategory || (!item.mainCategory && mainCategory === 'fitorialist');
-        const matchSub = item.type === subCategory;
-        return matchMain && matchSub;
-    });
+    // mainCategory + subCategory로 필터된 아이템 (메모이제이션 적용)
+    const categoryFiltered = useMemo(() => {
+        return allItems.filter(item => {
+            const matchMain = item.mainCategory === mainCategory || (!item.mainCategory && mainCategory === 'fitorialist');
+            const matchSub = item.type === subCategory;
+            return matchMain && matchSub;
+        });
+    }, [allItems, mainCategory, subCategory]);
 
-    // 현재 카테고리+서브카테고리에 있는 태그 추출
-    const availableTags = new Set(
-        categoryFiltered
-            .flatMap(item => item.tags || [])
-            .map(tag => tag.replace('#', '').toUpperCase())
-            .filter(Boolean)
-    );
+    // 현재 카테고리+서브카테고리에 있는 태그 추출 (메모이제이션 적용)
+    const availableTags = useMemo(() => {
+        return new Set(
+            categoryFiltered
+                .flatMap(item => item.tags || [])
+                .map(tag => tag.replace('#', '').toUpperCase())
+                .filter(Boolean)
+        );
+    }, [categoryFiltered]);
     const dynamicTags = availableTags.size > 0 ? ['ALL', ...availableTags] : ['ALL'];
 
     // Legacy filter removed in favor of paginatedItems and searchFiltered
@@ -529,6 +538,24 @@ const GallerySection = () => {
     const showPrev = (e) => { e.stopPropagation(); setLightboxIndex(prev => prev > 0 ? prev - 1 : finalBaseList.length - 1); };
     const showNext = (e) => { e.stopPropagation(); setLightboxIndex(prev => prev < finalBaseList.length - 1 ? prev + 1 : 0); };
 
+    const categoryCounts = useMemo(() => {
+        const counts = {};
+        MAIN_CATEGORIES.forEach(cat => {
+            counts[cat.id] = allItems.filter(i => i.mainCategory === cat.id || (!i.mainCategory && cat.id === 'fitorialist')).length;
+        });
+        return counts;
+    }, [allItems]);
+
+    const categoryRepItems = useMemo(() => {
+        const reps = {};
+        MAIN_CATEGORIES.forEach(cat => {
+            reps[cat.id] = allItems
+                .filter(i => i.mainCategory === cat.id || (!i.mainCategory && cat.id === 'fitorialist'))
+                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))[0];
+        });
+        return reps;
+    }, [allItems]);
+
     return (
         <div className="gallery-full-container" ref={galleryRef}>
 
@@ -544,9 +571,7 @@ const GallerySection = () => {
                     <div className="main-selection-grid">
                         {MAIN_CATEGORIES.map(cat => {
                             // Find the newest item for this category to use as representative image
-                            const repItem = allItems
-                                .filter(i => i.mainCategory === cat.id || (!i.mainCategory && cat.id === 'fitorialist'))
-                                .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))[0];
+                            const repItem = categoryRepItems[cat.id];
 
                             return (
                                 <div
@@ -571,7 +596,7 @@ const GallerySection = () => {
                                         <div className="card-info">
                                             <span className="card-label">{t(cat.labelKey)}</span>
                                             <span className="card-count">
-                                                {allItems.filter(i => i.mainCategory === cat.id || (!i.mainCategory && cat.id === 'fitorialist')).length} photos
+                                                {categoryCounts[cat.id] || 0} photos
                                             </span>
                                         </div>
                                     </div>
