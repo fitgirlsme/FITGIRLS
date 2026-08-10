@@ -103,7 +103,7 @@ export const uploadOptimizedImage = async (file, folder = 'gallery', customOptio
     const snapshot = await uploadBytes(storageRef, compressedFile, metadata);
     const downloadURL = await getDownloadURL(snapshot.ref);
 
-    // Create and upload a 1080px thumbnail for mobile optimization
+    // Create and upload a 1080px thumbnail for tablet/desktop grid
     let thumbURL = downloadURL;
     let thumbPath = snapshot.ref.fullPath;
     try {
@@ -114,13 +114,36 @@ export const uploadOptimizedImage = async (file, folder = 'gallery', customOptio
       const thumbSnap = await uploadBytes(thumbRef, thumbFile, metadata);
       thumbURL = await getDownloadURL(thumbSnap.ref);
       thumbPath = thumbSnap.ref.fullPath;
-      console.log(`[FITGIRLS-UPLOAD] 썸네일 업로드 성공: ${(thumbFile.size/1024/1024).toFixed(2)}MB`);
+      console.log(`[FITGIRLS-UPLOAD] 1080p 썸네일 업로드 성공: ${(thumbFile.size/1024/1024).toFixed(2)}MB`);
     } catch (thumbErr) {
-      console.warn('썸네일 생성 실패, 원본 URL 사용', thumbErr);
+      console.warn('1080p 썸네일 생성 실패, 원본 URL 사용', thumbErr);
+    }
+
+    // Create and upload a 480px thumbnail for mobile grid optimization (~30KB)
+    let mobileThumbURL = thumbURL;
+    let mobileThumbPath = thumbPath;
+    try {
+      const mobileOptions = { ...options, maxWidthOrHeight: 480, initialQuality: 0.75 };
+      const mobileFile = await imageCompression(file, mobileOptions);
+      const mobileFileName = `${baseName}_480x480.${finalExt}`;
+      const mobileRef = ref(storage, `${folder}/thumbs_mobile/${mobileFileName}`);
+      const mobileSnap = await uploadBytes(mobileRef, mobileFile, metadata);
+      mobileThumbURL = await getDownloadURL(mobileSnap.ref);
+      mobileThumbPath = mobileSnap.ref.fullPath;
+      console.log(`[FITGIRLS-UPLOAD] 480p 모바일 썸네일 업로드 성공: ${(mobileFile.size/1024/1024).toFixed(2)}MB`);
+    } catch (mobileErr) {
+      console.warn('480p 썸네일 생성 실패, 1080p URL 사용', mobileErr);
     }
     
     console.log(`[FITGIRLS-UPLOAD] 원본 업로드 성공: ${(compressedFile.size/1024/1024).toFixed(2)}MB`);
-    return { url: downloadURL, path: snapshot.ref.fullPath, thumbUrl: thumbURL, thumbPath };
+    return { 
+      url: downloadURL, 
+      path: snapshot.ref.fullPath, 
+      thumbUrl: thumbURL, 
+      thumbPath,
+      mobileThumbUrl: mobileThumbURL,
+      mobileThumbPath
+    };
 
   } catch (error) {
     throw new Error(error.message || String(error));

@@ -8,6 +8,10 @@ export const getOptimizedImageUrl = (originalUrl, width = 1080) => {
 
 const VirtualImage = ({ 
     src, 
+    mobileSrc,
+    tabletSrc,
+    srcSet,
+    sizes,
     alt, 
     width = 1080, 
     className = '', 
@@ -23,6 +27,16 @@ const VirtualImage = ({
     const [isVisible, setIsVisible] = useState(isPriority);
     const containerRef = useRef(null);
     const optimizedSrc = getOptimizedImageUrl(src, width);
+
+    // HTML5 반응형 이미지 srcSet 및 sizes 생성 (480p 모바일 / 1080p 태블릿 / 1980p 원본)
+    const computedSrcSet = srcSet || (() => {
+        if (!mobileSrc && !tabletSrc) return undefined;
+        const mob = mobileSrc || tabletSrc || src;
+        const tab = tabletSrc || src;
+        return `${mob} 480w, ${tab} 1080w, ${src} 1980w`;
+    })();
+
+    const computedSizes = sizes || (computedSrcSet ? "(max-width: 768px) 48vw, (max-width: 1024px) 30vw, 22vw" : undefined);
 
     // 모바일 환경에선 300px, 데스크톱에선 800px로 동적 가상화 마진 할당 (네트워크 병목 방지)
     const dynamicRootMargin = rootMargin || (typeof window !== 'undefined' && window.innerWidth < 768 ? '300px' : '800px');
@@ -87,6 +101,8 @@ const VirtualImage = ({
             {isVisible && (
                 <img 
                     src={optimizedSrc} 
+                    srcSet={computedSrcSet}
+                    sizes={computedSizes}
                     alt={alt} 
                     className={className} 
                     style={{

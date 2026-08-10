@@ -871,7 +871,9 @@ const GallerySection = () => {
                                     onClick={() => openLightbox(originalIndex)}
                                 >
                                     <VirtualImage 
-                                        src={item.img} 
+                                        src={item.imageUrl || item.img} 
+                                        tabletSrc={item.thumbUrl || item.img}
+                                        mobileSrc={item.mobileThumbUrl || item.thumbUrl || item.img}
                                         isPriority={originalIndex < 6}
                                         alt={(() => {
                                              const langKey = i18n.language === 'ko' ? 'ko' : i18n.language;

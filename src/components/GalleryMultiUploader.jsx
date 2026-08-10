@@ -221,7 +221,7 @@ function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
       ));
 
       try {
-        const { url: optimizedUrl, path: storagePath, thumbUrl } = await uploadOptimizedImage(file, 'galleries');
+        const { url: optimizedUrl, path: storagePath, thumbUrl, mobileThumbUrl } = await uploadOptimizedImage(file, 'galleries');
 
         setUploadStatus(prev => prev.map((item, index) => 
           index === i ? { ...item, status: 'AI 태그 생성 중...' } : item
@@ -267,6 +267,7 @@ function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
           seoTags: mergedSeoTags,
           imageUrl: optimizedUrl,
           thumbUrl: thumbUrl || optimizedUrl,
+          mobileThumbUrl: mobileThumbUrl || thumbUrl || optimizedUrl,
           storagePath: storagePath,
           name: file.name,
           size: file.size,
