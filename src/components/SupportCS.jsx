@@ -33,11 +33,11 @@ const SupportCS = ({ isHidden }) => {
 
     const getIcon = () => {
         switch (language) {
-            case 'ko': return <img src="/images/kakao-ch-custom.png" alt="Kakao Channel" className="custom-cs-image kakao-scaled" />;
+            case 'ko': return <img src="/images/kakao-ch-custom.webp" alt="Kakao Channel" className="custom-cs-image kakao-scaled" />;
             case 'ja': return <SiLine size={32} />;
             case 'en': return <SiWhatsapp size={32} />;
             case 'zh': return <SiWechat size={32} />;
-            default: return <img src="/images/kakao-ch-custom.png" alt="Kakao Channel" className="custom-cs-image" />;
+            default: return <img src="/images/kakao-ch-custom.webp" alt="Kakao Channel" className="custom-cs-image" />;
         }
     };
 
@@ -66,7 +66,7 @@ const SupportCS = ({ isHidden }) => {
                 <div className="cs-modal-overlay" onClick={() => setShowWeChatQR(false)}>
                     <div className="cs-modal-content" onClick={(e) => e.stopPropagation()}>
                         <button className="cs-modal-close" onClick={() => setShowWeChatQR(false)}>&times;</button>
-                        <img src="/images/wechat-qr.jpg" alt="WeChat QR Code" className="cs-qr-image" />
+                        <img src="/images/wechat-qr.webp" alt="WeChat QR Code" className="cs-qr-image" />
                         <p className="cs-qr-text">{t('cs.wechat_qr_desc')}</p>
                     </div>
                 </div>

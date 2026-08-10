@@ -90,7 +90,7 @@ const Retouch = () => {
                 const day = parseInt(str.substring(4, 6));
                 targetDate = new Date(year, month, day);
             } else {
-                targetDate = new Date(dateStr);
+                targetDate = new Date(typeof dateStr === 'string' ? dateStr.replace(/-/g, '/') : dateStr);
             }
             if (isNaN(targetDate.getTime())) return null;
             const today = new Date();

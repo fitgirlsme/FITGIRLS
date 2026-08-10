@@ -115,12 +115,12 @@ const Self = ({ changeLanguage, currentLang }) => {
 
                 // fallback 데이터
                 const fallbackZones = [
-                    { id: 'fallback-1', img: '/images/zones/zone-10.jpg', title: 'Mooz Gray', tags: ['#클래식그레이'], isZone: true },
-                    { id: 'fallback-2', img: '/images/zones/zone-11.jpg', title: 'Mooz Beige', tags: ['#네츄럴베이지'], isZone: true },
-                    { id: 'fallback-3', img: '/images/zones/zone-12.jpg', title: 'Mooz White', tags: ['#모던화이트'], isZone: true },
-                    { id: 'fallback-4', img: '/images/zones/zone-13.jpg', title: 'Mooz Black', tags: ['#딥블랙'], isZone: true },
-                    { id: 'fallback-5', img: '/images/zones/zone-14.jpg', title: 'Mooz Mood', tags: ['#아늑한무드'], isZone: true },
-                    { id: 'fallback-6', img: '/images/zones/zone-15.jpg', title: 'Mooz Ocean', tags: ['#오션블루'], isZone: true }
+                    { id: 'fallback-1', img: '/images/zones/zone-10.webp', title: 'Mooz Gray', tags: ['#클래식그레이'], isZone: true },
+                    { id: 'fallback-2', img: '/images/zones/zone-11.webp', title: 'Mooz Beige', tags: ['#네츄럴베이지'], isZone: true },
+                    { id: 'fallback-3', img: '/images/zones/zone-12.webp', title: 'Mooz White', tags: ['#모던화이트'], isZone: true },
+                    { id: 'fallback-4', img: '/images/zones/zone-13.webp', title: 'Mooz Black', tags: ['#딥블랙'], isZone: true },
+                    { id: 'fallback-5', img: '/images/zones/zone-14.webp', title: 'Mooz Mood', tags: ['#아늑한무드'], isZone: true },
+                    { id: 'fallback-6', img: '/images/zones/zone-15.webp', title: 'Mooz Ocean', tags: ['#오션블루'], isZone: true }
                 ];
 
                 if (combined.length === 0) {
@@ -136,12 +136,12 @@ const Self = ({ changeLanguage, currentLang }) => {
             } catch (err) {
                 console.error("Failed to fetch self photos or zones", err);
                 const fallbackZones = [
-                    { id: 'fallback-1', img: '/images/zones/zone-10.jpg', title: 'Mooz Gray', tags: ['#클래식그레이'], isZone: true },
-                    { id: 'fallback-2', img: '/images/zones/zone-11.jpg', title: 'Mooz Beige', tags: ['#네츄럴베이지'], isZone: true },
-                    { id: 'fallback-3', img: '/images/zones/zone-12.jpg', title: 'Mooz White', tags: ['#모던화이트'], isZone: true },
-                    { id: 'fallback-4', img: '/images/zones/zone-13.jpg', title: 'Mooz Black', tags: ['#딥블랙'], isZone: true },
-                    { id: 'fallback-5', img: '/images/zones/zone-14.jpg', title: 'Mooz Mood', tags: ['#아늑한무드'], isZone: true },
-                    { id: 'fallback-6', img: '/images/zones/zone-15.jpg', title: 'Mooz Ocean', tags: ['#오션블루'], isZone: true }
+                    { id: 'fallback-1', img: '/images/zones/zone-10.webp', title: 'Mooz Gray', tags: ['#클래식그레이'], isZone: true },
+                    { id: 'fallback-2', img: '/images/zones/zone-11.webp', title: 'Mooz Beige', tags: ['#네츄럴베이지'], isZone: true },
+                    { id: 'fallback-3', img: '/images/zones/zone-12.webp', title: 'Mooz White', tags: ['#모던화이트'], isZone: true },
+                    { id: 'fallback-4', img: '/images/zones/zone-13.webp', title: 'Mooz Black', tags: ['#딥블랙'], isZone: true },
+                    { id: 'fallback-5', img: '/images/zones/zone-14.webp', title: 'Mooz Mood', tags: ['#아늑한무드'], isZone: true },
+                    { id: 'fallback-6', img: '/images/zones/zone-15.webp', title: 'Mooz Ocean', tags: ['#오션블루'], isZone: true }
                 ];
                 setAllPhotos(fallbackZones);
             }

@@ -1,6 +1,7 @@
 /* ===== Ambassador List Page ===== */
 .ambassador-list-page {
   min-height: 100vh;
+  min-height: 100dvh;
   background: var(--color-bg, #fff);
   color: var(--color-text, #111);
   padding: 0 0 120px; /* 푸터와의 간격 확보를 위해 패딩 유지 */
@@ -503,6 +504,7 @@
   width: 100%;
   max-width: 1440px;
   min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
   padding: 100px 60px;
 }

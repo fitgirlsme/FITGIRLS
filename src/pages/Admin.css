@@ -13,6 +13,7 @@
     width: 100%;
     max-width: 100vw;
     height: 100vh;
+    height: 100dvh;
     background-color: var(--admin-bg);
     color: var(--admin-text);
     display: flex;
@@ -192,6 +193,7 @@
     position: relative;
     background: var(--admin-bg);
     min-height: calc(100vh - 80px);
+    min-height: calc(100dvh - 80px);
 }
 
 .admin-content-area::-webkit-scrollbar {
@@ -332,6 +334,7 @@
     .admin-content-area {
         padding: 16px;
         min-height: calc(100vh - 64px);
+        min-height: calc(100dvh - 64px);
     }
     
     .admin-content h3 {
@@ -908,6 +911,7 @@
         box-shadow: none;
         border: none;
         min-height: 100vh;
+        min-height: 100dvh;
     }
     .admin-page {
         padding: 0;

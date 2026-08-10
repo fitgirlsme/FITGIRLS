@@ -1,6 +1,7 @@
 .magazine-page {
     width: 100%;
     min-height: 100vh;
+    min-height: 100dvh;
     background: #fff;
     padding-top: 80px; /* Header space */
     transition: background 0.5s ease;

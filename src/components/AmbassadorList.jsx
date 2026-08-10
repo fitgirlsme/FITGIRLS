@@ -6,6 +6,7 @@ import FadeInSection from './FadeInSection';
 import { useTranslation } from 'react-i18next';
 import Header from './Header';
 import Footer from './Footer';
+import VirtualImage from './VirtualImage';
 import './AmbassadorList.css';
 
 
@@ -324,7 +325,7 @@ const AmbassadorList = () => {
               <div className="al-card" onClick={() => handleSelect(a)}>
                 <div className="al-card-img">
                   {(a.mainImage || a.imageUrl)
-                    ? <img src={a.mainImage || a.imageUrl} alt={a.nameEn} />
+                    ? <VirtualImage src={a.mainImage || a.imageUrl} alt={a.nameEn} width={1080} />
                     : <div className="al-card-no-img">NO PHOTO</div>
                   }
                 </div>
@@ -451,16 +452,14 @@ const AmbassadorList = () => {
                                 e.stopPropagation();
                                 setZoomedIndex(idx);
                               }}
-                              className="al-masonry-img-wrapper al-double-render"
-                              style={{ 
-                                backgroundImage: `url(${img.url || img})`,
-                              }}
+                              className="al-masonry-img-wrapper"
                             >
-                              <img 
+                              <VirtualImage 
                                 src={img.url || img} 
-                                alt={`Portfolio ${idx}`} 
-                                loading={idx < 10 ? "eager" : "lazy"}
-                                decoding={idx < 10 ? "sync" : "async"}
+                                alt={`Portfolio ${idx}`}
+                                width={1080}
+                                className="al-masonry-virtual-img"
+                                scrollRootSelector=".al-modal-overlay"
                               />
                             </div>
                           </div>

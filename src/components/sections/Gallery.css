@@ -580,10 +580,15 @@
     overflow: hidden;
     break-inside: avoid;
     margin-bottom: 2px;
-    aspect-ratio: 4 / 5; /* 한눈에 들어오는 4:5 비율 고정 (인물 사진 최적) */
+    aspect-ratio: 2 / 3; /* Pre-allocate space to prevent 0px layout collapse for lazy images */
 }
 
-/* Ford Models-style Entrance Animation */
+/* Skeleton Loading Animation */
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
 .masonry-item.gallery-item-enter {
     opacity: 0;
     transform: translateY(30px);

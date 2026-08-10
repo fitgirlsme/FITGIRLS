@@ -212,7 +212,7 @@ const Magazine = () => {
                         {issues.map((issue, index) => (
                             <div key={issue.id} className="magazine-issue-card" onClick={() => handleIssueClick(issue)}>
                                 <div className="issue-cover-wrapper">
-                                    <img src={issue.coverImg} alt={issue.title} />
+                                    <img src={issue.coverImg} alt={issue.title} loading="lazy" decoding="async" />
                                 </div>
                                 <div className="issue-overlay">
                                     <div className="issue-info">
@@ -249,7 +249,7 @@ const Magazine = () => {
                         </div>
 
                         <div className="editorial-hero-section">
-                            <img src={heroPhoto} alt="" className="editorial-hero-image" loading="eager" />
+                            <img src={heroPhoto} alt="" className="editorial-hero-image" loading="eager" decoding="async" />
                         </div>
 
                         <div className="editorial-info-section">
@@ -306,6 +306,7 @@ const Magazine = () => {
                                                     src={item.imageUrl || item.img} 
                                                     alt="" 
                                                     loading={galleryPhotos.indexOf(item) < 4 ? "eager" : "lazy"}
+                                                    decoding="async"
                                                 />
                                             </div>
                                         ))}
@@ -322,6 +323,7 @@ const Magazine = () => {
                                                     src={item.imageUrl || item.img} 
                                                     alt="" 
                                                     loading={galleryPhotos.indexOf(item) < 4 ? "eager" : "lazy"}
+                                                    decoding="async"
                                                 />
                                             </div>
                                         ))}

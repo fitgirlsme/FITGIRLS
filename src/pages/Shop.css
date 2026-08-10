@@ -2,6 +2,7 @@
     padding: 140px 4% 80px;
     background: #fff;
     min-height: 100vh;
+    min-height: 100dvh;
 }
 
 .shop-header {

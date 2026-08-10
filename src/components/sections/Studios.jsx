@@ -6,7 +6,18 @@ import { db } from '../../utils/firebase';
 import './Studios.css';
 
 const Studios = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const currentLang = i18n.language || 'ko';
+
+    const getLocalizedText = (field, lang = currentLang) => {
+        if (!field) return '';
+        if (typeof field === 'string') return field;
+        if (typeof field === 'object') {
+            return field[lang] || field['ko'] || field['en'] || '';
+        }
+        return String(field);
+    };
+
     const [studios, setStudios] = useState([]);
     const [activeTab, setActiveTab] = useState('fitgirls');
 
@@ -51,10 +62,10 @@ const Studios = () => {
                                 textIndent: zone.image ? '-9999px' : '0',
                                 color: zone.image ? 'transparent' : 'inherit'
                             }}>
-                                {zone.title}
+                                {getLocalizedText(zone.title)}
                             </div>
                             <div className="zone-info">
-                                <span className="zone-name">{zone.title}</span>
+                                <span className="zone-name">{getLocalizedText(zone.title)}</span>
                                 <span className="zone-tag">Studio Zone</span>
                             </div>
                         </FadeInSection>

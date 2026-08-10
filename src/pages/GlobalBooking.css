@@ -2,6 +2,7 @@
   background-color: #0b0b0b;
   color: #ffffff;
   min-height: 100vh;
+  min-height: 100dvh;
   padding: 80px 20px;
   font-family: 'Inter', 'Outfit', -apple-system, sans-serif;
   display: flex;

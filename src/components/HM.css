@@ -2,6 +2,7 @@
   padding: 40px 0 100px;
   background-color: #ffffff;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: flex-start;
 }
@@ -154,6 +155,11 @@
 .hairmakeup-btn.kakao {
   background: #fee500;
   color: #3e1a19;
+}
+
+.hairmakeup-btn.line {
+  background: #06C755;
+  color: #ffffff;
 }
 
 .hairmakeup-btn.insta {

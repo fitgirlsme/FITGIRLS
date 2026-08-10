@@ -11,7 +11,7 @@ const Intro = () => {
                 muted 
                 loop 
                 playsInline
-                poster="/images/hero-bg2.jpg"
+                poster="/images/hero-bg2.webp"
             >
                 <source src="/images/intro-bg.mp4" type="video/mp4" />
             </video>

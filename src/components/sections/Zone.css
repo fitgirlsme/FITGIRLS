@@ -187,13 +187,7 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.4s ease, opacity 0.5s ease;
-    opacity: 0; /* Initial state before load */
-}
-
-.zone-img-wrapper img.loaded,
-.lookbook-img-wrapper img.loaded {
-    opacity: 1;
+    transition: transform 0.4s ease;
 }
 
 .zone-card:hover .zone-img-wrapper img {

@@ -24,27 +24,45 @@ export const sendAlimtalk = async (receiver, templateCode, message, options = {}
         throw new Error('Aligo configuration is missing in .env');
     }
 
-    const formData = new URLSearchParams();
-    formData.append('apikey', apikey);
-    formData.append('userid', userid);
-    formData.append('senderkey', senderkey);
-    formData.append('tpl_code', templateCode);
-    formData.append('sender', sender);
-    formData.append('receiver_1', receiver.replace(/-/g, ''));
-    formData.append('subject_1', '[FITGIRLS] 알림');
-    formData.append('message_1', message);
-
-    // Emphasis Type (강조표기형) parameters
-    if (options.title) formData.append('emtitle_1', options.title);
-    if (options.subtitle) formData.append('emsubtitle_1', options.subtitle);
-    // Subtitle is now explicitly sent for Emphasis Type templates
-
-    if (options.button) {
-        formData.append('button_1', JSON.stringify(options.button));
-    }
-
-
     try {
+        // Step 1: Generate Token
+        const tokenFormData = new URLSearchParams();
+        tokenFormData.append('apikey', apikey);
+        tokenFormData.append('userid', userid);
+
+        const tokenRes = await fetch('https://kakaoapi.aligo.in/akv10/token/create/30/s/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: tokenFormData,
+        });
+        
+        const tokenData = await tokenRes.json();
+        if (tokenData.code !== 0 && tokenData.code !== '0') {
+            console.error('ALIGO_TOKEN_ERROR:', tokenData);
+            return { success: false, error: '토큰 발급 실패: ' + (tokenData.message || tokenData.result_msg || '알 수 없는 에러') };
+        }
+        const token = tokenData.token;
+
+        // Step 2: Send Alimtalk with Token
+        const formData = new URLSearchParams();
+        formData.append('apikey', apikey);
+        formData.append('userid', userid);
+        formData.append('token', token);
+        formData.append('senderkey', senderkey);
+        formData.append('tpl_code', templateCode);
+        formData.append('sender', sender);
+        formData.append('receiver_1', receiver.replace(/-/g, ''));
+        formData.append('subject_1', '[FITGIRLS] 알림');
+        formData.append('message_1', message);
+
+        // Emphasis Type (강조표기형) parameters
+        if (options.title) formData.append('emtitle_1', options.title);
+        // Subtitle is handled automatically by Aligo based on the template registration
+
+        if (options.button) {
+            formData.append('button_1', JSON.stringify(options.button));
+        }
+
         const response = await fetch(API_BASE, {
             method: 'POST',
             headers: {

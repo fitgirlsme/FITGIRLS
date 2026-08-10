@@ -4,6 +4,7 @@
 
 .brand-report-page {
   min-height: 100vh;
+  min-height: 100dvh;
   padding-top: 80px;
   display: flex;
   align-items: center;

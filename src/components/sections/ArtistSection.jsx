@@ -45,7 +45,7 @@ const ArtistSection = () => {
         return () => clearInterval(interval);
     }, [images]);
 
-    const displayImages = images.length > 0 ? images : ["/images/director_activity_photo.jpg"];
+    const displayImages = images.length > 0 ? images : ["/images/director_activity_photo.webp"];
 
     return (
         <div className="director-section-container">

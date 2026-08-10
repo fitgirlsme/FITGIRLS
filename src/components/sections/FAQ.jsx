@@ -5,7 +5,7 @@ import FadeInSection from '../FadeInSection';
 import './FAQ.css';
 
 const FAQ = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState(0);
     const [openIndex, setOpenIndex] = useState(null);
@@ -35,49 +35,37 @@ const FAQ = () => {
         }, []);
     }, [tabs]);
 
-    // Simple Scoring Search Logic
-    const handleSearch = (e) => {
-        const query = e.target.value;
-        setSearchQuery(query);
-
-        if (!query.trim() || query.length < 2) {
-            setAiResponse(null);
-            return;
-        }
-
-        setIsThinking(true);
-        
-        // Simulate AI "thinking"
-        setTimeout(() => {
-            const searchTerms = query.toLowerCase().split(' ').filter(q => q.length > 0);
-            
-            let bestMatch = null;
-            let maxScore = 0;
-
-            allItems.forEach(item => {
-                let score = 0;
-                const question = item.question.toLowerCase();
-                const answer = item.answer.toLowerCase();
-
-                searchTerms.forEach(term => {
-                    if (question.includes(term)) score += 20;
-                    if (answer.includes(term)) score += 10;
-                });
-
-                if (score > maxScore) {
-                    maxScore = score;
-                    bestMatch = item;
-                }
-            });
-
-            if (maxScore >= 10) {
-                setAiResponse(bestMatch);
-            } else {
-                setAiResponse({ no_results: true });
+    // AI Generative Search Logic
+    const handleSearch = async (e) => {
+        if (e.key === 'Enter') {
+            const query = searchQuery.trim();
+            if (query.length < 2) {
+                setAiResponse(null);
+                return;
             }
-            setIsThinking(false);
+
+            setIsThinking(true);
+            setAiResponse(null);
             setDisplayedAnswer('');
-        }, 600);
+            
+            try {
+                const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+                const lang = (i18n && i18n.language ? i18n.language : 'ko').split('-')[0].toLowerCase();
+                const { generateFaqAnswer } = await import('../../utils/aiService');
+                const answer = await generateFaqAnswer(query, allItems, apiKey, lang);
+                
+                if (answer) {
+                    setAiResponse({ question: query, answer: answer });
+                } else {
+                    setAiResponse({ no_results: true });
+                }
+            } catch (err) {
+                console.error("AI FAQ Error:", err);
+                setAiResponse({ no_results: true });
+            } finally {
+                setIsThinking(false);
+            }
+        }
     };
 
     // Typewriter effect
@@ -161,10 +149,12 @@ const FAQ = () => {
                         </span>
                         <input
                             type="text"
-                            placeholder={t('faq.search_placeholder', '원하시는 질문을 해주세요.')}
+                            placeholder={t('faq.search_placeholder', '원하시는 질문을 입력하고 엔터를 눌러주세요.')}
                             value={searchQuery}
-                            onChange={handleSearch}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onKeyDown={handleSearch}
                             className="faq-search-input"
+                            disabled={isThinking}
                         />
                         {searchQuery && (
                             <button className="search-clear" onClick={() => { setSearchQuery(''); setAiResponse(null); }}>

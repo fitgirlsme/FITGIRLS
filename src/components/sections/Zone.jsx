@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
 import FadeInSection from '../FadeInSection';
+import { STORES, getData } from '../../utils/db';
+import { syncCollection } from '../../utils/syncService';
+import VirtualImage from '../VirtualImage';
 import { getGalleries } from '../../utils/galleryService';
 import { db as fireDb } from '../../utils/firebase';
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
@@ -51,6 +54,8 @@ const Zone = () => {
     const [allHashtags, setAllHashtags] = useState([]);
     const [lookbookCols, setLookbookCols] = useState(2);
     const [zoneCols, setZoneCols] = useState(2);
+
+    const [isLoading, setIsLoading] = useState(true);
 
     // URL query param 및 라우터 파라미터로 탭 자동 선택
     useEffect(() => {
@@ -124,16 +129,23 @@ const Zone = () => {
     useEffect(() => {
         const fetchStudios = async () => {
             try {
-                const snap = await getDocs(query(collection(fireDb, 'studios')));
-                const loadedStudios = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                loadedStudios.sort((a, b) => {
+                let localData = await getData(STORES.STUDIOS);
+                if (!localData || localData.length === 0) {
+                    localData = await syncCollection(STORES.STUDIOS);
+                } else {
+                    syncCollection(STORES.STUDIOS).catch(console.error);
+                }
+                
+                localData.sort((a, b) => {
                     const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : (a.createdAt || 0);
                     const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : (b.createdAt || 0);
                     return timeB - timeA;
                 });
-                setStudios(loadedStudios);
+                setStudios(localData);
             } catch (err) {
                 console.error("Failed to load studios", err);
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchStudios();
@@ -453,6 +465,7 @@ const Zone = () => {
                                                         src={zone.image || zone.img} 
                                                         alt={zone.title} 
                                                         loading={idx < 6 ? "eager" : "lazy"} 
+                                                        fetchpriority={idx < 4 ? "high" : "auto"}
                                                         className="zone-img"
                                                         onLoad={(e) => e.target.classList.add('loaded')}
                                                         style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
@@ -511,9 +524,14 @@ const Zone = () => {
                                         </div>
                                     ))}
                                 </div>
-                                {filteredStudios.length === 0 && (
+                                {!isLoading && filteredStudios.length === 0 && (
                                     <div style={{ textAlign: 'center', padding: '60px 20px', color: '#888', fontSize: '1rem' }}>
                                         등록된 배경이 없습니다.
+                                    </div>
+                                )}
+                                {isLoading && (
+                                    <div style={{ textAlign: 'center', padding: '60px 20px', color: '#888', fontSize: '1rem' }}>
+                                        로딩 중...
                                     </div>
                                 )}
                             </>

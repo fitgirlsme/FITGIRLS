@@ -49,8 +49,8 @@ export const getReviews = async (tag = 'all') => {
         }
 
         return filtered.sort((a, b) => {
-            const dateA = new Date(a.createdAt);
-            const dateB = new Date(b.createdAt);
+            const dateA = new Date(typeof a.createdAt === 'string' ? a.createdAt.replace(/-/g, '/') : a.createdAt);
+            const dateB = new Date(typeof b.createdAt === 'string' ? b.createdAt.replace(/-/g, '/') : b.createdAt);
             return dateB - dateA;
         }).map(review => ({
             ...review,

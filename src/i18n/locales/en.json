@@ -780,9 +780,7 @@
         "return_discount": "20% discount on 2nd visit, 30% discount on 3rd+ visit (Applicable for bookings of 2+ concepts, Check WhatsApp)",
         "tabs": {
             "fitorialist": "FITORIALIST",
-            "artist": "ARTIST",
-            "expert": "PRO PROFILE",
-            "self": "NEVERLAND SELF"
+            "self": "SELF STUDIO"
         },
         "fitorialist": {
             "menu1": {

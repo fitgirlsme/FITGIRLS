@@ -432,10 +432,10 @@
     },
     "hm": {
         "subtitle": "提携ヘア&メイクのご案内",
-        "shop_name": "マベルクチュール(Mabelle Boutique)",
-        "desc1": "마벨クチュールにて提携価格でご利用いただけます。",
-        "desc2": "*メイクの予約は早めに埋まるため、Fitgirls & Inafitの撮影予約と同時にメイク의予約もお勧めします。",
-        "desc3": "*予約時にFitgirls & InafitのNaver予約履歴をお伝えいただければ提携価格が適用されます。",
+        "shop_name": "マベルブティック(Mabelle Boutique)",
+        "desc1": "ヘアメイクにつきましては、",
+        "desc2": "LINEにてお問い合わせをお願いいたします🙇",
+        "desc3": "LINE ID：@038avhqv または、「mabelle」で検索していただけますとご連絡可能です！こちらからも伝えておきます😊",
         "direct_booking": "直接予約必須",
         "outcall_notice": "(出張に関するお問い合わせはショップへお願いします。)",
         "female": "女性",
@@ -780,8 +780,6 @@
         "return_discount": "再訪問予約時に2回目20%、3回目以上30%割引特典 (2コンセプト以上の予約時に適用, LINEでお問い合わせください)",
         "tabs": {
             "fitorialist": "FITORIALIST",
-            "artist": "ARTIST",
-            "expert": "専門家プロフィール",
             "self": "NEVERLAND SELF"
         },
         "fitorialist": {

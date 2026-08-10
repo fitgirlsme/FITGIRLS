@@ -7,8 +7,9 @@ import { ref, deleteObject, uploadBytes, getDownloadURL } from 'firebase/storage
 import { db as fireDb, storage } from '../../utils/firebase';
 import FadeInSection from '../FadeInSection';
 import { getGalleryItems, addGalleryItem, deleteGalleryItem, updateGalleryItem } from '../../utils/db';
-import { getGalleries, getGalleriesPaginated } from '../../utils/galleryService';
+import { getGalleries, getGalleriesPaginated, searchGalleriesSemantic } from '../../utils/galleryService';
 import GalleryMultiUploader from '../GalleryMultiUploader';
+import VirtualImage from '../VirtualImage';
 import './Gallery.css';
 
 const MAIN_CATEGORIES = [
@@ -57,6 +58,8 @@ const GallerySection = () => {
     const [lightboxIndex, setLightboxIndex] = useState(null);
     const [allItems, setAllItems] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [semanticResults, setSemanticResults] = useState(null);
+    const [isSemanticSearching, setIsSemanticSearching] = useState(false);
     const [isAdmin, setIsAdmin] = useState(() => {
         return localStorage.getItem('isAdmin') === 'true';
     });
@@ -130,6 +133,13 @@ const GallerySection = () => {
             setViewMode('main');
         }
     }, [searchParams]);
+
+    // 검색어 지우면 시맨틱 검색 결과도 초기화
+    useEffect(() => {
+        if (!searchQuery.trim()) {
+            setSemanticResults(null);
+        }
+    }, [searchQuery]);
 
     // 모바일 스와이프 안내 표시 (라이트박스 열 때 처음 1회성 브리핑)
     useEffect(() => {
@@ -252,7 +262,7 @@ const GallerySection = () => {
                         if (item.createdAt.toMillis) ts = item.createdAt.toMillis();
                         else if (item.createdAt.seconds) ts = item.createdAt.seconds * 1000;
                         else if (typeof item.createdAt === 'number') ts = item.createdAt;
-                        else if (typeof item.createdAt === 'string') ts = new Date(item.createdAt).getTime();
+                        else if (typeof item.createdAt === 'string') ts = new Date(item.createdAt.replace(/-/g, '/')).getTime();
                     }
                     
                     let mainCat = (item.mainCategory || 'fitorialist').toLowerCase();
@@ -277,7 +287,7 @@ const GallerySection = () => {
                         tags: item.tags || [],
                         aiTags: item.aiTags || [],
                         translations: item.translations || { en: [], ja: [], zh: [] }, // 다국어 번역 매핑 유지
-                        img: item.imageUrl || item.img || item.url || '',
+                        img: item.thumbUrl || item.imageUrl || item.img || item.url || '',
                         storagePath: item.storagePath || '',
                         name: item.name || '',
                         seoTags: item.seoTags || '',
@@ -373,13 +383,15 @@ const GallerySection = () => {
 
 
 
-    // 검색 쿼리 우선 (검색 시에는 전체 검색 대상에서 슬라이스)
     const searchFiltered = searchQuery.trim() ? allItems.filter(item => {
         const q = searchQuery.replace('#', '').toLowerCase().trim();
-        return item.tags && item.tags.some(tag => tag.replace('#', '').toLowerCase().includes(q));
+        const matchTags = item.tags && item.tags.some(tag => tag.replace('#', '').toLowerCase().includes(q));
+        const matchAiTags = item.aiTags && item.aiTags.some(tag => tag.replace('#', '').toLowerCase().includes(q));
+        return matchTags || matchAiTags;
     }).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)) : [];
 
-    const finalBaseList = searchQuery.trim() ? searchFiltered : filteredGallery;
+    // AI 시맨틱 검색 결과가 있으면 그것을 최우선으로, 아니면 일반 검색, 아니면 카테고리 필터링
+    const finalBaseList = semanticResults ? semanticResults : (searchQuery.trim() ? searchFiltered : filteredGallery);
     const visibleItems = finalBaseList.slice(0, visibleCount);
 
     // 라이트박스 이전/다음 이미지 프리로드 (딜레이 개선)
@@ -399,10 +411,10 @@ const GallerySection = () => {
     }, [lightboxIndex, finalBaseList]);
     const hasMoreItems = visibleCount < finalBaseList.length;
 
-    // 필터 변경 시 표시 개수 리셋 (화면 너비 기준 10줄)
+    // 필터 변경 시 표시 개수 리셋 (화면 너비 기준 4줄로 하향 조정 - 메모리 최적화)
     useEffect(() => {
         const initialCols = window.innerWidth >= 1024 ? 4 : (window.innerWidth >= 768 ? 3 : 2);
-        setVisibleCount(initialCols * 10);
+        setVisibleCount(initialCols * 4);
     }, [mainCategory, subCategory, activeTag, searchQuery]);
 
     // 현재 mainCategory에 실제 존재하는 subCategory만 필터
@@ -586,6 +598,7 @@ const GallerySection = () => {
                                     type="text"
                                     className="gallery-search-input"
                                     placeholder={(() => {
+                                        if (isSemanticSearching) return 'AI가 가장 잘 어울리는 화보를 찾고 있습니다... 🔍';
                                         const lang = (i18n && i18n.language ? i18n.language : 'ko').split('-')[0].toLowerCase();
                                         if (lang === 'ja') return '自然な言葉で検索してみてください (例：ベッドに横たわっている写真)';
                                         if (lang === 'en') return 'Try searching in natural language (e.g. photos lying on the bed)';
@@ -593,7 +606,25 @@ const GallerySection = () => {
                                         return '자연어로 검색어를 입력해 보세요 (예: 침대에 누운 사진컷)';
                                     })()}
                                     value={searchQuery}
+                                    disabled={isSemanticSearching}
                                     onChange={(e) => setSearchQuery(e.target.value)}
+                                    onKeyDown={async (e) => {
+                                        if (e.key === 'Enter') {
+                                            const query = searchQuery.trim();
+                                            if (query.length < 2) return;
+                                            setIsSemanticSearching(true);
+                                            try {
+                                                const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+                                                const results = await searchGalleriesSemantic(query, apiKey, allItems, 30);
+                                                setSemanticResults(results);
+                                            } catch (err) {
+                                                console.error(err);
+                                                alert("AI 검색 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+                                            } finally {
+                                                setIsSemanticSearching(false);
+                                            }
+                                        }
+                                    }}
                                 />
                             </div>
                         </div>
@@ -602,12 +633,17 @@ const GallerySection = () => {
                         <div className="gallery-detail-header">
                             <h3 className="gallery-current-category">
                                 {(() => {
+                                    if (semanticResults) return `✨ AI 검색 결과 (${semanticResults.length}건)`;
                                     if (mainCategory === 'fitorialist') return 'FITORIALIST';
                                     const cat = MAIN_CATEGORIES.find(c => c.id === mainCategory);
                                     return cat ? t(cat.labelKey) : (mainCategory?.toUpperCase() || '');
                                 })()}
                             </h3>
-                            <button className="back-to-main-btn" onClick={() => setViewMode('main')}>
+                            <button className="back-to-main-btn" onClick={() => {
+                                setViewMode('main');
+                                setSemanticResults(null);
+                                setSearchQuery('');
+                            }}>
                                 <span className="back-btn-text">LIST</span>
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M9 18l6-6-6-6" />
@@ -809,7 +845,7 @@ const GallerySection = () => {
                                     style={{ transitionDelay: `${(originalIndex % cols) * 0.08}s` }}
                                     onClick={() => openLightbox(originalIndex)}
                                 >
-                                    <img 
+                                    <VirtualImage 
                                         src={item.img} 
                                         alt={(() => {
                                              const langKey = i18n.language === 'ko' ? 'ko' : i18n.language;
@@ -821,11 +857,6 @@ const GallerySection = () => {
                                              }
                                              return item.seoTags || 'Gallery';
                                          })()}
-                                        loading="lazy" 
-                                        onError={(e) => {
-                                            e.target.onerror = null;
-                                            e.target.src = '/logo.png'; 
-                                        }}
                                     />
                                     <div className="masonry-hover-overlay">
                                         <span className="masonry-plus">+</span>
@@ -881,7 +912,7 @@ const GallerySection = () => {
                                     className="gallery-load-more-btn"
                                     onClick={() => {
                                         const currentCols = window.innerWidth >= 1024 ? 4 : (window.innerWidth >= 768 ? 3 : 2);
-                                        setVisibleCount(prev => prev + (currentCols * 10)); // 더보기 누를 때마다 10줄씩 추가
+                                        setVisibleCount(prev => prev + (currentCols * 4)); // 더보기 누를 때마다 4줄씩 추가 (메모리 최적화)
                                     }}
                                     style={{
                                         padding: '14px 48px',

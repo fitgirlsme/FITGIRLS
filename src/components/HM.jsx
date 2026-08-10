@@ -4,7 +4,8 @@ import FadeInSection from './FadeInSection';
 import './HM.css';
 
 const HM = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const isJapanese = i18n.language === 'ja';
 
     return (
         <div className="hairmakeup-container">
@@ -51,14 +52,25 @@ const HM = () => {
                         </div>
 
                         <div className="hairmakeup-buttons">
-                            <a 
-                                href="https://pf.kakao.com/_QPjsxb" 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="hairmakeup-btn kakao"
-                            >
-                                {t('hm.kakao')}
-                            </a>
+                            {isJapanese ? (
+                                <a 
+                                    href="https://line.me/R/ti/p/@038avhqv" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="hairmakeup-btn line"
+                                >
+                                    LINEでお問い合わせ
+                                </a>
+                            ) : (
+                                <a 
+                                    href="https://pf.kakao.com/_QPjsxb" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="hairmakeup-btn kakao"
+                                >
+                                    {t('hm.kakao')}
+                                </a>
+                            )}
                             <a 
                                 href="https://www.instagram.com/mabelle_korea_" 
                                 target="_blank" 

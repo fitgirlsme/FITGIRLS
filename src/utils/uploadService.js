@@ -2,13 +2,13 @@ import imageCompression from 'browser-image-compression';
 import { storage } from './firebase'; 
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-const UPLOAD_VERSION = 'v7_JPEG_Fixed'; // 캐시 확인용 버전 태그
+const UPLOAD_VERSION = 'v8_WebP_Optimized'; // 캐시 확인용 버전 태그
 
 /**
- * 캔버스 기반 수동 리사이징 (JPEG 고성능 압축)
+ * 캔버스 기반 수동 리사이징 (WebP 고성능 압축)
  */
 async function emergencyResize(file, maxWidthOrHeight) {
-  console.log(`[FITGIRLS-UPLOAD] ${UPLOAD_VERSION} JPEG 수동 리사이징...`);
+  console.log(`[FITGIRLS-UPLOAD] ${UPLOAD_VERSION} WebP 수동 리사이징...`);
   return new Promise((resolve, reject) => {
     const objectUrl = URL.createObjectURL(file);
     const img = new Image();
@@ -38,17 +38,17 @@ async function emergencyResize(file, maxWidthOrHeight) {
       ctx.imageSmoothingQuality = 'high';
       ctx.drawImage(img, 0, 0, width, height);
 
-      // JPEG 85%로 강제 변환 (가장 범용적이고 용량이 안정적임)
+      // WebP 80%로 강제 변환 (용량 대비 화질 최상)
       canvas.toBlob((blob) => {
         if (blob) {
-          console.log(`[FITGIRLS-UPLOAD] JPEG 변환 완료: ${width}x${height}, ${(blob.size/1024/1024).toFixed(2)}MB`);
-          // 중복 확장자 방지를 위해 기존 확장자 제거 후 .jpg 붙임
+          console.log(`[FITGIRLS-UPLOAD] WebP 변환 완료: ${width}x${height}, ${(blob.size/1024/1024).toFixed(2)}MB`);
+          // 중복 확장자 방지를 위해 기존 확장자 제거 후 .webp 붙임
           const baseName = file.name.split('.').slice(0, -1).join('.') || 'upload';
-          resolve(new File([blob], `${baseName}.jpg`, { type: 'image/jpeg' }));
+          resolve(new File([blob], `${baseName}.webp`, { type: 'image/webp' }));
         } else {
           reject(new Error("Canvas blob 생성 실패"));
         }
-      }, 'image/jpeg', 0.85); 
+      }, 'image/webp', 0.80); 
     };
 
     img.onerror = () => {
@@ -64,11 +64,11 @@ async function emergencyResize(file, maxWidthOrHeight) {
  */
 export const uploadOptimizedImage = async (file, folder = 'gallery', customOptions = {}) => {
   const options = {
-    maxSizeMB: 1.2,           // 대표님 지시: 최적 용량 타겟
-    maxWidthOrHeight: 1980,  // 대표님 지시: 1980px 고해상도
-    useWebWorker: true,
-    fileType: 'image/jpeg',   // WebP 호환성 이슈로 인해 가장 안전한 JPEG로 변경
-    initialQuality: 0.85,    // 대표님 지시: 품질 85% 고정
+    maxSizeMB: 0.8,           // WebP 도입으로 타겟 용량 하향 (더 빠른 로딩)
+    maxWidthOrHeight: 1980,  // 대표님 지시: 1980px 고해상도 유지
+    useWebWorker: false,      // iOS Safari 오류 방지를 위해 워커 비활성화
+    fileType: 'image/webp',   // 최신 브라우저 모두 지원하는 WebP 포맷 사용
+    initialQuality: 0.80,    // WebP는 80%로도 충분한 화질 보장
     preserveExif: false,     // 메타데이터 삭제
     ...customOptions
   };
@@ -92,18 +92,35 @@ export const uploadOptimizedImage = async (file, folder = 'gallery', customOptio
       throw new Error(`파일이 너무 큽니다(${(compressedFile.size/1024/1024).toFixed(1)}MB).`);
     }
 
-    // 최종 파일명 및 타입 강제 (WebP 이슈 해결)
-    const finalType = 'image/jpeg';
-    const finalExt = 'jpg';
-    const fileName = `bodyprofile_fitgirls_${Date.now()}_${Math.random().toString(36).substring(7)}.${finalExt}`;
+    // 최종 파일명 및 타입 강제 (WebP)
+    const finalType = 'image/webp';
+    const finalExt = 'webp';
+    const baseName = `bodyprofile_fitgirls_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+    const fileName = `${baseName}.${finalExt}`;
     const storageRef = ref(storage, `${folder}/${fileName}`);
 
     const metadata = { contentType: finalType };
     const snapshot = await uploadBytes(storageRef, compressedFile, metadata);
     const downloadURL = await getDownloadURL(snapshot.ref);
+
+    // Create and upload a 1080px thumbnail for mobile optimization
+    let thumbURL = downloadURL;
+    let thumbPath = snapshot.ref.fullPath;
+    try {
+      const thumbOptions = { ...options, maxWidthOrHeight: 1080, initialQuality: 0.75 };
+      const thumbFile = await imageCompression(file, thumbOptions);
+      const thumbFileName = `${baseName}_1080x1080.${finalExt}`;
+      const thumbRef = ref(storage, `${folder}/thumbs/${thumbFileName}`);
+      const thumbSnap = await uploadBytes(thumbRef, thumbFile, metadata);
+      thumbURL = await getDownloadURL(thumbSnap.ref);
+      thumbPath = thumbSnap.ref.fullPath;
+      console.log(`[FITGIRLS-UPLOAD] 썸네일 업로드 성공: ${(thumbFile.size/1024/1024).toFixed(2)}MB`);
+    } catch (thumbErr) {
+      console.warn('썸네일 생성 실패, 원본 URL 사용', thumbErr);
+    }
     
-    console.log(`[FITGIRLS-UPLOAD] 업로드 성공: ${(compressedFile.size/1024/1024).toFixed(2)}MB`);
-    return { url: downloadURL, path: snapshot.ref.fullPath };
+    console.log(`[FITGIRLS-UPLOAD] 원본 업로드 성공: ${(compressedFile.size/1024/1024).toFixed(2)}MB`);
+    return { url: downloadURL, path: snapshot.ref.fullPath, thumbUrl: thumbURL, thumbPath };
 
   } catch (error) {
     throw new Error(error.message || String(error));

@@ -2,6 +2,7 @@
     padding: 100px 20px;
     background: var(--color-bg);
     min-height: 100vh;
+    min-height: 100dvh;
 }
 
 .model-apply-container {

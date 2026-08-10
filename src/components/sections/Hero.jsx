@@ -6,8 +6,8 @@ import './Hero.css';
 
 // 슬라이드쇼 이미지 배열 - 여기에 이미지를 추가하면 자동으로 슬라이드쇼에 포함됩니다
 const HERO_IMAGES = [
-    './images/hero-bg.jpg',
-    './images/hero-bg2.jpg',
+    './images/hero-bg.webp',
+    './images/hero-bg2.webp',
 ];
 
 const SLIDE_DURATION = 6000; // 각 슬라이드 표시 시간 (ms)

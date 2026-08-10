@@ -20,7 +20,7 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
 
     const navItems = [
         { id: 'hero', label: t('nav.home', 'Home'), path: '/' },
-        { id: 'artist', label: t('nav.director', 'Artist'), path: '/' },
+        { id: 'artist', label: t('nav.director', 'Artist'), path: '/artist' },
         {
             category: t('nav.gallery', 'ARCHIVE'),
             items: [
@@ -68,14 +68,26 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
 
     const handleNavClick = (path, sectionId) => {
         setMenuOpen(false);
-        navigate(path);
+        
+        let targetPath = path;
+        if (currentLang && currentLang !== 'ko') {
+            targetPath = path === '/' ? `/${currentLang}` : `/${currentLang}${path}`;
+        }
+        
+        navigate(targetPath);
         
         if (sectionId) {
             requestAnimationFrame(() => {
                 const el = document.getElementById(sectionId);
-                const container = document.querySelector('.snap-container');
-                if (el && container) {
-                    container.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
+                if (el) {
+                    if (window.innerWidth <= 768) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } else {
+                        const container = document.querySelector('.snap-container');
+                        if (container) {
+                            container.scrollTo({ top: el.offsetTop, behavior: 'smooth' });
+                        }
+                    }
                 }
             });
         }

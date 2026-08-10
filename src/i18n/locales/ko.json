@@ -431,8 +431,8 @@
     },
     "hm": {
         "subtitle": "제휴 헤어메이크업 안내",
-        "shop_name": "마벨꾸띠끄(Mabelle Boutique)",
-        "desc1": "마벨꾸띠끄에서 제휴가에 진행 가능합니다.",
+        "shop_name": "마벨부띠끄(Mabelle Boutique)",
+        "desc1": "마벨부띠끄에서 제휴가에 진행 가능합니다.",
         "desc2": "*메이크업 예약이 빠르게 마감되는 관계로 핏걸즈&이너핏 촬영 예약과 동시에 메이크업 예약 추천드립니다.",
         "desc3": "*예약 시 핏걸즈&이너핏 네이버예약 내역을 말씀해 주셔야 제휴 가격이 적용됩니다.",
         "direct_booking": "직접 예약 필수",
@@ -778,8 +778,6 @@
         "return_discount": "재방문 예약 시 2회 20%, 3회 이상 30% 할인 혜택 (카카오채널 문의)",
         "tabs": {
             "fitorialist": "FITGIRLS & INAFIT",
-            "artist": "ARTIST",
-            "expert": "전문가프로필",
             "self": "SELF STUDIO"
         },
         "fitorialist": {

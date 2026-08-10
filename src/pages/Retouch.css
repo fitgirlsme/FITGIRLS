@@ -8,6 +8,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    min-height: 100dvh;
     background: #0a0d16;
     color: #fff;
     padding: 20px;
@@ -70,6 +71,7 @@
 .retouch-dashboard-main {
     background: #0a0d16;
     min-height: 100vh;
+    min-height: 100dvh;
     color: #fff;
     padding: 20px;
 }

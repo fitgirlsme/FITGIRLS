@@ -13,6 +13,7 @@
 .snap-section#artist {
     height: auto;
     min-height: 100vh;
+    min-height: 100dvh;
     overflow: hidden; /* Or visible, but height: auto prevents overlapping */
 }
 

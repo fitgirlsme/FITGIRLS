@@ -1,5 +1,6 @@
 .app-container {
     height: 100vh;
+    height: 100dvh;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -8,6 +9,7 @@
     background: #f8f9fa;
     color: #1a1a1a;
     min-height: 100vh;
+    min-height: 100dvh;
     font-family: 'Outfit', 'Inter', 'Noto Sans KR', sans-serif;
 }
 

@@ -68,7 +68,7 @@ const ChecklistAdminTab = () => {
 
   const formatDate = (timestamp) => {
     if (!timestamp) return '-';
-    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(typeof timestamp === 'string' ? timestamp.replace(/-/g, '/') : timestamp);
     return date.toLocaleDateString('ko-KR', {
       year: '2-digit',
       month: '2-digit',

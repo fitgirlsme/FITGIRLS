@@ -18,9 +18,11 @@ import Intro from './components/sections/Intro';
 import Gallery from './components/sections/Gallery';
 import Service from './components/sections/Service';
 import Zone from './components/sections/Zone';
+import Lookbook from './components/sections/Lookbook';
 import HM from './components/HM';
 import FAQ from './components/sections/FAQ';
 import Notice from './components/sections/Notice';
+import ErrorBoundary from './components/ErrorBoundary';
 import Location from './components/sections/Location';
 import ReservationForm from './components/sections/ReservationForm';
 import ArtistSection from './components/sections/ArtistSection';
@@ -100,7 +102,7 @@ const Home = ({ changeLanguage, currentLang }) => {
       isFirstMount.current = false;
 
       setTimeout(() => {
-        const targetSection = section === 'lookbook' ? 'zone' : section;
+        const targetSection = section;
         const el = document.getElementById(targetSection);
         if (el) {
           el.scrollIntoView({ behavior: wasFirstMount ? 'auto' : 'smooth', block: 'start' });
@@ -146,7 +148,7 @@ const Home = ({ changeLanguage, currentLang }) => {
   }, [section, location.pathname, updateHeaderStates]);
 
   React.useEffect(() => {
-    const lastEl = document.getElementById('fitorialist');
+    const lastEl = document.getElementById('reviews');
     if (!lastEl) return;
     const observer = new IntersectionObserver(
       ([entry]) => setIsLastSectionVisible(entry.isIntersecting),
@@ -225,19 +227,17 @@ const Home = ({ changeLanguage, currentLang }) => {
         currentLang={currentLang}
       />
       <main className="snap-container" onScroll={handleScroll}>
-        <section className="snap-section" id="hero"><Hero /></section>
-        <section className="snap-section" id="hero-intro"><Intro /></section>
-        <section className="snap-section" id="artist"><ArtistSection /></section>
-        <section className="snap-section" id="archive"><Gallery /></section>
-        <section className="snap-section" id="service"><Service initialTab={tab} /></section>
-        <section className="snap-section" id="zone"><Zone /></section>
-        <section className="snap-section" id="hair-makeup"><HM /></section>
-        <section className="snap-section" id="faq"><FAQ /></section>
-        <section className="snap-section" id="event-board"><Notice /></section>
-        <section className="snap-section" id="location"><Location /></section>
-        <section className="snap-section" id="reservation"><ReservationForm /></section>
-        <section className="snap-section" id="reviews"><Reviews /></section>
-        <section className="snap-section" id="fitorialist"><AmbassadorList /></section>
+        <ErrorBoundary><section className="snap-section" id="hero"><Hero /></section></ErrorBoundary>
+        <ErrorBoundary><section className="snap-section" id="hero-intro"><Intro /></section></ErrorBoundary>
+        <ErrorBoundary><section className="snap-section" id="artist"><ArtistSection /></section></ErrorBoundary>
+        <ErrorBoundary><section className="snap-section" id="archive"><Gallery /></section></ErrorBoundary>
+        <ErrorBoundary><section className="snap-section" id="service"><Service initialTab={tab} /></section></ErrorBoundary>
+        <ErrorBoundary><section className="snap-section" id="hair-makeup"><HM /></section></ErrorBoundary>
+        <ErrorBoundary><section className="snap-section" id="faq"><FAQ /></section></ErrorBoundary>
+        <ErrorBoundary><section className="snap-section" id="event-board"><Notice /></section></ErrorBoundary>
+        <ErrorBoundary><section className="snap-section" id="location"><Location /></section></ErrorBoundary>
+        <ErrorBoundary><section className="snap-section" id="reservation"><ReservationForm /></section></ErrorBoundary>
+        <ErrorBoundary><section className="snap-section" id="reviews"><Reviews /></section></ErrorBoundary>
       </main>
       <Footer isHidden={!isLastSectionVisible} />
       <SupportCS isHidden={isHideCS} />
@@ -387,7 +387,7 @@ function App() {
                       location.pathname.startsWith('/retouch') ||
                       location.pathname.startsWith('/report');
 
-  const validSections = ['gallery', 'archive', 'service', 'location', 'faq', 'studios', 'reviews', 'magazine', 'partners', 'global-booking', 'reservation', 'hair-makeup', 'event-board', 'lookbook', 'zone', 'self', 'maxq', 'artist'];
+  const validSections = ['gallery', 'archive', 'service', 'location', 'faq', 'studios', 'reviews', 'partners', 'global-booking', 'reservation', 'hair-makeup', 'event-board', 'self', 'maxq', 'artist'];
 
   return (
     <div className="root-layout">
@@ -470,6 +470,19 @@ function App() {
           <Route path="/ja/artist" element={<ArtistPage changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/zh/artist" element={<ArtistPage changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/global-booking" element={<GlobalBooking />} />
+          <Route path="/zone" element={<Zone />} />
+          <Route path="/zone/:tab" element={<Zone />} />
+          <Route path="/lookbook" element={<Lookbook />} />
+          <Route path="/magazine" element={<Magazine />} />
+          <Route path="/en/zone" element={<Zone />} />
+          <Route path="/ja/zone" element={<Zone />} />
+          <Route path="/zh/zone" element={<Zone />} />
+          <Route path="/en/lookbook" element={<Lookbook />} />
+          <Route path="/ja/lookbook" element={<Lookbook />} />
+          <Route path="/zh/lookbook" element={<Lookbook />} />
+          <Route path="/en/magazine" element={<Magazine />} />
+          <Route path="/ja/magazine" element={<Magazine />} />
+          <Route path="/zh/magazine" element={<Magazine />} />
 
           {/* /studio, /studos 진입 시 /studios로 redirect */}
           <Route path="/studio" element={<Navigate to="/studios" replace />} />

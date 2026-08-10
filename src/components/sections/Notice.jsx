@@ -18,7 +18,7 @@ const EventCard = ({ ev, isAdmin, onOpen, onEdit, onDelete, t, i18n }) => {
 
     const formatDate = () => {
         if (ev.createdAt) {
-            const d = ev.createdAt?.toDate ? ev.createdAt.toDate() : new Date(ev.createdAt);
+            const d = ev.createdAt?.toDate ? ev.createdAt.toDate() : new Date(typeof ev.createdAt === 'string' ? ev.createdAt.replace(/-/g, '/') : ev.createdAt);
             if (!isNaN(d)) return d.toLocaleDateString('ko-KR').replace(/\. /g, '.').replace(/\.$/, '');
         }
         return '';
@@ -116,7 +116,7 @@ const Notice = () => {
                 if (!item.createdAt) return 0;
                 if (item.createdAt.seconds) return item.createdAt.seconds * 1000;
                 if (item.createdAt.toDate) return item.createdAt.toDate().getTime();
-                const d = new Date(item.createdAt);
+                const d = new Date(typeof item.createdAt === 'string' ? item.createdAt.replace(/-/g, '/') : item.createdAt);
                 return isNaN(d.getTime()) ? 0 : d.getTime();
             };
 
@@ -145,7 +145,7 @@ const Notice = () => {
     const formatDate = (ev) => {
         if (!ev) return '';
         if (ev.createdAt) {
-            const d = ev.createdAt?.toDate ? ev.createdAt.toDate() : new Date(ev.createdAt);
+            const d = ev.createdAt?.toDate ? ev.createdAt.toDate() : new Date(typeof ev.createdAt === 'string' ? ev.createdAt.replace(/-/g, '/') : ev.createdAt);
             if (!isNaN(d)) return d.toLocaleDateString('ko-KR').replace(/\. /g, '.').replace(/\.$/, '');
         }
         return '';
@@ -398,7 +398,7 @@ const Notice = () => {
                                         >
                                             {selectedEvent.images.map((img, i) => (
                                                 <div key={i} className="carousel-slide">
-                                                    <img src={img} alt={`event-${i}`} />
+                                                    <img src={img} alt={`event-${i}`} loading="lazy" decoding="async" />
                                                 </div>
                                             ))}
                                         </div>

@@ -141,7 +141,7 @@ const Admin = () => {
         { id: 'concepts', label: 'Lookbook', icon: <MdCollections />, desc: 'Lookbook outfits' },
         { id: 'studios', label: 'Studios', icon: <MdCamera />, desc: 'Studio Zones' },
         { id: 'events', label: 'Events', icon: <MdEventAvailable />, desc: 'Notices & Promos' },
-        { id: 'challenges', label: 'Monthly Drops', icon: <MdFitnessCenter />, desc: 'Manage Monthly Drops (한정판 드롭)' },
+
         { id: 'retouch', label: 'Retouch', icon: <MdCameraAlt />, desc: 'Fitgirls & INAFIT Retouch', badge: newRetouchCount > 0 },
         { id: 'models', label: 'Ambassadors', icon: <MdPeople />, desc: 'Profiles & Portfolio' },
         { id: 'apply', label: 'Applications', icon: <MdMoveToInbox />, desc: 'New submissions' },
@@ -258,7 +258,7 @@ const Admin = () => {
                         {activeTab === 'models' && <ModelsTab />}
                         {activeTab === 'concepts' && <ConceptsTab />}
                         {activeTab === 'events' && <EventsTab />}
-                        {activeTab === 'challenges' && <ChallengesTab />}
+
                         {activeTab === 'hero' && <HeroTab />}
                         {activeTab === 'apply' && <ApplicationsTab />}
                         {activeTab === 'partners' && <PartnersTab />}
@@ -1677,8 +1677,22 @@ const ConceptsTab = () => {
         if (!outfitName) { alert('Please enter outfit name.'); return; }
         setSaving(true);
         try {
+            let data = { outfitName, outfitSize, tag: outfitTag };
+            try {
+                const { translateTextAi } = await import('../utils/aiService');
+                const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+                if (apiKey) {
+                    const translations = await translateTextAi({ outfitName, tag: outfitTag }, apiKey);
+                    if (translations) {
+                        if (translations.outfitName) data.outfitName = translations.outfitName;
+                        if (translations.tag) data.tag = translations.tag;
+                    }
+                }
+            } catch (err) {
+                console.warn('AI translation failed', err);
+            }
+
             if (editItem) {
-                let data = { outfitName, outfitSize, tag: outfitTag };
                 if (file) {
                     const { url, path } = await uploadOptimizedImage(file, 'lookbook');
                     data.img = url;
@@ -1692,10 +1706,10 @@ const ConceptsTab = () => {
             } else {
                 if (!file) { alert('Please select an image.'); setSaving(false); return; }
                 const { url, path } = await uploadOptimizedImage(file, 'lookbook');
-                await addDoc(collection(db, 'lookbook'), {
-                    outfitName, outfitSize, tag: outfitTag, img: url, storagePath: path,
-                    createdAt: Date.now()
-                });
+                data.img = url;
+                data.storagePath = path;
+                data.createdAt = Date.now();
+                await addDoc(collection(db, 'lookbook'), data);
             }
             setShowSuccess(true); setTimeout(() => setShowSuccess(false), 3000);
             resetForm(); loadItems();
@@ -2929,7 +2943,28 @@ const StudiosTab = () => {
         if (!form.title) { alert('Title is required.'); return; }
         setSaving(true);
         try {
-            const data = { ...form, updatedAt: serverTimestamp(), ...(editId ? {} : { createdAt: serverTimestamp() }) };
+            let data = { ...form, updatedAt: serverTimestamp(), ...(editId ? {} : { createdAt: serverTimestamp() }) };
+
+            try {
+                const { translateTextAi } = await import('../utils/aiService');
+                const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+                if (apiKey) {
+                    const translations = await translateTextAi({ 
+                        title: form.title, 
+                        hashtag: form.hashtag, 
+                        subCategory: form.subCategory 
+                    }, apiKey);
+                    
+                    if (translations) {
+                        if (translations.title) data.title = translations.title;
+                        if (translations.hashtag) data.hashtag = translations.hashtag;
+                        if (translations.subCategory) data.subCategory = translations.subCategory;
+                    }
+                }
+            } catch (err) {
+                console.warn('AI translation failed for Studios', err);
+            }
+
             if (editId) { await updateDoc(doc(db, 'studios', editId), data); }
             else { await addDoc(collection(db, 'studios'), data); }
             const { syncCollection } = await import('../utils/syncService');
@@ -3226,260 +3261,6 @@ const RichEditor = ({ value, onChange, placeholder }) => {
     return (
         <div style={{ background: '#fff', color: '#000', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e2e8f0', width: '100%', boxSizing: 'border-box' }}>
             <div ref={editorRef} style={{ height: '220px' }} />
-        </div>
-    );
-};
-
-const formatDatetimeLocal = (dateVal) => {
-    if (!dateVal) return '';
-    let dateObj = dateVal;
-    if (dateVal.toDate) {
-        dateObj = dateVal.toDate();
-    } else if (typeof dateVal === 'string' || typeof dateVal === 'number') {
-        dateObj = new Date(dateVal);
-    } else if (!(dateObj instanceof Date)) {
-        return '';
-    }
-    // 로컬 타임존 반영
-    const offset = dateObj.getTimezoneOffset() * 60000;
-    const localISOTime = (new Date(dateObj.getTime() - offset)).toISOString().slice(0, 16);
-    return localISOTime;
-};
-
-const ChallengesTab = () => {
-    const [projects, setProjects] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [showForm, setShowForm] = useState(false);
-    const [editId, setEditId] = useState(null);
-    const [form, setForm] = useState({
-        title: '',
-        hero_image: '',
-        description: '',
-        price_regular: '',
-        price_discount: '',
-        deadline: '',
-        booking_url: '',
-        status: 'active'
-    });
-    const [saving, setSaving] = useState(false);
-    const [showSuccess, setShowSuccess] = useState(false);
-
-    useEffect(() => { loadProjects(); }, []);
-
-    const loadProjects = async () => {
-        try {
-            const snap = await getDocs(query(collection(db, 'monthly_projects'), orderBy('createdAt', 'desc')));
-            setProjects(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-        } catch (err) { console.error(err); }
-        finally { setLoading(false); }
-    };
-
-    const resetForm = () => {
-        setForm({
-            title: '',
-            hero_image: '',
-            description: '',
-            price_regular: '',
-            price_discount: '',
-            deadline: '',
-            booking_url: '',
-            status: 'active'
-        });
-        setEditId(null); setShowForm(false);
-    };
-
-    const handleSave = async () => {
-        if (!form.title) { alert('Project Title is required.'); return; }
-        if (!form.hero_image) { alert('Hero Image is required.'); return; }
-        setSaving(true);
-        try {
-            const data = { 
-                title: form.title,
-                hero_image: form.hero_image,
-                description: form.description,
-                price_regular: form.price_regular ? Number(form.price_regular) : null,
-                price_discount: form.price_discount ? Number(form.price_discount) : null,
-                deadline: form.deadline ? new Date(form.deadline) : null,
-                booking_url: form.booking_url,
-                status: form.status,
-                updatedAt: serverTimestamp(), 
-                ...(editId ? {} : { createdAt: serverTimestamp() }) 
-            };
-            if (editId) { 
-                await updateDoc(doc(db, 'monthly_projects', editId), data); 
-            } else { 
-                await addDoc(collection(db, 'monthly_projects'), data); 
-            }
-            
-            // Sync with IndexedDB
-            try {
-                const { syncCollection } = await import('../utils/syncService');
-                await syncCollection(STORES.MONTHLY_PROJECTS);
-            } catch (syncErr) {
-                console.error('Sync error:', syncErr);
-            }
-
-            setShowSuccess(true); setTimeout(() => setShowSuccess(false), 3000);
-            resetForm(); loadProjects();
-        } catch (err) { alert('Save error: ' + err.message); }
-        setSaving(false);
-    };
-
-    const handleDelete = async (id) => {
-        if (!window.confirm('Delete this project?')) return;
-        try {
-            await deleteDoc(doc(db, 'monthly_projects', id));
-            // Sync with IndexedDB
-            try {
-                const { syncCollection } = await import('../utils/syncService');
-                await syncCollection(STORES.MONTHLY_PROJECTS);
-            } catch (syncErr) {
-                console.error('Sync error:', syncErr);
-            }
-            loadProjects();
-        } catch (err) { alert(err.message); }
-    };
-
-    const handlePhoto = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        setSaving(true);
-        try {
-            const { url } = await uploadOptimizedImage(file, 'monthly_projects');
-            setForm(prev => ({ ...prev, hero_image: url }));
-        } catch (err) { alert('Upload failed: ' + err.message); }
-        setSaving(false);
-    };
-
-    const removePhoto = () => {
-        setForm(prev => ({ ...prev, hero_image: '' }));
-    };
-
-    return (
-        <div className="upload-section">
-            {showSuccess && <Toast message="Project saved successfully!" onClose={() => setShowSuccess(false)} />}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
-                <h3 style={{ margin: 0 }}>Monthly Drops (월별 한정판 드롭)</h3>
-                <button className="add-btn" onClick={() => { resetForm(); setShowForm(true); }}>+ Add New Drop</button>
-            </div>
-
-            {showForm && (
-                <div className="admin-modal-overlay" onClick={() => resetForm()}>
-                    <div className="admin-modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '750px' }}>
-                        <button className="close-x" onClick={resetForm}>×</button>
-                        <h3>{editId ? 'Edit Monthly Drop' : 'Add New Monthly Drop'}</h3>
-                        <div className="admin-modal-form">
-                            <div className="admin-grid-two">
-                                <div className="form-group">
-                                    <label>Project Title *</label>
-                                    <input type="text" value={form.title} onChange={e => setForm({...form, title: e.target.value})} placeholder="예: THE UNIFORM : Drop 01" />
-                                </div>
-                                <div className="form-group">
-                                    <label>Status</label>
-                                    <select value={form.status} onChange={e => setForm({...form, status: e.target.value})} style={{ padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', width: '100%' }}>
-                                        <option value="active">Active (진행중)</option>
-                                        <option value="closed">Closed (마감됨)</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="form-group">
-                                <label>Booking URL (네이버 예약 링크)</label>
-                                <input type="text" value={form.booking_url} onChange={e => setForm({...form, booking_url: e.target.value})} placeholder="예: https://booking.naver.com/..." />
-                            </div>
-                            <div className="admin-grid-two">
-                                <div className="form-group">
-                                    <label>정가 (Regular Price)</label>
-                                    <input type="number" value={form.price_regular} onChange={e => setForm({...form, price_regular: e.target.value})} placeholder="예: 275000" />
-                                </div>
-                                <div className="form-group">
-                                    <label>할인된 금액 (Discounted Price)</label>
-                                    <input type="number" value={form.price_discount} onChange={e => setForm({...form, price_discount: e.target.value})} placeholder="예: 128000" />
-                                </div>
-                            </div>
-                            <div className="form-group">
-                                <label>Deadline (마감 일시)</label>
-                                <input type="datetime-local" value={form.deadline} onChange={e => setForm({...form, deadline: e.target.value})} style={{ padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', width: '100%' }} />
-                            </div>
-                            
-                            <div className="form-group">
-                                <label>Project Description</label>
-                                <RichEditor value={form.description} onChange={val => setForm({...form, description: val})} placeholder="프로젝트 상세 내용을 입력하세요." />
-                            </div>
-
-                            <div className="form-group">
-                                <label>Hero Image (메인 룩북 화보 - 1장)</label>
-                                <div className="admin-image-uploader">
-                                    <input type="file" accept="image/*" onChange={handlePhoto} />
-                                    {form.hero_image && (
-                                        <div className="image-preview-grid">
-                                            <div className="preview-box">
-                                                 <img src={form.hero_image} alt="" />
-                                                 <button onClick={removePhoto}>×</button>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            <button className="submit-btn" onClick={handleSave} disabled={saving}>
-                                {saving ? 'Saving...' : 'Save Drop Project'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            <div className="admin-item-list">
-                {projects.map(p => (
-                    <div key={p.id} className="admin-item-card">
-                        {p.hero_image && <img src={p.hero_image} alt="" className="admin-item-thumb" style={{ aspectRatio: '16/10', objectFit: 'cover' }} />}
-                        <div className="admin-item-info">
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <h4 style={{ margin: '4px 0' }}>{p.title}</h4>
-                                <span style={{ 
-                                    fontSize: '0.7rem', 
-                                    padding: '2px 6px', 
-                                    borderRadius: '4px', 
-                                    fontWeight: 'bold',
-                                    background: p.status === 'active' ? '#e6f7ff' : '#f5f5f5',
-                                    color: p.status === 'active' ? '#1890ff' : '#888'
-                                }}>
-                                    {p.status === 'active' ? 'ACTIVE' : 'CLOSED'}
-                                </span>
-                            </div>
-                            <p style={{ margin: '0 0 6px', fontSize: '0.75rem', color: '#888' }}>
-                                마감일: {p.deadline ? (p.deadline.toDate ? p.deadline.toDate().toLocaleString() : new Date(p.deadline).toLocaleString()) : '설정 없음'}
-                            </p>
-                            <p style={{ margin: '0 0 8px', fontSize: '0.8rem', color: '#666', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
-                               dangerouslySetInnerHTML={{ __html: p.description || '설명 없음' }}
-                            />
-                            {p.price_discount && (
-                                <p style={{ fontWeight: 700, margin: 0, color: '#FF0000' }}>
-                                    {p.price_discount.toLocaleString()}원 
-                                    {p.price_regular && <span style={{ textDecoration: 'line-through', color: '#999', fontSize: '0.8rem', fontWeight: 'normal', marginLeft: '6px' }}>({p.price_regular.toLocaleString()}원)</span>}
-                                </p>
-                            )}
-                        </div>
-                        <div className="admin-item-actions">
-                            <button onClick={() => { 
-                                setForm({ 
-                                    title: p.title || '',
-                                    hero_image: p.hero_image || '',
-                                    description: p.description || '',
-                                    price_regular: p.price_regular || '',
-                                    price_discount: p.price_discount || '',
-                                    deadline: formatDatetimeLocal(p.deadline),
-                                    booking_url: p.booking_url || '',
-                                    status: p.status || 'active'
-                                }); 
-                                setEditId(p.id); 
-                                setShowForm(true); 
-                            }}>Edit</button>
-                            <button onClick={() => handleDelete(p.id)} className="delete">Delete</button>
-                        </div>
-                    </div>
-                ))}
-            </div>
         </div>
     );
 };

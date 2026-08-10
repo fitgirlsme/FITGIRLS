@@ -95,7 +95,7 @@ const Hero = () => {
                         );
                     })
                 ) : (
-                    <div className="hero-slide active" style={{ backgroundImage: 'url(/images/hero-bg.jpg)' }}></div>
+                    <div className="hero-slide active" style={{ backgroundImage: 'url(/images/hero-bg.webp)' }}></div>
                 )}
                 <div className="gradient-overlay"></div>
             </div>

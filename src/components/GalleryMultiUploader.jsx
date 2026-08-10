@@ -1,8 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { uploadOptimizedImage } from '../utils/uploadService';
 import { db } from '../utils/firebase'; 
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { addItem, STORES } from '../utils/db';
+import { collection, addDoc, serverTimestamp, vector } from 'firebase/firestore';
+import { addItem, getData, STORES } from '../utils/db';
+import { generateEmbedding } from '../utils/aiService';
+
+async function generateAiTags(file, apiKey) {
+  // 1. File 객체를 base64로 변환
+  const base64Data = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = reader.result.split(',')[1];
+      resolve(base64);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+  
+  const mimeType = file.type || 'image/jpeg';
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`;
+  
+  const prompt = `이 사진의 인물 포즈, 분위기, 장소, 의상(종류 및 색상) 등을 분석해서, 갤러리 검색용으로 적합한 상세 해시태그 단어를 한국어(ko), 영어(en), 일본어(ja), 중국어(zh)로 각각 추출해줘.
+  결과는 다른 부연설명 없이 오직 순수한 JSON 포맷으로만 응답해야 해.
+  JSON 스키마:
+  {
+    "ko": ["단어1", "단어2", ...],
+    "en": ["word1", "word2", ...],
+    "ja": ["ワード1", "ワード2", ...],
+    "zh": ["词语1", "词语2", ...]
+  }
+  한국어(ko) 해시태그는 최대 8개까지로 하고, 영어/일본어/중국어는 한국어 단어를 직역 또는 그에 걸맞게 매칭하여 동일한 순서와 개수로 번역/대응해서 추출해줘. '#' 문자는 포함하지 마.`;
+
+  const body = {
+    contents: [
+      {
+        parts: [
+          { text: prompt },
+          {
+            inlineData: {
+              mimeType: mimeType,
+              data: base64Data
+            }
+          }
+        ]
+      }
+    ],
+    generationConfig: {
+      responseMimeType: "application/json"
+    }
+  };
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+
+  if (!response.ok) {
+    throw new Error(`Gemini API error: ${response.status}`);
+  }
+
+  const resData = await response.json();
+  const text = resData.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!text) {
+    throw new Error('Empty response from Gemini API');
+  }
+  
+  return JSON.parse(text.trim());
+}
 
 function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
   const [selectedFiles, setSelectedFiles] = useState([]); 
@@ -13,6 +78,41 @@ function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
   const [issueId, setIssueId] = useState('');
   const [tagsInput, setTagsInput] = useState('');
   const [isDragging, setIsDragging] = useState(false);
+  const [availableTags, setAvailableTags] = useState([]);
+
+  // Load existing tags from IndexedDB for autocomplete suggestions
+  useEffect(() => {
+    const loadAvailableTags = async () => {
+      try {
+        const items = await getData(STORES.GALLERY);
+        const tags = Array.from(new Set(items.flatMap(p => p.tags || []).map(t => `#${t.replace(/^#/, '')}`)));
+        setAvailableTags(tags);
+      } catch (err) {
+        console.warn('Failed to load available tags for suggestions:', err);
+      }
+    };
+    loadAvailableTags();
+  }, []);
+
+  // Suggestions computation
+  const editTokens = tagsInput.split(/[ ,]+/);
+  const currentToken = editTokens[editTokens.length - 1] || '';
+  const currentTokenNorm = currentToken.trim().toLowerCase().replace(/^#/, '');
+  
+  const tagSuggestions = (currentTokenNorm && currentTokenNorm !== '')
+      ? availableTags.filter(tag => 
+          tag.toLowerCase().replace('#', '').includes(currentTokenNorm) && 
+          tag.toLowerCase() !== `#${currentTokenNorm}`
+        ).slice(0, 10)
+      : [];
+
+  const handleTagSuggestionClick = (suggestion) => {
+      const tokens = [...editTokens];
+      tokens[tokens.length - 1] = suggestion;
+      let result = tokens.join(' ');
+      if (!result.endsWith(' ')) result += ' ';
+      setTagsInput(result);
+  };
 
   // Prevent browser from opening files dropped outside the dropzone
   React.useEffect(() => {
@@ -111,6 +211,8 @@ function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
 
     setIsUploading(true);
 
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
     for (let i = 0; i < selectedFiles.length; i++) {
       const file = selectedFiles[i];
       
@@ -119,26 +221,74 @@ function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
       ));
 
       try {
-        const { url: optimizedUrl, path: storagePath } = await uploadOptimizedImage(file, 'galleries');
+        const { url: optimizedUrl, path: storagePath, thumbUrl } = await uploadOptimizedImage(file, 'galleries');
+
+        setUploadStatus(prev => prev.map((item, index) => 
+          index === i ? { ...item, status: 'AI 태그 생성 중...' } : item
+        ));
+
+        let aiTags = [];
+        let translations = { en: [], ja: [], zh: [] };
+        let aiError = null;
+
+        if (apiKey) {
+          try {
+            const aiResult = await generateAiTags(file, apiKey);
+            if (aiResult && aiResult.ko) {
+              aiTags = aiResult.ko;
+              translations = {
+                en: aiResult.en || [],
+                ja: aiResult.ja || [],
+                zh: aiResult.zh || []
+              };
+            }
+          } catch (aiErr) {
+            console.warn("AI Tag generation failed, skipping:", aiErr);
+            aiError = aiErr.message || String(aiErr);
+          }
+        } else {
+          aiError = "VITE_GEMINI_API_KEY is not defined in environment variables";
+        }
 
         setUploadStatus(prev => prev.map((item, index) => 
           index === i ? { ...item, status: '업로드 완료! 🎉', url: optimizedUrl } : item
         ));
 
         const parsedTags = tagsInput.split(/[ ,#]+/).filter(t => t.trim()).map(t => t.trim());
+        const mergedSeoTags = [...parsedTags, ...aiTags].join(', ');
+
         const galleryData = {
           mainCategory: mainCategory,
           type: subCategory,
           issueId: issueId, // Added issueId
           tags: parsedTags,
-          seoTags: parsedTags.join(', '),
+          aiTags: aiTags,
+          translations: translations,
+          seoTags: mergedSeoTags,
           imageUrl: optimizedUrl,
+          thumbUrl: thumbUrl || optimizedUrl,
           storagePath: storagePath,
           name: file.name,
           size: file.size,
           order: Date.now(),
           createdAt: serverTimestamp()
         };
+
+        if (aiError) {
+          galleryData.aiError = aiError;
+        }
+
+        // Generate Embedding
+        try {
+          const semanticText = `${mainCategory} ${subCategory} ${mergedSeoTags}`.trim();
+          if (semanticText) {
+            const embeddingValues = await generateEmbedding(semanticText, apiKey);
+            galleryData.embedding = vector(embeddingValues);
+          }
+        } catch (embedErr) {
+          console.warn("Embedding generation failed, skipping:", embedErr);
+          galleryData.embedError = embedErr.message || String(embedErr);
+        }
 
         const docRef = await addDoc(collection(db, STORES.GALLERY), galleryData);
         const newItem = { 
@@ -147,6 +297,9 @@ function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
           createdAt: Date.now(), 
           img: optimizedUrl 
         };
+        // IndexedDB(idb)는 Firestore의 VectorValue 객체를 직렬화(Clone)하지 못하므로, 
+        // 로컬 DB 저장 전에는 해당 필드를 제거합니다.
+        delete newItem.embedding;
         await addItem(STORES.GALLERY, newItem);
 
         if (typeof onUploadSuccess === 'function') {
@@ -156,7 +309,7 @@ function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
       } catch (error) {
         console.error(`${file.name} 업로드 실패:`, error);
         setUploadStatus(prev => prev.map((item, index) => 
-          index === i ? { ...item, status: '업로드 실패 ❌' } : item
+          index === i ? { ...item, status: `업로드 실패 ❌ (${error.message || '알 수 없는 오류'})` } : item
         ));
       }
     }
@@ -242,6 +395,34 @@ function GalleryMultiUploader({ onUploadSuccess, issues = [] }) {
                 boxSizing: 'border-box'
               }}
             />
+            {tagSuggestions.length > 0 && (
+                <div className="tag-suggestions-dropdown" style={{ 
+                  position: 'absolute', 
+                  top: '100%', 
+                  left: 0, 
+                  right: 0, 
+                  background: '#fff', 
+                  border: '1px solid #ddd', 
+                  borderRadius: '12px', 
+                  zIndex: 100, 
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)', 
+                  maxHeight: '150px', 
+                  overflowY: 'auto',
+                  marginTop: '4px'
+                }}>
+                    {tagSuggestions.map((tag, idx) => (
+                        <div 
+                            key={idx} 
+                            onClick={() => handleTagSuggestionClick(tag)}
+                            style={{ padding: '10px 14px', fontSize: '0.9rem', cursor: 'pointer', borderBottom: '1px solid #f0f0f0', color: '#333' }}
+                            onMouseEnter={e => e.target.style.background = '#f5f5f5'}
+                            onMouseLeave={e => e.target.style.background = '#fff'}
+                        >
+                            {tag}
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
       </div>
 

@@ -3,6 +3,7 @@
 /* --- Container & Grid Background --- */
 .dp-container {
   min-height: 100vh;
+  min-height: 100dvh;
   background-color: #fff;
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
@@ -122,6 +123,7 @@
 /* ===== STEP: INTRO ===== */
 .dp-intro {
   min-height: calc(100vh - 120px);
+  min-height: calc(100dvh - 120px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -434,6 +436,7 @@
 /* ===== STEP: RESULT ===== */
 .dp-result-wrapper {
   min-height: calc(100vh - 120px);
+  min-height: calc(100dvh - 120px);
   padding: 50px 24px 60px;
   display: flex;
   flex-direction: column;

@@ -2,6 +2,8 @@ import { db } from './firebase';
 import { collection, getDocs, query, limit, orderBy } from 'firebase/firestore';
 import { STORES, saveData } from './db';
 
+const activeSyncs = {};
+
 /**
  * 특정 컬렉션의 데이터를 Firestore에서 가져와 IndexedDB에 저장합니다.
  * @param {string} storeName - IndexedDB 스토어 이름
@@ -9,7 +11,15 @@ import { STORES, saveData } from './db';
  * @param {number} limitCount - 가져올 최대 개수 (null이면 전체)
  */
 export const syncCollection = async (storeName, collectionName = storeName, limitCount = null) => {
-    try {
+    const syncKey = `${storeName}_${limitCount || 'all'}`;
+    
+    if (activeSyncs[syncKey]) {
+        console.log(`[Sync] Already syncing ${syncKey}, returning existing promise.`);
+        return activeSyncs[syncKey];
+    }
+
+    const syncPromise = (async () => {
+        try {
         console.log(`[Sync] Attempting to fetch collection: "${collectionName}" (limit: ${limitCount || 'all'})`);
         const colRef = collection(db, collectionName);
         let q = query(colRef, orderBy('createdAt', 'desc'));
@@ -24,6 +34,12 @@ export const syncCollection = async (storeName, collectionName = storeName, limi
 
         const data = snapshot.docs.map((doc, index) => {
             const docData = doc.data();
+            // VectorValue 객체는 IndexedDB 저장 시 에러가 나므로 일반 배열로 변환
+            if (docData.embedding && docData.embedding.toArray) {
+                docData.embedding = docData.embedding.toArray();
+            } else if (docData.embedding && Array.isArray(docData.embedding.values)) {
+                docData.embedding = docData.embedding.values;
+            }
             return {
                 id: doc.id,
                 ...docData,
@@ -42,25 +58,43 @@ export const syncCollection = async (storeName, collectionName = storeName, limi
         console.error(`Sync error for ${collectionName}:`, error);
         return [];
     }
+    })();
+
+    activeSyncs[syncKey] = syncPromise;
+    try {
+        return await syncPromise;
+    } finally {
+        delete activeSyncs[syncKey];
+    }
 };
 
 /**
  * 모든 주요 컬렉션을 한꺼번에 동기화합니다.
  */
 export const syncAll = async () => {
-    const syncPromises = [
-        syncCollection(STORES.NOTICES),
-        syncCollection(STORES.REVIEWS),
-        syncCollection(STORES.GALLERY, STORES.GALLERY, 100), // Gallery는 최근 100개만 우선 동기화
-        syncCollection(STORES.FAQ),
+    // 1. 우선적으로 필요한 핵심 데이터 (히어로 슬라이드, 홈 섹션, 갤러리 100개 등)
+    const criticalPromises = [
         syncCollection(STORES.HERO_SLIDES),
         syncCollection(STORES.HOME_SECTIONS),
-        syncCollection(STORES.LOOKBOOK),
-        syncCollection(STORES.PARTNERS),
-        syncCollection(STORES.STUDIOS),
-        syncCollection(STORES.CHALLENGES),
-        syncCollection(STORES.MONTHLY_PROJECTS),
+        syncCollection(STORES.GALLERY, STORES.GALLERY, 100), // Gallery는 최근 100개만 우선 동기화
+        syncCollection(STORES.NOTICES), // 공지사항도 상단 노출 대비
     ];
     
-    return Promise.all(syncPromises);
+    // 2. 핵심 데이터를 먼저 기다림 (UI 초기 렌더링을 방해하지 않는 선에서)
+    await Promise.all(criticalPromises);
+
+    // 3. 나머지 무거운 데이터는 백그라운드에서 지연 동기화 (OOM, Boot Storm 방지)
+    // iOS 기기 등에서 렌더링과 동시에 수천개의 JSON을 파싱하면 크래시가 발생하므로 지연 처리
+    setTimeout(() => {
+        console.log(`[Sync] Starting delayed background sync for non-critical collections...`);
+        Promise.all([
+            syncCollection(STORES.REVIEWS),
+            syncCollection(STORES.FAQ),
+            syncCollection(STORES.LOOKBOOK),
+            syncCollection(STORES.PARTNERS),
+            syncCollection(STORES.STUDIOS),
+            syncCollection(STORES.CHALLENGES),
+            syncCollection(STORES.MONTHLY_PROJECTS),
+        ]).catch(err => console.error('[Sync] Delayed sync error:', err));
+    }, 3500); // 애니메이션과 초기 렌더링이 안정화되는 시간 확보
 };

@@ -401,7 +401,7 @@ const RetouchAdminTab = () => {
                                     
                                     const updatedStr = c.statusUpdatedAts?.[pId];
                                     if (updatedStr) {
-                                        const diff = now - new Date(updatedStr);
+                                        const diff = now - new Date(typeof updatedStr === 'string' ? updatedStr.replace(/-/g, '/') : updatedStr);
                                         if (diff < 24 * 60 * 60 * 1000) {
                                             newCounts.ALL++;
                                             if (newCounts[status] !== undefined) {

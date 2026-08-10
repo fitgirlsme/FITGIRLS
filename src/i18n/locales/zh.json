@@ -779,9 +779,7 @@
         "return_discount": "再次预约时，第二次享受 20% 优惠，第三次及以上享受 30% 优惠（预约2个及以上主题时适用，请咨询微信）",
         "tabs": {
             "fitorialist": "FITORIALIST",
-            "artist": "ARTIST",
-            "expert": "专家简介",
-            "self": "NEVERLAND SELF"
+            "self": "自助影棚"
         },
         "fitorialist": {
             "menu1": {

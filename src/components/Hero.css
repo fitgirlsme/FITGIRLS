@@ -47,6 +47,7 @@
   width: 100vw;
   height: 56.25vw; /* 16:9 Aspect Ratio */
   min-height: 100vh;
+  min-height: 100dvh;
   min-width: 177.77vh; /* 16:9 Aspect Ratio */
   transform: translate(-50%, -50%);
   pointer-events: none;
