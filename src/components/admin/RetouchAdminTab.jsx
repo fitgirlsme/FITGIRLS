@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, query, getDocs, doc, getDoc, updateDoc, setDoc, onSnapshot, deleteDoc } from 'firebase/firestore';
+import { collection, query, getDocs, doc, getDoc, updateDoc, setDoc, onSnapshot, deleteDoc, deleteField } from 'firebase/firestore';
 import { db } from '../../utils/firebase';
 import './RetouchAdminTab.css';
 import { getAlimtalkTemplate, sendAlimtalk } from '../../utils/aligoService';
@@ -317,6 +317,49 @@ const RetouchAdminTab = () => {
         }
     };
 
+    const handleDeleteProject = async (customerId, customerName, projectId) => {
+        if (window.confirm(`정말 ${customerName} 고객님의 [${formatDate(projectId)}] 프로젝트 박스를 삭제하시겠습니까?\n해당 프로젝트 관련 모든 보정 내역 및 데이터가 삭제됩니다.`)) {
+            try {
+                const cRef = doc(db, 'retouch_masters', customerId);
+                const cSnap = await getDoc(cRef);
+                if (!cSnap.exists()) return;
+                const data = cSnap.data();
+                const newHistory = (data.projectHistory || []).filter(id => id !== projectId);
+
+                if (newHistory.length === 0) {
+                    if (window.confirm('더 이상 남은 프로젝트가 없습니다. 고객 정보 자체(로그인 계정 포함)를 영구 삭제하시겠습니까?')) {
+                        await deleteDoc(cRef);
+                        alert('고객 정보 및 프로젝트가 삭제되었습니다.');
+                        return;
+                    }
+                }
+
+                const updates = {
+                    projectHistory: newHistory,
+                    [`projectStatuses.${projectId}`]: deleteField(),
+                    [`projectConcepts.${projectId}`]: deleteField(),
+                    [`projectBaseRetouchCounts.${projectId}`]: deleteField(),
+                    [`requestDates.${projectId}`]: deleteField(),
+                    [`statusUpdatedAts.${projectId}`]: deleteField(),
+                    [`instaConsents.${projectId}`]: deleteField(),
+                    [`reviewConsents.${projectId}`]: deleteField(),
+                    [`dropboxArchives.${projectId}`]: deleteField(),
+                    [`clientFeedbacks.${projectId}`]: deleteField(),
+                    [`artistResponses.${projectId}`]: deleteField(),
+                    [`instaIds.${projectId}`]: deleteField(),
+                    [`preRetouchSent.${projectId}`]: deleteField(),
+                    [`projectExtraRetouchCounts.${projectId}`]: deleteField(),
+                };
+
+                await updateDoc(cRef, updates);
+                alert('해당 프로젝트 박스가 정상적으로 삭제되었습니다.');
+            } catch (err) {
+                console.error(err);
+                alert('프로젝트 삭제 중 오류가 발생했습니다.');
+            }
+        }
+    };
+
     const currentCustomers = customers.filter(c => {
         const passStatus = filterStatus === 'ALL' || (c.projectStatuses && Object.values(c.projectStatuses).includes(filterStatus));
         const passProject = filterProject === 'ALL' || (c.projectHistory && c.projectHistory.includes(filterProject));
@@ -468,7 +511,7 @@ const RetouchAdminTab = () => {
                                         </span>
                                     )}
                                 </div>
-                                <button className="btn-delete-customer" onClick={() => handleDeleteCustomer(c.id, c.name)}>고객 삭제</button>
+                                <button className="btn-delete-customer" onClick={() => handleDeleteCustomer(c.id, c.name)}>고객 전체 삭제</button>
                             </div>
 
                             <div className="project-stack">
@@ -497,9 +540,18 @@ const RetouchAdminTab = () => {
                                                     <span className="p-id">{formatDate(pId)}</span>
                                                     {daysPassed !== null && <span className={`d-day-badge ${daysPassed > 7 ? 'danger' : ''}`}>D+{daysPassed}</span>}
                                                 </div>
-                                                <div className="p-count">
-                                                    <strong>총 {base + bonus + extra}장</strong>
-                                                    <small>({base}+{bonus}+{extra})</small>
+                                                <div className="p-top-right">
+                                                    <div className="p-count">
+                                                        <strong>총 {base + bonus + extra}장</strong>
+                                                        <small>({base}+{bonus}+{extra})</small>
+                                                    </div>
+                                                    <button 
+                                                        className="btn-delete-project" 
+                                                        onClick={() => handleDeleteProject(c.id, c.name, pId)}
+                                                        title="이 프로젝트 박스 삭제"
+                                                    >
+                                                        🗑️ 박스 삭제
+                                                    </button>
                                                 </div>
                                             </div>
 

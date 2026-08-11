@@ -367,8 +367,8 @@ const Lookbook = () => {
     return (
         <div className="zone-full-container">
             <FadeInSection className="zone-header-wrapper">
-                <h2 className="zone-main-title">{t('zone.title')}</h2>
-                <p className="zone-subtitle">{t('zone.subtitle')}</p>
+                <h2 className="zone-main-title">{t('lookbook.title', 'LOOKBOOK')}</h2>
+                <p className="zone-subtitle">{t('lookbook.subtitle', '다양한 컨셉과 의상으로 완성하는 나만의 스타일')}</p>
                 <p className="zone-subtitle zone-subtitle-insta">
                     {t('zone.subtitleInsta')}{' '}
                     <a
