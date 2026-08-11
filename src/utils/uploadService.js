@@ -64,8 +64,8 @@ async function emergencyResize(file, maxWidthOrHeight) {
  */
 export const uploadOptimizedImage = async (file, folder = 'gallery', customOptions = {}) => {
   const options = {
-    maxSizeMB: 0.8,           // WebP 도입으로 타겟 용량 하향 (더 빠른 로딩)
-    maxWidthOrHeight: 1980,  // 대표님 지시: 1980px 고해상도 유지
+    maxSizeMB: 0.6,           // 1400px 최적화로 타겟 용량 하향 (초고속 로딩)
+    maxWidthOrHeight: 1400,   // 전체 이미지 긴 축 1400px 최적화 적용
     useWebWorker: false,      // iOS Safari 오류 방지를 위해 워커 비활성화
     fileType: 'image/webp',   // 최신 브라우저 모두 지원하는 WebP 포맷 사용
     initialQuality: 0.80,    // WebP는 80%로도 충분한 화질 보장
