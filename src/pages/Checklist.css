@@ -525,3 +525,138 @@ input[type="date"].checklist-input {
   background-color: #e9ecef;
   color: #212529;
 }
+
+/* Main Navigation Tabs (체크리스트 작성 / 시안 이미지 업로드) */
+.checklist-main-nav-tabs {
+  display: flex;
+  gap: 10px;
+  background-color: #ffffff;
+  padding: 8px;
+  border-radius: 20px;
+  margin-bottom: 28px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eee;
+}
+
+.checklist-main-tab-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 14px;
+  border: none;
+  background: #f8f9fa;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #666;
+  cursor: pointer;
+  border-radius: 14px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: -0.02em;
+}
+
+.checklist-main-tab-btn .tab-btn-icon {
+  font-size: 1.25rem;
+  transition: transform 0.2s ease;
+}
+
+.checklist-main-tab-btn:hover:not(.active) {
+  background: #f1f3f5;
+  color: #111;
+}
+
+.checklist-main-tab-btn.active {
+  background: #ff1e27;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(255, 30, 39, 0.25);
+}
+
+.checklist-main-tab-btn.active .tab-btn-icon {
+  transform: scale(1.1);
+}
+
+/* Upload Section & Iframe */
+.checklist-upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeInTab 0.3s ease-out;
+}
+
+@keyframes fadeInTab {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.upload-guide-card {
+  border-left: 4px solid #ff1e27;
+}
+
+.checklist-external-link-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 18px;
+  background: #111;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.checklist-external-link-btn:hover {
+  background: #ff1e27;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.checklist-iframe-wrapper {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid #eee;
+  min-height: 700px;
+}
+
+.checklist-upload-iframe {
+  width: 100%;
+  height: 780px;
+  border: none;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .checklist-main-nav-tabs {
+    padding: 6px;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  
+  .checklist-main-tab-btn {
+    padding: 12px 8px;
+    font-size: 0.88rem;
+    gap: 6px;
+  }
+  
+  .checklist-main-tab-btn .tab-btn-icon {
+    font-size: 1.1rem;
+  }
+
+  .checklist-iframe-wrapper {
+    min-height: 620px;
+  }
+
+  .checklist-upload-iframe {
+    height: 680px;
+  }
+}

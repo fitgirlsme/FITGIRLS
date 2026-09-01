@@ -13,12 +13,10 @@ const API_BASE = 'https://kakaoapi.aligo.in/akv10/alimtalk/send/';
  * @param {Object} options - Additional options like buttons
  */
 export const sendAlimtalk = async (receiver, templateCode, message, options = {}) => {
-    const {
-        VITE_ALIGO_API_KEY: apikey,
-        VITE_ALIGO_USER_ID: userid,
-        VITE_ALIGO_SENDER_KEY: senderkey,
-        VITE_ALIGO_SENDER: sender
-    } = import.meta.env;
+    const apikey = import.meta.env.VITE_ALIGO_API_KEY || '6185ut1g3f7ni1xcbyfwcmv8urbtxa2c';
+    const userid = import.meta.env.VITE_ALIGO_USER_ID || 'inafit';
+    const senderkey = import.meta.env.VITE_ALIGO_SENDER_KEY || 'd478985a72f92efafd38018b136c4e82de3f024e';
+    const sender = import.meta.env.VITE_ALIGO_SENDER || '01046961434';
 
     if (!apikey || !userid || !senderkey) {
         throw new Error('Aligo configuration is missing in .env');

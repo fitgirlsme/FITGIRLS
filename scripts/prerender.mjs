@@ -23,7 +23,7 @@ const corePaths = ['/', '/gallery', '/service', '/location', '/faq', '/studios']
 
 const pageBodies = {
     "/": {
-        ko: "<h1>핏걸즈 & 이너핏 스튜디오</h1><p>압도적인 무드의 여자 바디프로필, 피토리얼리스트 화보 전문 촬영. 고객별 맞춤 포즈, 무드, 스타일링 무료 기획.</p>",
+        ko: "<h1>강남 여자바디프로필 전문 스튜디오 | 핏걸즈 & 이너핏</h1><p>강남 신사동 프리미엄 여자바디프로필 전문 화보 스튜디오 핏걸즈 & 이너핏(FITGIRLS). 80개 이상의 독보적인 컨셉존에서 고객별 맞춤 포즈, 무드, 의상 스타일링을 무료로 기획해 드립니다.</p>",
         en: "<h1>FITGIRLS & INAFIT Studio</h1><p>Premium female body profile and editorial photo studio in Seoul. Tailored poses, moods, and styling.</p>",
         ja: "<h1>FITGIRLS & INAFIT スタジオ</h1><p>ソウル江南・新沙洞の女性専用ボディプロフィール・プレミアムエディトリアルスタジオ。ヘアメイク・衣装プランニング無料。</p>",
         zh: "<h1>FITGIRLS & INAFIT 摄影棚</h1><p>首尔江南新沙洞的高端女子健身写真及高端时尚大片拍摄专业摄影棚。打造专属杂志级写真效果。</p>"

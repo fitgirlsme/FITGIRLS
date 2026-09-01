@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { db } from '../utils/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { MdCheckCircle } from 'react-icons/md';
+import { MdCheckCircle, MdAssignment, MdCloudUpload, MdOpenInNew } from 'react-icons/md';
 import { sendAlimtalk, getAlimtalkTemplate } from '../utils/aligoService';
 import './Checklist.css';
 
@@ -95,6 +95,13 @@ const EXPRESSION_OPTIONS = [
 
 const Checklist = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeMainTab = searchParams.get('tab') === 'upload' ? 'upload' : 'form';
+
+  const handleMainTabChange = (tab) => {
+    setSearchParams(tab === 'upload' ? { tab: 'upload' } : {});
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Form States (Common)
   const [name, setName] = useState('');
@@ -346,7 +353,28 @@ const Checklist = () => {
           </p>
         </header>
 
-        {/* Form */}
+        {/* Main Tabs: 체크리스트 작성 / 시안 이미지 업로드 */}
+        <div className="checklist-main-nav-tabs">
+          <button
+            type="button"
+            className={`checklist-main-tab-btn ${activeMainTab === 'form' ? 'active' : ''}`}
+            onClick={() => handleMainTabChange('form')}
+          >
+            <MdAssignment className="tab-btn-icon" />
+            <span>체크리스트 작성</span>
+          </button>
+          <button
+            type="button"
+            className={`checklist-main-tab-btn ${activeMainTab === 'upload' ? 'active' : ''}`}
+            onClick={() => handleMainTabChange('upload')}
+          >
+            <MdCloudUpload className="tab-btn-icon" />
+            <span>시안 이미지 업로드</span>
+          </button>
+        </div>
+
+        {/* Tab 1: Form */}
+        {activeMainTab === 'form' && (
         <form onSubmit={handleSubmit} className="checklist-form">
           
           {/* Card 0: Basic Info */}
@@ -790,6 +818,49 @@ const Checklist = () => {
           </div>
 
         </form>
+        )}
+
+        {/* Tab 2: 시안 이미지 업로드 */}
+        {activeMainTab === 'upload' && (
+          <div className="checklist-upload-section">
+            <div className="checklist-card upload-guide-card">
+              <span className="card-num">Upload Guide</span>
+              <h2 className="card-question">촬영 컨셉 시안 및 의상 이미지 업로드</h2>
+              <p className="card-desc">
+                원하시는 느낌의 시안 이미지(핀터레스트, 인스타그램 레퍼런스, 입고 오실 의상 등)를 업로드해 주세요.<br />
+                촬영 1주일 전까지 업로드해주시면 작가님이 조명 및 포즈 기획에 반영합니다.
+              </p>
+              
+              <div className="example-box" style={{ marginTop: '16px' }}>
+                <span className="example-title">파일명 저장 권장 예시</span>
+                <p className="example-text">
+                  <strong>성함_촬영날짜</strong> (예: <code>신철민_1025</code> / <code>홍길동_0915_컨셉1</code>)
+                </p>
+              </div>
+
+              <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'flex-end' }}>
+                <a
+                  href="https://ogirls.web.app/checklist/upload"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="checklist-external-link-btn"
+                >
+                  새 창으로 전체화면 열기 <MdOpenInNew style={{ marginLeft: '4px' }} />
+                </a>
+              </div>
+            </div>
+
+            {/* Iframe for upload system */}
+            <div className="checklist-iframe-wrapper">
+              <iframe
+                src="https://ogirls.web.app/checklist/upload"
+                title="시안 이미지 업로드 시스템"
+                className="checklist-upload-iframe"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Success Modal */}

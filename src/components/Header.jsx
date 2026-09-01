@@ -44,7 +44,7 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
             category: t('nav.info', 'Info'),
             items: [
                 { id: 'hair-makeup', label: t('nav.hairmakeup', 'Hair & Makeup'), path: '/hair-makeup' },
-                { id: 'faq', label: t('nav.faq', 'FAQ'), path: '/faq' },
+                { label: t('nav.faq', 'FAQ'), path: '/faq' },
                 { id: 'event-board', label: t('nav.event', 'Event'), path: '/event-board' },
                 { id: 'location', label: t('nav.location', 'Location'), path: '/location' },
             ]
@@ -52,7 +52,7 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
         { label: t('nav.reservation', 'Reservation'), path: '/reservation', isRed: true },
         ...(lang !== 'ko' ? [{ label: t('nav.global_booking', 'Global Booking'), path: '/global-booking', isRed: true }] : []),
         { label: t('nav.checklist', 'Checklist'), path: '/checklist' },
-        { id: 'retouch', label: 'RETOUCH', path: '/retouch' },
+        { id: 'retouch', label: 'RETOUCH', path: 'https://book.fitgirls.me/retouch', isExternal: true },
         { id: 'reviews', label: t('nav.review', 'Review'), path: '/reviews' },
         {
             category: 'CREW',
@@ -66,8 +66,13 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
         { label: t('nav.partners', 'Partnership'), path: '/partners' },
     ];
 
-    const handleNavClick = (path, sectionId) => {
+    const handleNavClick = (path, sectionId, isExternal = false) => {
         setMenuOpen(false);
+        
+        if (isExternal || path.startsWith('http://') || path.startsWith('https://')) {
+            window.location.href = path;
+            return;
+        }
         
         let targetPath = path;
         if (currentLang && currentLang !== 'ko') {
@@ -135,7 +140,7 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
                                                 <button
                                                     key={subIdx}
                                                     className={`nav-link-btn nav-sub-item ${sub.isRed ? 'nav-link-red' : ''}`}
-                                                    onClick={() => handleNavClick(sub.path, sub.id)}
+                                                    onClick={() => handleNavClick(sub.path, sub.id, sub.isExternal)}
                                                 >
                                                     {sub.label}
                                                 </button>
@@ -148,7 +153,7 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
                                 <button
                                     key={idx}
                                     className={`nav-link-btn ${item.isRed ? 'nav-link-red' : ''}`}
-                                    onClick={() => handleNavClick(item.path, item.id)}
+                                    onClick={() => handleNavClick(item.path, item.id, item.isExternal)}
                                 >
                                     {item.label}
                                 </button>

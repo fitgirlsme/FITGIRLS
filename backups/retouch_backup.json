@@ -1,0 +1,1038 @@
+{
+  "exportedAt": "2026-08-16T05:14:53.956Z",
+  "projectsCount": 23,
+  "mastersCount": 23,
+  "projects": [
+    {
+      "id": "0426",
+      "title": "안수진",
+      "isDefault": false,
+      "createdAt": 1777373929072
+    },
+    {
+      "id": "0428",
+      "title": "신철민 님 촬영",
+      "createdAt": 1777474707052
+    },
+    {
+      "id": "0502",
+      "title": "0502 촬영",
+      "createdAt": "2026-05-02T07:31:07.076Z"
+    },
+    {
+      "id": "0505",
+      "title": "0505 촬영",
+      "createdAt": "2026-05-05T07:36:21.115Z"
+    },
+    {
+      "id": "0516",
+      "createdAt": "2026-05-16T07:42:08.200Z",
+      "title": "0516 촬영"
+    },
+    {
+      "id": "0525",
+      "createdAt": "2026-05-25T06:36:29.609Z",
+      "title": "0525 촬영"
+    },
+    {
+      "id": "0717",
+      "createdAt": "2026-07-17T03:38:43.926Z",
+      "title": "0717 촬영"
+    },
+    {
+      "id": "251001",
+      "title": "윤혜 님 촬영",
+      "createdAt": 1777376528107
+    },
+    {
+      "id": "260425",
+      "createdAt": "2026-04-30T05:31:01.499Z",
+      "title": "260425 촬영"
+    },
+    {
+      "id": "260426",
+      "title": "안수진 님 촬영",
+      "createdAt": 1777375030578
+    },
+    {
+      "id": "260501",
+      "title": "260501 촬영",
+      "createdAt": "2026-05-01T07:33:36.937Z"
+    },
+    {
+      "id": "260502",
+      "createdAt": "2026-05-02T10:34:20.251Z",
+      "title": "260502 촬영"
+    },
+    {
+      "id": "260509",
+      "createdAt": "2026-05-09T04:31:10.098Z",
+      "title": "260509 촬영"
+    },
+    {
+      "id": "260601",
+      "createdAt": "2026-06-01T05:45:51.634Z",
+      "title": "260601 촬영"
+    },
+    {
+      "id": "260606",
+      "title": "260606 촬영",
+      "createdAt": "2026-06-06T09:20:39.200Z"
+    },
+    {
+      "id": "260710",
+      "title": "260710 촬영",
+      "createdAt": "2026-07-10T04:56:34.696Z"
+    },
+    {
+      "id": "260711",
+      "createdAt": "2026-07-13T17:09:06.634Z",
+      "title": "260711 촬영"
+    },
+    {
+      "id": "260717",
+      "createdAt": "2026-07-17T03:38:43.938Z",
+      "title": "260717 촬영"
+    },
+    {
+      "id": "260808",
+      "title": "260808 촬영",
+      "createdAt": "2026-08-08T03:07:41.532Z"
+    },
+    {
+      "id": "260813",
+      "createdAt": "2026-08-13T05:52:58.995Z",
+      "title": "260813 촬영"
+    },
+    {
+      "id": "260816",
+      "title": "260816 촬영",
+      "createdAt": "2026-08-16T03:30:09.197Z"
+    },
+    {
+      "id": "260918",
+      "createdAt": "2026-08-12T04:07:54.910Z",
+      "title": "260918 촬영"
+    },
+    {
+      "id": "360815",
+      "createdAt": "2026-08-15T03:17:01.919Z",
+      "title": "360815 촬영"
+    }
+  ],
+  "masters": [
+    {
+      "id": "01020639867",
+      "projectBaseRetouchCounts": {
+        "260509": 4
+      },
+      "reviewConsents": {
+        "260509": true
+      },
+      "projectConcepts": {
+        "260509": "2컨셉"
+      },
+      "instaConsents": {},
+      "projectHistory": [
+        "260509"
+      ],
+      "clientFeedbacks": {
+        "260509": ""
+      },
+      "statusUpdatedAts": {
+        "260509": "2026-05-29T14:26:12.282Z"
+      },
+      "name": "유연진",
+      "projectStatuses": {
+        "260509": "최종보정완료"
+      },
+      "phone": "01020639867",
+      "password": "9867",
+      "preRetouchSent": {
+        "260509": true
+      },
+      "requestDates": {
+        "260509": "260509"
+      },
+      "dropboxArchives": {
+        "260509": "https://www.dropbox.com/scl/fo/gbj5rh8kedchuw71usgxj/AOkRbMfG3FeMd2s_FeI5ZF4?rlkey=ueb8qsc5jedwyiudy64orn4uh&dl=0"
+      }
+    },
+    {
+      "id": "01023256964",
+      "clientFeedbacks": {},
+      "reviewConsents": {
+        "260710": true
+      },
+      "dropboxArchives": {
+        "260710": "https://drive.google.com/drive/folders/1S6t6IukgO0-6Q1WHWVgvGKNG4Fs25Nx1?usp=sharing"
+      },
+      "password": "6964",
+      "phone": "01023256964",
+      "projectStatuses": {
+        "260710": "최종보정완료"
+      },
+      "projectBaseRetouchCounts": {
+        "260710": 4
+      },
+      "preRetouchSent": {
+        "260710": true
+      },
+      "instaIds": {
+        "260710": "o__ming"
+      },
+      "instaConsents": {
+        "260710": true
+      },
+      "statusUpdatedAts": {
+        "260710": "2026-07-27T16:13:20.842Z"
+      },
+      "name": "오민영",
+      "projectHistory": [
+        "260710"
+      ],
+      "projectConcepts": {
+        "260710": "2컨셉"
+      },
+      "requestDates": {
+        "260710": "260710"
+      }
+    },
+    {
+      "id": "01024784015",
+      "instaConsents": {
+        "0516": false
+      },
+      "reviewConsents": {
+        "0516": false
+      },
+      "statusUpdatedAts": {
+        "0516": "2026-07-11T03:45:44.230Z"
+      },
+      "projectConcepts": {
+        "0516": "1컨셉"
+      },
+      "name": "설희향",
+      "requestDates": {
+        "0516": "260516"
+      },
+      "password": "4015",
+      "projectBaseRetouchCounts": {
+        "0516": 2
+      },
+      "projectHistory": [
+        "0516"
+      ],
+      "clientFeedbacks": {},
+      "phone": "01024784015",
+      "projectStatuses": {
+        "0516": "최종보정완료"
+      },
+      "preRetouchSent": {
+        "0516": true
+      },
+      "dropboxArchives": {
+        "0516": "https://www.dropbox.com/scl/fo/rbcr3268dgz1ufonl0nz1/ADtqKm0Nq1_qczwCTroWlF8?rlkey=shukjwm4e2wydeq4g6zqep020&dl=0"
+      }
+    },
+    {
+      "id": "01025037049",
+      "requestDates": {
+        "260426": "260428"
+      },
+      "projectConcepts": {
+        "260426": "우정패키지2"
+      },
+      "createdAt": 1777375030666,
+      "clientFeedbacks": {
+        "260426": ""
+      },
+      "projectHistory": [
+        "260426"
+      ],
+      "name": "안수진",
+      "password": "7049",
+      "phone": "01025037049",
+      "projectStatuses": {
+        "260426": "1차보정완료(피드백요청)"
+      },
+      "updatedAt": 1777375030666,
+      "preRetouchSent": {
+        "260426": true
+      },
+      "artistResponses": {
+        "260426": ""
+      },
+      "dropboxArchives": {
+        "260426": "https://www.dropbox.com/scl/fo/h6riij2nwl31si82vnhdh/ACTcjhBorM4RVyWy-kz21y0?rlkey=2bs4wrij3b3kmpng0lenqfehh&dl=0"
+      },
+      "projectBaseRetouchCounts": {
+        "260426": 10
+      }
+    },
+    {
+      "id": "01025659562",
+      "instaIds": {
+        "260501": "@nariet__"
+      },
+      "reviewConsents": {
+        "260501": true
+      },
+      "projectConcepts": {
+        "260501": "1컨셉"
+      },
+      "name": "김나리",
+      "clientFeedbacks": {
+        "260501": "6700사진만 복근 살짝 더 선명하게 가능할까요..?!"
+      },
+      "instaConsents": {
+        "260501": true
+      },
+      "phone": "01025659562",
+      "projectHistory": [
+        "260501"
+      ],
+      "projectBaseRetouchCounts": {
+        "260501": 2
+      },
+      "password": "9562",
+      "preRetouchSent": {
+        "260501": true
+      },
+      "projectStatuses": {
+        "260501": "최종보정완료"
+      },
+      "dropboxArchives": {
+        "260501": "https://www.dropbox.com/scl/fo/9wklxqxfetjp5bc43x5x9/AKlOOZS6e_OpwQYV2zpTBEE?rlkey=aual0wk9n4nvuapeyjvhsbdtd&dl=0"
+      },
+      "artistResponses": {
+        "260501": "지금 정도로 조금 진하게 복근 선명하게 했어요^0^\n"
+      },
+      "requestDates": {
+        "260501": "260501"
+      }
+    },
+    {
+      "id": "01026787589",
+      "statusUpdatedAts": {
+        "260711": "2026-07-28T02:00:34.968Z"
+      },
+      "requestDates": {
+        "260711": "260713"
+      },
+      "projectConcepts": {
+        "260711": "2컨셉"
+      },
+      "reviewConsents": {
+        "260711": true
+      },
+      "instaConsents": {
+        "260711": false
+      },
+      "clientFeedbacks": {
+        "260711": "너무 아름답게 보정해주셔서 감사합니다^♡^ 한가지 흑백등사진 엉덩이가 오른쪽이 더  큰거 같은데 조금 줄여도 될까요? 그냥 제 생각입니다 작가님이 보시기에 괜찮으시면 그냥 최종으로 컨펌하셔도 괜찮구요^^"
+      },
+      "preRetouchSent": {
+        "260711": true
+      },
+      "password": "7589",
+      "artistResponses": {
+        "260711": "안녕하세요^0^ 제가 힙라인 사이즈 살짝 조정해서 커버까지 해서 링크에 넣어놨어용!! 한번 다운로드 받아보세용"
+      },
+      "dropboxArchives": {
+        "260711": "https://drive.google.com/drive/folders/1kXie_2jdNl3_Kv9NHjZszBGtK5VHlQkO?usp=sharing"
+      },
+      "projectHistory": [
+        "260711"
+      ],
+      "phone": "01026787589",
+      "name": "최명희",
+      "projectStatuses": {
+        "260711": "최종보정완료"
+      },
+      "projectBaseRetouchCounts": {
+        "260711": 4
+      }
+    },
+    {
+      "id": "01026808393",
+      "statusUpdatedAts": {
+        "260918": "2026-08-12T04:07:55.013Z"
+      },
+      "phone": "01026808393",
+      "projectBaseRetouchCounts": {
+        "260918": 4
+      },
+      "projectConcepts": {
+        "260918": "2컨셉"
+      },
+      "reviewConsents": {
+        "260918": false
+      },
+      "password": "8393",
+      "clientFeedbacks": {},
+      "requestDates": {
+        "260918": "260918"
+      },
+      "instaConsents": {
+        "260918": false
+      },
+      "projectStatuses": {
+        "260918": "보정대기"
+      },
+      "dropboxArchives": {
+        "260918": ""
+      },
+      "projectHistory": [
+        "260918"
+      ],
+      "name": "이정민"
+    },
+    {
+      "id": "01033723574",
+      "requestDates": {
+        "360815": "260815"
+      },
+      "projectHistory": [
+        "360815"
+      ],
+      "password": "3574",
+      "phone": "01033723574",
+      "name": "정수민",
+      "projectConcepts": {
+        "360815": "2컨셉"
+      },
+      "reviewConsents": {
+        "360815": true
+      },
+      "clientFeedbacks": {},
+      "statusUpdatedAts": {
+        "360815": "2026-08-15T03:17:02.005Z"
+      },
+      "instaConsents": {},
+      "projectStatuses": {
+        "360815": "보정대기"
+      },
+      "projectBaseRetouchCounts": {
+        "360815": 4
+      },
+      "dropboxArchives": {
+        "360815": "https://www.dropbox.com/scl/fo/a2lurgi4s3a2g3r1hall8/AJt9wByidHX6pWcP1b3OSbo?rlkey=xvvybtp4y23t564etex7w1kru&dl=0"
+      }
+    },
+    {
+      "id": "01034118155",
+      "clientFeedbacks": {},
+      "name": "배혜민",
+      "phone": "01034118155",
+      "projectBaseRetouchCounts": {
+        "260601": 2
+      },
+      "reviewConsents": {
+        "260601": true
+      },
+      "statusUpdatedAts": {
+        "260601": "2026-06-11T01:40:31.081Z"
+      },
+      "projectStatuses": {
+        "260601": "최종보정완료"
+      },
+      "password": "8155",
+      "requestDates": {
+        "260601": "260601"
+      },
+      "dropboxArchives": {
+        "260601": "https://www.dropbox.com/scl/fo/u14q08cxafm3y6lick5rb/ADhJcx3CN83irGeGTdq9XZs?rlkey=dy9u6k9jwidt90udweqv6h7h7&dl=0"
+      },
+      "instaIds": {
+        "260601": "@gina16616"
+      },
+      "projectConcepts": {
+        "260601": "1컨셉"
+      },
+      "projectExtraRetouchCounts": {
+        "260601": 1
+      },
+      "projectHistory": [
+        "260601"
+      ],
+      "instaConsents": {
+        "260601": true
+      }
+    },
+    {
+      "id": "01041115558",
+      "artistResponses": {
+        "251001": "2장이 빠져 있었어용^0^ 제가 두장 빠진거랑 카메라 든거 같이 해서!! 커버 제작해서 보낼게요^0^~"
+      },
+      "dropboxArchives": {
+        "251001": "https://www.dropbox.com/scl/fo/rnrg40teoaqctnmc4balw/AFi3o0KaBEab-5li28iqCr4?rlkey=v2v77j8h9e4836it198f6gf8g&dl=0"
+      },
+      "projectExtraRetouchCounts": {
+        "251001": 0
+      },
+      "projectHistory": [
+        "251001"
+      ],
+      "projectStatuses": {
+        "251001": "최종보정완료"
+      },
+      "name": "윤혜",
+      "password": "5558",
+      "preRetouchSent": {
+        "251001": true
+      },
+      "createdAt": 1777376528323,
+      "clientFeedbacks": {
+        "251001": "카메라들고있는 사진 혹시 가슴을 좀만 더 업하면 부자연 스러울까요??^^;; 그리고 사진이 4장만 확인되눈데 2장을 제가 못찾는 것일까요?"
+      },
+      "projectBaseRetouchCounts": {
+        "251001": 4
+      },
+      "instaIds": {
+        "251001": "Perfect_minikim"
+      },
+      "projectConcepts": {
+        "251001": "2컨셉"
+      },
+      "reviewConsents": {
+        "251001": true
+      },
+      "phone": "01041115558",
+      "updatedAt": 1777376528323,
+      "instaConsents": {
+        "251001": true
+      },
+      "requestDates": {
+        "251001": "260422"
+      }
+    },
+    {
+      "id": "01046961441",
+      "levelSubmitteds": {
+        "0428": true
+      },
+      "projectBaseRetouchCounts": {
+        "0428": 10
+      },
+      "projectHistory": [
+        "0428"
+      ],
+      "projectExtraRetouchCounts": {
+        "0428": 2
+      },
+      "requestDates": {
+        "0428": "260422"
+      },
+      "password": "1441",
+      "createdAt": 1777474707123,
+      "projectConcepts": {
+        "0428": "우정패키지2"
+      },
+      "retouchLevels": {
+        "0428": 1
+      },
+      "preRetouchSent": {
+        "0428": true
+      },
+      "updatedAt": 1777474707123,
+      "clientFeedbacks": {
+        "0428": ""
+      },
+      "reviewConsents": {
+        "0428": true
+      },
+      "instaConsents": {
+        "0428": true
+      },
+      "name": "신철민",
+      "statusUpdatedAts": {
+        "0428": "2026-08-11T00:52:43.706Z"
+      },
+      "projectStatuses": {
+        "0428": "보정대기"
+      },
+      "instaIds": {
+        "0428": "fitgirls.me"
+      },
+      "retouchChecklists": {
+        "0428": {
+          "focus_areas": [
+            "trapezius",
+            "arm",
+            "thigh",
+            "pelvis",
+            "waist",
+            "nose",
+            "calf"
+          ],
+          "body_level": 3,
+          "desired_style": "balanced",
+          "additional_request": "iuljlklklkkl",
+          "body_ratio_change": "keep",
+          "preserve_features": [
+            "leg_length",
+            "waist_curve",
+            "shoulder_width"
+          ],
+          "face_level": 3,
+          "submittedAt": "2026-07-12T13:04:29.981Z",
+          "skin_finish": "matte"
+        }
+      },
+      "phone": "01046961441",
+      "dropboxArchives": {
+        "0428": "https://www.dropbox.com/scl/fo/6pdqb2946bk377b2ckyae/AMzZ-8nst5GPqE7s08fe-XI?rlkey=eskusgymxide7c70gph4wvnvh&dl=0"
+      },
+      "artistResponses": {
+        "0428": ""
+      }
+    },
+    {
+      "id": "01048164962",
+      "projectConcepts": {
+        "260808": "1컨셉"
+      },
+      "name": "신채원",
+      "reviewConsents": {
+        "260808": true
+      },
+      "instaConsents": {},
+      "requestDates": {
+        "260808": "260808"
+      },
+      "password": "4962",
+      "projectBaseRetouchCounts": {
+        "260808": 2
+      },
+      "dropboxArchives": {
+        "260808": "https://www.dropbox.com/scl/fo/8nukbypw0kfq4nksiexsa/AO0jL4BauRt9Y4OZoPs8S9U?rlkey=ezeagd6z26ilzwpstot6pheh4&dl=0"
+      },
+      "projectStatuses": {
+        "260808": "보정대기"
+      },
+      "projectHistory": [
+        "260808"
+      ],
+      "statusUpdatedAts": {
+        "260808": "2026-08-08T03:07:41.615Z"
+      },
+      "clientFeedbacks": {},
+      "phone": "01048164962"
+    },
+    {
+      "id": "01049477347",
+      "statusUpdatedAts": {
+        "260606": "2026-07-18T11:53:35.494Z"
+      },
+      "instaConsents": {
+        "260606": false
+      },
+      "reviewConsents": {
+        "260606": false
+      },
+      "requestDates": {
+        "260606": "260606"
+      },
+      "projectConcepts": {
+        "260606": "2컨셉"
+      },
+      "password": "7347",
+      "projectBaseRetouchCounts": {
+        "260606": 4
+      },
+      "clientFeedbacks": {
+        "260606": "[추가수정요청]\n1번, 2번: 복근 살짝 빼주세요. 어색하지 않게 부탁드립니다. 그리고, 가슴골 조금더 해주세요.\n4번, 6번: 가슴골 조금더 해주시길 부탁합니다.\n7번, 10번: 팔뚝 조금더 얇게 부탁드립니다.\n\n감사합니다:)"
+      },
+      "projectHistory": [
+        "260606"
+      ],
+      "projectStatuses": {
+        "260606": "최종보정완료"
+      },
+      "dropboxArchives": {
+        "260606": "https://www.dropbox.com/scl/fo/hqxtlf6xzzw5v8w76dcbb/AGqAXng0ce0v10jANJt2dsA?rlkey=oit22ne0jc9vpz1tkieu9lqrz&dl=0"
+      },
+      "phone": "01049477347",
+      "name": "조재희",
+      "projectExtraRetouchCounts": {
+        "260606": 6
+      }
+    },
+    {
+      "id": "01050428258",
+      "reviewConsents": {
+        "260425": true
+      },
+      "clientFeedbacks": {
+        "260425": ""
+      },
+      "name": "반나길",
+      "instaConsents": {
+        "260425": true
+      },
+      "dropboxArchives": {
+        "260425": "https://www.dropbox.com/scl/fo/k371zx0goy3gbofgcyfnk/AKMsydDvuTZ4NCJ286FbD5c?rlkey=sh21qi9ttpcq5bumkpicnmojr&dl=0"
+      },
+      "projectStatuses": {
+        "260425": "보정중"
+      },
+      "password": "8258",
+      "projectHistory": [
+        "260425"
+      ],
+      "phone": "01050428258",
+      "projectBaseRetouchCounts": {
+        "260425": 4
+      },
+      "requestDates": {
+        "260425": "260505"
+      },
+      "preRetouchSent": {
+        "260425": true
+      },
+      "projectConcepts": {
+        "260425": "2컨셉"
+      }
+    },
+    {
+      "id": "01054610632",
+      "name": "박정서",
+      "projectHistory": [
+        "260601"
+      ],
+      "projectBaseRetouchCounts": {
+        "260601": 2
+      },
+      "statusUpdatedAts": {
+        "260601": "2026-06-11T01:40:50.364Z"
+      },
+      "password": "0632",
+      "instaConsents": {
+        "260601": true
+      },
+      "projectExtraRetouchCounts": {
+        "260601": 1
+      },
+      "projectConcepts": {
+        "260601": "1컨셉"
+      },
+      "phone": "01054610632",
+      "reviewConsents": {
+        "260601": true
+      },
+      "instaIds": {
+        "260601": "urwh4tue4t"
+      },
+      "clientFeedbacks": {},
+      "requestDates": {
+        "260601": "260601"
+      },
+      "dropboxArchives": {
+        "260601": "https://www.dropbox.com/scl/fo/7cwo4fd2xxxgyyqngriiv/AII5HZTwcoJ_dYMwFuwQ9d8?rlkey=d5pcow9cg0hjx6pv8ygcqh9ak&dl=0"
+      },
+      "projectStatuses": {
+        "260601": "최종보정완료"
+      }
+    },
+    {
+      "id": "01056554937",
+      "instaIds": {
+        "0505": ""
+      },
+      "projectConcepts": {
+        "0505": "1컨셉"
+      },
+      "name": "김혜민",
+      "reviewConsents": {
+        "0505": true
+      },
+      "projectBaseRetouchCounts": {
+        "0505": 2
+      },
+      "instaConsents": {
+        "0505": true
+      },
+      "projectStatuses": {
+        "0505": "보정중"
+      },
+      "projectHistory": [
+        "0505"
+      ],
+      "dropboxArchives": {
+        "0505": "https://www.dropbox.com/scl/fo/yx73jdrt3k5gxvx7robrm/AOUPFTTBQTHXGrD0rTpSirk?rlkey=dngn24s2ju47izge2t0ohiceh&dl=0"
+      },
+      "clientFeedbacks": {},
+      "password": "4937",
+      "phone": "01056554937",
+      "preRetouchSent": {
+        "0505": true
+      },
+      "requestDates": {
+        "0505": "260505"
+      }
+    },
+    {
+      "id": "01057768633",
+      "reviewConsents": {
+        "260425": true
+      },
+      "clientFeedbacks": {
+        "260425": ""
+      },
+      "projectStatuses": {
+        "260425": "최종보정완료"
+      },
+      "instaIds": {
+        "260425": "@hyunttong_"
+      },
+      "artistResponses": {
+        "260425": ""
+      },
+      "dropboxArchives": {
+        "260425": "https://www.dropbox.com/scl/fo/ybmo0hx84f614t7n3p4b9/ALssctcxrrQdYYzzmtbSDCI?rlkey=kdynvvogz0k4zo20ztsz3neru&dl=0"
+      },
+      "password": "8633",
+      "projectHistory": [
+        "260425"
+      ],
+      "name": "이현지",
+      "projectBaseRetouchCounts": {
+        "260425": 4
+      },
+      "requestDates": {
+        "260425": "260430"
+      },
+      "preRetouchSent": {
+        "260425": true
+      },
+      "phone": "01057768633",
+      "projectConcepts": {
+        "260425": "2컨셉"
+      },
+      "instaConsents": {
+        "260425": true
+      }
+    },
+    {
+      "id": "01058988626",
+      "instaConsents": {},
+      "projectStatuses": {
+        "0505": "최종보정완료"
+      },
+      "phone": "01058988626",
+      "name": "한예지",
+      "dropboxArchives": {
+        "0505": "https://www.dropbox.com/scl/fo/b6slh56jmab4meehxye3m/APeawNLPG2D8LQlARCahHSs?rlkey=vbumpqppt3psf1kcr2cyxz9ya&dl=0"
+      },
+      "clientFeedbacks": {
+        "0505": ""
+      },
+      "reviewConsents": {
+        "0505": true
+      },
+      "password": "8626",
+      "requestDates": {
+        "0505": "260505"
+      },
+      "projectConcepts": {
+        "0505": "2컨셉"
+      },
+      "projectBaseRetouchCounts": {
+        "0505": 4
+      },
+      "preRetouchSent": {
+        "0505": true
+      },
+      "projectHistory": [
+        "0505"
+      ]
+    },
+    {
+      "id": "01063029509",
+      "statusUpdatedAts": {
+        "0502": "2026-07-11T03:45:33.988Z"
+      },
+      "password": "9509",
+      "dropboxArchives": {
+        "0502": "https://www.dropbox.com/scl/fo/plrbbi1zstbkaanharb3x/AHheUjVBqvnEEcfN-SN-IEc?rlkey=2lqnrb26mosmciyc0xwr7bllq&dl=0"
+      },
+      "artistResponses": {
+        "0502": ""
+      },
+      "projectStatuses": {
+        "0502": "최종보정완료"
+      },
+      "preRetouchSent": {
+        "0502": true
+      },
+      "projectBaseRetouchCounts": {
+        "0502": 4
+      },
+      "projectHistory": [
+        "0502"
+      ],
+      "phone": "01063029509",
+      "clientFeedbacks": {
+        "0502": ""
+      },
+      "name": "이율리",
+      "requestDates": {
+        "0502": "260502"
+      },
+      "instaConsents": {
+        "0502": true
+      },
+      "projectConcepts": {
+        "0502": "2컨셉"
+      },
+      "instaIds": {
+        "0502": "_x_oan"
+      },
+      "reviewConsents": {
+        "0502": true
+      }
+    },
+    {
+      "id": "01064871638",
+      "statusUpdatedAts": {
+        "260813": "2026-08-13T05:52:59.095Z"
+      },
+      "reviewConsents": {},
+      "clientFeedbacks": {},
+      "requestDates": {
+        "260813": "260813"
+      },
+      "projectStatuses": {
+        "260813": "보정대기"
+      },
+      "projectBaseRetouchCounts": {
+        "260813": 2
+      },
+      "instaConsents": {},
+      "name": "최림",
+      "dropboxArchives": {
+        "260813": "https://www.dropbox.com/scl/fo/727549fxdfnzy4cugti34/AJMedt8paXjrEBN7sWgx-XA?rlkey=4ba90hzf17edbw0rhmuhku95b&dl=0"
+      },
+      "projectHistory": [
+        "260813"
+      ],
+      "projectConcepts": {
+        "260813": "1컨셉"
+      },
+      "password": "1638",
+      "phone": "01064871638"
+    },
+    {
+      "id": "01079374385",
+      "requestDates": {
+        "260816": "260816"
+      },
+      "projectConcepts": {
+        "260816": "3컨셉"
+      },
+      "projectHistory": [
+        "260816"
+      ],
+      "instaConsents": {},
+      "name": "황시윤",
+      "projectStatuses": {
+        "260816": "보정대기"
+      },
+      "password": "4385",
+      "projectBaseRetouchCounts": {
+        "260816": 6
+      },
+      "dropboxArchives": {
+        "260816": "https://www.dropbox.com/scl/fo/gjx277u3fvh6pb22nsz18/ABjxmnHSfH97JsWw0m7NQGU?rlkey=la3kyosr2ca76iagg3j7l8ch1&dl=0"
+      },
+      "reviewConsents": {},
+      "statusUpdatedAts": {
+        "260816": "2026-08-16T03:30:09.290Z"
+      },
+      "clientFeedbacks": {},
+      "phone": "01079374385"
+    },
+    {
+      "id": "01082803487",
+      "reviewConsents": {
+        "260502": true
+      },
+      "projectConcepts": {
+        "260502": "1컨셉"
+      },
+      "projectBaseRetouchCounts": {
+        "260502": 2
+      },
+      "requestDates": {
+        "260502": "260502"
+      },
+      "instaIds": {
+        "260502": "@libby_thebest"
+      },
+      "projectExtraRetouchCounts": {
+        "260502": 0
+      },
+      "instaConsents": {
+        "260502": true
+      },
+      "name": "조은비",
+      "projectStatuses": {
+        "260502": "최종보정완료"
+      },
+      "dropboxArchives": {
+        "260502": "https://www.dropbox.com/scl/fo/ikzoyeogq09sugi1k6ki7/AEutoasHzJV0QZ9ebb06FAc?rlkey=gip99n24stc9nj1sw0ml3id3n&dl=0"
+      },
+      "projectHistory": [
+        "260502"
+      ],
+      "clientFeedbacks": {
+        "260502": ""
+      },
+      "preRetouchSent": {
+        "260502": false
+      },
+      "phone": "01082803487",
+      "statusUpdatedAts": {
+        "260502": "2026-05-29T02:32:25.274Z"
+      },
+      "password": "3487"
+    },
+    {
+      "id": "01098134168",
+      "projectBaseRetouchCounts": {
+        "260717": 4,
+        "0717": 4
+      },
+      "name": "김화란",
+      "statusUpdatedAts": {
+        "260717": "2026-07-17T03:38:44.070Z",
+        "0717": "2026-08-11T01:00:19.052Z"
+      },
+      "requestDates": {
+        "260717": "260717",
+        "0717": "260717"
+      },
+      "projectHistory": [
+        "0717",
+        "260717"
+      ],
+      "projectConcepts": {
+        "260717": "2컨셉",
+        "0717": "2컨셉"
+      },
+      "clientFeedbacks": {},
+      "instaConsents": {},
+      "phone": "01098134168",
+      "reviewConsents": {},
+      "dropboxArchives": {
+        "260717": "https://www.dropbox.com/scl/fo/y6z4sloqtpk79h36w4srp/AM-g0AU3-tvlQIEFZok7ips?rlkey=0993ekljhcg4jmyppasvmvuir&dl=0"
+      },
+      "password": "4168",
+      "projectStatuses": {
+        "260717": "보정대기",
+        "0717": "선보정(당일보정)"
+      }
+    }
+  ]
+}

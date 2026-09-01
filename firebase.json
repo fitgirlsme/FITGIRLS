@@ -48,6 +48,36 @@
         "source": "/zh/price",
         "destination": "/zh/service",
         "type": 301
+      },
+      {
+        "source": "/retouch",
+        "destination": "https://ogirls.me/retouching",
+        "type": 302
+      },
+      {
+        "source": "/retouch/**",
+        "destination": "https://ogirls.me/retouching",
+        "type": 302
+      },
+      {
+        "source": "/en/retouch",
+        "destination": "https://ogirls.me/retouching",
+        "type": 302
+      },
+      {
+        "source": "/ja/retouch",
+        "destination": "https://ogirls.me/retouching",
+        "type": 302
+      },
+      {
+        "source": "/fnq",
+        "destination": "/faq",
+        "type": 301
+      },
+      {
+        "source": "/qna",
+        "destination": "/faq",
+        "type": 301
       }
     ],
     "rewrites": [
@@ -104,24 +134,6 @@
       },
       {
         "source": "/retouch/**",
-        "headers": [
-          {
-            "key": "X-Robots-Tag",
-            "value": "noindex"
-          }
-        ]
-      },
-      {
-        "source": "/checklist",
-        "headers": [
-          {
-            "key": "X-Robots-Tag",
-            "value": "noindex"
-          }
-        ]
-      },
-      {
-        "source": "/checklist/**",
         "headers": [
           {
             "key": "X-Robots-Tag",

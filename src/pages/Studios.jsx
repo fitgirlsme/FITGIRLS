@@ -744,24 +744,7 @@ const Studios = ({ changeLanguage, currentLang }) => {
                                             <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                                 <div>
                                                     <a 
-                                                        href="/checklist" 
-                                                        target="_blank" 
-                                                        rel="noopener noreferrer" 
-                                                        style={{ 
-                                                            color: '#FF003C', 
-                                                            textDecoration: 'underline', 
-                                                            fontWeight: 'bold',
-                                                            display: 'inline-block'
-                                                        }}
-                                                    >
-                                                        {currentLang === 'en' ? '👉 Go to Styling Survey' : 
-                                                         currentLang === 'ja' ? '👉 スタイル調査表へ' :
-                                                         currentLang === 'zh' ? '👉 前往填写造型问卷' : '👉 스타일링 설문 작성하기'}
-                                                    </a>
-                                                </div>
-                                                <div>
-                                                    <a 
-                                                        href="https://script.google.com/macros/s/AKfycbya6YpPKoWUYZfcDGP8C-W1zKwvpkAeGHETSGfx0pbK6RtI-WTxhV0Po3T3O54pHNgvsA/exec"
+                                                        href="https://book.fitgirls.me/checklist/upload"
                                                         target="_blank" 
                                                         rel="noopener noreferrer" 
                                                         style={{ 

@@ -384,9 +384,55 @@ const RetouchAdminTab = () => {
 
     return (
         <div className="retouch-admin-container">
+            {/* 오걸즈 보정 관리 통합 이전 안내 배너 */}
+            <div style={{
+                background: 'linear-gradient(135deg, #1e1e24 0%, #2a1b2d 100%)',
+                border: '1.5px solid #ff0055',
+                borderRadius: '16px',
+                padding: '20px 24px',
+                marginBottom: '24px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '16px',
+                boxShadow: '0 8px 24px rgba(255, 0, 85, 0.15)'
+            }}>
+                <div>
+                    <h3 style={{ margin: '0 0 6px', fontSize: '1.15rem', color: '#fff', fontWeight: '800' }}>
+                        ✨ 보정 관리 시스템이 오걸즈(OGIRLS)로 이전 완료되었습니다
+                    </h3>
+                    <p style={{ margin: 0, fontSize: '0.88rem', color: 'rgba(255,255,255,0.7)', lineHeight: '1.5' }}>
+                        기존 46건의 데이터가 <strong>ogirls.me</strong>로 정상 이관되었습니다. 신규 보정건 등록 및 관리는 오걸즈 어드민을 이용해 주세요.
+                    </p>
+                </div>
+                <a
+                    href="https://ogirls.me/admin"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                        background: '#ff0055',
+                        color: '#fff',
+                        textDecoration: 'none',
+                        padding: '10px 22px',
+                        borderRadius: '30px',
+                        fontWeight: '700',
+                        fontSize: '0.9rem',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        boxShadow: '0 4px 14px rgba(255, 0, 85, 0.4)',
+                        transition: 'transform 0.2s ease',
+                        whiteSpace: 'nowrap'
+                    }}
+                >
+                    오걸즈 보정 관리자 바로가기 ↗
+                </a>
+            </div>
+
             <div className="retouch-admin-header">
                 <div className="header-left">
-                    <h2 className="admin-logo">RETOUCH <span>ADMIN</span></h2>
+                    <h2 className="admin-logo">RETOUCH <span>ADMIN (핏걸즈 아카이브)</span></h2>
                 </div>
                 <div className="header-right">
                     <div className="search-container">

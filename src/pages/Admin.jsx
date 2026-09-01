@@ -3192,6 +3192,32 @@ const formatPrice = (val) => {
     return num.toLocaleString() + '원';
 };
 
+const loadQuill = () => {
+    return new Promise((resolve) => {
+        if (window.Quill) return resolve(window.Quill);
+
+        if (!document.getElementById('quill-css')) {
+            const link = document.createElement('link');
+            link.id = 'quill-css';
+            link.rel = 'stylesheet';
+            link.href = 'https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css';
+            document.head.appendChild(link);
+        }
+
+        const existingScript = document.getElementById('quill-js');
+        if (existingScript) {
+            existingScript.addEventListener('load', () => resolve(window.Quill));
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.id = 'quill-js';
+        script.src = 'https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js';
+        script.onload = () => resolve(window.Quill);
+        document.head.appendChild(script);
+    });
+};
+
 const RichEditor = ({ value, onChange, placeholder }) => {
     const editorRef = useRef(null);
     const quillRef = useRef(null);
@@ -3200,8 +3226,11 @@ const RichEditor = ({ value, onChange, placeholder }) => {
     useEffect(() => {
         if (!editorRef.current) return;
 
-        if (!quillRef.current && window.Quill) {
-            quillRef.current = new window.Quill(editorRef.current, {
+        let isMounted = true;
+        loadQuill().then((Quill) => {
+            if (!isMounted || !editorRef.current || quillRef.current || !Quill) return;
+
+            quillRef.current = new Quill(editorRef.current, {
                 theme: 'snow',
                 placeholder: placeholder || '상세 내용을 입력하세요...',
                 modules: {
@@ -3217,7 +3246,7 @@ const RichEditor = ({ value, onChange, placeholder }) => {
             });
 
             // 클립보드 복사-붙여넣기 시 개행(\n) 보존 매처 추가
-            const Delta = window.Quill.import('delta');
+            const Delta = Quill.import('delta');
             quillRef.current.clipboard.addMatcher(Node.TEXT_NODE, (node, delta) => {
                 if (typeof node.data === 'string' && node.data.includes('\n')) {
                     const lines = node.data.split('\n');
@@ -3244,7 +3273,11 @@ const RichEditor = ({ value, onChange, placeholder }) => {
                 const html = editorRef.current.querySelector('.ql-editor').innerHTML;
                 onChange(html);
             });
-        }
+        });
+
+        return () => {
+            isMounted = false;
+        };
     }, [placeholder]);
 
     useEffect(() => {

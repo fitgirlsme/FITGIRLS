@@ -10,7 +10,7 @@ const distPath = path.join(workspaceRoot, 'dist');
 console.log('=== RUNNING STATIC SMOKE TEST ===');
 
 const pagesToCheck = [
-    { path: 'index.html', expectText: '핏걸즈 & 이너핏 스튜디오' },
+    { path: 'index.html', expectText: '강남 여자바디프로필 전문 스튜디오' },
     { path: 'en/index.html', expectText: 'FITGIRLS & INAFIT Studio' },
     { path: 'ja/index.html', expectText: 'FITGIRLS & INAFIT スタジオ' },
     { path: 'zh/index.html', expectText: 'FITGIRLS & INAFIT 摄影棚' },

@@ -43,10 +43,11 @@ import { syncAll } from './utils/syncService';
 import FloatingCoupon from './components/FloatingCoupon';
 import ReservationPage from './pages/ReservationPage';
 import Checklist from './pages/Checklist';
+import ChecklistView from './pages/ChecklistView';
 import Self from './pages/Self';
 import Maxq from './pages/Maxq';
 import ArtistPage from './pages/ArtistPage';
-import ChecklistView from './pages/ChecklistView';
+import FaqPage from './pages/FaqPage';
 import GlobalBooking from './pages/GlobalBooking';
 import GlobalFloatingBanner from './components/GlobalFloatingBanner';
 import Studios from './pages/Studios';
@@ -61,6 +62,17 @@ const Home = ({ changeLanguage, currentLang }) => {
   const [isHeaderHidden, setIsHeaderHidden] = React.useState(true);
   const [isHideCS, setIsHideCS] = React.useState(true); // Hide on first two pages
   const [isLastSectionVisible, setIsLastSectionVisible] = React.useState(false);
+
+  // URL에서 현재 섹션 추출 (/faq -> 'faq', /en/faq -> 'faq')
+  const pathParts = location.pathname.split('/').filter(Boolean);
+  const supportedLangs = ['en', 'ja', 'zh'];
+  const rawSection = section || (
+    pathParts.length > 0 && supportedLangs.includes(pathParts[0])
+      ? pathParts[1]
+      : pathParts[0]
+  );
+  // gallery는 archive 섹션 매핑
+  const currentSection = rawSection === 'gallery' ? 'archive' : rawSection;
 
   // 새로고침이나 URL 직접 입력으로 초기 스크롤이 발생할 때 IntersectionObserver가 오작동하여
   // URL을 다른 섹션으로 바꿔치기하는 현상을 막기 위한 플래그
@@ -95,17 +107,26 @@ const Home = ({ changeLanguage, currentLang }) => {
 
   // Handle section scrolling based on URL
   React.useEffect(() => {
-    if (section) {
+    if (currentSection && currentSection !== 'hero') {
       isProgrammaticScroll.current = true;
       const wasFirstMount = isFirstMount.current;
-      const delay = wasFirstMount ? 550 : 100;
+      const delay = wasFirstMount ? 350 : 100;
       isFirstMount.current = false;
 
       setTimeout(() => {
-        const targetSection = section;
+        const targetSection = currentSection;
         const el = document.getElementById(targetSection);
         if (el) {
-          el.scrollIntoView({ behavior: wasFirstMount ? 'auto' : 'smooth', block: 'start' });
+          if (window.innerWidth <= 768) {
+            el.scrollIntoView({ behavior: wasFirstMount ? 'auto' : 'smooth', block: 'start' });
+          } else {
+            const container = document.querySelector('.snap-container');
+            if (container) {
+              container.scrollTo({ top: el.offsetTop, behavior: wasFirstMount ? 'auto' : 'smooth' });
+            } else {
+              el.scrollIntoView({ behavior: wasFirstMount ? 'auto' : 'smooth', block: 'start' });
+            }
+          }
         }
         
         // 스크롤이 부드럽게 이동하는 도중에도 모바일/데스크톱 모두 헤더 상태를 주기적으로 강제 동기화
@@ -122,7 +143,7 @@ const Home = ({ changeLanguage, currentLang }) => {
           updateHeaderStates();
         }, 1500);
       }, delay);
-    } else if (location.pathname === '/') {
+    } else if (location.pathname === '/' || location.pathname === '/en' || location.pathname === '/ja' || location.pathname === '/zh') {
       const wasFirstMount = isFirstMount.current;
       isFirstMount.current = false;
       isProgrammaticScroll.current = true;
@@ -145,7 +166,7 @@ const Home = ({ changeLanguage, currentLang }) => {
     } else {
       isFirstMount.current = false;
     }
-  }, [section, location.pathname, updateHeaderStates]);
+  }, [currentSection, location.pathname, updateHeaderStates]);
 
   React.useEffect(() => {
     const lastEl = document.getElementById('reviews');
@@ -172,10 +193,13 @@ const Home = ({ changeLanguage, currentLang }) => {
 
   // Update URL based on current section using IntersectionObserver
   React.useEffect(() => {
-    const container = document.querySelector('.snap-container');
+    const isMobile = window.innerWidth <= 768;
+    const container = isMobile ? null : document.querySelector('.snap-container');
     const sections = document.querySelectorAll('.snap-section');
     
-    if (!container || sections.length === 0) return;
+    if (sections.length === 0) return;
+
+    let debounceTimer = null;
 
     const observer = new IntersectionObserver((entries) => {
       // 강제 자동 스크롤 중에는 스크롤 경로의 섹션들이 오버랩되면서 URL이 오염되는 것을 방지
@@ -186,31 +210,41 @@ const Home = ({ changeLanguage, currentLang }) => {
           const id = entry.target.id;
           if (id) {
             const newPath = (id === 'hero' || id === 'hero-intro') ? '/' : `/${id}`;
-            
-            // 특수 처리: 현재 경로가 /service/self 처럼 상세 경로인 경우, 스크롤로 인해 단순히 /service로 덮어씌워지지 않게 함
             const currentPath = window.location.pathname;
-            if (newPath === '/') {
-              if (currentPath !== '/') window.history.replaceState(null, '', '/');
+            
+            const updateUrl = () => {
+              if (newPath === '/') {
+                if (currentPath !== '/') window.history.replaceState(null, '', '/');
+              } else {
+                if (newPath === '/zone' && currentPath === '/lookbook') {
+                  return;
+                }
+                if (!currentPath.startsWith(newPath)) {
+                  window.history.replaceState(null, '', newPath);
+                }
+              }
+            };
+
+            if (isMobile) {
+              if (debounceTimer) clearTimeout(debounceTimer);
+              debounceTimer = setTimeout(updateUrl, 250);
             } else {
-              // zone 섹션으로 스크롤되었을 때, 현재 URL이 /lookbook 이면 주소 유지를 위해 업데이트하지 않음
-              if (newPath === '/zone' && currentPath === '/lookbook') {
-                return;
-              }
-              if (!currentPath.startsWith(newPath)) {
-                window.history.replaceState(null, '', newPath);
-              }
+              updateUrl();
             }
           }
         }
       });
     }, {
       root: container,
-      threshold: 0.5 // Trigger when at least 50% of the section is visible
+      threshold: isMobile ? 0.3 : 0.5 // 모바일에서는 30% 이상 진입 시 감지
     });
 
     sections.forEach(section => observer.observe(section));
 
-    return () => observer.disconnect();
+    return () => {
+      if (debounceTimer) clearTimeout(debounceTimer);
+      observer.disconnect();
+    };
   }, []);
 
   const handleScroll = (e) => {
@@ -296,9 +330,9 @@ function App() {
     // 언어별 메타 타이틀 및 디스크립션 리소스 정의
     const seoResources = {
       ko: {
-        title: '핏걸즈 | 바디프로필 여자바디프로필 전문 프리미엄 화보 스튜디오',
-        desc: '핏걸즈(FITGIRLS) 2026 프로젝트. 압도적인 무드의 여자 바디프로필, 피토리얼리스트 화보 전문 촬영. 고객별 맞춤 포즈, 무드, 스타일링 무료 기획.',
-        keywords: '바디프로필, 여자바디프로필, 핏걸즈, 이너핏, 바디프로필스튜디오, 피토리얼리스트, 여자바디프로필의상'
+        title: '강남 여자바디프로필 전문 스튜디오 | 핏걸즈 & 이너핏 (FITGIRLS)',
+        desc: '강남 신사동 프리미엄 여자바디프로필 전문 스튜디오 핏걸즈 & 이너핏. 80개 이상의 단독 컨셉존, 고객별 맞춤 포즈·무드·의상 무료 기획 및 피토리얼리스트 화보 촬영.',
+        keywords: '강남바디프로필, 여자바디프로필, 핏걸즈, 이너핏, 강남여자바디프로필, 신사동바디프로필, 바디프로필스튜디오, 바디프로필의상, 피토리얼리스트, 바디프로필가격, 바디프로필컨셉'
       },
       en: {
         title: 'FITGIRLS | Female Body Profile & Editorial Editorialist Photo Studio',
@@ -314,10 +348,8 @@ function App() {
 
     const currentSeo = seoResources[lang] || seoResources.ko;
 
-    // 1. 타이틀 업데이트 (상담지 인쇄/뷰어 페이지 외에서만 작동)
-    if (!location.pathname.includes('/checklist')) {
-      document.title = currentSeo.title;
-    }
+    // 1. 타이틀 업데이트
+    document.title = currentSeo.title;
 
     // 2. 메타 디스크립션 태그 생성/업데이트
     let metaDesc = document.querySelector('meta[name="description"]');
@@ -387,7 +419,7 @@ function App() {
                       location.pathname.startsWith('/retouch') ||
                       location.pathname.startsWith('/report');
 
-  const validSections = ['gallery', 'archive', 'service', 'location', 'faq', 'studios', 'reviews', 'partners', 'global-booking', 'reservation', 'hair-makeup', 'event-board', 'self', 'maxq', 'artist'];
+  const validSections = ['gallery', 'archive', 'service', 'location', 'studios', 'reviews', 'partners', 'global-booking', 'reservation', 'hair-makeup', 'event-board', 'self', 'maxq', 'artist'];
 
   return (
     <div className="root-layout">
@@ -455,6 +487,22 @@ function App() {
           <Route path="/reservation" element={<ReservationPage changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/checklist" element={<Checklist />} />
           <Route path="/checklist/view" element={<ChecklistView />} />
+          <Route path="/en/checklist" element={<Checklist />} />
+          <Route path="/ja/checklist" element={<Checklist />} />
+          <Route path="/zh/checklist" element={<Checklist />} />
+
+          {/* FAQ 단독 페이지 라우트 */}
+          <Route path="/faq" element={<FaqPage changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/en/faq" element={<FaqPage changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/ja/faq" element={<FaqPage changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+          <Route path="/zh/faq" element={<FaqPage changeLanguage={changeLanguage} currentLang={i18n.language} />} />
+
+          {/* FAQ 오타 및 검색 유입 보정 */}
+          <Route path="/fnq" element={<Navigate to="/faq" replace />} />
+          <Route path="/qna" element={<Navigate to="/faq" replace />} />
+          <Route path="/en/fnq" element={<Navigate to="/en/faq" replace />} />
+          <Route path="/ja/fnq" element={<Navigate to="/ja/faq" replace />} />
+          <Route path="/zh/fnq" element={<Navigate to="/zh/faq" replace />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/studios" element={<Studios changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/self" element={<Self changeLanguage={changeLanguage} currentLang={i18n.language} />} />

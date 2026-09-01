@@ -1,444 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import { doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
-import { db } from '../utils/firebase';
-import { getAlimtalkTemplate, sendAlimtalk } from '../utils/aligoService';
+import React, { useEffect } from 'react';
 import './Retouch.css';
 
-const ADMIN_PHONE = '01046961441';
-
-const ReviewGuide = () => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    return (
-        <div className={`retouch-review-guide-container ${isOpen ? 'is-open' : ''}`}>
-            <button className="retouch-guide-toggle-btn" onClick={() => setIsOpen(!isOpen)}>
-                <span className="retouch-toggle-icon">✍️</span>
-                <span className="retouch-toggle-text">리뷰 작성 가이드 {isOpen ? '접기' : '보기'}</span>
-                <svg className={`retouch-chevron-icon ${isOpen ? 'up' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <path d="M19 9l-7 7-7-7" />
-                </svg>
-            </button>
-            <div className="retouch-guide-content-wrapper">
-                <div className="retouch-guide-content-inner">
-                    <p className="retouch-guide-desc">아래 내용을 참고하여 더욱 풍성한 기록을 남겨보세요.</p>
-                    <ul className="retouch-guide-questions">
-                        <li><span>•</span> 가장 마음에 들었던 분위기는 어떤 느낌이었나요?</li>
-                        <li><span>•</span> 촬영하면서 새롭게 발견한 내 모습이 있었나요?</li>
-                        <li><span>•</span> 작가님의 디렉팅(포즈, 표정 코칭)은 어떠셨나요?</li>
-                        <li><span>•</span> 촬영부터 보정 과정까지 좋았던 점이나 아쉬운 점(개선사항)이 있었다면 들려주세요.</li>
-                        <li><span>•</span> 핏걸즈에서 나만의 어떤 FITORIAL을 남기셨나요?</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    );
-};
-
 const Retouch = () => {
-    const [phone, setPhone] = useState('');
-    const [password, setPassword] = useState('');
-    const [customer, setCustomer] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [loading, setLoading] = useState(false);
-
-    const statuses = ['보정대기', '선보정(당일보정)', '보정중', '1차보정완료(피드백요청)', '2차보정', '최종컴펌완료', '최종보정완료'];
-
-    const statusGuides = {
-        '보정대기': '원본 셀렉 파일을 기다리고 있습니다. 셀렉 완료 후 메일(inafit@daum.net)로 회신 주시면 보정 작업이 시작됩니다. (셀렉 후 약 4주 소요). 보정본 수령 후 추가로 보정이 더 필요할 시 핏걸즈 스마트 플레이스 (핏걸즈스튜디오)에서 추가 구매가 가능합니다.',
-        '선보정(당일보정)': '먼저 받고 싶은 사진 한 장에 대해 우선적으로 보정을 진행하는 단계입니다.',
-        '보정중': '선택하신 사진을 작가가 정성스럽게 보정하고 있는 단계입니다. 조금만 더 기다려 주세요!',
-        '1차보정완료(피드백요청)': '여기에서 보정을 확인하신 후, 추가로 2차보정이 필요한 부분이 있으시면 말씀해 주세요. 추가로 보정이 필요 없으시면 \'최종 컨펌\'을 해주시면 매거진 커버와 함께 최종본을 발송해 드리도록 하겠습니다.',
-        '2차보정': '전달해주신 피드백을 바탕으로 2차 보정 작업을 진행 중입니다.',
-        '최종컴펌완료': '모든 보정 작업에 대한 컨펌이 완료되었습니다. 최종 파일을 정리 중입니다.',
-        '최종보정완료': '모든 보정 작업이 완료되었습니다! 최종 보정본을 다운로드하실 수 있습니다.'
-    };
-
-    const [selectedStatuses, setSelectedStatuses] = useState({});
-
-    // Robust Date Formatter
-    const formatDate = (dateStr) => {
-        if (!dateStr) return '-';
-        const str = String(dateStr).replace(/[^0-9]/g, '');
-        
-        // MMDD (4자리) 처리
-        if (str.length === 4) {
-            const month = str.substring(0, 2);
-            const day = str.substring(2, 4);
-            return `2026.${month}.${day}`;
-        }
-        
-        // YYMMDD (6자리) 처리
-        if (str.length === 6) {
-            const year = '20' + str.substring(0, 2);
-            const month = str.substring(2, 4);
-            const day = str.substring(4, 6);
-            return `${year}.${month}.${day}`;
-        }
-        
-        return dateStr;
-    };
-
-    // Helper to calculate days passed
-    const getDaysPassed = (dateStr) => {
-        if (!dateStr) return null;
-        try {
-            const str = String(dateStr).replace(/[^0-9]/g, '');
-            let targetDate;
-            if (str.length === 6) {
-                const year = 2000 + parseInt(str.substring(0, 2));
-                const month = parseInt(str.substring(2, 4)) - 1;
-                const day = parseInt(str.substring(4, 6));
-                targetDate = new Date(year, month, day);
-            } else {
-                targetDate = new Date(typeof dateStr === 'string' ? dateStr.replace(/-/g, '/') : dateStr);
-            }
-            if (isNaN(targetDate.getTime())) return null;
-            const today = new Date();
-            today.setHours(0,0,0,0);
-            targetDate.setHours(0,0,0,0);
-            const diffTime = today - targetDate;
-            return Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        } catch (e) { return null; }
-    };
-
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        const phoneId = phone.replace(/[^0-9]/g, '');
-        try {
-            const docRef = doc(db, 'retouch_masters', phoneId);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                if (data.password === password) {
-                    setCustomer({ id: docSnap.id, ...data });
-                    setIsLoggedIn(true);
-                    try { localStorage.setItem('retouch_user', phoneId); } catch(e) {}
-                } else { alert('비밀번호가 일치하지 않습니다.'); }
-            } else { alert('등록된 정보를 찾을 수 없습니다.'); }
-        } catch (err) { console.error(err); alert('로그인 중 오류가 발생했습니다.'); }
-        setLoading(false);
-    };
-
     useEffect(() => {
-        let unsub;
-        try {
-            const savedUser = localStorage.getItem('retouch_user');
-            if (savedUser) {
-                unsub = onSnapshot(doc(db, 'retouch_masters', savedUser), (snapshot) => {
-                    if (snapshot.exists()) {
-                        setCustomer({ id: snapshot.id, ...snapshot.data() });
-                        setIsLoggedIn(true);
-                    }
-                });
-            }
-        } catch (e) { console.error(e); }
-        return () => { if (unsub) unsub(); };
+        // 즉시 오걸즈 보정 시스템으로 리다이렉트
+        window.location.replace('https://book.fitgirls.me/retouch');
     }, []);
 
-    const handleLogout = () => {
-        try { localStorage.removeItem('retouch_user'); } catch(e) {}
-        setIsLoggedIn(false);
-        setCustomer(null);
-    };
-
-    if (!isLoggedIn) {
-        return (
-            <div className="retouch-login-wrapper">
-                <div className="retouch-login-box">
-                    <h2 className="login-title">RETOUCH <span>DASHBOARD</span></h2>
-                    <p className="login-subtitle">고객님의 보정 현황을 확인하세요.</p>
-                    <form onSubmit={handleLogin} className="login-form">
-                        <div className="form-input">
-                            <label>아이디 (전화번호)</label>
-                            <input type="text" value={phone} onChange={(e)=>setPhone(e.target.value)} placeholder="01012345678" required />
-                        </div>
-                        <div className="form-input">
-                            <label>비밀번호 (전화번호 뒤 4자리)</label>
-                            <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder="****" required />
-                        </div>
-                        <button type="submit" disabled={loading} className="submit-btn">
-                            {loading ? '로그인 중...' : '로그인'}
-                        </button>
-                    </form>
-                </div>
-            </div>
-        );
-    }
-
     return (
-        <div className="retouch-dashboard-main">
-            <header className="dashboard-header">
-                <h1 className="logo-text">RETOUCH <span>CLIENT</span></h1>
-                <div className="user-info">
-                    <span><strong>{customer?.name || '고객'}</strong> 님</span>
-                    <button onClick={handleLogout} className="logout-button">로그아웃</button>
-                </div>
-            </header>
-
-            <main className="dashboard-container">
-                <div className="welcome-banner">
-                    <h2>반갑습니다, {customer?.name || '고객'}님!</h2>
-                    <p>요청하신 보정 작업의 실시간 현황입니다.</p>
-                </div>
-
-                <div className="project-list">
-                    {customer?.projectHistory?.slice().reverse().map(pId => {
-                        const status = customer.projectStatuses?.[pId] || '보정대기';
-                        const currentIdx = statuses.indexOf(status);
-                        const link = customer.dropboxArchives?.[pId] || '';
-                        const base = customer.projectBaseRetouchCounts?.[pId] || 0;
-                        const insta = customer.instaConsents?.[pId] || false;
-                        const review = customer.reviewConsents?.[pId] || false;
-                        const bonus = (insta ? 1 : 0) + (review ? 1 : 0);
-                        const extra = customer.projectExtraRetouchCounts?.[pId] || 0;
-                        const total = base + bonus + extra;
-                        const requestDate = customer.requestDates?.[pId] || '';
-                        const daysPassed = getDaysPassed(requestDate);
-
-                        return (
-                            <div key={pId} className={`project-item-card ${status === '최종보정완료' ? 'completed' : ''}`}>
-                                <div className="card-top">
-                                    <div className="p-header">
-                                        <span className="p-id">촬영일: {formatDate(pId)}</span>
-                                        <div className="p-status-badge" data-status={status}>{status}</div>
-                                    </div>
-                                    <h3 className="p-title">{customer.name} 님 FITORIAL PROJECT</h3>
-
-                                    {/* Visual Stepper */}
-                                    <div className="p-stepper-container">
-                                        <div className="stepper-track">
-                                            <div className="stepper-progress" style={{ width: `${(currentIdx / (statuses.length - 1)) * 100}%` }}></div>
-                                        </div>
-                                        <div className="stepper-steps">
-                                            {statuses.map((s, idx) => {
-                                                const currentStatus = customer.projectStatuses?.[pId] || '보정대기';
-                                                const isSelected = (selectedStatuses[pId] || currentStatus) === s;
-                                                return (
-                                                    <div 
-                                                        key={idx} 
-                                                        className={`step-item ${idx <= statuses.indexOf(currentStatus) ? 'active' : ''} ${isSelected ? 'selected' : ''} ${
-                                                            s.includes('보정대기') ? 'status-waiting' :
-                                                            s.includes('선보정') ? 'status-pre-retouch' :
-                                                            s.includes('보정중') ? 'status-processing' :
-                                                            s.includes('1차보정완료') ? 'status-1st-done' :
-                                                            s.includes('2차보정') ? 'status-2nd-processing' :
-                                                            s.includes('최종컴펌완료') ? 'status-confirm' :
-                                                            s.includes('최종보정완료') ? 'status-final-done' : ''
-                                                        }`}
-                                                        onClick={() => setSelectedStatuses(prev => ({ ...prev, [pId]: s }))}
-                                                    >
-                                                        <div className="step-dot"></div>
-                                                        <span className="step-label">
-                                                            {s.replace('(피드백요청)', '').replace(' 진행', '')}
-                                                        </span>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-
-                                    <div className="p-status-guide-box">
-                                        <p className="guide-text">
-                                            {statusGuides[selectedStatuses[pId] || customer.projectStatuses?.[pId] || '보정대기']}
-                                        </p>
-                                    </div>
-                                    
-                                    <div className="p-timeline">
-                                        <div className="time-col">
-                                            <span className="time-label">보정 요청일</span>
-                                            <span className="time-val">{formatDate(requestDate)}</span>
-                                        </div>
-                                        <div className="time-col">
-                                            <span className="time-label">진행 기간</span>
-                                            <span className="time-val highlight">{daysPassed !== null ? `D+${daysPassed}일째` : '-'}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="card-stats">
-                                    <div className="stats-header">
-                                        <div className="stats-main">
-                                            <span className="stats-label">전체 보정 수량</span>
-                                            <span className="stats-num">{total}<span>장</span></span>
-                                        </div>
-                                        <div className="stats-breakdown">
-                                            기본 {base} {bonus > 0 && `+ 이벤트 ${bonus}`} {extra > 0 && `+ 추가 ${extra}`}
-                                        </div>
-                                    </div>
-                                    {link && (
-                                        <a href={link} target="_blank" rel="noreferrer" className="dropbox-btn">
-                                            {status === '최종보정완료' ? '최종보정본 확인하기' : 
-                                             status.includes('1차보정완료') ? '1차보정본 확인하기' :
-                                             status.includes('선보정') ? '선보정본 확인하기' : 
-                                             status === '보정대기' ? '원본파일 확인하기' : '보정본 확인하기'}
-                                        </a>
-                                    )}
-
-                                    {customer.artistResponses?.[pId] && (
-                                        <div className="artist-response-notice">
-                                            <div className="response-header">
-                                                <span className="response-icon">💬</span>
-                                                <span className="response-title">작가님의 답변이 도착했습니다</span>
-                                            </div>
-                                            <div className="response-body">
-                                                {customer.artistResponses[pId]}
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {customer.clientFeedbacks?.[pId] && (
-                                        <div className="client-feedback-history">
-                                            <p className="history-label">📝 나의 수정 요청 사항</p>
-                                            <div className="history-content">{customer.clientFeedbacks[pId]}</div>
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="card-actions">
-                                    <div className="action-ready">
-                                        <div className="consent-options">
-                                            <label className={`opt-item ${insta ? 'checked' : ''}`}>
-                                                <input type="checkbox" checked={insta} onChange={async (e) => {
-                                                    await updateDoc(doc(db, 'retouch_masters', customer.id), { [`instaConsents.${pId}`]: e.target.checked });
-                                                }} />
-                                                인스타그램 업로드 동의 (서비스 +1장)
-                                            </label>
-                                            <label className={`opt-item ${review ? 'checked' : ''}`}>
-                                                <input type="checkbox" checked={review} onChange={async (e) => {
-                                                    await updateDoc(doc(db, 'retouch_masters', customer.id), { [`reviewConsents.${pId}`]: e.target.checked });
-                                                }} />
-                                                리뷰 작성 완료 (서비스 +1장)
-                                            </label>
-                                        </div>
-
-                                        {insta && (
-                                            <div className="insta-id-input-box">
-                                                <p className="insta-guide">📸 인스타그램 업로드 시 태그를 위해 아이디를 알려주세요!</p>
-                                                <div className="insta-input-group">
-                                                    <input 
-                                                        type="text" 
-                                                        id={`insta-input-${pId}`}
-                                                        placeholder="인스타그램 아이디" 
-                                                        defaultValue={customer.instaIds?.[pId] || ''}
-                                                    />
-                                                    <button 
-                                                        className="insta-save-btn"
-                                                        onClick={async () => {
-                                                            const val = document.getElementById(`insta-input-${pId}`).value;
-                                                            if (!val) return alert('아이디를 입력해주세요.');
-                                                            await updateDoc(doc(db, 'retouch_masters', customer.id), { 
-                                                                [`instaIds.${pId}`]: val 
-                                                            });
-                                                            alert('인스타 아이디가 저장되었습니다!');
-                                                        }}
-                                                    >
-                                                        저장
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {status === '1차보정완료(피드백요청)' && (
-                                            <div className="feedback-section">
-                                                <p className="feedback-guide">보정본을 확인하시고 피드백이 있으시면 아래에 적어주세요. 추가 보정이 필요 없으시면 '최종 컨펌'을 눌러주세요.</p>
-                                                <textarea 
-                                                    id={`feedback-input-${pId}`}
-                                                    className="feedback-textarea"
-                                                    placeholder="수정 요청 사항을 자세히 적어주세요..."
-                                                    defaultValue={customer.clientFeedbacks?.[pId] || ''}
-                                                />
-                                                <div className="feedback-btn-group">
-                                                    <button 
-                                                        className="feedback-submit-btn"
-                                                        onClick={async () => {
-                                                            const val = document.getElementById(`feedback-input-${pId}`).value;
-                                                            if (!val) return alert('피드백 내용을 입력해주세요.');
-                                                            await updateDoc(doc(db, 'retouch_masters', customer.id), { 
-                                                                [`clientFeedbacks.${pId}`]: val,
-                                                                [`projectStatuses.${pId}`]: '2차보정',
-                                                                [`statusUpdatedAts.${pId}`]: new Date().toISOString()
-                                                            });
-                                                            
-                                                            // 관리자에게 피드백 알림 전송
-                                                            const template = getAlimtalkTemplate('UH_6959', {
-                                                                name: customer.name,
-                                                                projectTitle: pId,
-                                                                feedback: val
-                                                            });
-                                                            if (template) {
-                                                                sendAlimtalk(ADMIN_PHONE, template.code, template.message);
-                                                            }
-
-                                                            alert('피드백이 전달되었습니다. 2차 보정을 진행하겠습니다!');
-                                                        }}
-                                                    >
-                                                        피드백 제출 (2차보정 요청)
-                                                    </button>
-                                                    <button 
-                                                        className="final-confirm-btn"
-                                                        onClick={async () => {
-                                                            if (window.confirm('이대로 최종 컨펌하시겠습니까? 더 이상의 추가 수정은 불가능합니다.')) {
-                                                                await updateDoc(doc(db, 'retouch_masters', customer.id), { 
-                                                                    [`projectStatuses.${pId}`]: '최종컴펌완료',
-                                                                    [`statusUpdatedAts.${pId}`]: new Date().toISOString()
-                                                                });
-
-                                                                // 관리자에게 컨펌 완료 알림 전송
-                                                                const template = getAlimtalkTemplate('UH_6960', {
-                                                                    name: customer.name,
-                                                                    projectTitle: pId,
-                                                                    date: new Date().toLocaleString('ko-KR')
-                                                                });
-                                                                if (template) {
-                                                                    sendAlimtalk(ADMIN_PHONE, template.code, template.message);
-                                                                }
-
-                                                                alert('최종 컨펌해주셔서 감사합니다. 최종 파일을 정리해 드릴게요!');
-                                                            }
-                                                        }}
-                                                    >
-                                                        최종 컨펌하기 (수정 없음)
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {!link && (
-                                            <div className="action-waiting">
-                                                <div className="wait-icon">🎨</div>
-                                                <p>작가님이 요청사항을 확인 후 순차적으로 보정을 시작합니다.<br/>조금만 기다려 주세요!</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                    
-                                    <div className="retouch-review-section-box">
-                                        <ReviewGuide />
-                                        <div className="retouch-review-write-buttons">
-                                            <a href="https://m.place.naver.com/place/1976065694/review/visitor" target="_blank" rel="noopener noreferrer" className="retouch-btn-review retouch-btn-naver-review">
-                                                네이버 리뷰 작성
-                                            </a>
-                                            <a href="https://share.google/zu3rKArDgSZmss9n4" target="_blank" rel="noopener noreferrer" className="retouch-btn-review retouch-btn-google-review">
-                                                구글 리뷰 작성
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div className="extra-purchase-box">
-                                        <p className="extra-guide-text">보정본 수령 후 추가로 보정이 더 필요하신가요?</p>
-                                        <a href="https://smartstore.naver.com/imfitgirl" target="_blank" rel="noreferrer" className="extra-purchase-btn">
-                                            추가 보정 구매하기 (네이버 스마트스토어)
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-
-            </main>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '100vh',
+            background: '#0a0a0a',
+            color: '#fff',
+            fontFamily: 'Inter, Pretendard, sans-serif',
+            padding: '24px',
+            textAlign: 'center'
+        }}>
+            <div style={{
+                background: '#141414',
+                border: '1px solid #222',
+                borderRadius: '16px',
+                padding: '40px 24px',
+                maxWidth: '480px',
+                width: '100%',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.4)'
+            }}>
+                <div style={{ fontSize: '2.5rem', marginBottom: '16px' }}>✨</div>
+                <h2 style={{ fontSize: '1.4rem', fontWeight: '700', marginBottom: '12px', letterSpacing: '-0.02em' }}>
+                    핏걸즈(FITGIRLS) 보정 시스템으로 이동 중입니다
+                </h2>
+                <p style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.7)', lineHeight: '1.6', marginBottom: '28px' }}>
+                    보정본 확인 및 요청 시스템이 <strong>핏걸즈(fitgirls.me)</strong>로 통합되었습니다.<br />
+                    잠시 후 자동으로 이동합니다.
+                </p>
+                <a
+                    href="https://book.fitgirls.me/retouch"
+                    style={{
+                        display: 'inline-block',
+                        background: '#FF003C',
+                        color: '#fff',
+                        textDecoration: 'none',
+                        padding: '14px 28px',
+                        borderRadius: '30px',
+                        fontWeight: '700',
+                        fontSize: '0.95rem',
+                        transition: 'opacity 0.2s ease'
+                    }}
+                >
+                    지금 바로 이동하기 →
+                </a>
+            </div>
         </div>
     );
 };
 
 export default Retouch;
+
