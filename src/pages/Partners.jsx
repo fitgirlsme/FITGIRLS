@@ -59,11 +59,15 @@ const Partners = () => {
     useEffect(() => {
         const q = query(collection(db, 'partners'), orderBy('createdAt', 'desc'));
         const unsubscribe = onSnapshot(q, (snapshot) => {
-            const data = snapshot.docs.map(doc => ({
-                id: doc.id,
-                source: 'fitgirls',
-                ...doc.data()
-            }));
+            const data = snapshot.docs.map(doc => {
+                const d = doc.data();
+                return {
+                    id: doc.id,
+                    source: 'fitgirls',
+                    logo: d.logo || d.logo_url || null,
+                    ...d
+                };
+            });
             setFitgirlsPartners(data);
         }, (err) => {
             console.error("[Partners] Fitgirls Firestore Listen Error:", err);
@@ -91,6 +95,7 @@ const Partners = () => {
                             benefit: d.benefit || '',
                             description: d.benefit ? `[제휴 혜택] ${d.benefit}` : (d.memo || 'FITGIRLS 공식 제휴 센터입니다.'),
                             images: d.images || (d.image_url ? [d.image_url] : []),
+                            logo: d.logo_url || d.logo || null,
                             trainers: d.trainers || [],
                             bookingUrl: `https://book.fitgirls.me/partner?id=${doc.id}`,
                             instagram: d.instagram || '',
@@ -193,8 +198,18 @@ const Partners = () => {
                                     </div>
                                 )}
                                 <div className="partner-thumb">
+                                    {partner.logo && (
+                                        <div className="partner-logo-chip" title="공식 제휴 피트니스 로고">
+                                            <img src={partner.logo} alt={`${partner.name} logo`} />
+                                        </div>
+                                    )}
                                     {partner.images && partner.images.length > 0 ? (
                                         <img src={partner.images[0]} alt={partner.name} loading="lazy" />
+                                    ) : partner.logo ? (
+                                        <div className="placeholder-thumb with-logo">
+                                            <img src={partner.logo} alt={partner.name} className="standalone-card-logo" />
+                                            <span className="placeholder-category">{(partner.category || 'FITNESS').toUpperCase()}</span>
+                                        </div>
                                     ) : (
                                         <div className="placeholder-thumb">
                                             <span className="placeholder-icon">🏢</span>
@@ -313,11 +328,22 @@ const Partners = () => {
                             <button className="close-modal" onClick={() => setSelectedPartner(null)}>×</button>
                             
                             <div className="modal-header">
-                                <span className="modal-location">{selectedPartner.location}</span>
-                                <h2>{selectedPartner.name}</h2>
-                                {selectedPartner.category && (
-                                    <span className="modal-category-badge">{selectedPartner.category.toUpperCase()}</span>
-                                )}
+                                <div className="modal-header-top-row">
+                                    {selectedPartner.logo && (
+                                        <div className="modal-header-logo">
+                                            <img src={selectedPartner.logo} alt={`${selectedPartner.name} Logo`} />
+                                        </div>
+                                    )}
+                                    <div className="modal-header-title-group">
+                                        <span className="modal-location">{selectedPartner.location}</span>
+                                        <h2>
+                                            {selectedPartner.name}
+                                            {selectedPartner.category && (
+                                                <span className="modal-category-badge">{selectedPartner.category.toUpperCase()}</span>
+                                            )}
+                                        </h2>
+                                    </div>
+                                </div>
                             </div>
 
                             {/* 제휴 혜택 배너 (오걸즈 및 파트너 혜택 있는 경우) */}

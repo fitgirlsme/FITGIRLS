@@ -2755,8 +2755,8 @@ const PartnersTab = () => {
     const [showForm, setShowForm] = useState(false);
     const [editId, setEditId] = useState(null);
     const [form, setForm] = useState({
-        name: '', location: '', category: 'fitness', description: '',
-        images: [], trainers: []
+        name: '', location: '', category: 'fitness', description: '', benefit: '',
+        logo: '', images: [], trainers: []
     });
     const [saving, setSaving] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -2771,7 +2771,7 @@ const PartnersTab = () => {
     };
 
     const resetForm = () => {
-        setForm({ name: '', location: '', category: 'fitness', description: '', images: [], trainers: [] });
+        setForm({ name: '', location: '', category: 'fitness', description: '', benefit: '', logo: '', images: [], trainers: [] });
         setEditId(null); setShowForm(false);
     };
 
@@ -2800,7 +2800,17 @@ const PartnersTab = () => {
         } catch (err) { alert(err.message); }
     };
 
-    const startEdit = (p) => { setForm({ ...p }); setEditId(p.id); setShowForm(true); };
+    const startEdit = (p) => { setForm({ ...p, logo: p.logo || '', benefit: p.benefit || '' }); setEditId(p.id); setShowForm(true); };
+
+    const handleLogoUpload = async (file) => {
+        if (!file) return;
+        try {
+            const { url } = await uploadOptimizedImage(file, 'partners/logos');
+            setForm(prev => ({ ...prev, logo: url }));
+        } catch (err) {
+            alert('로고 업로드 오류: ' + err.message);
+        }
+    };
 
     const handlePartnerPhoto = async (file) => {
         const { url } = await uploadOptimizedImage(file, 'partners');
@@ -2899,6 +2909,50 @@ const PartnersTab = () => {
                                     <option value="food">Healthy Food / Cafe</option>
                                 </select>
                             </div>
+                            {/* 피트니스 공식 로고 업로드 */}
+                            <div className="form-group" style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 700, color: '#0f172a' }}>
+                                    <span>🏷️ Fitness Logo (피트니스 공식 로고)</span>
+                                </label>
+                                <p style={{ fontSize: '0.78rem', color: '#64748b', margin: '2px 0 10px 0' }}>
+                                    피트니스/필라테스 센터의 공식 로고를 업로드하면 핏걸즈 파트너 카드와 상세 모달에 고급스럽게 노출됩니다.
+                                </p>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                                    {form.logo ? (
+                                        <div style={{ position: 'relative', width: '70px', height: '70px', borderRadius: '10px', overflow: 'hidden', border: '1px solid #cbd5e1', background: '#fff' }}>
+                                            <img src={form.logo} alt="Logo preview" style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '4px' }} />
+                                            <button 
+                                                type="button" 
+                                                onClick={() => setForm(prev => ({ ...prev, logo: '' }))} 
+                                                className="remove-thumb-btn"
+                                                title="로고 삭제"
+                                            >×</button>
+                                        </div>
+                                    ) : (
+                                        <div style={{ width: '70px', height: '70px', borderRadius: '10px', border: '1.5px dashed #cbd5e1', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', fontSize: '0.75rem', textAlign: 'center', padding: '4px', background: '#fff' }}>
+                                            No Logo
+                                        </div>
+                                    )}
+                                    <input 
+                                        type="file" 
+                                        accept="image/*" 
+                                        onChange={e => e.target.files?.[0] && handleLogoUpload(e.target.files[0])} 
+                                        style={{ fontSize: '0.85rem' }}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* 제휴 혜택 입력 */}
+                            <div className="form-group">
+                                <label>제휴 특별 혜택 (Benefit)</label>
+                                <input 
+                                    type="text" 
+                                    value={form.benefit} 
+                                    onChange={e => setForm({...form, benefit: e.target.value})} 
+                                    placeholder="예: 회원 11만원 즉시할인 + 바디프로필 전용 혜택 제공" 
+                                />
+                            </div>
+
                             <div className="form-group"><label>Description</label><textarea value={form.description} onChange={e => setForm({...form, description: e.target.value})} rows={3} /></div>
                             <div className="form-group">
                                 <label>Photos</label>

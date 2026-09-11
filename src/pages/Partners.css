@@ -805,3 +805,70 @@
     to { opacity: 1; transform: translate(-50%, 0); }
 }
 
+/* 🏷️ 피트니스 공식 로고 스타일 */
+.partner-logo-chip {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 36px;
+    height: 36px;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 3px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    border: 1px solid rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: transform 0.2s ease;
+}
+
+.partner-logo-chip img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.placeholder-thumb.with-logo {
+    background: #ffffff;
+    border: 1px solid #f0f0f0;
+}
+
+.standalone-card-logo {
+    max-width: 65%;
+    max-height: 80px;
+    object-fit: contain;
+}
+
+/* 모달 헤더 피트니스 로고 */
+.modal-header-top-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.modal-header-logo {
+    width: 68px;
+    height: 68px;
+    min-width: 68px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+}
+
+.modal-header-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.modal-header-title-group {
+    flex: 1;
+}
+
