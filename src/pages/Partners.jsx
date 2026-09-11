@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../utils/firebase';
+import { ogirlsDb } from '../utils/ogirlsFirebase';
 import FadeInSection from '../components/FadeInSection';
 import Header from '../components/Header';
 import SupportCS from '../components/SupportCS';
@@ -10,6 +11,8 @@ import './Partners.css';
 const Partners = () => {
     const { t, i18n } = useTranslation();
     const [activeCategory, setActiveCategory] = useState('all');
+    const [fitgirlsPartners, setFitgirlsPartners] = useState([]);
+    const [ogirlsPartners, setOgirlsPartners] = useState([]);
     const [partners, setPartners] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedPartner, setSelectedPartner] = useState(null);
@@ -19,6 +22,7 @@ const Partners = () => {
     const [loginId, setLoginId] = useState('');
     const [loginPw, setLoginPw] = useState('');
     const [loginError, setLoginError] = useState('');
+    const [copyToast, setCopyToast] = useState('');
 
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
@@ -51,28 +55,90 @@ const Partners = () => {
         { id: 'pilates', label: t('partners.categories.pilates', 'PILATES') },
     ];
 
+    // 1. 핏걸즈 자체 파트너 구독
     useEffect(() => {
-        setLoading(true);
         const q = query(collection(db, 'partners'), orderBy('createdAt', 'desc'));
-        
         const unsubscribe = onSnapshot(q, (snapshot) => {
             const data = snapshot.docs.map(doc => ({
                 id: doc.id,
+                source: 'fitgirls',
                 ...doc.data()
             }));
-            setPartners(data);
-            setLoading(false);
+            setFitgirlsPartners(data);
         }, (err) => {
-            console.error("[Partners] Firestore Listen Error:", err);
-            setLoading(false);
+            console.error("[Partners] Fitgirls Firestore Listen Error:", err);
         });
 
         return () => unsubscribe();
     }, []);
 
+    // 2. 오걸즈 제휴 피트니스 구독
+    useEffect(() => {
+        let unsubscribe = () => {};
+        try {
+            const q = query(collection(ogirlsDb, 'partner_fitness'));
+            unsubscribe = onSnapshot(q, (snapshot) => {
+                const data = snapshot.docs
+                    .map(doc => {
+                        const d = doc.data();
+                        return {
+                            id: `ogirls_${doc.id}`,
+                            partnerId: doc.id,
+                            source: 'ogirls',
+                            name: d.gym_name || d.name || '공식 제휴 피트니스',
+                            location: d.location || '',
+                            category: d.category || (d.gym_name?.includes('필라테스') ? 'pilates' : 'fitness'),
+                            benefit: d.benefit || '',
+                            description: d.benefit ? `[제휴 혜택] ${d.benefit}` : (d.memo || 'FITGIRLS 공식 제휴 센터입니다.'),
+                            images: d.images || (d.image_url ? [d.image_url] : []),
+                            trainers: d.trainers || [],
+                            bookingUrl: `https://book.fitgirls.me/partner?id=${doc.id}`,
+                            instagram: d.instagram || '',
+                            status: d.status || '제휴중',
+                            createdAt: d.createdAt
+                        };
+                    })
+                    .filter(item => item.status !== '종료'); // 종료된 제휴는 제외
+                setOgirlsPartners(data);
+            }, (err) => {
+                console.error("[Partners] Ogirls Firestore Listen Error:", err);
+            });
+        } catch (err) {
+            console.error("[Partners] Ogirls init error:", err);
+        }
+
+        return () => unsubscribe();
+    }, []);
+
+    // 3. 데이터 통합 및 중복 제거
+    useEffect(() => {
+        // 이름 기준 중복 방지 (핏걸즈에 등록된 것이 우선)
+        const combined = [...fitgirlsPartners];
+        const existingNames = new Set(fitgirlsPartners.map(p => (p.name || '').trim().toLowerCase()));
+
+        for (const og of ogirlsPartners) {
+            const normalized = (og.name || '').trim().toLowerCase();
+            if (!existingNames.has(normalized)) {
+                combined.push(og);
+                existingNames.add(normalized);
+            }
+        }
+
+        setPartners(combined);
+        setLoading(false);
+    }, [fitgirlsPartners, ogirlsPartners]);
+
     const filteredPartners = activeCategory === 'all' 
         ? partners 
         : partners.filter(p => p.category === activeCategory);
+
+    const handleCopyPartnerLink = (url) => {
+        if (!url) return;
+        navigator.clipboard.writeText(url).then(() => {
+            setCopyToast(t('partners.link_copied', '제휴 예약 링크가 복사되었습니다!'));
+            setTimeout(() => setCopyToast(''), 2500);
+        }).catch(() => {});
+    };
 
     return (
         <div className="partners-page app-container" onScroll={handleScroll}>
@@ -121,11 +187,19 @@ const Partners = () => {
                     ) : filteredPartners.length > 0 ? filteredPartners.map((partner, pIdx) => (
                         <FadeInSection key={partner.id || pIdx} delay={pIdx * 0.05}>
                             <div className="partner-item" onClick={() => setSelectedPartner(partner)}>
+                                {partner.benefit && (
+                                    <div className="partner-badge-tag">
+                                        ✨ {t('partners.benefit_badge', '제휴 혜택')}
+                                    </div>
+                                )}
                                 <div className="partner-thumb">
                                     {partner.images && partner.images.length > 0 ? (
                                         <img src={partner.images[0]} alt={partner.name} loading="lazy" />
                                     ) : (
-                                        <div className="placeholder-thumb">🏢</div>
+                                        <div className="placeholder-thumb">
+                                            <span className="placeholder-icon">🏢</span>
+                                            <span className="placeholder-category">{(partner.category || 'FITNESS').toUpperCase()}</span>
+                                        </div>
                                     )}
                                 </div>
                                 <div className="partner-info-compact">
@@ -241,9 +315,61 @@ const Partners = () => {
                             <div className="modal-header">
                                 <span className="modal-location">{selectedPartner.location}</span>
                                 <h2>{selectedPartner.name}</h2>
+                                {selectedPartner.category && (
+                                    <span className="modal-category-badge">{selectedPartner.category.toUpperCase()}</span>
+                                )}
                             </div>
 
+                            {/* 제휴 혜택 배너 (오걸즈 및 파트너 혜택 있는 경우) */}
+                            {selectedPartner.benefit && (
+                                <div className="modal-benefit-banner">
+                                    <div className="benefit-banner-icon">🎁</div>
+                                    <div className="benefit-banner-text">
+                                        <strong>{t('partners.benefit_title', '제휴 회원 특별 혜택')}</strong>
+                                        <p>{selectedPartner.benefit}</p>
+                                    </div>
+                                </div>
+                            )}
+
                             <p className="modal-description">{selectedPartner.description}</p>
+
+                            {/* 예약 및 제휴 링크 바로가기 액션 영역 */}
+                            <div className="modal-partner-actions">
+                                {selectedPartner.bookingUrl ? (
+                                    <button 
+                                        className="partner-booking-btn"
+                                        onClick={() => window.open(selectedPartner.bookingUrl, '_blank')}
+                                    >
+                                        <span>📅 {t('partners.book_with_benefit', '제휴 혜택으로 촬영 예약하기')}</span>
+                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                    </button>
+                                ) : (
+                                    <button 
+                                        className="partner-booking-btn"
+                                        onClick={() => window.open('/reservation', '_blank')}
+                                    >
+                                        <span>📅 {t('partners.book_general', '촬영 예약하기')}</span>
+                                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                    </button>
+                                )}
+                                {selectedPartner.bookingUrl && (
+                                    <button 
+                                        className="partner-share-btn"
+                                        onClick={() => handleCopyPartnerLink(selectedPartner.bookingUrl)}
+                                        title="제휴 예약 링크 복사"
+                                    >
+                                        🔗 {t('partners.copy_link', '제휴 링크 복사')}
+                                    </button>
+                                )}
+                                {selectedPartner.instagram && (
+                                    <button 
+                                        className="partner-share-btn instagram"
+                                        onClick={() => window.open(`https://instagram.com/${selectedPartner.instagram.replace('@', '')}`, '_blank')}
+                                    >
+                                        📷 Instagram
+                                    </button>
+                                )}
+                            </div>
 
                             {selectedPartner.images && selectedPartner.images.length > 1 && (
                                 <div className="modal-gallery-section">
@@ -280,6 +406,13 @@ const Partners = () => {
                                 </div>
                             )}
                         </div>
+                    </div>
+                )}
+
+                {/* Toast Notification */}
+                {copyToast && (
+                    <div className="partner-toast">
+                        {copyToast}
                     </div>
                 )}
             </div>

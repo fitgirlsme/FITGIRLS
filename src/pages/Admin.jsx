@@ -2834,6 +2834,47 @@ const PartnersTab = () => {
     return (
         <div className="upload-section">
             {showSuccess && <Toast message="Saved successfully!" onClose={() => setShowSuccess(false)} />}
+            
+            {/* 오걸즈 제휴 피트니스 연동 알림 배너 */}
+            <div style={{ 
+                background: 'linear-gradient(135deg, #18181b 0%, #09090b 100%)', 
+                border: '1px solid #27272a', 
+                borderRadius: '16px', 
+                padding: '16px 20px', 
+                marginBottom: '28px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '12px'
+            }}>
+                <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                        <span style={{ background: '#ff4d4d', color: '#fff', fontSize: '0.7rem', fontWeight: 800, padding: '2px 8px', borderRadius: '4px' }}>OGIRLS SYNC</span>
+                        <strong style={{ color: '#fff', fontSize: '0.95rem' }}>오걸즈 제휴 피트니스 실시간 연동 활성화</strong>
+                    </div>
+                    <p style={{ margin: 0, color: '#a1a1aa', fontSize: '0.82rem' }}>
+                        오걸즈 어드민에서 제휴 피트니스를 관리(등록/수정)하면 핏걸즈 웹사이트(/partners)에도 실시간 자동 노출 및 예약 링크가 연동됩니다.
+                    </p>
+                </div>
+                <button 
+                    onClick={() => window.open('https://ogirls.me/admin/partner-fitness', '_blank')}
+                    style={{
+                        background: '#27272a',
+                        color: '#ff4d4d',
+                        border: '1px solid #3f3f46',
+                        borderRadius: '8px',
+                        padding: '8px 16px',
+                        fontSize: '0.82rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap'
+                    }}
+                >
+                    오걸즈 제휴 피트니스 관리 바로가기 ↗
+                </button>
+            </div>
+
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 32 }}>
                 <h3 style={{ margin: 0 }}>Partners & Trainers</h3>
                 <button className="add-btn" onClick={() => { resetForm(); setShowForm(true); }}>+ Add New Partner</button>

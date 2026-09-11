@@ -633,3 +633,175 @@
     }
 }
 
+/* 🌟 연동 제휴 혜택 배지 및 모달 액션 스타일 */
+.partner-badge-tag {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    color: #ffd700;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    z-index: 2;
+    letter-spacing: -0.01em;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.placeholder-thumb {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1f2329 0%, #111418 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.placeholder-icon {
+    font-size: 2.2rem;
+}
+
+.placeholder-category {
+    font-size: 0.7rem;
+    color: #888;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+}
+
+.modal-category-badge {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 3px 10px;
+    background: #f0f0f0;
+    color: #444;
+    font-size: 0.72rem;
+    font-weight: 700;
+    border-radius: 6px;
+    vertical-align: middle;
+}
+
+/* 모달 내 제휴 혜택 강조 배너 */
+.modal-benefit-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+    border: 1px solid #fed7aa;
+    padding: 16px 20px;
+    border-radius: 16px;
+    margin: 15px 0 20px 0;
+}
+
+.benefit-banner-icon {
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.benefit-banner-text strong {
+    display: block;
+    color: #c2410c;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.benefit-banner-text p {
+    margin: 0;
+    color: #9a3412;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    font-weight: 500;
+}
+
+/* 모달 파트너 액션 버튼 그룹 */
+.modal-partner-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px 0 25px 0;
+}
+
+.partner-booking-btn {
+    flex: 2;
+    min-width: 220px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #000;
+    color: #fff;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+.partner-booking-btn:hover {
+    background: #222;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.22);
+}
+
+.partner-share-btn {
+    flex: 1;
+    min-width: 130px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #f4f4f5;
+    color: #18181b;
+    border: 1px solid #e4e4e7;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.partner-share-btn:hover {
+    background: #e4e4e7;
+}
+
+.partner-share-btn.instagram {
+    background: #fff;
+    border-color: #fbcfe8;
+    color: #be185d;
+}
+
+.partner-share-btn.instagram:hover {
+    background: #fdf2f8;
+}
+
+/* 링크 복사 토스트 */
+.partner-toast {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(12px);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    z-index: 99999;
+    animation: toastFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes toastFadeIn {
+    from { opacity: 0; transform: translate(-50%, 15px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+}
+
