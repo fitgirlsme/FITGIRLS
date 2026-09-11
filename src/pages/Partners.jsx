@@ -236,12 +236,12 @@ const Partners = () => {
                                     <h3>{t('partners.benefits.member_title', 'Member Benefits')}</h3>
                                     <ul>
                                         <li>
-                                            <strong>{t('partners.benefits.member_basic', 'Basic 20% Discount')}</strong>
-                                            <p>{t('partners.benefits.member_basic_desc', '20% discount on all shoots for members of partnered centers')}</p>
+                                            <strong>{t('partners.benefits.member_basic', '회원 11만원 즉시 할인 (₩110,000 OFF)')}</strong>
+                                            <p>{t('partners.benefits.member_basic_desc', '모든 제휴 피트니스/필라테스 회원 대상 촬영 11만원 즉시 제휴 할인')}</p>
                                         </li>
                                         <li>
-                                            <strong>{t('partners.benefits.member_acc', '30% Discount for 5+ Members')}</strong>
-                                            <p>{t('partners.benefits.member_acc_desc', '30% discount starting from the 6th member after 5 completed shoots')}</p>
+                                            <strong>{t('partners.benefits.center_reward', '건당 33,000 FIT 포인트 적립')}</strong>
+                                            <p>{t('partners.benefits.center_reward_desc', '회원 예약 및 촬영 완료 건당 피트니스 센터로 33,000 FIT 포인트 즉시 지급')}</p>
                                         </li>
                                     </ul>
                                 </div>
