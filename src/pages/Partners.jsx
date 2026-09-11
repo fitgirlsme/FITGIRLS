@@ -198,18 +198,10 @@ const Partners = () => {
                                     </div>
                                 )}
                                 <div className="partner-thumb">
-                                    {partner.logo && (
-                                        <div className="partner-logo-chip" title="공식 제휴 피트니스 로고">
-                                            <img src={partner.logo} alt={`${partner.name} logo`} />
-                                        </div>
-                                    )}
-                                    {partner.images && partner.images.length > 0 ? (
+                                    {(partner.images && partner.images.length > 0) ? (
                                         <img src={partner.images[0]} alt={partner.name} loading="lazy" />
-                                    ) : partner.logo ? (
-                                        <div className="placeholder-thumb with-logo">
-                                            <img src={partner.logo} alt={partner.name} className="standalone-card-logo" />
-                                            <span className="placeholder-category">{(partner.category || 'FITNESS').toUpperCase()}</span>
-                                        </div>
+                                    ) : (partner.logo || partner.logo_url) ? (
+                                        <img src={partner.logo || partner.logo_url} alt={partner.name} loading="lazy" />
                                     ) : (
                                         <div className="placeholder-thumb">
                                             <span className="placeholder-icon">🏢</span>
