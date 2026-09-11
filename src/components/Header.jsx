@@ -161,12 +161,22 @@ const Header = ({ isScrolled, isOnHero, isHidden, changeLanguage, currentLang })
                         })}
 
                         {isAdmin && (
-                            <button
-                                className="nav-link-btn nav-admin-link"
-                                onClick={() => handleNavClick('/admin')}
-                            >
-                                ADMIN DASHBOARD
-                            </button>
+                            <div className="nav-admin-btn-group" style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+                                <button
+                                    className="nav-link-btn nav-admin-link"
+                                    onClick={() => handleNavClick('/admin')}
+                                    style={{ flex: 1, margin: 0, textAlign: 'center', justifyContent: 'center', fontSize: '0.8rem' }}
+                                >
+                                    FITGIRLS ADMIN
+                                </button>
+                                <button
+                                    className="nav-link-btn nav-admin-link"
+                                    onClick={() => window.open('https://ogirls.me/admin', '_blank')}
+                                    style={{ flex: 1, margin: 0, textAlign: 'center', justifyContent: 'center', background: '#111', color: '#ff4d4d', border: '1px solid #333', fontSize: '0.8rem' }}
+                                >
+                                    OGIRLS ADMIN
+                                </button>
+                            </div>
                         )}
                     </div>
                 </nav>

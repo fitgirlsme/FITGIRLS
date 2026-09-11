@@ -12,7 +12,6 @@ import { uploadOptimizedImage } from '../utils/uploadService';
 import './Admin.css';
 import '../components/sections/Gallery.css';
 import SModelAdminTab from '../components/admin/SModelAdminTab';
-import RetouchAdminTab from '../components/admin/RetouchAdminTab';
 import CouponAdminTab from '../components/admin/CouponAdminTab';
 import ChecklistAdminTab from '../components/admin/ChecklistAdminTab';
 import AnalyticsWidget from '../components/AnalyticsWidget';
@@ -22,7 +21,7 @@ import {
     MdEventAvailable, MdMovie, MdMoveToInbox, MdHandshake, 
     MdCamera, MdPerson, MdElderly, MdLogout, MdArrowBack,
     MdChevronRight, MdGridView, MdCollections, MdCardGiftcard, MdHome, MdDashboard,
-    MdRateReview, MdFitnessCenter, MdAssignment
+    MdRateReview, MdFitnessCenter, MdAssignment, MdLaunch
 } from 'react-icons/md';
 
 // Constants
@@ -56,7 +55,6 @@ const Admin = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('admin_logged_in') === 'true');
     const [password, setPassword] = useState('');
     const [searchParams] = useSearchParams();
-    const [newRetouchCount, setNewRetouchCount] = useState(0);
     const [activeTab, setActiveTab] = useState(() => {
         const param = searchParams.get('tab');
         if (param) return param;
@@ -76,28 +74,6 @@ const Admin = () => {
             if (existingStyle) document.head.removeChild(existingStyle);
         };
     }, []);
-
-    useEffect(() => {
-        if (!isLoggedIn) return;
-        const fetchRetouchCount = async () => {
-            try {
-                const snap = await getDocs(collection(db, 'retouch_masters'));
-                let count = 0;
-                snap.forEach(doc => {
-                    const data = doc.data();
-                    if (data.projectStatuses) {
-                        Object.values(data.projectStatuses).forEach(status => {
-                            if (status === '보정대기') count++;
-                        });
-                    }
-                });
-                setNewRetouchCount(count);
-            } catch (err) {
-                console.error("Failed to fetch retouch count:", err);
-            }
-        };
-        fetchRetouchCount();
-    }, [isLoggedIn]);
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -141,8 +117,6 @@ const Admin = () => {
         { id: 'concepts', label: 'Lookbook', icon: <MdCollections />, desc: 'Lookbook outfits' },
         { id: 'studios', label: 'Studios', icon: <MdCamera />, desc: 'Studio Zones' },
         { id: 'events', label: 'Events', icon: <MdEventAvailable />, desc: 'Notices & Promos' },
-
-        { id: 'retouch', label: 'Retouch', icon: <MdCameraAlt />, desc: 'Fitgirls & INAFIT Retouch', badge: newRetouchCount > 0 },
         { id: 'models', label: 'Ambassadors', icon: <MdPeople />, desc: 'Profiles & Portfolio' },
         { id: 'apply', label: 'Applications', icon: <MdMoveToInbox />, desc: 'New submissions' },
         { id: 'partners', label: 'Partners', icon: <MdHandshake />, desc: 'Partner logos' },
@@ -184,10 +158,38 @@ const Admin = () => {
                     ))}
                 </nav>
                 <div className="sidebar-footer">
-                    <button className="sidebar-item sidebar-home" onClick={() => window.location.href = '/'}>
-                        <MdHome />
-                        <span>Go to Site</span>
-                    </button>
+                    <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
+                        <button 
+                            className="sidebar-item sidebar-home" 
+                            onClick={() => window.location.href = '/'}
+                            style={{ flex: 1, margin: 0, justifyContent: 'center', padding: '10px 8px' }}
+                            title="핏걸즈 사이트로 이동"
+                        >
+                            <MdHome />
+                            <span style={{ fontSize: '0.82rem' }}>Go to Site</span>
+                        </button>
+                        <button 
+                            className="sidebar-item" 
+                            onClick={() => window.open('https://ogirls.me/admin', '_blank')}
+                            style={{ 
+                                flex: 1, 
+                                margin: 0, 
+                                justifyContent: 'center', 
+                                padding: '10px 8px',
+                                background: '#111', 
+                                color: '#fff', 
+                                border: '1px solid #333', 
+                                borderRadius: '10px',
+                                fontWeight: '700',
+                                fontSize: '0.82rem',
+                                cursor: 'pointer'
+                            }}
+                            title="오걸즈 관리자 페이지로 이동"
+                        >
+                            <MdLaunch style={{ fontSize: '0.95rem', color: '#ff2d2d' }} />
+                            <span>오걸즈 관리</span>
+                        </button>
+                    </div>
                     <button className="sidebar-logout" onClick={() => { 
                         setIsLoggedIn(false); 
                         localStorage.removeItem('admin_logged_in'); 
@@ -210,8 +212,28 @@ const Admin = () => {
                         )}
                         <h2>{activeTab ? tabs.find(t => t.id === activeTab)?.label : 'Dashboard Overview'}</h2>
                     </div>
-                    <div className="top-bar-right mobile-only">
-                        <button className="mobile-home" onClick={() => window.location.href = '/'}>
+                    <div className="top-bar-right mobile-only" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <button 
+                            className="mobile-ogirls" 
+                            onClick={() => window.open('https://ogirls.me/admin', '_blank')}
+                            style={{ 
+                                background: '#111', 
+                                color: '#fff', 
+                                border: '1px solid #333', 
+                                borderRadius: '8px', 
+                                padding: '6px 10px', 
+                                fontSize: '0.75rem', 
+                                fontWeight: 'bold', 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: '4px' 
+                            }}
+                            title="오걸즈 관리자"
+                        >
+                            <span style={{ color: '#ff2d2d' }}>●</span>
+                            <span>오걸즈 관리</span>
+                        </button>
+                        <button className="mobile-home" onClick={() => window.location.href = '/'} title="Go to Site">
                             <MdHome />
                         </button>
                         <button className="mobile-logout" onClick={() => { 
@@ -249,6 +271,22 @@ const Admin = () => {
                                     </button>
                                 ))}
                             </div>
+                            <div style={{ display: 'flex', gap: '10px', marginTop: '16px', paddingBottom: '20px' }}>
+                                <button 
+                                    onClick={() => window.location.href = '/'}
+                                    style={{ flex: 1, padding: '14px', borderRadius: '12px', border: '1px solid var(--admin-border)', background: '#fff', color: '#111', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '0.9rem' }}
+                                >
+                                    <MdHome style={{ fontSize: '1.2rem', color: 'var(--admin-accent)' }} />
+                                    <span>Go to Site</span>
+                                </button>
+                                <button 
+                                    onClick={() => window.open('https://ogirls.me/admin', '_blank')}
+                                    style={{ flex: 1, padding: '14px', borderRadius: '12px', border: 'none', background: '#111', color: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '0.9rem', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}
+                                >
+                                    <MdLaunch style={{ fontSize: '1.1rem', color: '#ff2d2d' }} />
+                                    <span>오걸즈 관리</span>
+                                </button>
+                            </div>
                         </div>
                         </>
                     )}
@@ -265,7 +303,6 @@ const Admin = () => {
                         {activeTab === 'studios' && <StudiosTab />}
                         {activeTab === 'artist' && <ArtistTab />}
                         {activeTab === 'smodel' && <SModelAdminTab />}
-                        {activeTab === 'retouch' && <RetouchAdminTab />}
                         {activeTab === 'coupon' && <CouponAdminTab />}
                         {activeTab === 'reviews' && <ReviewsTab />}
                         {activeTab === 'checklist' && <ChecklistAdminTab />}
