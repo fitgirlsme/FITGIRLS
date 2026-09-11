@@ -2933,12 +2933,37 @@ const PartnersTab = () => {
                                             No Logo
                                         </div>
                                     )}
-                                    <input 
-                                        type="file" 
-                                        accept="image/*" 
-                                        onChange={e => e.target.files?.[0] && handleLogoUpload(e.target.files[0])} 
-                                        style={{ fontSize: '0.85rem' }}
-                                    />
+                                    <div>
+                                        <label style={{ 
+                                            display: 'inline-flex', 
+                                            alignItems: 'center', 
+                                            gap: '6px', 
+                                            padding: '10px 18px', 
+                                            background: '#000', 
+                                            color: '#fff', 
+                                            borderRadius: '8px', 
+                                            fontSize: '0.85rem', 
+                                            fontWeight: 700, 
+                                            cursor: 'pointer',
+                                            boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                                        }}>
+                                            <span>📁 {form.logo ? '로고 이미지 변경하기' : '로고 이미지 파일 선택'}</span>
+                                            <input 
+                                                type="file" 
+                                                accept="image/*" 
+                                                onChange={e => {
+                                                    if (e.target.files?.[0]) {
+                                                        handleLogoUpload(e.target.files[0]);
+                                                        e.target.value = '';
+                                                    }
+                                                }} 
+                                                style={{ display: 'none' }}
+                                            />
+                                        </label>
+                                        <p style={{ margin: '6px 0 0 0', fontSize: '0.75rem', color: '#94a3b8' }}>
+                                            권장 규격: 정사각형(1:1) PNG/JPG (투명 배경 권장)
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
 
