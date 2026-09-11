@@ -1,32 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getReviews, getTotalReviewCount } from '../utils/reviewService';
-import reviewsBackup from '../data/reviews_backup.json';
+import { getReviews, getTotalReviewStats } from '../utils/reviewService';
 import './Reviews.css';
 
 const ReviewCard = ({ review, t }) => {
     const [isExpanded, setIsExpanded] = useState(false);
-    const content = review.text || review.content || '';
-    const shouldShowMore = content.length > 120;
+    const content = review.body || review.text || review.content || '';
+    const shouldShowMore = content.length > 110;
+    const rating = review.rating || 5;
 
     return (
         <div className="review-card">
             <div className="card-header">
                 <div className="user-profile-group">
-                    <div className="naver-avatar">
-                        {review.author?.[0] || 'U'}
+                    <div className={`naver-avatar ${review.source === 'google' ? 'google-avatar' : ''}`}>
+                        {review.source === 'google' ? 'G' : (review.author?.[0] || 'N')}
                     </div>
                     <div className="user-info">
-                        <div className="user-name">{review.author}</div>
-                        {review.job && <div className="user-job">{review.job}</div>}
-                        <div className="user-meta">{t('reviews.stats_fake', '리뷰 {{count1}} · 사진 {{count2}}', { count1: Math.floor(Math.random() * 20) + 1, count2: Math.floor(Math.random() * 10) + 1 })}</div>
+                        <div className="user-name-row">
+                            <span className="user-name">{review.author}</span>
+                            {review.source === 'naver' && (
+                                <span className="source-badge naver-badge">NAVER</span>
+                            )}
+                            {review.source === 'google' && (
+                                <span className="source-badge google-badge">GOOGLE</span>
+                            )}
+                            {review.brand === 'neverland' && (
+                                <span className="brand-badge neverland-badge">NEVERLAND</span>
+                            )}
+                        </div>
+                        <div className="user-meta">
+                            <span className="rating-stars">{'★'.repeat(rating)}</span>
+                            {review.created && <span className="review-date"> · {review.created}</span>}
+                            {review.verified && <span className="verified-badge">인증방문</span>}
+                        </div>
                     </div>
                 </div>
             </div>
 
             {(review.img || review.imageUrl) && (
                 <div className="review-image-wrapper">
-                    <img src={review.img || review.imageUrl} alt="Review" />
+                    <img src={review.img || review.imageUrl} alt="Review Photo" loading="lazy" />
+                    {review.photos && review.photos.length > 1 && (
+                        <span className="photo-count-badge">+{review.photos.length}</span>
+                    )}
                 </div>
             )}
 
@@ -79,60 +96,48 @@ const ReviewGuide = ({ t }) => {
 const Reviews = () => {
     const { t, i18n } = useTranslation();
     const [reviews, setReviews] = useState([]);
-    const [totalCount, setTotalCount] = useState(0);
+    const [stats, setStats] = useState({ totalCount: 800, photoCount: 250, avgRating: '4.95' });
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('all');
 
-
-
-    const changeLanguage = (lng) => {
-        i18n.changeLanguage(lng);
-    };
+    const filterTabs = [
+        { id: 'all', label: 'ALL 전체' },
+        { id: 'fitgirls', label: 'FITGIRLS 바디프로필' },
+        { id: 'neverland', label: 'NEVERLAND 셀프' },
+        { id: 'photo', label: '포토리뷰 📸' },
+        { id: 'google', label: 'Google 리뷰' }
+    ];
 
     useEffect(() => {
-        const initData = async () => {
+        const fetchStats = async () => {
+            try {
+                const s = await getTotalReviewStats();
+                setStats(s);
+            } catch (err) {
+                console.warn(err);
+            }
+        };
+        fetchStats();
+    }, []);
+
+    useEffect(() => {
+        let isMounted = true;
+        const loadReviews = async () => {
             setLoading(true);
             try {
-                const [reviewsData, count] = await Promise.all([
-                    getReviews('all'),
-                    getTotalReviewCount()
-                ]);
-                
-                let combinedReviews = [...reviewsData];
-                const existingIds = new Set(reviewsData.map(r => r.id));
-                
-                // Backup reviews filtering/mapping by language
-                const lang = i18n.language;
-                const translatedBackup = reviewsBackup.map(backup => {
-                    // Simple check for translations in backup data if they exist
-                    // For now, we'll keep the original but show how it could be done
-                    if (lang !== 'ko' && backup.translations?.[lang]) {
-                        return {
-                            ...backup,
-                            text: backup.translations[lang].text,
-                            title: backup.translations[lang].title
-                        };
-                    }
-                    return backup;
-                });
-
-                translatedBackup.forEach(backup => {
-                    if (!existingIds.has(backup.id)) {
-                        combinedReviews.push(backup);
-                    }
-                });
-
-                // Sort and set
-                setReviews(combinedReviews);
-                setTotalCount(Math.max(count, combinedReviews.length, reviewsBackup.length));
-            } catch (error) {
-                setReviews(reviewsBackup);
-                setTotalCount(reviewsBackup.length);
+                const data = await getReviews(activeTab);
+                if (isMounted) {
+                    setReviews(data);
+                    setLoading(false);
+                }
+            } catch (err) {
+                console.error("Load reviews error:", err);
+                if (isMounted) setLoading(false);
             }
-            setLoading(false);
         };
-        initData();
-    }, [i18n.language]);
+        loadReviews();
+        return () => { isMounted = false; };
+    }, [activeTab, i18n.language]);
 
     const scrollSlider = (direction) => {
         const track = document.querySelector('.review-slider-track');
@@ -141,31 +146,28 @@ const Reviews = () => {
         track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     };
 
-    const filteredReviews = activeTab === 'all' 
-        ? reviews 
-        : reviews.filter(r => r.category === activeTab);
-
     return (
         <div className="review-section-container">
             <header className="review-section-header">
-                <span className="section-subtitle">CUSTOMER REVIEWS</span>
+                <span className="section-subtitle">REAL CUSTOMER REVIEWS</span>
                 <h2 className="section-title">REVIEWS</h2>
             </header>
 
+            {/* 실시간 리뷰 통계 바 */}
             <div className="review-stats-bar">
                 <div className="stat-item">
-                    <div className="stat-value">200+</div>
+                    <div className="stat-value">{stats.totalCount}+</div>
                     <div className="stat-label">Total Reviews</div>
                 </div>
                 <div className="stat-divider"></div>
                 <div className="stat-item">
-                    <div className="stat-value">4.94/5</div>
+                    <div className="stat-value">{stats.avgRating} / 5</div>
                     <div className="stat-label">Average Rating</div>
                 </div>
                 <div className="stat-divider"></div>
                 <div className="stat-item">
-                    <div className="stat-value">8,000+</div>
-                    <div className="stat-label">Total Shooters</div>
+                    <div className="stat-value">{stats.photoCount}+</div>
+                    <div className="stat-label">Photo Reviews</div>
                 </div>
                 <div className="stat-divider"></div>
                 <div className="stat-item">
@@ -174,8 +176,20 @@ const Reviews = () => {
                 </div>
             </div>
 
+            {/* 필터 탭 */}
+            <div className="review-filter-tabs">
+                {filterTabs.map(tab => (
+                    <button
+                        key={tab.id}
+                        className={`review-filter-tab ${activeTab === tab.id ? 'active' : ''}`}
+                        onClick={() => setActiveTab(tab.id)}
+                    >
+                        {tab.label}
+                    </button>
+                ))}
+            </div>
 
-
+            {/* 리뷰 슬라이더 */}
             <div className="review-slider-wrapper">
                 <button className="slider-arrow left" onClick={() => scrollSlider('left')}>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
@@ -184,24 +198,28 @@ const Reviews = () => {
                 <div className="review-slider-container">
                     <div className="review-slider-track">
                         {loading ? (
-                            <div className="gallery-loading-spinner">
+                            <div className="gallery-loading-spinner" style={{ padding: '60px 0' }}>
                                 <div className="spinner-ring"></div>
                             </div>
-                        ) : (
-                            filteredReviews.map((review) => (
+                        ) : reviews.length > 0 ? (
+                            reviews.map((review) => (
                                 <ReviewCard key={review.id} review={review} t={t} />
                             ))
+                        ) : (
+                            <div className="no-reviews-msg" style={{ padding: '40px', color: '#888' }}>
+                                선택하신 카테고리의 리뷰가 없습니다.
+                            </div>
                         )}
                         
-                        {/* AI Summary Card as it is in live CSS */}
+                        {/* AI Summary Card */}
                         <div className="review-card ai-summary-card">
                             <div className="ai-badge">AI INSIGHT</div>
                             <h3 className="ai-title">Review Summary</h3>
-                            <p className="ai-desc">Based on {totalCount} reviews from our customers.</p>
+                            <p className="ai-desc">Based on {stats.totalCount}+ reviews from our customers.</p>
                             <ul className="ai-points">
-                                <li><span className="dot"></span> {t('reviews.ai_summary.bullet1')}</li>
-                                <li><span className="dot"></span> {t('reviews.ai_summary.bullet2')}</li>
-                                <li><span className="dot"></span> {t('reviews.ai_summary.bullet3')}</li>
+                                <li><span className="dot"></span> {t('reviews.ai_summary.bullet1', '자연스럽고 고급스러운 디렉팅과 편안한 촬영 분위기')}</li>
+                                <li><span className="dot"></span> {t('reviews.ai_summary.bullet2', '섬세한 체형 보정과 독보적인 감성 톤앤매너')}</li>
+                                <li><span className="dot"></span> {t('reviews.ai_summary.bullet3', '첫 바디프로필이나 셀프 촬영도 화보처럼 완성')}</li>
                             </ul>
                         </div>
                     </div>
@@ -226,6 +244,5 @@ const Reviews = () => {
         </div>
     );
 };
-
 
 export default Reviews;
