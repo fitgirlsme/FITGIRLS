@@ -24,12 +24,12 @@ export const getGalleries = async (mainCategory = null) => {
         let localData = await getData(storeName);
         
         if (!localData || localData.length === 0) {
-            localData = await syncCollection(storeName);
+            localData = await syncCollection(storeName, storeName, 120);
         } else {
-            // iOS OOM 방지를 위해 초기 렌더링 이후 여유를 두고 전체 백그라운드 갱신 (5초 지연)
+            // 초기 렌더링 이후 백그라운드 최신 동기화 (120개 제한)
             setTimeout(() => {
-                syncCollection(storeName).catch(console.error);
-            }, 5000);
+                syncCollection(storeName, storeName, 120).catch(console.error);
+            }, 3000);
         }
  
         let filtered = localData;

@@ -1579,3 +1579,105 @@ body.lightbox-active {
     white-space: nowrap;
     text-align: center;
 }
+
+/* Lightbox Actions & Download Button */
+.lightbox-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.lightbox-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 24px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.5px;
+}
+
+.lightbox-download-btn:hover:not(:disabled) {
+    background: #ff0055;
+    border-color: #ff0055;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(255, 0, 85, 0.4);
+}
+
+.lightbox-download-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.lightbox-download-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.lightbox-download-btn.loading svg {
+    animation: spin-dl 1s linear infinite;
+}
+
+@keyframes spin-dl {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Grid Quick Download Button */
+.masonry-quick-dl-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(15, 15, 15, 0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 18px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.masonry-item:hover .masonry-quick-dl-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.masonry-quick-dl-btn:hover {
+    background: #ff0055;
+    border-color: #ff0055;
+    transform: scale(1.04);
+}
+
+@media (max-width: 768px) {
+    .lightbox-download-btn span {
+        display: none;
+    }
+    .lightbox-download-btn {
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        justify-content: center;
+        border-radius: 50%;
+    }
+    .masonry-quick-dl-btn {
+        opacity: 0.85;
+        transform: translateY(0);
+    }
+}

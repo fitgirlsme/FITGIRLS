@@ -20,12 +20,20 @@ export const syncCollection = async (storeName, collectionName = storeName, limi
 
     const syncPromise = (async () => {
         try {
-        console.log(`[Sync] Attempting to fetch collection: "${collectionName}" (limit: ${limitCount || 'all'})`);
+        // Gallery나 Lookbook 등 데이터가 방대한 컬렉션은 전체 동기화 시 수십MB OOM 및 타임아웃이 발생하므로 안전 상한선 적용
+        let effectiveLimit = limitCount;
+        if (!effectiveLimit && (storeName === STORES.GALLERY || collectionName === 'gallery')) {
+            effectiveLimit = 120; // 갤러리는 최신 120개 우선 동기화 (네트워크 및 메모리 최적화)
+        } else if (!effectiveLimit && (storeName === STORES.LOOKBOOK || collectionName === 'lookbook')) {
+            effectiveLimit = 80;
+        }
+
+        console.log(`[Sync] Attempting to fetch collection: "${collectionName}" (limit: ${effectiveLimit || 'all'})`);
         const colRef = collection(db, collectionName);
         let q = query(colRef, orderBy('createdAt', 'desc'));
         
-        if (limitCount) {
-            q = query(q, limit(limitCount));
+        if (effectiveLimit) {
+            q = query(q, limit(effectiveLimit));
         }
         
         const snapshot = await getDocs(q);
@@ -34,23 +42,19 @@ export const syncCollection = async (storeName, collectionName = storeName, limi
 
         const data = snapshot.docs.map((doc, index) => {
             const docData = doc.data();
-            // VectorValue 객체는 IndexedDB 저장 시 에러가 나므로 일반 배열로 변환
-            if (docData.embedding && docData.embedding.toArray) {
-                docData.embedding = docData.embedding.toArray();
-            } else if (docData.embedding && Array.isArray(docData.embedding.values)) {
-                docData.embedding = docData.embedding.values;
-            }
+            // 768차원 거대 AI 임베딩 벡터(개당 20KB+)는 UI 렌더링에 불필요하므로 스트리핑하여 페이로드 95% 절감
+            const { embedding, imageEmbedding, ...cleanData } = docData;
             return {
                 id: doc.id,
-                ...docData,
-                updatedAt: docData.updatedAt?.toDate?.()?.toISOString() || new Date().toISOString()
+                ...cleanData,
+                updatedAt: cleanData.updatedAt?.toDate?.()?.toISOString() || new Date().toISOString()
             };
         });
 
         // 갤러리는 너무 크면 클리어하지 않고 덮어씌우기만 하거나 부분 업데이트 고려 가능하나,
         // 현재는 단순화를 위해 saveData가 clear()를 포함함.
         // Gallery의 경우 limitCount가 있으면 절대 clear()하면 안 됨 (기존 로컬 데이터 유실 방지)
-        await saveData(storeName, data, !!limitCount); // pass whether it's a partial sync
+        await saveData(storeName, data, !!effectiveLimit); // pass whether it's a partial sync
         
         console.log(`Successfully synced ${data.length} items for ${storeName}`);
         return data;

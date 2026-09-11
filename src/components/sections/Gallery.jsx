@@ -9,6 +9,7 @@ import FadeInSection from '../FadeInSection';
 import { getGalleryItems, addGalleryItem, deleteGalleryItem, updateGalleryItem } from '../../utils/db';
 import { getGalleries, getGalleriesPaginated, searchGalleriesSemantic } from '../../utils/galleryService';
 import GalleryMultiUploader from '../GalleryMultiUploader';
+import { downloadImageAsJpg } from '../../utils/imageDownload';
 import VirtualImage from '../VirtualImage';
 import './Gallery.css';
 
@@ -279,6 +280,7 @@ const GallerySection = () => {
                         subCat = 'fashion_item';
                     }
                     
+                    const finalImg = item.thumbUrl || item.imageUrl || item.img || item.url || '';
                     return {
                         id: item.id,
                         mainCategory: mainCat,
@@ -286,7 +288,10 @@ const GallerySection = () => {
                         tags: item.tags || [],
                         aiTags: item.aiTags || [],
                         translations: item.translations || { en: [], ja: [], zh: [] }, // 다국어 번역 매핑 유지
-                        img: item.thumbUrl || item.imageUrl || item.img || item.url || '',
+                        img: finalImg,
+                        imageUrl: item.imageUrl || finalImg,
+                        thumbUrl: item.thumbUrl || finalImg,
+                        mobileThumbUrl: item.mobileThumbUrl || item.thumbUrl || finalImg,
                         storagePath: item.storagePath || '',
                         name: item.name || '',
                         seoTags: item.seoTags || '',
@@ -533,6 +538,28 @@ const GallerySection = () => {
     };
 
 
+    const [isDownloading, setIsDownloading] = useState(false);
+
+    const handleDownloadCurrent = async (e) => {
+        e.stopPropagation();
+        if (lightboxIndex === null || isDownloading) return;
+        const currentItem = finalBaseList[lightboxIndex];
+        const targetUrl = currentItem?.imageUrl || currentItem?.img;
+        if (!targetUrl) return;
+
+        try {
+            setIsDownloading(true);
+            const rawName = currentItem.id || ('photo_' + (lightboxIndex + 1));
+            const filename = 'fitgirls_' + rawName + '.jpg';
+            await downloadImageAsJpg(targetUrl, filename);
+        } catch (err) {
+            console.error('Download error:', err);
+            alert('사진 다운로드 중 오류가 발생했습니다: ' + (err.message || String(err)));
+        } finally {
+            setIsDownloading(false);
+        }
+    };
+
     const openLightbox = (index) => setLightboxIndex(index);
     const closeLightbox = () => setLightboxIndex(null);
     const showPrev = (e) => { e.stopPropagation(); setLightboxIndex(prev => prev > 0 ? prev - 1 : finalBaseList.length - 1); };
@@ -556,6 +583,14 @@ const GallerySection = () => {
         return reps;
     }, [allItems]);
 
+    const CATEGORY_FALLBACK_IMAGES = {
+        fitorialist: '/images/hero-bg-santa.webp',
+        artist: '/images/director_activity_photo.webp',
+        fashion: '/images/hero-bg-fashion.webp',
+        portrait: '/images/hero-bg3.webp',
+        self: '/images/zones/zone-10.webp'
+    };
+
     return (
         <div className="gallery-full-container" ref={galleryRef}>
 
@@ -572,6 +607,7 @@ const GallerySection = () => {
                         {MAIN_CATEGORIES.map(cat => {
                             // Find the newest item for this category to use as representative image
                             const repItem = categoryRepItems[cat.id];
+                            const bgUrl = repItem?.img || CATEGORY_FALLBACK_IMAGES[cat.id] || '';
 
                             return (
                                 <div
@@ -588,7 +624,7 @@ const GallerySection = () => {
                                 >
                                     <div 
                                         className="card-image-bg" 
-                                        style={{ backgroundImage: repItem ? `url(${repItem.img})` : 'none' }}
+                                        style={{ backgroundImage: bgUrl ? `url(${bgUrl})` : 'none' }}
                                     >
                                         <div className="card-overlay"></div>
                                     </div>
@@ -596,7 +632,7 @@ const GallerySection = () => {
                                         <div className="card-info">
                                             <span className="card-label">{t(cat.labelKey)}</span>
                                             <span className="card-count">
-                                                {categoryCounts[cat.id] || 0} photos
+                                                {categoryCounts[cat.id] > 0 ? `${categoryCounts[cat.id]}+ photos` : 'VIEW ARCHIVE'}
                                             </span>
                                         </div>
                                     </div>
@@ -886,6 +922,30 @@ const GallerySection = () => {
                                              return item.seoTags || 'Gallery';
                                          })()}
                                     />
+                                    {/* 빠른 JPG 다운로드 버튼 */}
+                                    <button 
+                                        type="button"
+                                        className="masonry-quick-dl-btn"
+                                        title="고화질 JPG 다운로드"
+                                        onClick={async (e) => {
+                                            e.stopPropagation();
+                                            const targetUrl = item.imageUrl || item.img;
+                                            if (!targetUrl) return;
+                                            try {
+                                                const filename = 'fitgirls_' + (item.id || (originalIndex + 1)) + '.jpg';
+                                                await downloadImageAsJpg(targetUrl, filename);
+                                            } catch (err) {
+                                                console.error('Quick download failed:', err);
+                                            }
+                                        }}
+                                    >
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                            <polyline points="7 10 12 15 17 10"/>
+                                            <line x1="12" y1="15" x2="12" y2="3"/>
+                                        </svg>
+                                        <span>JPG</span>
+                                    </button>
                                     <div className="masonry-hover-overlay">
                                         <span className="masonry-plus">+</span>
                                         {item.tags && item.tags.length > 0 && (
@@ -1214,7 +1274,23 @@ const GallerySection = () => {
                         <div className="lightbox-counter">
                             {lightboxIndex + 1} / {finalBaseList.length}
                         </div>
-                        <button className="lightbox-close" onClick={closeLightbox}>✕</button>
+                        <div className="lightbox-actions">
+                            <button 
+                                type="button"
+                                className={'lightbox-download-btn ' + (isDownloading ? 'loading' : '')}
+                                onClick={handleDownloadCurrent}
+                                title="고화질 JPG 다운로드"
+                                disabled={isDownloading}
+                            >
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                                <span>{isDownloading ? '저장 중...' : 'JPG 다운로드'}</span>
+                            </button>
+                            <button className="lightbox-close" onClick={closeLightbox}>✕</button>
+                        </div>
                     </div>
                     <button className="lightbox-nav-btn prev-btn" onClick={showPrev}>⟨</button>
                     <div className="lightbox-content">
