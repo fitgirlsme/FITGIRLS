@@ -419,7 +419,7 @@ function App() {
                       location.pathname.startsWith('/retouch') ||
                       location.pathname.startsWith('/report');
 
-  const validSections = ['gallery', 'archive', 'service', 'location', 'studios', 'reviews', 'partners', 'global-booking', 'reservation', 'hair-makeup', 'event-board', 'self', 'maxq', 'artist'];
+  const validSections = ['gallery', 'archive', 'service', 'location', 'reviews', 'hair-makeup', 'event-board'];
 
   return (
     <div className="root-layout">
@@ -482,6 +482,9 @@ function App() {
           <Route path="/fitorialist/:modelName" element={<AmbassadorList />} />
           <Route path="/fitorialist/:modelName/:modelId" element={<AmbassadorList />} />
           <Route path="/partners" element={<Partners />} />
+          <Route path="/en/partners" element={<Partners />} />
+          <Route path="/ja/partners" element={<Partners />} />
+          <Route path="/zh/partners" element={<Partners />} />
           <Route path="/smodel" element={<SModel />} />
           <Route path="/retouch" element={<Retouch changeLanguage={changeLanguage} currentLang={i18n.language} />} />
           <Route path="/reservation" element={<ReservationPage changeLanguage={changeLanguage} currentLang={i18n.language} />} />
